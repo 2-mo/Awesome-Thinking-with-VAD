@@ -89,12 +89,25 @@ https://www.cs.cmu.edu/~roadwork/ (ICCV 2025)
 
 ---
 
+Aha! - Predicting What Matters Next: Online Highlight Detection Without Looking Ahead
+https://neurips.cc/virtual/2025/poster/119707
+
 
 
 ## Papers (2025)
 
 
-ICCV 2025
+
+MoniTor: Exploiting Large Language Models with Instruction for Online Video Anomaly Detection
+https://neurips.cc/virtual/2025/poster/119803
+
+
+### ICCV 2025
+
+Aligning Effective Tokens with Video Anomaly in Large Language Models
+https://arxiv.org/pdf/2508.06350
+![alt text](image.png)
+
 
 FE-CLIP: Frequency Enhanced CLIP Model for Zero-Shot Anomaly Detection and Segmentation
 
@@ -278,3 +291,10 @@ https://github.com/Tangkfan/Awesome-Temporal-Video-Grounding
 
 
 ［ICML2025图合并长视频字幕］ Fine-Grained Captioning of Long Videos through Scene Graph Consolidation Objective • Problem： 现有 VIM 因有限的时间感受野 （limited temporal receptive fields），难以处理长视频字幕生成任务 • Existing Solutions & Drawbacks: • Memory/Recursive Frameworks： 需要在目标数据集上进行监督式 fine-tuning，泛化能力受限 。 LLM-based Consolidation： 直接利用LIM汇总各视频片段信息，存在高昂的推理开销和巨大的计算资源需求 • Proposed Solution： 提出一种基于图合并的zero-shot长视频字幕框架，无需 fine-tuning，兼具高性能和计算效率 核心思路是将非结构化的多源文本信息整合问题，转化为结构化的图节点合并问题
+
+
+### 相关合集
+
+https://github.com/fjchange/awesome-video-anomaly-detection
+
+https://github.com/bitzhangcy/Deep-Learning-Based-Anomaly-Detection
