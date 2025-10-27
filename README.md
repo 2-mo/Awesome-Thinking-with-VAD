@@ -6,6 +6,7 @@ A curated list of papers and resources on Large Language Models for Video Anomal
 ## Contents
 
 - [Overview](#overview)
+- [Conference Snapshots](#conference-snapshots)
 - [Papers (2025)](#papers-2025)
 - [Papers (2024)](#papers-2024)
 - [Contributing](#contributing)
@@ -38,6 +39,20 @@ This list collects representative works that leverage LLMs or vision-language mo
 
 我们需要的是推理，而不仅是事后解释。
 
+
+## Conference Snapshots
+
+The `venues/` directory hosts per-conference notes for 2023-2025. Quick links:
+
+- CVPR — `venues/cvpr.md`
+- ICCV — `venues/iccv.md`
+- ECCV — `venues/eccv.md`
+- NeurIPS — `venues/neurips.md`
+- ICML — `venues/icml.md`
+- ICLR — `venues/iclr.md`
+- AAAI — `venues/aaai.md`
+- IJCAI — `venues/ijcai.md`
+- ACM MM — `venues/acmmm.md`
 
 ### Curiosity-driven Learning
 
@@ -96,10 +111,21 @@ https://neurips.cc/virtual/2025/poster/119707
 
 ## Papers (2025)
 
+### NeurIPS 2025
+
+
+
 
 
 MoniTor: Exploiting Large Language Models with Instruction for Online Video Anomaly Detection
 https://neurips.cc/virtual/2025/poster/119803
+
+
+### ICML
+
+Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models
+https://openreview.net/forum?id=xAhUoyb5eU
+
 
 
 ### ICCV 2025
