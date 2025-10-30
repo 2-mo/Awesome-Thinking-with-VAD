@@ -15,7 +15,7 @@
   - [📰 Journal Snapshots](#-journal-snapshots)
   - [� Benchmarks and Datasets](#-benchmarks-and-datasets)
   - [🔗 Related Resources](#-related-resources)
-    - [相关合集](#相关合集)
+    - [Tutorials \& Workshops](#tutorials--workshops)
     - [Related Awesome Lists](#related-awesome-lists)
   - [🤝 Contributing](#-contributing)
   - [📜 License and Credits](#-license-and-credits)
@@ -27,9 +27,9 @@
 > 扫码加入小红书「视频异常检测」交流圈，分享论文、工作与心得体会。
 
 <div align="center">
-  <img src="assets/qrcode/redbook[25.11.25].JPG" alt="Thinking with VAD Xiaohongshu QR code" width="220">
+  <img src="assets/qrcode/redbook-25-11-25.JPG" alt="Thinking with VAD Xiaohongshu QR code" width="220">
   <p><em>[RedBook] until 2025-Nov-25</em></p>
-  <p>📱 微信号：<strong>tiumo-</strong></p>
+  <p>📱 或添加微信：<strong>tiumo-</strong> (备注“VAD”，拉你进群)</p>
 </div>
 
 ---
@@ -103,7 +103,7 @@ We maintain a comprehensive catalog of VAD datasets in **[dataset.md](dataset.md
 
 ## 🔗 Related Resources
 
-### 相关合集
+### Tutorials & Workshops
 
 - [ICCV 2025 Tutorial: Foundation Models for Anomaly Detection](https://sites.google.com/view/iccv2025-tutorial-fm-driven-ad/home)
 
