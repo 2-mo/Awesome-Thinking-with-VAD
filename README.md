@@ -1,326 +1,252 @@
-# Awesome LLM4VAD
+# Awesome Thinking with VAD 🧠🎥
 
-A curated list of papers and resources on Large Language Models for Video Anomaly Detection (VAD).
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> A curated collection of research papers and resources exploring **thoughtful reasoning approaches** in Video Anomaly Detection (VAD), with special focus on Large Language Models (LLMs) and Vision-Language Models (VLMs).
 
-## Contents
+## 📖 Table of Contents
 
-- [Overview](#overview)
-- [Conference Snapshots](#conference-snapshots)
-- [Papers (2025)](#papers-2025)
-- [Papers (2024)](#papers-2024)
-- [Contributing](#contributing)
-- [License and Credits](#license-and-credits)
+- [Awesome Thinking with VAD 🧠🎥](#awesome-thinking-with-vad-)
+  - [📖 Table of Contents](#-table-of-contents)
+  - [🤝 Stay Connected](#-stay-connected)
+  - [🌟 Overview](#-overview)
+  - [🧭 How to Use This Repository](#-how-to-use-this-repository)
+    - [📂 Repository Map](#-repository-map)
+    - [📝 Reading Workflow](#-reading-workflow)
+  - [📚 Conference Snapshots](#-conference-snapshots)
+  - [📰 Journal Snapshots](#-journal-snapshots)
+  - [📊 Benchmarks and Datasets](#-benchmarks-and-datasets)
+    - [🤖 LLM/VLM-Ready Datasets (Multimodal \& Explainable)](#-llmvlm-ready-datasets-multimodal--explainable)
+      - [📝 Video-Language Annotation](#-video-language-annotation)
+      - [🔍 Anomaly Retrieval (Cross-modal)](#-anomaly-retrieval-cross-modal)
+      - [🌐 Open-World Understanding](#-open-world-understanding)
+      - [🎬 Large-Scale Multimodal](#-large-scale-multimodal)
+    - [🔧 Traditional VAD Benchmarks](#-traditional-vad-benchmarks)
+      - [1️⃣ Weakly Supervised](#1️⃣-weakly-supervised)
+      - [2️⃣ Semi-supervised](#2️⃣-semi-supervised)
+      - [3️⃣ Fully Supervised](#3️⃣-fully-supervised)
+    - [🚗 Domain-Specific Datasets](#-domain-specific-datasets)
+      - [Driving \& Transportation](#driving--transportation)
+      - [Multi-Scenario](#multi-scenario)
+  - [🔗 Related Resources](#-related-resources)
+    - [Related Awesome Lists](#related-awesome-lists)
+  - [🤝 Contributing](#-contributing)
+  - [📜 License and Credits](#-license-and-credits)
 
 ---
 
-## Overview
+## 🤝 Stay Connected
 
-This list collects representative works that leverage LLMs or vision-language models for video anomaly detection, explanation, and understanding. Entries are grouped by year with links to paper and code, plus a preview figure when available.
+> 扫码加入小红书「视频异常检测」交流圈，分享论文、工作与心得体会。
 
-上下文依赖（复杂性）：异常往往是长时序事件（打斗、事故），需要结合前后因果与场景关系才能正确判定。
+<div align="center">
+  <img src="assets/qrcode/redbook[25.11.25].JPG" alt="Thinking with VAD Xiaohongshu QR code" width="220">
+  <p><em>[RedBook] until 2025-Nov-25</em></p>
+</div>
 
-歧义混淆（模糊性）：局部行为或场景容易与异常混淆（奔跑 vs 逃跑、聚集 vs 暴乱），必须通过更长时序和多模态线索来消解。
+---
 
-长尾分布（稀疏性）：异常在视频流中出现频率极低、时机不可控，单次观测易漏检，必须跨时累积证据与假设检验。
+## 🌟 Overview
 
+Modern video anomaly detection is moving beyond frame-level alarms toward systems that **interpret, justify, and communicate** why something looks suspicious. This list mirrors that shift by collecting papers, datasets, and tooling that emphasize reasoning-heavy VAD pipelines—especially those powered by large language models (LLMs) and vision-language models (VLMs).
 
+**What you can expect:**
+- Curated reading paths that show how “slow thinking” modules (reasoning, explanation, planning) complement classic perception backbones
+- Venue and journal snapshots that surface where thinking-centric VAD work is appearing and how the discussion is evolving
+- Dataset groupings that make it straightforward to pick between LLM-ready benchmarks and traditional baselines when scoping a project or reproduction study
 
-#### 其实“思考”并不是只在异常场景里才需要，而是在异常问题上，它的必要性被放大：
+**Who this is for:** researchers, students, and practitioners who want a single hub for tracking the convergence of anomaly detection, multimodal understanding, and foundation models.
 
-常态模式容易靠感知解决：正常行为/场景占据绝大多数，规律性强、数据量大，单靠感知模式匹配就能达到不错的效果。
+## 🧭 How to Use This Repository
 
-异常本质上是“不确定”：异常往往稀疏、少样本，缺乏先验统计支撑。仅靠快速感知会出现偏差，需要跨时整合和假设检验来弥补。
+Treat this repo as a launchpad. Start with the overview for a quick mental model, then dive into venue or journal notes, or jump straight to the dataset taxonomy depending on whether you need new data, baselines, or multimodal annotations.
 
-异常涉及更大风险：一旦误判，可能带来严重后果（漏报安全事件、误报干扰系统），因此必须引入更慢、更稳健的决策机制。
+### 📂 Repository Map
+- `venues/` — year-by-year highlights from major conferences with takeaways and trend notes
+- `journals/` — rolling coverage of influential journal publications grouped by outlet for faster literature sweeps
+- `assets/` — figures and badges used across the documentation if you want to reuse the styling in decks or reports
 
-异常往往打破常规：它们可能表现为复杂的上下文依赖、模糊的语义混淆、长尾的稀疏分布——这些都恰好是“思考”擅长处理的。
+### 📝 Reading Workflow
+1. Skim the **LLM/VLM-ready datasets** when prototyping reasoning-enabled pipelines; drop to the traditional benchmarks for baselines or model comparisons.
+2. Jump into the linked venue or journal page when you need richer context such as paper clusters, methodological trends, or open questions.
+3. Open an issue or PR whenever you spot a missing reference—reasoning-centric resources ship rapidly, so community updates keep the list fresh.
 
+---
 
-我们需要的是推理，而不仅是事后解释。
-
-
-## Conference Snapshots
+## 📚 Conference Snapshots
 
 The `venues/` directory hosts per-conference notes for 2023-2025. Quick links:
 
-- CVPR — `venues/cvpr.md`
-- ICCV — `venues/iccv.md`
-- ECCV — `venues/eccv.md`
-- NeurIPS — `venues/neurips.md`
-- ICML — `venues/icml.md`
-- ICLR — `venues/iclr.md`
-- AAAI — `venues/aaai.md`
-- IJCAI — `venues/ijcai.md`
-- ACM MM — `venues/acmmm.md`
+- [CVPR](venues/cvpr.md) — Computer Vision and Pattern Recognition
+- [ICCV](venues/iccv.md) — International Conference on Computer Vision
+- [ECCV](venues/eccv.md) — European Conference on Computer Vision
+- [NeurIPS](venues/neurips.md) — Neural Information Processing Systems
+- [ICML](venues/icml.md) — International Conference on Machine Learning
+- [ICLR](venues/iclr.md) — International Conference on Learning Representations
+- [AAAI](venues/aaai.md) — Association for the Advancement of Artificial Intelligence
+- [IJCAI](venues/ijcai.md) — International Joint Conference on Artificial Intelligence
+- [ACM MM](venues/acmmm.md) — ACM Multimedia
 
-### Curiosity-driven Learning
+---
 
-Humans monitor learning progress in curiosity-driven exploration (Nature Communications 2021) [[paper](https://www.nature.com/articles/s41467-021-26196-w)]
-发现人类在探索中会“盯着学习进度”本身：更偏好能带来更大知识增益/误差下降率的选择。行为与模型支持“以学习进步为回报”的好奇心机制
+## 📰 Journal Snapshots
 
-Curiosity-driven Exploration by Self-supervised Prediction (ICML 2017 (PMLR v70)) [[paper](https://proceedings.mlr.press/v70/pathak17a/pathak17a.pdf)]
+The `journals/` directory hosts per-journal notes for top-tier academic journals. Quick links:
 
-Computational mechanisms of curiosity and goal-directed exploration (Neuroscience 2019) [[paper](https://elifesciences.org/articles/41703)]
-
-
+- [TPAMI](journals/tpami.md) — IEEE Transactions on Pattern Analysis and Machine Intelligence
+- [TIP](journals/tip.md) — IEEE Transactions on Image Processing
+- [TNNLS](journals/tnnls.md) — IEEE Transactions on Neural Networks and Learning Systems
+- [TCYB](journals/tcyb.md) — IEEE Transactions on Cybernetics
+- [TIFS](journals/tifs.md) — IEEE Transactions on Information Forensics and Security
+- [IJCV](journals/ijcv.md) — International Journal of Computer Vision (Springer)
 
 ---
 
 ## 📊 Benchmarks and Datasets
 
+> 💡 **Trend**: Datasets are evolving from pure detection (traditional) to **understanding + explanation** (LLM-ready), aligning with the shift from "fast perception" to "slow thinking" in anomaly detection.
 
 
+### 🤖 LLM/VLM-Ready Datasets (Multimodal & Explainable)
 
-数据集：Driving Anomaly Detection Honda Research Institute
-<https://usa.honda-ri.com/hdd#Videos>
+Datasets designed for or compatible with large language models and vision-language models, emphasizing reasoning, explanation, and multimodal understanding.
 
-NWPU-Campus
-Ubnormal
-TAD
-X-Man
-XD-Violence
+#### 📝 Video-Language Annotation
+- **[UCA (UCF-Crime Annotation)](https://xuange923.github.io/Surveillance-Video-Understanding)** (CVPR 2024)
+  - 23,542 fine-grained sentences, 111 hours
+  - Temporal event descriptions for surveillance video understanding
+  
+- **[VAD-Instruct50k](https://holmesvad.github.io/)** (Holmes-VAD, arXiv 2024)
+  - 51,567 multimodal instructions for explainable VAD
+  - Rich textual explanations for anomaly reasoning
+  
+- **[UCCD](https://github.com/lingruzhou/UCCD)** (TMM 2024)
+  - Human-centric behavior descriptions
+  - Instance-level annotations with temporal info
 
-shanghaitech-anomaly-detection [[project](https://svip-lab.github.io/dataset/campus_dataset.html)] — Campus surveillance anomaly set; classic weakly supervised benchmark.
+#### 🔍 Anomaly Retrieval (Cross-modal)
+- **[UCFCrime-AR](https://github.com/Roc-Ng/VAR)** (TIP 2024)
+  - Video-text retrieval benchmark
+  - 1,900 videos with Chinese & English descriptions
+  
+- **[XDViolence-AR](https://github.com/Roc-Ng/VAR)** (TIP 2024)
+  - Audio-visual anomaly retrieval
+  - 4,754 videos, cross-modal (video ↔ audio)
 
-[UCF-Crime](https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/) — Real-world surveillance anomaly dataset with long untrimmed videos.
+#### 🌐 Open-World Understanding
+- **[UBnormal](https://github.com/lilygeorgescu/UBnormal)** (CVPR 2022)
+  - Open-set benchmark: 22 training anomaly types, disjoint from test
+  - 543 videos with pixel-level annotations
+  - Simulates real-world unseen anomaly scenarios
 
-Multi-Scenario Anomaly Detection (MSAD) Dataset (NeurIPS 2024) [![Project](https://img.shields.io/badge/Project-blue?logo=safari)](https://msad-dataset.github.io/) [![arXiv](https://img.shields.io/badge/arXiv-2402.04857-b31b1b?logo=arxiv)](https://arxiv.org/pdf/2402.04857) — Large-scale, multi-scene anomaly benchmark.
-
-
-https://video-holmes.github.io/Page.github.io/
-
-
-
-<https://github.com/okankop/Driver-Anomaly-Detection>
-
-https://www.cs.cmu.edu/~roadwork/ (ICCV 2025)
-
-
-
-### Metrics & Evaluation
-
-- Coming soon: common tasks, metrics, and evaluation protocols.
+#### 🎬 Large-Scale Multimodal
+- **[XD-Violence](https://roc-ng.github.io/XD-Violence/)** (ECCV 2020)
+  - 4,754 videos, 217 hours, 6 violence types
+  - **Audio-visual** modality (speech, sound effects)
+  - Suitable for multimodal LLM/VLM approaches
 
 ---
 
-Aha! - Predicting What Matters Next: Online Highlight Detection Without Looking Ahead
-https://neurips.cc/virtual/2025/poster/119707
+### 🔧 Traditional VAD Benchmarks
 
+Classic datasets used for traditional deep learning and rule-based methods, organized by supervision type.
 
+#### 1️⃣ Weakly Supervised
+*Video-level labels only, no frame-level annotations.*
 
-## Papers (2025)
+- **[UCF-Crime](https://www.crcv.ucf.edu/projects/real-world/)** (CVPR 2018) — 1,900 videos, 128 hours, 13 anomaly types
+- **[ShanghaiTech Weakly](https://github.com/jx-zhong-for-academic-purpose/GCN-Anomaly-Detection)** (CVPR 2019) — Reorganized for weakly supervised setting
+- **[TAD](https://github.com/ktr-hubrt/WSAL)** (TIP 2021) — 500 traffic videos, 7 road anomaly types
 
-### NeurIPS 2025
+#### 2️⃣ Semi-supervised
+*Train on normal videos only, detect anomalies at test time.*
 
+**Classic Benchmarks:**
+- **[UCSD Ped1 & Ped2](http://www.svcl.ucsd.edu/projects/anomaly/dataset.htm)** (CVPR 2010) — Pedestrian anomalies
+- **[CUHK Avenue](https://www.cse.cuhk.edu.hk/leojia/projects/detectabnormal/dataset.html)** (ICCV 2013) — 37 sequences, running/throwing
+- **[ShanghaiTech](https://svip-lab.github.io/dataset/campus_dataset.html)** (ICCV 2017) — 437 videos, 13 scenes, campus surveillance
+- **[UMN](https://www.crcv.ucf.edu/research/projects/abnormal-crowd-behavior-detection-using-social-force-model/)** (CVPR 2009) — Escape events
 
+**Recent Large-scale:**
+- **[NWPU Campus](https://campusvad.github.io/)** (CVPR 2023) — **Largest**: 547 videos, 16 hours, 43 scenes, 28 classes
+  - Scene-dependent anomalies
+  - Anomaly anticipation task
+- **[Street Scene](https://www.merl.com/research/highlights/video-anomaly-detection)** (WACV 2020) — 205 anomalies, 17 types
+- **[IITB-Corridor](https://rodrigues-royston.github.io/Multi-timescale_Trajectory_Prediction/)** (WACV 2020) — Group-level anomalies
 
+**Others:**
+- **Subway Entrance & Exit** (TPAMI 2008) — Early surveillance benchmarks
 
+#### 3️⃣ Fully Supervised
+*Both normal and abnormal videos for training.*
 
-MoniTor: Exploiting Large Language Models with Instruction for Online Video Anomaly Detection
-https://neurips.cc/virtual/2025/poster/119803
-
-
-### ICML
-
-Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models
-https://openreview.net/forum?id=xAhUoyb5eU
-
-
-
-### ICCV 2025
-
-Aligning Effective Tokens with Video Anomaly in Large Language Models
-https://arxiv.org/pdf/2508.06350
-![alt text](image.png)
-
-
-FE-CLIP: Frequency Enhanced CLIP Model for Zero-Shot Anomaly Detection and Segmentation
-
-Wave-MambaAD: Wavelet-driven State Space Model for Multi-class Unsupervised Anomaly Detection
-
-MultiADS: Defect-aware Supervision for Multi-type Anomaly Detection and Segmentation in Zero-Shot Learning
-
-ReMP-AD: Retrieval-enhanced Multi-modal Prompt Fusion for Few-Shot Industrial Visual Anomaly Detection
-
-Aligning Effective Tokens with Video Anomaly in Large Language Models
-
-Toward Long-Tailed Online Anomaly Detection through Class-Agnostic Concepts
-
-Towards Real Unsupervised Anomaly Detection Via Confident Meta-Learning
-
-Anomaly Detection of Integrated Circuits Package Substrates Using the Large Vision Model SAIC: Dataset Construction, Methodology, and Application
-
-Beyond Walking: A Large-Scale Image-Text Benchmark for Text-based Person Anomaly Search
-
-Mixture of Experts Guided by Gaussian Splatters Matters: A new Approach to Weakly-Supervised Video Anomaly Detection
-
-Triad: Empowering LMM-based Anomaly Detection with Expert-guided Region-of-Interest Tokenizer and Manufacturing Process
-
-Normal and Abnormal Pathology Knowledge-Augmented Vision-Language Model for Anomaly Detection in Pathology Images
-
-HumanSAM: Classifying Human-centric Forgery Videos in Human Spatial, Appearance, and Motion Anomaly
-
-
-SALAD -- Semantics-Aware Logical Anomaly Detection
-
-Fine-grained Abnormality Prompt Learning for Zero-shot Anomaly Detection
-
-FIND: Few-Shot Anomaly Inspection with Normal-Only Multi-Modal Data
-
-
-Autoregressive Denoising Score Matching is a Good Video Anomaly Detector
-
-
-DictAS: A Framework for Class-Generalizable Few-Shot Anomaly Segmentation via Dictionary Lookup
-
-DecAD: Decoupling Anomalies in Latent Space for Multi-Class Unsupervised Anomaly Detection
-
-
-Sequential keypoint density estimator: an overlooked baseline of skeleton-based video anomaly detection
-
-
-RareCLIP: Rarity-aware Online Zero-shot Industrial Anomaly Detection
-
-
-Debiasing Trace Guidance: Top-down Trace Distillation and Bottom-up Velocity Alignment for Unsupervised Anomaly Detection
-
-
-
-
-
-分布外检测：
-Beyond Pixel Uncertainty: Bounding the OoD Objects in Road Scenes
-
-Equipping Vision Foundation Model with Mixture of Experts for Out-of-Distribution Detection
-
-Adaptive Prompt Learning via Gaussian Outlier Synthesis for Out-of-distribution Detection
-
-FA: Forced Prompt Learning of Vision-Language Models for Out-of-Distribution Detection
-
-
-
-
-
-### VERA: Explainable Video Anomaly Detection via Verbalized Learning of Vision-Language Models (CVPR 2025)
-
-[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](https://openaccess.thecvf.com/content/CVPR2025/papers/Ye_VERA_Explainable_Video_Anomaly_Detection_via_Verbalized_Learning_of_Vision-Language_CVPR_2025_paper.pdf)
-[![Code](https://img.shields.io/github/stars/vera-framework/VERA?style=social&label=Code&logo=github)](https://github.com/vera-framework/VERA)
-
-Highlight: Verbalized learning makes VLM-based VAD explainable with natural-language rationales and clearer decision traces.
-
-![VERA preview](./assets/2025-cvpr-vera.png)
+- **[Hockey Fight & Movies Fight](https://academictorrents.com/details/70e0794e2292fc051a13f05ea6f5b6c16f3d3635)** (CAIP 2011) — 1,000 + 200 clips
+- **[Violent-Flows](https://www.openu.ac.il/home/hassner/data/violentflows/)** (CVPR Workshops 2012) — Violent crowd behavior
+- **[RWF-2000](https://github.com/mchengny/RWF2000-Video-Database-for-Violence-Detection)** (ICPR 2020) — 2,000 videos
+- **[CCTV-Fights](https://rose1.ntu.edu.sg/dataset/cctvFights/)** (ICASSP 2019) — 1,000 real-world fights
+- **[VFD-2000](https://github.com/Hepta-Col/VideoFightDetection)** (ICTAI 2022) — Multi-scenario, various lengths
+- **[VSD](https://www.interdigital.com/data_sets/violent-scenes-dataset)** (MTA 2015) — 18 Hollywood movies
 
 ---
 
-### Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity (CVPR 2025)
+### 🚗 Domain-Specific Datasets
 
-[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](https://openaccess.thecvf.com/content/CVPR2025/papers/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.pdf)
-[![Code](https://img.shields.io/github/stars/pipixin321/HolmesVAU?style=social&label=Code&logo=github)](https://github.com/pipixin321/HolmesVAU)
+#### Driving & Transportation
+- **[Honda HDD](https://usa.honda-ri.com/hdd#Videos)** — Driving anomaly detection
+- **[ROADWork](https://www.cs.cmu.edu/~roadwork/)** (ICCV 2025) — Work zone recognition
+- **[Driver Anomaly Detection](https://github.com/okankop/Driver-Anomaly-Detection)** — Driver behavior analysis
+- **[TAD](https://github.com/ktr-hubrt/WSAL)** (TIP 2021) — Traffic anomaly detection
 
-Highlight: Targets long-horizon anomaly understanding with fine-to-coarse granularity, improving temporal coverage and robustness.
+#### Multi-Scenario
+- **[MSAD](https://msad-dataset.github.io/)** (NeurIPS 2024) [![arXiv](https://img.shields.io/badge/arXiv-2402.04857-b31b1b)](https://arxiv.org/pdf/2402.04857) — Multi-scenario, large-scale
 
-![Holmes-VAU preview](./assets/2025-cvpr-holmes-vau.png)
 
----
 
-## Papers (2024)
 
-### VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection (AAAI 2024)
 
-[![AAAI](https://img.shields.io/badge/AAAI-2024-1F77B4)](https://arxiv.org/abs/2308.11681)
-[![arXiv](https://img.shields.io/badge/arXiv-2308.11681-b31b1b?logo=arxiv)](https://arxiv.org/abs/2308.11681)
-[![Code](https://img.shields.io/github/stars/nwpu-zxr/VadCLIP?style=social&label=Code&logo=github)](https://github.com/nwpu-zxr/VadCLIP)
 
-Highlight: Adapts CLIP-style vision–language alignment to weakly supervised VAD, reducing annotation demands.
-
-![VadCLIP preview](./assets/2024-aaai-vadclip.png)
 
 ---
 
-### EventVAD: Training-Free Event-Aware Video Anomaly Detection （ACM MM 2025）
+## 🔗 Related Resources
 
-https://arxiv.org/abs/2504.13092
+### Related Awesome Lists
 
-![alt text](./assets/eventvad-acmmm25.png)
+- [![Awesome-Anomaly-Detection-Foundation-Models](https://img.shields.io/badge/Awesome-Anomaly_Detection_Foundation_Models-black?logo=github)](https://github.com/mala-lab/Awesome-Anomaly-Detection-Foundation-Models)
+- [![Awesome-Video-Anomaly-Detection](https://img.shields.io/badge/Awesome-Video_Anomaly_Detection-black?logo=github)](https://github.com/fjchange/awesome-video-anomaly-detection)
+- [![Deep-Learning-Based-Anomaly-Detection](https://img.shields.io/badge/Awesome-Deep_Learning_Anomaly_Detection-black?logo=github)](https://github.com/bitzhangcy/Deep-Learning-Based-Anomaly-Detection)
+- [![Awesome-Temporal-Video-Grounding](https://img.shields.io/badge/Awesome-Temporal_Video_Grounding-black?logo=github)](https://github.com/Tangkfan/Awesome-Temporal-Video-Grounding)
 
-
-### Harnessing Large Language Models for Training-free Video Anomaly Detection (CVPR 2024)
-
-[![CVPR](https://img.shields.io/badge/CVPR-2024-1E90FF)](https://openaccess.thecvf.com/content/CVPR2024/papers/Zanella_Harnessing_Large_Language_Models_for_Training-free_Video_Anomaly_Detection_CVPR_2024_paper.pdf)
-[![Code](https://img.shields.io/github/stars/lucazanella/lavad?style=social&label=Code&logo=github)](https://github.com/lucazanella/lavad)
-
-Highlight: Leverages LLM priors for training-free anomaly detection via promptable semantic knowledge.
-
-![Training-free VAD preview](./assets/2024-cvpr-training-free-vad.png)
 
 ---
 
-### Follow the Rules: Reasoning for Video Anomaly Detection with Large Language Models (ECCV 2024)
+## 🤝 Contributing
 
-[![ECCV](https://img.shields.io/badge/ECCV-2024-0B84FE)](https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/10568.pdf)
-[![Code](https://img.shields.io/github/stars/Yuchen413/AnomalyRuler?style=social&label=Code&logo=github)](https://github.com/Yuchen413/AnomalyRuler)
+We welcome contributions! Please feel free to:
 
-Highlight: Injects rule-based reasoning with LLMs to guide anomaly decisions and improve interpretability.
+- Submit pull requests to add new papers, datasets, or resources
+- Open issues for corrections or suggestions
+- Share your own work related to thinking-based VAD
 
-![AnomalyRuler preview](./assets/2024-eccv-anomalyruler.png)
-
----
-
-### Video Anomaly Detection and Explanation via Large Language Models (arXiv 2024)
-
-[![arXiv](https://img.shields.io/badge/arXiv-2401.05702v1-b31b1b?logo=arxiv)](https://arxiv.org/pdf/2401.05702v1)
-
-Highlight: Couples VAD with LLM-generated explanations to provide interpretable, text-based rationales.
-
-![LLM VAD + Explanation preview](./assets/2024-arxiv-vad-llm-explanation.png)
+**Guidelines:**
+- Follow the existing format for paper entries
+- Include links to paper, code, and project pages when available
+- Add a brief highlight describing the key contribution
+- Place papers in the appropriate year and conference section
 
 ---
 
-### HAWK: Learning to Understand Open-World Video Anomalies (NeurIPS 2024)
+## 📜 License and Credits
 
-[![NeurIPS](https://img.shields.io/badge/NeurIPS-2024-2DB55D)](https://arxiv.org/pdf/2405.16886)
-[![arXiv](https://img.shields.io/badge/arXiv-2405.16886-b31b1b?logo=arxiv)](https://arxiv.org/pdf/2405.16886)
-[![Code](https://img.shields.io/github/stars/jqtangust/hawk?style=social&label=Code&logo=github)](https://github.com/jqtangust/hawk)
+This collection is maintained as an open resource for the research community. 
 
-Highlight: Pursues open-world anomaly understanding with scalable concept coverage and out-of-distribution robustness.
+- Content is gathered from publicly available sources
+- Paper copyrights belong to their respective authors and publishers
+- This repository is for academic and educational purposes
 
-![HAWK preview](./assets/2024-neurips-hawk.png)
+**Maintainers**: Feel free to reach out for collaborations or suggestions!
 
 ---
 
-## Related Awesome Lists
-
-[![Awesome-Anomaly-Detection-Foundation-Models](https://img.shields.io/badge/Awesome-Anomaly_Detection_Foundation_Models-black?logo=github)](https://github.com/mala-lab/Awesome-Anomaly-Detection-Foundation-Models/tree/main?tab=readme-ov-file)
-
-
-
-参考文章
-
-[![HyperVD](https://img.shields.io/badge/To--Sort-HyperVD-lightgrey?logo=github)](https://github.com/xiaogangpeng/HyperVD)
-
-
-ROADWork: A Dataset and Benchmark for Learning to Recognize, Observe, Analyze and Drive Through Work Zones
-- **作者**：Anurag Ghosh, Shen Zheng, Robert Tamburo, 等
-- **主要内容**：提出ROADWork数据集，专注于自动驾驶场景下的施工区域识别与导航，提升模型在长尾场景下的表现。
-- **链接**：[https://www.cs.cmu.edu/~roadwork/](https://www.cs.cmu.edu/~roadwork/)
-
-
-Passing the Driving Knowledge Test
-- **作者**：Maolin Wei, Wanzhou Liu, Eshed Ohn-Bar
-- **主要内容**：提出DriveQA数据集，评测LLM/MLLM在交通规则理解与推理能力。
-- **链接**：[https://driveqaiccv.github.io](https://driveqaiccv.github.io)
-
-
-https://github.com/Tangkfan/Awesome-Temporal-Video-Grounding
-
-
-
-［ICML2025图合并长视频字幕］ Fine-Grained Captioning of Long Videos through Scene Graph Consolidation Objective • Problem： 现有 VIM 因有限的时间感受野 （limited temporal receptive fields），难以处理长视频字幕生成任务 • Existing Solutions & Drawbacks: • Memory/Recursive Frameworks： 需要在目标数据集上进行监督式 fine-tuning，泛化能力受限 。 LLM-based Consolidation： 直接利用LIM汇总各视频片段信息，存在高昂的推理开销和巨大的计算资源需求 • Proposed Solution： 提出一种基于图合并的zero-shot长视频字幕框架，无需 fine-tuning，兼具高性能和计算效率 核心思路是将非结构化的多源文本信息整合问题，转化为结构化的图节点合并问题
-
-
-### 相关合集
-
-https://github.com/fjchange/awesome-video-anomaly-detection
-
-https://github.com/bitzhangcy/Deep-Learning-Based-Anomaly-Detection
+**Star ⭐ this repo if you find it helpful!**
