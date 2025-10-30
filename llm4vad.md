@@ -6,11 +6,23 @@ A curated list of papers and resources on Large Language Models for Video Anomal
 ## Contents
 
 - [Overview](#overview)
-- [Conference Snapshots](#conference-snapshots)
-- [Papers (2025)](#papers-2025)
-- [Papers (2024)](#papers-2024)
-- [Contributing](#contributing)
-- [License and Credits](#license-and-credits)
+- [Papers by Year](#papers-by-year)
+  - [2025](#papers-2025)
+    - [NeurIPS 2025](#neurips-2025)
+    - [ICML 2025](#icml-2025)
+    - [ICCV 2025](#iccv-2025)
+    - [ACM MM 2025](#acm-mm-2025)
+    - [CVPR 2025](#cvpr-2025)
+    - [arXiv 2025](#arxiv-2025-preprints)
+  - [2024](#papers-2024)
+    - [AAAI 2024](#aaai-2024)
+    - [CVPR 2024](#cvpr-2024)
+    - [ECCV 2024](#eccv-2024)
+    - [ICCV 2024](#iccv-2024)
+    - [NeurIPS 2024](#neurips-2024)
+    - [ACM MM 2024](#acm-mm-2024)
+    - [arXiv 2024](#arxiv-2024-preprints)
+- [Related Awesome Lists](#related-awesome-lists)
 
 ---
 
@@ -101,211 +113,291 @@ https://neurips.cc/virtual/2025/poster/119707
 
 ### NeurIPS 2025
 
+#### PANDA: Towards Generalist Video Anomaly Detection via Detective-like Agent
 
+[![NeurIPS](https://img.shields.io/badge/NeurIPS-2025-2DB55D)](https://neurips.cc/virtual/2025/poster/115891)
 
+> 提出侦探式 Agent 范式的通用视频异常检测框架，通过工具调用与多步推理实现跨场景、跨类别的异常检测泛化能力。
 
+---
 
-MoniTor: Exploiting Large Language Models with Instruction for Online Video Anomaly Detection
-https://neurips.cc/virtual/2025/poster/119803
+#### MoniTor: Exploiting Large Language Models with Instruction for Online Video Anomaly Detection
 
+[![NeurIPS](https://img.shields.io/badge/NeurIPS-2025-2DB55D)](https://neurips.cc/virtual/2025/poster/119803)
 
-### ICML
+> 利用大语言模型与指令驱动机制实现在线视频异常检测，通过流式推理与实时反馈提升在线场景下的检测响应速度与准确性。
 
-Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models
-https://openreview.net/forum?id=xAhUoyb5eU
+---
 
+### ICML 2025
 
+#### Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models
+
+[![ICML](https://img.shields.io/badge/ICML-2025-FF6B6B)](https://openreview.net/forum?id=xAhUoyb5eU)
+[![Paper](https://img.shields.io/badge/Paper-PDF-blue)](https://raw.githubusercontent.com/mlresearch/v267/main/assets/huang25ad/huang25ad.pdf)
+
+> 基于视觉语言模型的可解释细粒度视频异常检测方法，利用 VLM 的语义理解能力提供异常的细粒度解释，增强模型决策透明度。
+
+---
 
 ### ICCV 2025
 
-Aligning Effective Tokens with Video Anomaly in Large Language Models
-https://arxiv.org/pdf/2508.06350
-![alt text](image.png)
+#### Aligning Effective Tokens with Video Anomaly in Large Language Models
+
+[![ICCV](https://img.shields.io/badge/ICCV-2025-00CED1)](https://arxiv.org/pdf/2508.06350)
+
+> 将视频异常检测任务映射为大语言模型的 token 对齐问题，通过有效 token 选择机制实现多模态大模型驱动的视频异常理解。
+
+---
+
+#### Beyond Pixel Uncertainty: Bounding the OoD Objects in Road Scenes
+
+[![ICCV](https://img.shields.io/badge/ICCV-2025-00CED1)]()
+
+> 超越像素级不确定性，在道路场景中定位分布外目标，为自动驾驶中的异常检测提供更精准的边界框级检测。
 
 
 
-分布外检测：
-Beyond Pixel Uncertainty: Bounding the OoD Objects in Road Scenes
+### ACM MM 2025
 
-Equipping Vision Foundation Model with Mixture of Experts for Out-of-Distribution Detection
+#### EventVAD: Training-Free Event-Aware Video Anomaly Detection
 
-Adaptive Prompt Learning via Gaussian Outlier Synthesis for Out-of-distribution Detection
+[![ACM MM](https://img.shields.io/badge/ACM_MM-2025-FF69B4)](https://arxiv.org/abs/2504.13092)
+[![Code](https://img.shields.io/github/stars/YihuaJerry/EventVAD?style=social&label=Code&logo=github)](https://github.com/YihuaJerry/EventVAD)
 
-FA: Forced Prompt Learning of Vision-Language Models for Out-of-Distribution Detection
+> 基于 Video-LLaMA2 的免训练事件感知视频异常检测方法，通过零样本事件理解与时序推理，无需模型训练即可实现跨场景异常判别。
 
+![EventVAD preview](./assets/eventvad-acmmm25.png)
 
+---
 
-### VERA: Explainable Video Anomaly Detection via Verbalized Learning of Vision-Language Models (CVPR 2025)
+#### SAGE: A Visual Language Model for Anomaly Detection via Fact Enhancement and Entropy-aware Alignment
+
+[![ACM MM](https://img.shields.io/badge/ACM_MM-2025-FF69B4)]()
+
+> 通过事实增强与熵感知对齐机制构建视觉语言异常检测模型，提升模型对异常细节的感知与判别能力。
+
+---
+
+### CVPR 2025
+
+#### VERA: Explainable Video Anomaly Detection via Verbalized Learning of Vision-Language Models
 
 [![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](https://openaccess.thecvf.com/content/CVPR2025/papers/Ye_VERA_Explainable_Video_Anomaly_Detection_via_Verbalized_Learning_of_Vision-Language_CVPR_2025_paper.pdf)
 [![Code](https://img.shields.io/github/stars/vera-framework/VERA?style=social&label=Code&logo=github)](https://github.com/vera-framework/VERA)
 
-Highlight: Verbalized learning makes VLM-based VAD explainable with natural-language rationales and clearer decision traces.
+> 将异常判决转化为"口头推理"任务，借由视觉-语言对齐让模型给出可读的解释与多模态证据。
 
 ![VERA preview](./assets/2025-cvpr-vera.png)
 
 ---
 
-### Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity (CVPR 2025)
+#### Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity
 
 [![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](https://openaccess.thecvf.com/content/CVPR2025/papers/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.pdf)
 [![Code](https://img.shields.io/github/stars/pipixin321/HolmesVAU?style=social&label=Code&logo=github)](https://github.com/pipixin321/HolmesVAU)
 
-Highlight: Targets long-horizon anomaly understanding with fine-to-coarse granularity, improving temporal coverage and robustness.
+> 针对长时序视频提出任意粒度理解框架，联合多模态知识与层次化语义，覆盖事件级、片段级与帧级异常，并提供语言化描述。
 
 ![Holmes-VAU preview](./assets/2025-cvpr-holmes-vau.png)
 
 ---
 
+### arXiv 2025 (Preprints)
+
+#### AVadCLIP: Audio-Visual Collaboration for Robust Video Anomaly Detection
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 扩展 VadCLIP 至音视频多模态协同，通过音频线索辅助视觉检测，提升复杂场景下的异常判别鲁棒性。
+
+---
+
+#### AssistPDA: An Online Video Surveillance Assistant for Video Anomaly Prediction
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 在线视频监控助手系统，利用大模型实现异常预测与实时反馈，辅助监控人员决策。
+
+---
+
+#### SlowFastVAD: Video Anomaly Detection via Integrating Simple Detector and RAG-Enhanced Vision-Language Model
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 结合 SlowFast 双流检测器与 RAG 增强的视觉语言模型，通过检索增强生成机制提升异常理解与定位能力。
+
+---
+
+#### Vad-R1: Towards Video Anomaly Reasoning via Perception-to-Cognition Chain-of-Thought
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 提出感知到认知的思维链推理框架，通过多步推理链条实现从视觉感知到异常判断的端到端推理。
+
+---
+
+#### Flashback: Memory-Driven Zero-shot, Real-time Video Anomaly Detection
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 基于记忆驱动的零样本实时视频异常检测方法，通过动态记忆库实现无训练场景下的快速异常响应。
+
+---
+
+#### Simplifying Traffic Anomaly Detection with Video Foundation Models
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 利用视频基础模型简化交通异常检测流程，通过预训练模型的迁移能力降低任务特定数据需求。
+
+---
+
+#### NexViTAD: Few-shot Unsupervised Cross-Domain Defect Detection via Vision Foundation Models and Multi-Task Learning
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 基于视觉基础模型与多任务学习的少样本无监督跨域缺陷检测方法，适用于工业异常检测场景。
+
+---
+
+#### AnomalyMoE: Towards a Language-free Generalist Model for Unified Visual Anomaly Detection
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 提出无语言依赖的专家混合（MoE）统一视觉异常检测模型，通过多专家协同实现跨域泛化能力。
+
+---
+
+#### Unlocking Vision-Language Models for Video Anomaly Detection via Fine-Grained Prompting
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 通过细粒度提示解锁视觉语言模型在视频异常检测中的潜力，设计任务特定的 prompt 模板提升检测性能。
+
+---
+
+#### VAU-R1: Advancing Video Anomaly Understanding via Reinforcement Fine-Tuning
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 利用强化学习微调视频异常理解模型，通过奖励信号引导模型学习异常判别策略，提升理解深度。
+
+---
+
+#### Language-guided Open-world Video Anomaly Detection
+
+[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
+
+> 语言引导的开放世界视频异常检测方法，通过自然语言描述实现对未见异常类别的零样本检测。
+
+---
+
 ## Papers (2024)
 
-### VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection (AAAI 2024)
+### AAAI 2024
 
-[![AAAI](https://img.shields.io/badge/AAAI-2024-1F77B4)](https://arxiv.org/abs/2308.11681)
+#### VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection
+
+[![AAAI](https://img.shields.io/badge/AAAI-2024-1F77B4)](https://ojs.aaai.org/index.php/AAAI/article/view/28423)
 [![arXiv](https://img.shields.io/badge/arXiv-2308.11681-b31b1b?logo=arxiv)](https://arxiv.org/abs/2308.11681)
 [![Code](https://img.shields.io/github/stars/nwpu-zxr/VadCLIP?style=social&label=Code&logo=github)](https://github.com/nwpu-zxr/VadCLIP)
 
-Highlight: Adapts CLIP-style vision–language alignment to weakly supervised VAD, reducing annotation demands.
+> 将 CLIP 等视觉-语言模型适配至弱监督视频异常检测任务，通过跨模态对齐与视频时序建模，在有限标注下实现高效异常判别。
 
 ![VadCLIP preview](./assets/2024-aaai-vadclip.png)
 
 ---
 
-### EventVAD: Training-Free Event-Aware Video Anomaly Detection （ACM MM 2025）
+### CVPR 2024
 
-https://arxiv.org/abs/2504.13092
-
-![alt text](./assets/eventvad-acmmm25.png)
-
-
-### Harnessing Large Language Models for Training-free Video Anomaly Detection (CVPR 2024)
+#### Harnessing Large Language Models for Training-free Video Anomaly Detection (LAVAD)
 
 [![CVPR](https://img.shields.io/badge/CVPR-2024-1E90FF)](https://openaccess.thecvf.com/content/CVPR2024/papers/Zanella_Harnessing_Large_Language_Models_for_Training-free_Video_Anomaly_Detection_CVPR_2024_paper.pdf)
 [![Code](https://img.shields.io/github/stars/lucazanella/lavad?style=social&label=Code&logo=github)](https://github.com/lucazanella/lavad)
 
-Highlight: Leverages LLM priors for training-free anomaly detection via promptable semantic knowledge.
+> 直接调用大模型语义知识，以 LLM/VLM Prompting 完成场景理解，无需微调即可在缺乏标注的场景快速部署。
 
 ![Training-free VAD preview](./assets/2024-cvpr-training-free-vad.png)
 
 ---
 
-### Follow the Rules: Reasoning for Video Anomaly Detection with Large Language Models (ECCV 2024)
+#### Text Prompt with Normality Guidance for Weakly Supervised Video Anomaly Detection
+
+[![CVPR](https://img.shields.io/badge/CVPR-2024-1E90FF)](https://arxiv.org/abs/2404.08531)
+
+> 通过文本描述常态行为作为弱监督约束，设计 Normality Guidance Prompt 将语言先验转化为正则项，在缺乏帧级标注时保持定位精度。
+
+---
+
+### ECCV 2024
+
+#### Follow the Rules: Reasoning for Video Anomaly Detection with Large Language Models (AnomalyRuler)
 
 [![ECCV](https://img.shields.io/badge/ECCV-2024-0B84FE)](https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/10568.pdf)
 [![Code](https://img.shields.io/github/stars/Yuchen413/AnomalyRuler?style=social&label=Code&logo=github)](https://github.com/Yuchen413/AnomalyRuler)
 
-Highlight: Injects rule-based reasoning with LLMs to guide anomaly decisions and improve interpretability.
+> 通过两阶段推理机制（归纳与演绎）利用 LLM 从少量正常样本中总结正常规律，再据此检测异常帧，结合规则聚合与感知平滑提升推理稳健性。
 
 ![AnomalyRuler preview](./assets/2024-eccv-anomalyruler.png)
 
 ---
 
-### Video Anomaly Detection and Explanation via Large Language Models (arXiv 2024)
+### ICCV 2024
 
-[![arXiv](https://img.shields.io/badge/arXiv-2401.05702v1-b31b1b?logo=arxiv)](https://arxiv.org/pdf/2401.05702v1)
+#### Video Anomaly Detection and Explanation via Large Language Models
 
-Highlight: Couples VAD with LLM-generated explanations to provide interpretable, text-based rationales.
+[![arXiv](https://img.shields.io/badge/arXiv-2401.05702-b31b1b?logo=arxiv)](https://arxiv.org/pdf/2401.05702v1)
+
+> 将 VAD 与 LLM 生成的解释耦合，提供可解释的文本化理由，增强模型决策透明度。
 
 ![LLM VAD + Explanation preview](./assets/2024-arxiv-vad-llm-explanation.png)
 
 ---
 
-### HAWK: Learning to Understand Open-World Video Anomalies (NeurIPS 2024)
+### NeurIPS 2024
 
-[![NeurIPS](https://img.shields.io/badge/NeurIPS-2024-2DB55D)](https://arxiv.org/pdf/2405.16886)
+#### HAWK: Learning to Understand Open-World Video Anomalies
+
+[![NeurIPS](https://img.shields.io/badge/NeurIPS-2024-2DB55D)](https://proceedings.neurips.cc/paper_files/paper/2024/file/fca83589e85cb061631b7ebc5db5d6bd-Paper-Conference.pdf)
 [![arXiv](https://img.shields.io/badge/arXiv-2405.16886-b31b1b?logo=arxiv)](https://arxiv.org/pdf/2405.16886)
 [![Code](https://img.shields.io/github/stars/jqtangust/hawk?style=social&label=Code&logo=github)](https://github.com/jqtangust/hawk)
 
-Highlight: Pursues open-world anomaly understanding with scalable concept coverage and out-of-distribution robustness.
+> 利用视觉语言模型理解开放世界视频异常，引入运动模态增强 VLM 对动态异常的感知能力，突破传统封闭集检测限制。
 
 ![HAWK preview](./assets/2024-neurips-hawk.png)
 
+---
 
+#### MDVAD: Towards Multi-Domain Learning for Generalizable Video Anomaly Detection
 
-Video
-[Wu2023] VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection in Arxiv, 2024. [paper][code]
+[![NeurIPS](https://img.shields.io/badge/NeurIPS-2024-2DB55D)](https://proceedings.neurips.cc/paper_files/paper/2024/file/59eb2d8ce0e4830f80780f7f78c67dec-Paper-Conference.pdf)
 
-[Yang2024] Follow the Rules: Reasoning for Video Anomaly Detection with Large Language Models in Arxiv, 2024. [paper][code]
-
-[Zhang2024] Holmes-VAD: Towards Unbiased and Explainable Video Anomaly Detection via Multi-modal LLM in Arxiv, 2024. [paper][code]
-
-[Wu2024] VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection in AAAI, 2024. [paper][code]
-
-[Zanella2024] Harnessing Large Language Models for Training-free Video Anomaly Detection in CVPR, 2024. [paper][code]
-
-[Yang2024] Text Prompt with Normality Guidance for Weakly Supervised Video Anomaly Detection in CVPR, 2024. [paper][code]
-
-[Cho2024] Towards Multi-Domain Learning for Generalizable Video Anomaly Detection in NeurIPS, 2024. [paper][code]
-
-[Lv2024] Video Anomaly Detection and Explanation via Large Language Models in ICCV, 2024. [paper][code]
-
-[Wu2024] Weakly Supervised Video Anomaly Detection and Localization with Spatio-Temporal Prompts in ACM MM, 2024. [paper][code]
-
-[Ye2025] VERA: Explainable Video Anomaly Detection via Verbalized Learning of Vision-Language Models in CVPR, 2025. [paper][code]
-
-[Wu2025] AVadCLIP: Audio-Visual Collaboration for Robust Video Anomaly Detection in Arxiv, 2025. [paper][code]
-
-[Yang2025] AssistPDA: An Online Video Surveillance Assistant for Video Anomaly Prediction in Arxiv, 2025. [paper][code]
-
-[Ding2025] SlowFastVAD: Video Anomaly Detection via Integrating Simple Detector and RAG-Enhanced Vision-Language Model in Arxiv, 2025. [paper][code]
-
-[Shao2025] EventVAD: Training-Free Event-Aware Video Anomaly Detection in Arxiv, 2025. [paper][code]
-
-[Huang2025] Vad-R1: Towards Video Anomaly Reasoning via Perception-to-Cognition Chain-of-Thought in Arxiv, 2025. [paper][code]
-
-[Lee2025] Flashback: Memory-Driven Zero-shot, Real-time Video Anomaly Detection in Arxiv, 2025. [paper][code]
-
-[Orlova2025] Simplifying Traffic Anomaly Detection with Video Foundation Models in Arxiv, 2025. [paper][code]
-
-[Zang2025] SAGE: A Visual Language Model for Anomaly Detection via Fact Enhancement and Entropy-aware Alignment in MM, 2025. [paper][code]
-
-[Mu2025] NexViTAD: Few-shot Unsupervised Cross-Domain Defect Detection via Vision Foundation Models and Multi-Task Learning in Arxiv, 2025. [paper][code]
-
-[Gu2025] AnomalyMoE: Towards a Language-free Generalist Model for Unified Visual Anomaly Detection in Arxiv, 2025. [paper][code]
-
-[Yang2025] PANDA: Towards Generalist Video Anomaly Detection via Agentic AI Engineer in NeurIPS, 2025. [paper][code]
-
-[Zou2025] Unlocking Vision-Language Models for Video Anomaly Detection via Fine-Grained Prompting in Arxiv, 2025. [paper][code]
-
-[Zhu2025] VAU-R1: Advancing Video Anomaly Understanding via Reinforcement Fine-Tuning in Arxiv, 2025. [paper][code]
-
-[Liu2025] Language-guided Open-world Video Anomaly Detection in Arxiv, 2025. [paper][code]
+> 提出多域视频异常检测任务与基准，探索跨域泛化能力，为构建适应多样化场景的异常检测系统提供理论与实验支撑。
 
 ---
 
-## Related Awesome Lists
+### ACM MM 2024
 
-[![Awesome-Anomaly-Detection-Foundation-Models](https://img.shields.io/badge/Awesome-Anomaly_Detection_Foundation_Models-black?logo=github)](https://github.com/mala-lab/Awesome-Anomaly-Detection-Foundation-Models/tree/main?tab=readme-ov-file)
+#### Weakly Supervised Video Anomaly Detection and Localization with Spatio-Temporal Prompts
 
+[![ACM MM](https://img.shields.io/badge/ACM_MM-2024-FF69B4)](https://arxiv.org/pdf/2408.05905)
 
-https://sites.google.com/view/iccv2025-tutorial-fm-driven-ad/home
+> 利用 CLIP 的时空提示机制进行弱监督视频异常检测与定位，通过动态提示适配不同时空尺度的异常模式，提升细粒度定位能力。
 
-参考文章
+---
 
-[![HyperVD](https://img.shields.io/badge/To--Sort-HyperVD-lightgrey?logo=github)](https://github.com/xiaogangpeng/HyperVD)
+### arXiv 2024 (Preprints)
 
+#### Holmes-VAD: Towards Unbiased and Explainable Video Anomaly Detection via Multi-modal LLM
 
-ROADWork: A Dataset and Benchmark for Learning to Recognize, Observe, Analyze and Drive Through Work Zones
-- **作者**：Anurag Ghosh, Shen Zheng, Robert Tamburo, 等
-- **主要内容**：提出ROADWork数据集，专注于自动驾驶场景下的施工区域识别与导航，提升模型在长尾场景下的表现。
-- **链接**：[https://www.cs.cmu.edu/~roadwork/](https://www.cs.cmu.edu/~roadwork/)
+[![arXiv](https://img.shields.io/badge/arXiv-2024-b31b1b?logo=arxiv)]()
 
-
-Passing the Driving Knowledge Test
-- **作者**：Maolin Wei, Wanzhou Liu, Eshed Ohn-Bar
-- **主要内容**：提出DriveQA数据集，评测LLM/MLLM在交通规则理解与推理能力。
-- **链接**：[https://driveqaiccv.github.io](https://driveqaiccv.github.io)
-
-
-https://github.com/Tangkfan/Awesome-Temporal-Video-Grounding
+> 通过多模态 LLM 实现无偏且可解释的视频异常检测，结合视觉与语言模态提供异常判断的多维度证据。
 
 
 
-［ICML2025图合并长视频字幕］ Fine-Grained Captioning of Long Videos through Scene Graph Consolidation Objective • Problem： 现有 VIM 因有限的时间感受野 （limited temporal receptive fields），难以处理长视频字幕生成任务 • Existing Solutions & Drawbacks: • Memory/Recursive Frameworks： 需要在目标数据集上进行监督式 fine-tuning，泛化能力受限 。 LLM-based Consolidation： 直接利用LIM汇总各视频片段信息，存在高昂的推理开销和巨大的计算资源需求 • Proposed Solution： 提出一种基于图合并的zero-shot长视频字幕框架，无需 fine-tuning，兼具高性能和计算效率 核心思路是将非结构化的多源文本信息整合问题，转化为结构化的图节点合并问题
 
 
-### 相关合集
 
-https://github.com/fjchange/awesome-video-anomaly-detection
 
-https://github.com/bitzhangcy/Deep-Learning-Based-Anomaly-Detection
