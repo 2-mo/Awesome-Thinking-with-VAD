@@ -34,6 +34,8 @@
 
 ---
 
+> 🚧 **This repository is under active construction.** We're continuously adding new papers, refining categorizations, and expanding dataset coverage. Stay tuned for updates!
+
 ## 🌟 Overview
 
 Video anomaly detection is evolving from simple frame-level alerts to systems that **reason, explain, and communicate** what makes something suspicious. This repository tracks that shift, focusing on methods that leverage **Large Language Models (LLMs)** and **Vision-Language Models (VLMs)** for deeper anomaly understanding.
