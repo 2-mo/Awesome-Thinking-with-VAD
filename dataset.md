@@ -113,6 +113,11 @@
   - Temporal annotations for 28 anomaly classes
   - Supports anomaly anticipation (future prediction)
 
+- **[X-Man](https://github.com/VAD-X-Man/X-Man-Dataset)** (CVPR 2024)
+  - **1.3 million frames** with fine-grained temporal and spatial annotations
+  - 21 anomaly categories, designed for complex scenes
+  - Focus: Spatio-temporal localization and open-world recognition
+
 ---
 
 ## 💡 Anomaly Understanding
@@ -133,7 +138,7 @@
 
 ### Explainable & Reasoning
 
-- **[VAD-Instruct50k](https://holmesvad.github.io/)** (Holmes-VAD, arXiv 2024)  
+- **[VAD-Instruct50k (Holmes-VAD)](https://video-holmes.github.io/)** (arXiv 2024)  
   - **51,567 multimodal instructions** for explainable VAD
   - Rich textual explanations for anomaly reasoning
   - Supports why/what/when questions
@@ -235,7 +240,7 @@
 
 ### Multi-Scenario
 
-- **[MSAD](https://msad-dataset.github.io/)** (NeurIPS 2024) [![arXiv](https://img.shields.io/badge/arXiv-2402.04857-b31b1b)](https://arxiv.org/pdf/2402.04857)  
+- **[MSAD (Multi-Scenario Anomaly Detection)](https://msad-dataset.github.io/)** (NeurIPS 2024) [![arXiv](https://img.shields.io/badge/arXiv-2402.04857-b31b1b)](https://arxiv.org/pdf/2402.04857)  
   - Multi-scenario Anomaly Detection benchmark
   - 14 diverse scenarios (factory, tunnel, prison, classroom, etc.)
   - 6,811 videos with 150,308 frames
@@ -253,9 +258,10 @@
 | **VAD-Instruct50k** | 2024 | Understanding | 51,567 instructions | Explainable reasoning |
 | **UCFCrime-AR** | 2024 | Retrieval | 1,900 videos | Video-text cross-modal |
 | **XDViolence-AR** | 2024 | Retrieval | 4,754 videos | Audio-visual cross-modal |
+| **X-Man** | 2024 | Localization | 1.3M frames | Spatio-temporal, open-world |
 | **UBnormal** | 2022 | Localization + Understanding | 543 videos | Pixel-level, open-set |
 | **NWPU Campus** | 2023 | Detection + Localization | 547 videos | Largest, 28 classes |
-| **MSAD** | 2024 | Detection | 6,811 videos | Multi-scenario, long-tail |
+| **MSAD** | 2024 | Detection + Understanding | 6,811 videos | Multi-scenario, long-tail |
 | **DriveQA** | 2023 | Understanding | 25,000 QA pairs | Driving reasoning |
 
 ---

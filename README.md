@@ -29,7 +29,7 @@
 <div align="center">
   <img src="assets/qrcode/redbook-25-11-25.JPG" alt="Thinking with VAD Xiaohongshu QR code" width="220">
   <p><em>[RedBook] until 2025-Nov-25</em></p>
-  <p>📱 或添加微信：<strong>tiumo-</strong> (备注“VAD”，拉你进群)</p>
+  <p>📱 或添加微信：<strong>tiumo-</strong> (备注“VAD”， <del>拉你进群</del> 人太少了，多多交流)</p>
 </div>
 
 ---
