@@ -67,8 +67,8 @@ The `venues/` directory hosts per-conference notes for 2023-2025. Quick links:
 
 ## 📰 Journal Snapshots
 
-The `journals/` directory hosts per-journal notes for top-tier academic journals. Quick links:
-
+See [journals/README.md](journals/README.md) for the latest top-tier journal snapshots. 
+Including:
 - [TPAMI](journals/tpami.md) — IEEE Transactions on Pattern Analysis and Machine Intelligence
 - [TIP](journals/tip.md) — IEEE Transactions on Image Processing
 - [TNNLS](journals/tnnls.md) — IEEE Transactions on Neural Networks and Learning Systems
