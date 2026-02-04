@@ -294,6 +294,7 @@
             pointer-events: none; white-space: nowrap; transition: opacity 0.6s ease, transform 0.6s ease;
         }
         .light-theme .bg-year-watermark { opacity: 0.008; }
+        .is-exporting .bg-year-watermark { opacity: 0 !important; }
         
         .nav-btn {
             background: rgba(255,255,255,0.03); backdrop-filter: blur(4px);
@@ -330,6 +331,12 @@
         .light-theme .export-btn:hover {
             background: rgba(15, 23, 42, 0.08);
             color: #0f172a;
+        }
+
+        .is-exporting .bing-bg,
+        .is-exporting #bg-canvas,
+        .is-exporting #click-canvas {
+            display: none !important;
         }
 
         /* Pop-up design */
@@ -550,12 +557,20 @@
 
             const captureExportCanvas = async (target, options = {}) => {
                 if (!target || !window.html2canvas) return null;
-                return await window.html2canvas(target, {
-                    backgroundColor: null,
-                    useCORS: true,
-                    scale: 2,
-                    ...options
-                });
+                document.body.classList.add('is-exporting');
+                try {
+                    if (document.fonts && document.fonts.ready) {
+                        await document.fonts.ready;
+                    }
+                    return await window.html2canvas(target, {
+                        backgroundColor: null,
+                        useCORS: true,
+                        scale: 2,
+                        ...options
+                    });
+                } finally {
+                    document.body.classList.remove('is-exporting');
+                }
             };
 
             const handleExportPng = async () => {
