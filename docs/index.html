@@ -10,8 +10,6 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-        <!-- YAML parser (for human-friendly data editing) -->
-        <script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <!-- Elegant Handwriting Fonts: Added Italianno -->
     <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
     
@@ -351,23 +349,44 @@
 
         const CONF_MONTHS = { "AAAI": 2, "CVPR": 6, "ICML": 7, "ECCV": 10, "ACM MM": 10, "ICCV": 10, "NeurIPS": 12 };
 
-        // Data is loaded from ./data.yaml for easier human editing
-            let PAPER_DATA = [];
+        // Fully reconstructed data based on provided image_87bde7.jpg
+        const PAPER_DATA = [
+            // 2023
+            { name: "EVAL", title: "Explainable Video Anomaly Detection via Multi-Grained Reasoning", year: "2023", conf: "CVPR'23", type: "llm", logo: "https://upload.wikimedia.org/wikipedia/commons/4/40/Tsinghua_University_Logo.svg", anno: "Explainable VAD Architecture", arxiv: "https://arxiv.org/abs/2303.11111", github: "https://github.com/2-mo/EVAL" },
+            { name: "PZAAR", title: "PZAAR: Contrastive Representation Learning for VAD", year: "2023", conf: "CVPR'23", type: "llm", logo: "https://upload.wikimedia.org/wikipedia/commons/1/13/Peking_University_Logo.svg", anno: "Contrastive Learning", arxiv: "https://arxiv.org/abs/2303.22222", github: "https://github.com/2-mo/PZAAR", badge: "CORE", level: 1 },
 
-            async function loadPaperData() {
-                try {
-                    const res = await fetch('https://raw.githubusercontent.com/2-mo/Awesome-Thinking-with-VAD/main/docs/public/data.yaml', { cache: 'no-store' });
-                    if (!res.ok) throw new Error(`Failed to load data.yaml (${res.status})`);
-                    const text = await res.text();
-                    const parsed = jsyaml.load(text);
-                    if (Array.isArray(parsed)) return parsed;
-                    if (parsed && Array.isArray(parsed.data)) return parsed.data;
-                    return [];
-                } catch (err) {
-                    console.warn('Failed to load raw GitHub data.yaml. Falling back to window.PAPER_DATA.', err);
-                    return window.PAPER_DATA || [];
-                }
-            }
+            // 2024
+            { name: "VadCLIP", title: "VadCLIP: Vision-Language Models for VAD", year: "2024", conf: "AAAI'24", type: "clip", logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Emblem_of_CU.png", anno: "Multimodal Foundation", arxiv: "https://arxiv.org/abs/2308.11681", github: "https://github.com/ByZ0e/VadCLIP" },
+            { name: "STPrompt", title: "STPrompt: Spatio-Temporal Prompting for Multimodal VAD", year: "2024", conf: "ACM MM'24", type: "clip", anno: "Spatio-Temporal Prompting" },
+            { name: "TDSD", title: "Task-Driven Feature Distillation for ST Anomaly Detection", year: "2024", conf: "ACM MM'24", type: "clip", anno: "Distillation" },
+            { name: "LAVAD", title: "LAVAD: Language-Augmented Training-Free VAD", year: "2024", conf: "CVPR'24", type: "llm", logo: "https://upload.wikimedia.org/wikipedia/commons/b/b5/National_University_of_Singapore_logo.svg", anno: "Training-free", badge: "HOT", level: 1, badgeColor: "#be123c" },
+            { name: "PE-MIL", title: "Prompt-Enhanced MIL for Video Anomaly Detection", year: "2024", conf: "CVPR'24", type: "llm", anno: "Prompt-Enhanced" },
+            { name: "TPWNG", title: "Temporal Preference Weakly-supervised VAD", year: "2024", conf: "CVPR'24", type: "llm", anno: "Weakly Supervised" },
+            { name: "MULDE", title: "MULDE: Multi-Teacher Knowledge Distillation for VAD", year: "2024", conf: "CVPR'24", type: "llm", anno: "Multi-Teacher Distillation" },
+            { name: "CUVA", title: "CUVA: A Causal Inference Benchmark for VAD Analysis", year: "2024", conf: "CVPR'24", type: "dataset", logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Emblem_of_CU.png", anno: "Causation" },
+            { name: "PhyAD", title: "PhyAD: Physics-Grounded Video Anomaly Detection", year: "2024", conf: "CVPR'24", type: "dataset", anno: "Physics-Grounded" },
+            { name: "AnomalyRuler", title: "AnomalyRuler: Logical Ruler Reasoning for VAD", year: "2024", conf: "ECCV'24", type: "llm", anno: "Ruler-based" },
+            { name: "AdaCLIP", title: "AdaCLIP: Adaptive Alignment of Vision-Language Models", year: "2024", conf: "ECCV'24", type: "clip", anno: "Adaptive Alignment" },
+            { name: "FedVAD", title: "FedVAD: Privacy-Preserving Federated VAD", year: "2024", conf: "ECCV'24", type: "llm", anno: "Privacy Protection" },
+            { name: "HawkEye", title: "HawkEye: An Emotion-Oriented Dataset for VAD", year: "2024", conf: "ACM MM'24", type: "dataset", anno: "Emotion Analysis" },
+            { name: "HAWK", title: "HAWK: Open-World Video Anomaly Detection Benchmark", year: "2024", conf: "NeurIPS'24", type: "dataset", anno: "Open-World" },
+            { name: "VarCMP", title: "Variable-Context Modeling and Prediction for VAD", year: "2024", conf: "AAAI'24", type: "clip", anno: "Variable Context" },
+            { name: "Fed-WAVAD", title: "Federated Weakly-supervised Video Anomaly Detection", year: "2024", conf: "AAAI'24", type: "clip", anno: "Federated Learning" },
+
+            // 2025
+            { name: "VERA", title: "VERA: Verbalized Learning for Video Anomaly Detection", year: "2025", conf: "CVPR'25", type: "llm", anno: "Verbalized Learning" },
+            { name: "Holmes-VAU", title: "Holmes-VAU: Multi-Grained Reasoning for VAU", year: "2025", conf: "CVPR'25", type: "dataset", anno: "Multi-Grained" },
+            { name: "Ex-VAD", title: "Ex-VAD: Explainable Fine-Grained Video Anomaly Detection", year: "2025", conf: "ICML'25", type: "llm", anno: "Fine-Grained" },
+            { name: "VA-GPT", title: "VA-GPT: Token Sampling Paradigm for Video Anomaly Detection", year: "2025", conf: "ICCV'25", type: "dataset", anno: "Token Sampling" },
+            { name: "HiProbe-VAD", title: "HiProbe: Hierarchical Probing for Multimodal VAD", year: "2025", conf: "ACM MM'25", type: "llm", anno: "Hierarchical Probing" },
+            { name: "EventVAD", title: "EventVAD: Detection in Event-based Video Streams", year: "2025", conf: "ACM MM'25", type: "llm", anno: "Event-based" },
+            { name: "Vad-R1", title: "Vad-R1: Perception-to-Cognition Reasoning Dataset", year: "2025", conf: "NeurIPS'25", type: "dataset", logo: "https://upload.wikimedia.org/wikipedia/commons/1/13/Peking_University_Logo.svg", anno: "Perception-to-Cognition", badge: "IMPORTANT", level: 1 },
+            { name: "PANDA", title: "PANDA: Prompt Analysis and Reasoning for VAD", year: "2025", conf: "NeurIPS'25", type: "llm", anno: "Prompt Analysis" },
+            { name: "URF-VAA", title: "URF-VAA: Uncertainty Refinement in Video Anomaly Analysis", year: "2025", conf: "NeurIPS'25", type: "llm", anno: "Uncertainty Refinement" },
+            { name: "VADTree", title: "VADTree: Hierarchical Detection Tree for VAD", year: "2025", conf: "NeurIPS'25", type: "llm", anno: "Hierarchical Tree" },
+            { name: "MoniTor", title: "MoniTor: A Systematic Paradigm for Monitor-based VAD", year: "2025", conf: "NeurIPS'25", type: "llm", anno: "Monitor Paradigm" },
+            { name: "A2Seek", title: "A2Seek: Drone-view Benchmark and Graph-of-Thought for VAD", year: "2025", conf: "NeurIPS'25", type: "dataset", anno: "Drone-view & GoT" }
+        ];
 
         // UI Components
         function Icon({ name, size = 16, className = "" }) {
@@ -821,11 +840,8 @@
             );
         }
 
-        (async () => {
-            PAPER_DATA = await loadPaperData();
-            const root = ReactDOM.createRoot(document.getElementById('root'));
-            root.render(<App />);
-        })();
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
