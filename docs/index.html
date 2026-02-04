@@ -356,7 +356,7 @@
 
             async function loadPaperData() {
                 try {
-                    const res = await fetch('public/data.yaml', { cache: 'no-store' });
+                    const res = await fetch('https://raw.githubusercontent.com/2-mo/Awesome-Thinking-with-VAD/main/docs/public/data.yaml', { cache: 'no-store' });
                     if (!res.ok) throw new Error(`Failed to load data.yaml (${res.status})`);
                     const text = await res.text();
                     const parsed = jsyaml.load(text);
@@ -364,7 +364,7 @@
                     if (parsed && Array.isArray(parsed.data)) return parsed.data;
                     return [];
                 } catch (err) {
-                    console.warn('Failed to load public/data.yaml. Falling back to window.PAPER_DATA.', err);
+                    console.warn('Failed to load raw GitHub data.yaml. Falling back to window.PAPER_DATA.', err);
                     return window.PAPER_DATA || [];
                 }
             }
@@ -388,7 +388,7 @@
         function BrandIcon({ name, size = 10 }) {
             if (name === "Arxiv") return (
                 <div className="flex items-center justify-center shrink-0">
-                    <img src="public/base/arxiv-logomark-small.svg" alt="arXiv" style={{ height: `${size}px` }} />
+                    <img src="https://raw.githubusercontent.com/2-mo/Awesome-Thinking-with-VAD/main/docs/public/base/arxiv-logomark-small.svg" alt="arXiv" style={{ height: `${size}px` }} />
                 </div>
             );
             return null;
