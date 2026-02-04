@@ -554,10 +554,36 @@
                 if (document.fonts && document.fonts.ready) {
                     await document.fonts.ready;
                 }
+                
+                // Use higher scale for better resolution (pseudo-vector quality)
+                const scale = options.scale || 3;
+
                 return await window.html2canvas(target, {
                     backgroundColor: null,
                     useCORS: true,
-                    scale: 2,
+                    scale: scale,
+                    logging: false,
+                    // Critical: Maintain current window width so CSS (vw/vh) remains accurate
+                    windowWidth: window.innerWidth,
+                    windowHeight: window.innerHeight,
+                    // Ensure capture starts from top-left offset
+                    x: 0,
+                    y: 0,
+                    scrollX: 0,
+                    scrollY: 0,
+                    onclone: (clonedDoc) => {
+                        // Fix for text offset/misalignment issues
+                        const body = clonedDoc.body;
+                        body.style.fontVariant = 'normal';
+                        body.style.fontFeatureSettings = '"liga" 0';
+                        
+                        // Ensure target is fully visible and not constrained
+                        const clonedTarget = body.querySelector('[data-timeline-target]');
+                        if (clonedTarget) {
+                            clonedTarget.style.transform = 'none';
+                            clonedTarget.style.overflow = 'visible';
+                        }
+                    },
                     ...options
                 });
             };
@@ -568,12 +594,18 @@
                 try {
                     const target = timelineRef.current;
                     if (!target) return;
+                    
+                    target.setAttribute('data-timeline-target', 'true');
+                    
                     const canvas = await captureExportCanvas(target, {
                         width: target.scrollWidth,
                         height: target.scrollHeight,
-                        windowWidth: target.scrollWidth,
-                        windowHeight: target.scrollHeight
+                        // Do not override windowWidth with scrollWidth to preserve layout
+                        windowWidth: window.innerWidth 
                     });
+                    
+                    target.removeAttribute('data-timeline-target');
+
                     if (!canvas) return;
                     const link = document.createElement('a');
                     link.download = 'vad-timeline.png';
@@ -590,22 +622,40 @@
                 try {
                     const target = timelineRef.current;
                     if (!target) return;
+                    
+                    target.setAttribute('data-timeline-target', 'true');
+
+                    // Scale 4 for high-dpi PDF
+                    const scale = 4;
                     const canvas = await captureExportCanvas(target, {
+                        scale: scale,
                         width: target.scrollWidth,
                         height: target.scrollHeight,
-                        windowWidth: target.scrollWidth,
-                        windowHeight: target.scrollHeight
+                        windowWidth: window.innerWidth
                     });
+                    
+                    target.removeAttribute('data-timeline-target');
+
                     if (!canvas || !window.jspdf) return;
+                    
+                    // Use JPEG for PDF to save size on massive high-res images, or PNG for quality. 
+                    // PNG is safer for text sharpness.
                     const dataUrl = canvas.toDataURL('image/png');
                     const { jsPDF } = window.jspdf;
+                    
                     const orientation = canvas.width >= canvas.height ? 'landscape' : 'portrait';
+                    
+                    // Calculate logical size based on scale to keep PDF measurements sane (1px = 1pt roughly)
+                    const logicalWidth = canvas.width / scale;
+                    const logicalHeight = canvas.height / scale;
+
                     const pdf = new jsPDF({
                         orientation,
                         unit: 'px',
-                        format: [canvas.width, canvas.height]
+                        format: [logicalWidth, logicalHeight]
                     });
-                    pdf.addImage(dataUrl, 'PNG', 0, 0, canvas.width, canvas.height);
+                    
+                    pdf.addImage(dataUrl, 'PNG', 0, 0, logicalWidth, logicalHeight);
                     pdf.save('vad-timeline.pdf');
                 } finally {
                     setIsExporting(false);
