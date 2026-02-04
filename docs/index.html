@@ -187,12 +187,11 @@
             mix-blend-mode: screen;
         }
         .light-theme .card-glass::before {
-            background: radial-gradient(
-                circle 200px at var(--glow-x, -100px) var(--glow-y, -100px),
-                rgba(255, 255, 255, 0.7),
-                rgba(255, 255, 255, 0.3) 35%,
-                transparent 70%
-            );
+            background: none;
+            opacity: 0 !important;
+        }
+        .light-theme .card-glass:hover::before {
+            opacity: 0 !important;
         }
         .card-glass:hover::before {
             opacity: 1;
