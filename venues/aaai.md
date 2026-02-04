@@ -6,6 +6,13 @@
 - 2024: [VadCLIP](#-vadclip-adapting-vision-language-models-for-weakly-supervised-video-anomaly-detection)（CLIP弱监督）、 [SDAC](#-sdac-a-multimodal-synthetic-dataset-for-anomaly-and-corner-case-detection-in-autonomous-driving)（自动驾驶数据集）
 - 2023: [MGFN](#-mgfn-magnitude-contrastive-glance-and-focus-network-for-weakly-supervised-video-anomaly-detection)（对比学习）、 [Mean-Shifted Contrastive](#-mean-shifted-contrastive-loss-for-anomaly-detection)（均值偏移）、 [Event-Relevant Factors](#-learning-event-relevant-factors-for-video-anomaly-detection)（事件因子）、 [UR-DMU](#-dual-memory-units-with-uncertainty-regulation-for-weakly-supervised-video-anomaly-detection)（不确定性记忆）
 
+
+## 2026
+
+
+
+
+
 ## 2025
 - Accepted papers: <https://dblp.org/db/conf/aaai/aaai2025.html>
 - Observations:
