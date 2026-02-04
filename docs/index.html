@@ -145,6 +145,23 @@
             right: 0 !important;
         }
 
+        .export-capture .atlas-handwritten-title {
+            white-space: nowrap !important;
+        }
+
+        .copyright-note {
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            opacity: 0.5;
+            white-space: nowrap;
+        }
+
+        .export-capture .copyright-note {
+            position: absolute !important;
+            right: 24px !important;
+            bottom: 12px !important;
+        }
+
         .export-svg .truncate {
             overflow: visible !important;
             text-overflow: clip !important;
@@ -650,6 +667,7 @@
             const [theme, setTheme] = useState('system');
             const [resolvedDarkMode, setResolvedDarkMode] = useState(true);
             const [isExporting, setIsExporting] = useState(false);
+            const currentYear = new Date().getFullYear();
             const scrollRef = useRef(null);
             const exportRef = useRef(null);
             const timelineRef = useRef(null);
@@ -1136,6 +1154,12 @@
                                 <span className={`text-[10.5px] font-black uppercase tracking-widest ${resolvedDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>{v.label}</span>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="fixed bottom-4 right-6 z-50 pointer-events-none copyright-note">
+                        <a href="https://github.com/2-mo" target="_blank" rel="noopener noreferrer" className="pointer-events-auto hover:opacity-80 transition-opacity">
+                            {'\u00A9'} {currentYear} @2-mo
+                        </a>
                     </div>
 
                     {activeItem && (
