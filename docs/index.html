@@ -10,6 +10,9 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Export helpers -->
+    <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <!-- Elegant Handwriting Fonts: Added Italianno -->
     <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
     
@@ -303,6 +306,33 @@
         .light-theme .nav-btn:hover { background: #eef2f7; border-color: rgba(15, 23, 42, 0.14); color: #0f172a; }
         .nav-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #fff; transform: translateY(-1px); }
 
+        .export-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            font-size: 11px; font-weight: 900; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 8px; transition: all 0.25s ease;
+        }
+        .export-btn:hover {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .export-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .light-theme .export-btn {
+            background: rgba(15, 23, 42, 0.04);
+            border-color: rgba(15, 23, 42, 0.08);
+            color: #334155;
+        }
+        .light-theme .export-btn:hover {
+            background: rgba(15, 23, 42, 0.08);
+            color: #0f172a;
+        }
+
         /* Pop-up design */
         .modal-container {
             background-color: var(--card-bg); backdrop-filter: blur(16px);
@@ -513,8 +543,71 @@
             const [activeItem, setActiveItem] = useState(null);
             const [theme, setTheme] = useState('system');
             const [resolvedDarkMode, setResolvedDarkMode] = useState(true);
+            const [isExporting, setIsExporting] = useState(false);
             const scrollRef = useRef(null);
+            const exportRef = useRef(null);
+            const timelineRef = useRef(null);
             const COLUMN_WIDTH = 200; 
+
+            const captureExportCanvas = async (target, options = {}) => {
+                if (!target || !window.html2canvas) return null;
+                return await window.html2canvas(target, {
+                    backgroundColor: null,
+                    useCORS: true,
+                    scale: 2,
+                    ...options
+                });
+            };
+
+            const handleExportPng = async () => {
+                if (isExporting) return;
+                setIsExporting(true);
+                try {
+                    const target = timelineRef.current;
+                    if (!target) return;
+                    const canvas = await captureExportCanvas(target, {
+                        width: target.scrollWidth,
+                        height: target.scrollHeight,
+                        windowWidth: target.scrollWidth,
+                        windowHeight: target.scrollHeight
+                    });
+                    if (!canvas) return;
+                    const link = document.createElement('a');
+                    link.download = 'vad-timeline.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                } finally {
+                    setIsExporting(false);
+                }
+            };
+
+            const handleExportPdf = async () => {
+                if (isExporting) return;
+                setIsExporting(true);
+                try {
+                    const target = timelineRef.current;
+                    if (!target) return;
+                    const canvas = await captureExportCanvas(target, {
+                        width: target.scrollWidth,
+                        height: target.scrollHeight,
+                        windowWidth: target.scrollWidth,
+                        windowHeight: target.scrollHeight
+                    });
+                    if (!canvas || !window.jspdf) return;
+                    const dataUrl = canvas.toDataURL('image/png');
+                    const { jsPDF } = window.jspdf;
+                    const orientation = canvas.width >= canvas.height ? 'landscape' : 'portrait';
+                    const pdf = new jsPDF({
+                        orientation,
+                        unit: 'px',
+                        format: [canvas.width, canvas.height]
+                    });
+                    pdf.addImage(dataUrl, 'PNG', 0, 0, canvas.width, canvas.height);
+                    pdf.save('vad-timeline.pdf');
+                } finally {
+                    setIsExporting(false);
+                }
+            };
 
             useEffect(() => {
                 const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -766,7 +859,7 @@
             }, []);
 
             return (
-                <div className="h-screen w-full flex flex-col relative overflow-hidden">
+                <div ref={exportRef} className="h-screen w-full flex flex-col relative overflow-hidden">
                     <div className="top-left-bar">
                         <button onClick={() => setTheme(prev => prev === 'dark' ? 'light' : prev === 'light' ? 'system' : 'dark')} className="theme-toggle-btn">
                             <Icon name={theme === 'dark' ? "Moon" : theme === 'light' ? "Sun" : "Monitor"} size={16} />
@@ -774,6 +867,14 @@
                     </div>
 
                     <div className="top-right-bar">
+                        <div className="flex items-center gap-2 mr-3">
+                            <button className="export-btn" onClick={handleExportPng} disabled={isExporting}>
+                                {isExporting ? '...' : 'PNG'}
+                            </button>
+                            <button className="export-btn" onClick={handleExportPdf} disabled={isExporting}>
+                                {isExporting ? '...' : 'PDF'}
+                            </button>
+                        </div>
                         <div className="github-link-group relative flex items-center">
                             <div className="star-tooltip">Star to Support Updates ✨</div>
                             <a href={GITHUB_LINK} target="_blank">
@@ -793,7 +894,7 @@
                     </div>
 
                     <main ref={scrollRef} className="flex-1 panorama-viewport no-scrollbar relative pt-[120px] pb-[60px]">
-                        <div className="inline-flex h-full items-stretch pl-[45vw] pr-[10vw] relative" style={{ minWidth: `${timeline.length * COLUMN_WIDTH + 100}px` }}>
+                        <div ref={timelineRef} className="inline-flex h-full items-stretch pl-[45vw] pr-[10vw] relative" style={{ minWidth: `${timeline.length * COLUMN_WIDTH + 100}px` }}>
                             <div className="timeline-spine" />
                             <div className="absolute inset-0 flex items-center pointer-events-none select-none z-[-10]">
                                 {['2023', '2024', '2025'].map(y => {
