@@ -10,9 +10,8 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Export helpers -->
-    <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <!-- SnapDOM (DOM to image) -->
+    <script src="https://cdn.jsdelivr.net/npm/@zumer/snapdom@2.0.2/dist/snapdom.min.js"></script>
     <!-- Elegant Handwriting Fonts: Added Italianno -->
     <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
     
@@ -112,6 +111,107 @@
             user-select: none;
             overflow-x: auto;
             overflow-y: hidden;
+        }
+
+        .export-freeze * {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        .export-capture .top-left-bar,
+        .export-capture .top-right-bar,
+        .export-capture .fixed.top-44 {
+            display: none !important;
+        }
+
+        .export-capture {
+            background-color: var(--bg-color) !important;
+            background-image: none !important;
+        }
+
+        .export-capture #bg-canvas,
+        .export-capture #click-canvas {
+            display: none !important;
+        }
+
+        .export-capture .panorama-viewport {
+            overflow: visible !important;
+        }
+
+        .export-capture .fixed.top-12,
+        .export-capture .fixed.bottom-10 {
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+        }
+
+        .export-bg {
+            position: absolute;
+            inset: 0;
+            background: var(--bg-color);
+            z-index: -35;
+            pointer-events: none;
+        }
+
+        @media print {
+            @page {
+                size: auto;
+                margin: 0mm;
+            }
+            body {
+                background-color: white !important;
+                color: black !important;
+                overflow: visible !important;
+                height: auto !important;
+                width: auto !important;
+            }
+            /* Hide UI elements */
+            .top-left-bar, .top-right-bar, .fixed, 
+            .theme-toggle-btn, .export-btn, .nav-btn,
+            #bg-canvas, #click-canvas, .bing-bg {
+                display: none !important;
+            }
+            
+            /* Reset layout constraints for full content exposure */
+            #root, .h-screen, .panorama-viewport {
+                height: auto !important;
+                width: auto !important;
+                position: static !important;
+                overflow: visible !important;
+                display: block !important;
+            }
+            
+            /* Ensure the timeline container expands fully */
+            .inline-flex {
+                display: flex !important;
+                flex-wrap: wrap !important; /* Wrap for vertical printing */
+                width: 100% !important;
+                min-width: 0 !important;
+                padding: 0 !important;
+                transform: none !important;
+                left: 0 !important;
+            }
+
+            /* Adjust card styling for print ink */
+            .card-glass {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+                color: black !important;
+            }
+            .text-slate-100, .text-slate-800 {
+                color: black !important;
+            }
+
+            /* Convert horizontal layout to vertical flow for printable pages */
+            /* This transforms the timeline from a long strip to a list of years/columns */
+            .inline-flex > div {
+                 border-right: none !important;
+                 border-bottom: 2px solid #eee;
+                 margin-bottom: 20px;
+                 padding-bottom: 20px;
+            }
         }
         .panorama-viewport:active { cursor: grabbing; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -431,7 +531,7 @@
     { name: "URF-VAA", title: "URF-VAA: Uncertainty Refinement in Video Anomaly Analysis", year: "2025", conf: "NeurIPS'25", type: "llm", anno: "Uncertainty Refinement", arxiv: "https://arxiv.org/abs/2412.33333" },
     { name: "VADTree", title: "VADTree: Hierarchical Detection Tree for Video Anomaly Detection", year: "2025", conf: "NeurIPS'25", type: "llm", anno: "Hierarchical Tree", arxiv: "https://arxiv.org/abs/2412.44444" },
     { name: "MoniTor", title: "MoniTor: A Systematic Paradigm for Monitor-based Video Anomaly Detection", year: "2025", conf: "NeurIPS'25", type: "llm", anno: "Monitor Paradigm", arxiv: "https://arxiv.org/abs/2412.55555" },
-    { name: "A2Seek", title: "A2Seek: Drone-view Benchmark and Graph-of-Thought for Video Anomaly Detection", year: "2025", conf: "NeurIPS'25", type: "dataset", anno: "Drone-view & GoT", arxiv: "https://arxiv.org/abs/2412.66666" }
+    { name: "A2Seek", title: "A2Seek: Drone-view Benchmark and Graph-of-Thought for Video Anomaly Detection", year: "2025", conf: "NeurIPS'25", type: "dataset", anno: "Drone-view & GoT", arxiv: "https://arxiv.org/abs/2412.66666", github: "https://github.com/2-mo/A2Seek"}
 ];
 
         // UI Components
@@ -549,118 +649,6 @@
             const timelineRef = useRef(null);
             const COLUMN_WIDTH = 200; 
 
-            const captureExportCanvas = async (target, options = {}) => {
-                if (!target || !window.html2canvas) return null;
-                if (document.fonts && document.fonts.ready) {
-                    await document.fonts.ready;
-                }
-                
-                // Use higher scale for better resolution (pseudo-vector quality)
-                const scale = options.scale || 3;
-
-                return await window.html2canvas(target, {
-                    backgroundColor: null,
-                    useCORS: true,
-                    scale: scale,
-                    logging: false,
-                    // Critical: Maintain current window width so CSS (vw/vh) remains accurate
-                    windowWidth: window.innerWidth,
-                    windowHeight: window.innerHeight,
-                    // Ensure capture starts from top-left offset
-                    x: 0,
-                    y: 0,
-                    scrollX: 0,
-                    scrollY: 0,
-                    onclone: (clonedDoc) => {
-                        // Fix for text offset/misalignment issues
-                        const body = clonedDoc.body;
-                        body.style.fontVariant = 'normal';
-                        body.style.fontFeatureSettings = '"liga" 0';
-                        
-                        // Ensure target is fully visible and not constrained
-                        const clonedTarget = body.querySelector('[data-timeline-target]');
-                        if (clonedTarget) {
-                            clonedTarget.style.transform = 'none';
-                            clonedTarget.style.overflow = 'visible';
-                        }
-                    },
-                    ...options
-                });
-            };
-
-            const handleExportPng = async () => {
-                if (isExporting) return;
-                setIsExporting(true);
-                try {
-                    const target = timelineRef.current;
-                    if (!target) return;
-                    
-                    target.setAttribute('data-timeline-target', 'true');
-                    
-                    const canvas = await captureExportCanvas(target, {
-                        width: target.scrollWidth,
-                        height: target.scrollHeight,
-                        // Do not override windowWidth with scrollWidth to preserve layout
-                        windowWidth: window.innerWidth 
-                    });
-                    
-                    target.removeAttribute('data-timeline-target');
-
-                    if (!canvas) return;
-                    const link = document.createElement('a');
-                    link.download = 'vad-timeline.png';
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                } finally {
-                    setIsExporting(false);
-                }
-            };
-
-            const handleExportPdf = async () => {
-                if (isExporting) return;
-                setIsExporting(true);
-                try {
-                    const target = timelineRef.current;
-                    if (!target) return;
-                    
-                    target.setAttribute('data-timeline-target', 'true');
-
-                    // Scale 4 for high-dpi PDF
-                    const scale = 4;
-                    const canvas = await captureExportCanvas(target, {
-                        scale: scale,
-                        width: target.scrollWidth,
-                        height: target.scrollHeight,
-                        windowWidth: window.innerWidth
-                    });
-                    
-                    target.removeAttribute('data-timeline-target');
-
-                    if (!canvas || !window.jspdf) return;
-                    
-                    // Use JPEG for PDF to save size on massive high-res images, or PNG for quality. 
-                    // PNG is safer for text sharpness.
-                    const dataUrl = canvas.toDataURL('image/png');
-                    const { jsPDF } = window.jspdf;
-                    
-                    const orientation = canvas.width >= canvas.height ? 'landscape' : 'portrait';
-                    
-                    // Calculate logical size based on scale to keep PDF measurements sane (1px = 1pt roughly)
-                    const logicalWidth = canvas.width / scale;
-                    const logicalHeight = canvas.height / scale;
-
-                    const pdf = new jsPDF({
-                        orientation,
-                        unit: 'px',
-                        format: [logicalWidth, logicalHeight]
-                    });
-                    
-                    pdf.addImage(dataUrl, 'PNG', 0, 0, logicalWidth, logicalHeight);
-                    pdf.save('vad-timeline.pdf');
-                } finally {
-                    setIsExporting(false);
-                }
-            };
 
             useEffect(() => {
                 const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -675,6 +663,152 @@
             }, [theme]);
 
             useEffect(() => { document.body.classList.toggle('light-theme', !resolvedDarkMode); }, [resolvedDarkMode]);
+
+            const handleExportPng = async () => {
+                if (isExporting) return;
+                const snap = window.snapdom || window.SnapDOM;
+                if (!timelineRef.current || !exportRef.current || !scrollRef.current || !snap) {
+                    console.error('SnapDOM not available.');
+                    return;
+                }
+                setIsExporting(true);
+                document.body.classList.add('export-freeze');
+                let prevExportWidth = '';
+                let prevExportMinWidth = '';
+                let prevExportBg = '';
+                let prevScrollerWidth = '';
+                let prevScrollerOverflow = '';
+                try {
+                    const timelineNode = timelineRef.current;
+                    const exportNode = exportRef.current;
+                    const scroller = scrollRef.current;
+                    const scrollerStyle = getComputedStyle(scroller);
+                    const padLeft = parseFloat(scrollerStyle.paddingLeft) || 0;
+                    const padRight = parseFloat(scrollerStyle.paddingRight) || 0;
+                    const fullWidth = timelineNode.scrollWidth + padLeft + padRight;
+                    const fullHeight = exportNode.scrollHeight;
+
+                    prevExportWidth = exportNode.style.width;
+                    prevExportMinWidth = exportNode.style.minWidth;
+                    prevExportBg = exportNode.style.backgroundColor;
+                    prevScrollerWidth = scroller.style.width;
+                    prevScrollerOverflow = scroller.style.overflow;
+
+                    exportNode.classList.add('export-capture');
+                    exportNode.style.width = `${fullWidth}px`;
+                    exportNode.style.minWidth = `${fullWidth}px`;
+                    exportNode.style.backgroundColor = getComputedStyle(document.body).backgroundColor;
+                    scroller.style.width = `${fullWidth}px`;
+                    scroller.style.overflow = 'visible';
+                    scroller.scrollLeft = 0;
+
+                    const bg = getComputedStyle(document.body).backgroundColor;
+                    const capture = await snap(exportNode, {
+                        backgroundColor: bg,
+                        width: fullWidth,
+                        height: fullHeight,
+                        scale: 2,
+                        embedFonts: true,
+                        cache: 'soft',
+                        outerTransforms: true,
+                        outerShadows: true
+                    });
+                    await capture.download({
+                        format: 'png',
+                        filename: 'vad-timeline'
+                    });
+                } catch (err) {
+                    console.error('PNG export failed:', err);
+                } finally {
+                    const exportNode = exportRef.current;
+                    const scroller = scrollRef.current;
+                    if (exportNode && scroller) {
+                        exportNode.classList.remove('export-capture');
+                        exportNode.style.width = prevExportWidth;
+                        exportNode.style.minWidth = prevExportMinWidth;
+                        exportNode.style.backgroundColor = prevExportBg;
+                        scroller.style.width = prevScrollerWidth;
+                        scroller.style.overflow = prevScrollerOverflow;
+                    }
+                    document.body.classList.remove('export-freeze');
+                    setIsExporting(false);
+                }
+            };
+
+            const handleExportSvg = async () => {
+                if (isExporting) return;
+                const snap = window.snapdom || window.SnapDOM;
+                if (!timelineRef.current || !exportRef.current || !scrollRef.current || !snap) {
+                    console.error('SnapDOM not available.');
+                    return;
+                }
+                setIsExporting(true);
+                document.body.classList.add('export-freeze');
+                let prevExportWidth = '';
+                let prevExportMinWidth = '';
+                let prevExportBg = '';
+                let prevScrollerWidth = '';
+                let prevScrollerOverflow = '';
+                try {
+                    const timelineNode = timelineRef.current;
+                    const exportNode = exportRef.current;
+                    const scroller = scrollRef.current;
+                    const scrollerStyle = getComputedStyle(scroller);
+                    const padLeft = parseFloat(scrollerStyle.paddingLeft) || 0;
+                    const padRight = parseFloat(scrollerStyle.paddingRight) || 0;
+                    const fullWidth = timelineNode.scrollWidth + padLeft + padRight;
+                    const fullHeight = exportNode.scrollHeight;
+
+                    prevExportWidth = exportNode.style.width;
+                    prevExportMinWidth = exportNode.style.minWidth;
+                    prevExportBg = exportNode.style.backgroundColor;
+                    prevScrollerWidth = scroller.style.width;
+                    prevScrollerOverflow = scroller.style.overflow;
+
+                    exportNode.classList.add('export-capture');
+                    exportNode.style.width = `${fullWidth}px`;
+                    exportNode.style.minWidth = `${fullWidth}px`;
+                    exportNode.style.backgroundColor = getComputedStyle(document.body).backgroundColor;
+                    scroller.style.width = `${fullWidth}px`;
+                    scroller.style.overflow = 'visible';
+                    scroller.scrollLeft = 0;
+
+                    const bg = getComputedStyle(document.body).backgroundColor;
+                    const capture = await snap(exportNode, {
+                        backgroundColor: bg,
+                        width: fullWidth,
+                        height: fullHeight,
+                        scale: 1,
+                        embedFonts: true,
+                        cache: 'soft',
+                        outerTransforms: true,
+                        outerShadows: true
+                    });
+                    const downloadPromise = capture.download({
+                        format: 'svg',
+                        filename: 'vad-timeline'
+                    });
+                    await Promise.race([
+                        downloadPromise,
+                        new Promise(resolve => setTimeout(resolve, 1200))
+                    ]);
+                } catch (err) {
+                    console.error('SVG export failed:', err);
+                } finally {
+                    const exportNode = exportRef.current;
+                    const scroller = scrollRef.current;
+                    if (exportNode && scroller) {
+                        exportNode.classList.remove('export-capture');
+                        exportNode.style.width = prevExportWidth;
+                        exportNode.style.minWidth = prevExportMinWidth;
+                        exportNode.style.backgroundColor = prevExportBg;
+                        scroller.style.width = prevScrollerWidth;
+                        scroller.style.overflow = prevScrollerOverflow;
+                    }
+                    document.body.classList.remove('export-freeze');
+                    setIsExporting(false);
+                }
+            };
 
             useLayoutEffect(() => {
                 const el = scrollRef.current;
@@ -913,6 +1047,7 @@
 
             return (
                 <div ref={exportRef} className="h-screen w-full flex flex-col relative overflow-hidden">
+                    <div className="export-bg" />
                     <div className="top-left-bar">
                         <button onClick={() => setTheme(prev => prev === 'dark' ? 'light' : prev === 'light' ? 'system' : 'dark')} className="theme-toggle-btn">
                             <Icon name={theme === 'dark' ? "Moon" : theme === 'light' ? "Sun" : "Monitor"} size={16} />
@@ -922,10 +1057,10 @@
                     <div className="top-right-bar">
                         <div className="flex items-center gap-2 mr-3">
                             <button className="export-btn" onClick={handleExportPng} disabled={isExporting}>
-                                {isExporting ? '...' : 'PNG'}
+                                {isExporting ? 'Exporting...' : 'PNG'}
                             </button>
-                            <button className="export-btn" onClick={handleExportPdf} disabled={isExporting}>
-                                {isExporting ? '...' : 'PDF'}
+                            <button className="export-btn" onClick={handleExportSvg} disabled={isExporting}>
+                                {isExporting ? 'Exporting...' : 'SVG'}
                             </button>
                         </div>
                         <div className="github-link-group relative flex items-center">
@@ -946,8 +1081,14 @@
                         ))}
                     </div>
 
-                    <main ref={scrollRef} className="flex-1 panorama-viewport no-scrollbar relative pt-[120px] pb-[60px]">
-                        <div ref={timelineRef} className="inline-flex h-full items-stretch pl-[45vw] pr-[10vw] relative" style={{ minWidth: `${timeline.length * COLUMN_WIDTH + 100}px` }}>
+                    <main ref={scrollRef} className="flex-1 panorama-viewport no-scrollbar relative pt-[120px] pb-[60px] pl-[6vw]">
+                        <div
+                            ref={timelineRef}
+                            className="inline-flex h-full items-stretch pl-[50vw] pr-0 relative"
+                            style={{
+                                minWidth: `${timeline.length * COLUMN_WIDTH + 100}px`
+                            }}
+                        >
                             <div className="timeline-spine" />
                             <div className="absolute inset-0 flex items-center pointer-events-none select-none z-[-10]">
                                 {['2023', '2024', '2025'].map(y => {
@@ -976,6 +1117,7 @@
                                     </div>
                                 </div>
                             ))}
+                            <div className="h-full w-[20vw] shrink-0" aria-hidden="true"></div>
                         </div>
                     </main>
 
@@ -1014,6 +1156,7 @@
                             </div>
                         </div>
                     )}
+
                 </div>
             );
         }
