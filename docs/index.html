@@ -145,6 +145,12 @@
             right: 0 !important;
         }
 
+        .export-svg .truncate {
+            overflow: visible !important;
+            text-overflow: clip !important;
+            white-space: normal !important;
+        }
+
         .export-bg {
             position: absolute;
             inset: 0;
@@ -695,6 +701,7 @@
                     prevScrollerOverflow = scroller.style.overflow;
 
                     exportNode.classList.add('export-capture');
+                    exportNode.classList.add('export-svg');
                     exportNode.style.width = `${fullWidth}px`;
                     exportNode.style.minWidth = `${fullWidth}px`;
                     exportNode.style.backgroundColor = getComputedStyle(document.body).backgroundColor;
@@ -724,6 +731,7 @@
                     const scroller = scrollRef.current;
                     if (exportNode && scroller) {
                         exportNode.classList.remove('export-capture');
+                        exportNode.classList.remove('export-svg');
                         exportNode.style.width = prevExportWidth;
                         exportNode.style.minWidth = prevExportMinWidth;
                         exportNode.style.backgroundColor = prevExportBg;
