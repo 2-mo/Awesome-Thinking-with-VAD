@@ -6,8 +6,8 @@
 > A curated collection of research papers and resources exploring **thoughtful reasoning approaches** in Video Anomaly Detection (VAD), with special focus on Large Language Models (LLMs) and Vision-Language Models (VLMs).
 
 
-
-> 探索视频异常检测中的大模型认知与推理范式
+> 🚧 **This repository is under active construction.** We're continuously adding new papers, refining categorizations, and expanding dataset coverage. Stay tuned for updates!
+> 
 
 [![Interactive Atlas](https://img.shields.io/badge/View-Interactive_Research_Atlas-indigo?style=for-the-badge&logo=react)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
 
@@ -34,12 +34,12 @@
 
 
 <div align="center">
-  <p>📱 或添加微信：<strong>tiumo-</strong> (备注“VAD”， <del>拉你进群</del> 人太少了，多多交流)</p>
+  <p>📧 邮箱：<strong>mo1031@live.com</strong></p>
+  <p>📱 或添加微信：<strong>tiumo-</strong> (备注“VAD”，人太少了，多多交流～)</p>
 </div>
 
 ---
 
-> 🚧 **This repository is under active construction.** We're continuously adding new papers, refining categorizations, and expanding dataset coverage. Stay tuned for updates!
 
 ## 🌟 Overview
 
@@ -150,3 +150,4 @@ This collection is maintained as an open resource for the research community.
 ---
 
 **Star ⭐ this repo if you find it helpful!**
+
