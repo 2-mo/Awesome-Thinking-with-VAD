@@ -9,7 +9,110 @@
 
 ## 2026
 
+#### IAD-R1: Reinforcing Consistent Reasoning in Industrial Anomaly Detection （Oral）
+Yanhui Li; Yunkang Cao; Chengliang Liu; Yuan
+Xiong; Xinghui Dong; Chao Huang
 
+
+#### HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection （Oral）
+
+Zhaolin Cai; Fan Li; Ziwei Zheng; Haixia Bi;
+Lijun He
+
+#### RefineVAD: Semantic-Guided Feature Recalibration for Weakly Supervised Video Anomaly Detection
+Junhee Lee; ChaeBeen Bang; MyoungChul Kim;
+MyeongAh Cho
+
+
+#### FDP: A Frequency-Decomposition Preprocessing Pipeline for Unsupervised Anomaly Detection in Brain MRI
+Hao Li; Zhenfeng Zhuang; Jingyu Lin; Yu Liu; Yifei Chen;
+Qiong Peng; Lequan Yu; Liansheng Wang
+
+
+
+#### AD-FM: Multimodal LLMs for Anomaly Detection via Multi-Stage Reasoning and Fine-Grained Reward Optimization
+
+Jingyi Liao; Yongyi Su; Rong-Cheng Tu; Zhao Jin;
+Wenhao Sun; Yiting Li; Xun Xu; Dacheng Tao; Xulei
+Yang
+
+
+#### PromptMoE: Generalizable Zero-Shot Anomaly Detection via Visually-Guided Prompt Mixtures
+Yuheng Shao; Lizhang Wang; Changhao Li; Peixian Chen;
+Qinyuan Liu
+
+
+#### TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos
+
+Lingru Zhou; Peng Wu; Manqing Zhang; Qingsheng
+Wang; Guansong Pang; Peng Wang
+
+
+#### AnomalyMoE: Towards a Language-free Generalist Model for Unified Visual Anomaly Detection
+Zhaopeng Gu; Bingke Zhu; Guibo Zhu; Yingying Chen;
+Wei Ge; Ming Tang; Jinqiao Wang
+
+
+#### RPE-PAD: Relative Pose Estimation for Pose-agnostic Anomaly Detection
+Zhipeng Zhang; Mengzan Qi; Rongkang Ma; Yingying
+Fang; Guixu Zhang; Tieyong Zeng; Zhi Li
+
+
+#### ICAD-LLM: One-for-All Anomaly Detection via InContext Learning with Large Language Models
+Zhongyuan Wu; Jingyuan Wang; Zexuan Cheng; Yilong
+Zhou; Weizhi Wang; Juhua Pu; Chao Li; Changqing Ma
+
+
+#### AdaptCLIP: Adapting CLIP for Universal Visual Anomaly Detection
+Bin-Bin Gao; Yue Zhou; Jiangtao Yan; Yuezhi Cai; Weixi
+Zhang; Meng Wang; Jun Liu; Yong Liu; Lei Wang;
+Chengjie Wang
+
+
+
+#### Commonality in Few: Few-Shot Multimodal Anomaly Detection via Hypergraph-Enhanced Memory
+
+Yuxuan Lin; Hanjing Yan; Xuan Tong; Yang Chang;
+Huanzhen Wang; Ziheng Zhou; Shuyong Gao; Yan Wang;
+Wenqiang Zhang
+
+
+#### Unsupervised Multi-View Visual Anomaly Detection via Progressive Homography-Guided Alignment
+Xintao Chen; Xiaohao Xu; Bozhong Zheng; Yun Liu;
+Yingna Wu
+
+
+#### Learning to Tell Apart: Weakly Supervised Video Anomaly Detection via Disentangled Semantic Alignment
+Wenti Yin; Huaxin Zhang; Xiang Wang; Yuqing Lu;
+Yicheng Zhang; Bingquan Gong; Jialong Zuo; Li Yu;
+Changxin Gao; Nong Sang
+
+
+
+#### MAU-GPT: Enhancing Multi-type Industrial Anomaly Understanding via Anomaly-aware and Generalist Experts Adaptation
+Zhuonan Wang; Zhenxuan Fan; Siwen Tan; Yu Zhong;
+Yuqian Yuan; Haoyuan Li; Hao Jiang; Wenqiao Zhang;
+Feifei Shao; Hongwei Wang; Jun Xiao
+
+
+#### VAGU & GtS: LLM-Based Benchmark and Framework for Joint Video Anomaly Grounding and Understanding
+
+Shibo Gao; Peipei Yang; Yangyang Liu; Yi Chen; Han
+Zhu; Xu-Yao Zhang; Linlin Huang
+
+
+
+#### Exploring High-order-aware Prompt Learning for Zeroshot Anomaly Detection
+Shun Wei; Jielin Jiang; Xiaolong Xu
+
+
+#### MaskAD: Parallel Masked Autoencoder for Multi-class Unsupervised Anomaly Detection
+Ruiying Lu; Gang Liu; Kang Li; Long Tian; Junwei Zhang
+
+
+#### FineVAU: A Novel Human-Aligned Benchmark for FineGrained Video Anomaly Understanding
+Joao Alexandre Cardeira Pereira; Vasco Lopes; João C.
+Neves; David Semedo
 
 
 

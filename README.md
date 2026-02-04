@@ -1,4 +1,4 @@
-# Awesome Thinking with VAD 🧠🎥
+# Awesome Thinking with VAD 
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -11,16 +11,11 @@
 
 [![Interactive Atlas](https://img.shields.io/badge/View-Interactive_Research_Atlas-indigo?style=for-the-badge&logo=react)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
 
-### 📊 研究演进图谱预览
-[建议放入一张图谱的截图]
-[点击查看交互式全景图](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
-
 
 
 ## 📖 Table of Contents
 
-- [Awesome Thinking with VAD 🧠🎥](#awesome-thinking-with-vad-)
-    - [📊 研究演进图谱预览](#-研究演进图谱预览)
+- [Awesome Thinking with VAD](#awesome-thinking-with-vad)
   - [📖 Table of Contents](#-table-of-contents)
   - [🤝 Stay Connected](#-stay-connected)
   - [🌟 Overview](#-overview)
@@ -61,7 +56,7 @@ Video anomaly detection is evolving from simple frame-level alerts to systems th
 
 ## 📚 Conference Snapshots
 
-The `venues/` directory hosts per-conference notes for 2023-2025. Quick links:
+The `venues/` directory hosts per-conference notes for 2023-2026. Quick links:
 
 - [CVPR](venues/cvpr.md) — Computer Vision and Pattern Recognition
 - [ICCV](venues/iccv.md) — International Conference on Computer Vision
