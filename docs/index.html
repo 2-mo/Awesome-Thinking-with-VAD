@@ -551,17 +551,15 @@
 
             const captureExportCanvas = async (target, options = {}) => {
                 if (!target || !window.html2canvas) return null;
-                try {
-                    if (document.fonts && document.fonts.ready) {
-                        await document.fonts.ready;
-                    }
-                    return await window.html2canvas(target, {
-                        backgroundColor: null,
-                        useCORS: true,
-                        scale: 2,
-                        ...options
-                    });
+                if (document.fonts && document.fonts.ready) {
+                    await document.fonts.ready;
                 }
+                return await window.html2canvas(target, {
+                    backgroundColor: null,
+                    useCORS: true,
+                    scale: 2,
+                    ...options
+                });
             };
 
             const handleExportPng = async () => {
