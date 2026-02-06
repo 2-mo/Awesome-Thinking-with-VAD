@@ -1,49 +1,45 @@
-# Awesome Thinking with VAD 
+# Awesome Thinking with VAD
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> A curated collection of research papers and resources exploring **thoughtful reasoning approaches** in Video Anomaly Detection (VAD), with special focus on Large Language Models (LLMs) and Vision-Language Models (VLMs).
-
+English | [简体中文](README.zh-CN.md)
 
 > 🚧 **This repository is under active construction.** We're continuously adding new papers, refining categorizations, and expanding dataset coverage. Stay tuned for updates!
-> 
 
 [![Interactive Atlas](https://img.shields.io/badge/View-Interactive_Research_Atlas-indigo?style=for-the-badge&logo=react)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
 
+## 🗞️ Recent Updates
 
+- **2026-02-06** — Updated the AAAI paper list.
+- **2026-02-06** — Updated the ICLR paper list.
+- **2026-02-06** — Refreshed the Interactive Atlas timeline page ([View Interactive Research Atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/)).
+
+---
 
 ## 📖 Table of Contents
 
 - [Awesome Thinking with VAD](#awesome-thinking-with-vad)
+  - [🗞️ Recent Updates](#-recent-updates)
   - [📖 Table of Contents](#-table-of-contents)
-  - [🤝 Stay Connected](#-stay-connected)
   - [🌟 Overview](#-overview)
   - [📚 Conference Snapshots](#-conference-snapshots)
   - [📰 Journal Snapshots](#-journal-snapshots)
-  - [� Benchmarks and Datasets](#-benchmarks-and-datasets)
+  - [🧪 Benchmarks and Datasets](#-benchmarks-and-datasets)
   - [🔗 Related Resources](#-related-resources)
     - [Tutorials \& Workshops](#tutorials--workshops)
     - [Related Awesome Lists](#related-awesome-lists)
   - [🤝 Contributing](#-contributing)
+  - [🤝 Stay Connected](#-stay-connected)
   - [📜 License and Credits](#-license-and-credits)
 
 ---
 
-## 🤝 Stay Connected
-
-
-<div align="center">
-  <p>📧 邮箱：<strong>mo1031@live.com</strong></p>
-  <p>📱 或添加微信：<strong>tiumo-</strong> (备注“VAD”，人太少了，多多交流～)</p>
-</div>
-
----
-
-
 ## 🌟 Overview
 
-Video anomaly detection is evolving from simple frame-level alerts to systems that **reason, explain, and communicate** what makes something suspicious. This repository tracks that shift, focusing on methods that leverage **Large Language Models (LLMs)** and **Vision-Language Models (VLMs)** for deeper anomaly understanding.
+This repository is a curated collection of research papers and resources exploring **thoughtful reasoning approaches** in Video Anomaly Detection (VAD), with a special focus on **Large Language Models (LLMs)**, **Vision-Language Models (VLMs)**, and **Video Anomaly Understanding (VAU)**.
+
+Video anomaly detection is evolving from simple frame-level alerts to systems that **reason, explain, and communicate** what makes something suspicious. This repository tracks that shift, focusing on methods that leverage **LLMs** and **VLMs** for deeper anomaly understanding.
 
 **What's inside:**
 - 📚 Conference & journal paper collections organized by venue and year
@@ -72,8 +68,8 @@ The `venues/` directory hosts per-conference notes for 2023-2026. Quick links:
 
 ## 📰 Journal Snapshots
 
-See [journals/README.md](journals/README.md) for the latest top-tier journal snapshots. 
-Including:
+See [journals/README.md](journals/README.md) for the latest top-tier journal snapshots, including:
+
 - [TPAMI](journals/tpami.md) — IEEE Transactions on Pattern Analysis and Machine Intelligence
 - [TIP](journals/tip.md) — IEEE Transactions on Image Processing
 - [TNNLS](journals/tnnls.md) — IEEE Transactions on Neural Networks and Learning Systems
@@ -81,10 +77,9 @@ Including:
 - [TIFS](journals/tifs.md) — IEEE Transactions on Information Forensics and Security
 - [IJCV](journals/ijcv.md) — International Journal of Computer Vision (Springer)
 
+---
 
-
-
-## � Benchmarks and Datasets
+## 🧪 Benchmarks and Datasets
 
 We maintain a comprehensive catalog of VAD datasets in **[dataset.md](dataset.md)**, organized by:
 
@@ -134,12 +129,30 @@ We welcome contributions! Please feel free to:
 - Include links to paper, code, and project pages when available
 - Add a brief highlight describing the key contribution
 - Place papers in the appropriate year and conference section
+- If you're unsure where a paper belongs, open an issue and we'll help place it
+
+**Entry template:**
+```text
+- Title — Venue, Year
+- Links: paper | code | project
+- Task/Setting: ...
+- Highlight: ...
+```
+
+---
+
+## 🤝 Stay Connected
+
+<div align="center">
+  <p>📧 Email: <strong>mo1031@live.com</strong></p>
+  <p>📱 WeChat: <strong>tiumo-</strong> (please add note "VAD")</p>
+</div>
 
 ---
 
 ## 📜 License and Credits
 
-This collection is maintained as an open resource for the research community. 
+This collection is maintained as an open resource for the research community.
 
 - Content is gathered from publicly available sources
 - Paper copyrights belong to their respective authors and publishers
@@ -150,4 +163,3 @@ This collection is maintained as an open resource for the research community.
 ---
 
 **Star ⭐ this repo if you find it helpful!**
-
