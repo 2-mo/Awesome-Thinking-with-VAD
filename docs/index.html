@@ -670,7 +670,7 @@
                 column-gap: 8px;
                 row-gap: 4px;
                 padding: 0 10px;
-                bottom: 12px;
+                bottom: 8px;
                 justify-items: center;
                 align-items: center;
             }
@@ -698,13 +698,13 @@
         @media (max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
             :root {
                 --panorama-pt: 104px;
-                --panorama-pb: 44px;
+                --panorama-pb: 64px;
                 --panorama-pl: 12px;
                 --panorama-pr: 12px;
                 --stacked-col-width: 190px;
-                --stacked-row-size: auto;
+                --stacked-row-size: max-content;
                 --stacked-gap: 6px;
-                --stacked-height: auto;
+                --stacked-height: calc(100vh - var(--panorama-pt) - var(--panorama-pb) - 12px);
             }
             .top-left-bar,
             .top-right-bar {
@@ -766,12 +766,12 @@
                 display: inline-grid;
                 grid-auto-flow: column;
                 grid-auto-columns: var(--stacked-col-width);
-                grid-template-rows: repeat(4, var(--stacked-row-size));
+                grid-template-rows: repeat(3, var(--stacked-row-size));
                 gap: var(--stacked-gap);
                 padding: 0 2px 6px;
                 width: max-content;
                 height: var(--stacked-height);
-                align-content: start;
+                align-content: end;
             }
             .stacked-view .card-container {
                 width: 100%;
@@ -795,7 +795,7 @@
                 grid-template-rows: 1fr 0px 1fr !important;
             }
             .legend-bar {
-                bottom: 8px;
+                bottom: 4px;
                 gap: 8px;
             }
             .legend-bar span {
@@ -892,7 +892,7 @@
         function BrandIcon({ name, size = 10 }) {
             if (name === "Arxiv") return (
                 <div className="flex items-center justify-center shrink-0">
-                    <img src="https://raw.githubusercontent.com/2-mo/Awesome-Thinking-with-VAD/main/docs/public/base/arxiv-logomark-small.svg" alt="arXiv" className="arxiv-icon" style={{ height: `${Math.max(size - 2, 8)}px` }} />
+                    <img src="public/base/arxiv-logomark-small.svg" alt="arXiv" className="arxiv-icon" style={{ height: `${Math.max(size - 2, 8)}px` }} />
                 </div>
             );
             return null;
