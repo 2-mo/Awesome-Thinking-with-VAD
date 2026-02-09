@@ -698,13 +698,16 @@
         @media (max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
             :root {
                 --panorama-pt: 104px;
-                --panorama-pb: 64px;
                 --panorama-pl: 12px;
                 --panorama-pr: 12px;
                 --stacked-col-width: 190px;
                 --stacked-row-size: max-content;
                 --stacked-gap: 6px;
-                --stacked-height: calc(100vh - var(--panorama-pt) - var(--panorama-pb) - 12px);
+                --legend-height: 26px;
+                --legend-offset: 0px;
+                --legend-clearance: 44px;
+                --panorama-pb: calc(var(--legend-height) + var(--legend-offset) + var(--legend-clearance));
+                --stacked-height: calc(100vh - var(--panorama-pt) - var(--panorama-pb));
             }
             .top-left-bar,
             .top-right-bar {
@@ -795,8 +798,9 @@
                 grid-template-rows: 1fr 0px 1fr !important;
             }
             .legend-bar {
-                bottom: 4px;
+                bottom: var(--legend-offset);
                 gap: 8px;
+                height: var(--legend-height);
             }
             .legend-bar span {
                 font-size: 8px !important;
