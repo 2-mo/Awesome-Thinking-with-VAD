@@ -774,7 +774,7 @@
                 padding: 0 2px 6px;
                 width: max-content;
                 height: var(--stacked-height);
-                align-content: end;
+                align-content: center;
             }
             .stacked-view .card-container {
                 width: 100%;
@@ -875,6 +875,10 @@
     { name: "VADTree", title: "VADTree: Hierarchical Detection Tree for Video Anomaly Detection", year: "2025", conf: "NeurIPS'25", type: "llm", anno: "Hierarchical Tree", arxiv: "https://arxiv.org/abs/2412.44444" },
     { name: "MoniTor", title: "MoniTor: A Systematic Paradigm for Monitor-based Video Anomaly Detection", year: "2025", conf: "NeurIPS'25", type: "llm", anno: "Monitor Paradigm", arxiv: "https://arxiv.org/abs/2412.55555" },
     { name: "A2Seek", title: "A2Seek: Drone-view Benchmark and Graph-of-Thought for Video Anomaly Detection", year: "2025", conf: "NeurIPS'25", type: "dataset", anno: "Drone-view & GoT", arxiv: "https://arxiv.org/abs/2412.66666", github: "https://github.com/2-mo/A2Seek"}
+    ,
+    // 2026
+    { name: "CueBench", title: "CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World", year: "2026", conf: "AAAI'26", type: "dataset", anno: "Context-aware VAU Benchmark", arxiv: "https://arxiv.org/abs/2511.00613" },
+    { name: "IAD-R1", title: "IAD-R1: Reinforcing Consistent Reasoning in Industrial Anomaly Detection", year: "2026", conf: "AAAI'26", type: "llm", anno: "Industrial Reasoning", arxiv: "https://arxiv.org/abs/2508.09178" }
 ];
 
         // UI Components
@@ -1386,7 +1390,7 @@
             const timeline = useMemo(() => {
                 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
                 const columns = [];
-                ["2023", "2024", "2025"].forEach(y => {
+                ["2023", "2024", "2025", "2026"].forEach(y => {
                     for(let m = 1; m <= 12; m++) {
                         const papers = PAPER_DATA.filter(p => p.year === y && (CONF_MONTHS[Object.keys(CONF_MONTHS).find(k => p.conf.includes(k))] || 6) === m);
                         if (papers.length === 0) continue;
@@ -1470,7 +1474,7 @@
                     </div>
 
                     <div className="fixed top-44 year-nav w-full flex justify-center gap-4 z-50">
-                        {['2023', '2024', '2025'].map(y => (
+                        {['2023', '2024', '2025', '2026'].map(y => (
                             <button key={y} onClick={() => scrollRef.current.scrollLeft = timeline.findIndex(t => t.year === y) * columnWidth + (window.innerWidth/3)} className="nav-btn">{y}</button>
                         ))}
                     </div>
@@ -1485,7 +1489,7 @@
                         >
                             <div className="timeline-spine" />
                             <div className="absolute inset-0 flex items-center pointer-events-none select-none z-[-10]">
-                                {['2023', '2024', '2025'].map(y => {
+                                {['2023', '2024', '2025', '2026'].map(y => {
                                     const firstIdx = timeline.findIndex(t => t.year === y);
                                     if (firstIdx === -1) return null;
                                     const verticalStagger = (parseInt(y) % 2 === 0) ? '40%' : '78%';
