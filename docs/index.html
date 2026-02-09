@@ -36,6 +36,10 @@
             --data-glow: rgba(125, 211, 252, 0.25);
             --img-filter: brightness(0.82) contrast(1.05);
             --modal-shadow: 0 0 50px rgba(0,0,0,0.8);
+            --panorama-pt: 120px;
+            --panorama-pb: 60px;
+            --panorama-pl: 6vw;
+            --panorama-pr: 0px;
         }
 
         .light-theme {
@@ -111,6 +115,37 @@
             user-select: none;
             overflow-x: auto;
             overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
+            padding-top: var(--panorama-pt) !important;
+            padding-bottom: var(--panorama-pb) !important;
+            padding-left: var(--panorama-pl) !important;
+            padding-right: var(--panorama-pr) !important;
+        }
+
+        .stacked-view {
+            display: none;
+        }
+
+        .stacked-item {
+            break-inside: avoid;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .top-bar-landscape {
+            display: none;
+            pointer-events: none;
+        }
+
+        .legend-bar {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: max-content;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
         }
 
         .export-freeze * {
@@ -120,7 +155,7 @@
 
         .export-capture .top-left-bar,
         .export-capture .top-right-bar,
-        .export-capture .fixed.top-44 {
+        .export-capture .year-nav {
             display: none !important;
         }
 
@@ -138,8 +173,8 @@
             overflow: visible !important;
         }
 
-        .export-capture .fixed.top-12,
-        .export-capture .fixed.bottom-10 {
+        .export-capture .title-bar,
+        .export-capture .legend-bar {
             position: absolute !important;
             left: 0 !important;
             right: 0 !important;
@@ -491,6 +526,287 @@
             color: #fff;
             transform: rotate(90deg) scale(1.1);
         }
+
+        @media (max-width: 1024px) {
+            :root {
+                --panorama-pt: 150px;
+            }
+            .top-left-bar {
+                top: 12px;
+                left: 16px;
+            }
+            .top-right-bar {
+                top: 12px;
+                right: 16px;
+                gap: 10px;
+            }
+            .top-right-bar .export-btn {
+                padding: 5px 12px;
+                font-size: 12px;
+            }
+            .top-right-bar svg {
+                width: 26px;
+                height: 26px;
+            }
+            .top-left-bar .theme-toggle-btn {
+                width: 32px;
+                height: 32px;
+                border-radius: 10px;
+            }
+            .atlas-handwritten-title {
+                font-size: 4.2rem;
+                line-height: 0.9;
+                padding: 0 20px;
+                text-align: center;
+            }
+            .title-bar {
+                top: 32px;
+            }
+            .year-nav {
+                top: 118px;
+            }
+            .nav-btn {
+                padding: 6px 16px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --panorama-pt: 170px;
+            }
+            .atlas-handwritten-title {
+                font-size: 4rem;
+            }
+            .year-nav {
+                top: 148px;
+            }
+            .nav-btn {
+                padding: 4px 12px;
+                font-size: 11px;
+            }
+            .card-container .card-glass {
+                width: 175px !important;
+            }
+            .bg-year-watermark {
+                font-size: 22vw;
+            }
+        }
+
+        @media (max-width: 640px) {
+            :root {
+                --panorama-pt: 200px;
+                --panorama-pb: 110px;
+                --panorama-pl: 4vw;
+                --panorama-pr: 0px;
+            }
+            .top-left-bar {
+                top: 10px;
+                left: 12px;
+            }
+            .top-right-bar {
+                top: 10px;
+                right: 12px;
+                flex-direction: row;
+                align-items: center;
+                gap: 6px;
+                flex-wrap: nowrap;
+            }
+            .top-right-bar .mr-3 {
+                margin-right: 0 !important;
+            }
+            .top-right-bar .export-btn {
+                padding: 3px 7px;
+                font-size: 10px;
+            }
+            .top-right-bar svg {
+                width: 22px;
+                height: 22px;
+            }
+            .top-left-bar .theme-toggle-btn {
+                width: 26px;
+                height: 26px;
+                border-radius: 8px;
+            }
+            .atlas-handwritten-title {
+                font-size: 3.2rem;
+                line-height: 0.95;
+                padding: 0 14px;
+                text-align: center;
+            }
+            .title-bar {
+                top: 52px;
+            }
+            .year-nav {
+                top: 168px;
+                gap: 6px;
+                padding: 0 12px;
+                flex-wrap: wrap;
+            }
+            .nav-btn {
+                font-size: 10px;
+                padding: 4px 10px;
+                letter-spacing: 0.08em;
+            }
+            .inline-flex {
+                padding-left: 28vw !important;
+            }
+            .card-container .card-glass {
+                width: 160px !important;
+            }
+            .card-container .card-glass h4 {
+                font-size: 11px !important;
+            }
+            .card-container .card-glass p {
+                font-size: 9px !important;
+            }
+            .bg-year-watermark {
+                font-size: 18vw;
+                opacity: 0.025;
+            }
+            .legend-bar {
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                column-gap: 8px;
+                row-gap: 4px;
+                padding: 0 10px;
+                bottom: 12px;
+                justify-items: center;
+                align-items: center;
+            }
+            .legend-bar > div {
+                justify-content: center;
+            }
+            .legend-bar span {
+                font-size: 9px !important;
+                letter-spacing: 0.2em;
+            }
+            .modal-container .p-10 {
+                padding: 22px !important;
+            }
+            .modal-container h3 {
+                font-size: 20px !important;
+            }
+            .modal-container .grid {
+                grid-template-columns: 1fr !important;
+            }
+            .copyright-note {
+                font-size: 9px;
+            }
+        }
+
+        @media (max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+            :root {
+                --panorama-pt: 104px;
+                --panorama-pb: 44px;
+                --panorama-pl: 12px;
+                --panorama-pr: 12px;
+                --stacked-col-width: 190px;
+                --stacked-row-size: auto;
+                --stacked-gap: 6px;
+                --stacked-height: auto;
+            }
+            .top-left-bar,
+            .top-right-bar {
+                display: none !important;
+            }
+            .top-bar-landscape {
+                display: flex;
+                position: fixed;
+                top: 8px;
+                left: 12px;
+                right: 12px;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                z-index: 100;
+                pointer-events: none;
+            }
+            .top-bar-landscape .bar-actions {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                pointer-events: auto;
+            }
+            .top-bar-landscape .theme-toggle-btn {
+                width: 28px;
+                height: 28px;
+                border-radius: 8px;
+            }
+            .top-bar-landscape .export-btn {
+                padding: 3px 8px;
+                font-size: 10px;
+            }
+            .top-bar-landscape svg {
+                width: 22px;
+                height: 22px;
+            }
+            .top-bar-landscape .atlas-handwritten-title {
+                font-size: 2.2rem;
+                line-height: 0.9;
+                padding: 0;
+                text-align: left;
+                white-space: nowrap;
+            }
+            .title-bar {
+                display: none !important;
+            }
+            .year-nav {
+                display: none !important;
+            }
+            .panorama-viewport {
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                touch-action: pan-x;
+            }
+            .timeline-view {
+                display: none !important;
+            }
+            .stacked-view {
+                display: inline-grid;
+                grid-auto-flow: column;
+                grid-auto-columns: var(--stacked-col-width);
+                grid-template-rows: repeat(4, var(--stacked-row-size));
+                gap: var(--stacked-gap);
+                padding: 0 2px 6px;
+                width: max-content;
+                height: var(--stacked-height);
+                align-content: start;
+            }
+            .stacked-view .card-container {
+                width: 100%;
+            }
+            .stacked-view .card-glass {
+                width: 100% !important;
+            }
+            .stacked-item {
+                display: block;
+                margin-bottom: 0;
+            }
+            .stacked-view .node-connector {
+                display: none;
+            }
+            .timeline-spine,
+            .timeline-axis,
+            .bg-year-watermark {
+                display: none !important;
+            }
+            .timeline-column {
+                grid-template-rows: 1fr 0px 1fr !important;
+            }
+            .legend-bar {
+                bottom: 8px;
+                gap: 8px;
+            }
+            .legend-bar span {
+                font-size: 8px !important;
+                letter-spacing: 0.16em;
+            }
+            .copyright-note {
+                display: block;
+                font-size: 8px;
+            }
+        }
     </style>
 </head>
 <body class="selection:bg-indigo-900/30">
@@ -627,8 +943,8 @@
                     >
                         <div className={`accent-bar absolute top-0 left-0 w-[3px] h-full ${acc.accent} z-10 opacity-70`} />
                         <CuratorBadge badge={paper.badge} level={paper.level} customColor={paper.badgeColor} />
-                        <div className="flex gap-2 items-center relative z-20">
-                            <div className="w-[28px] h-[28px] shrink-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                        <div className="card-body flex gap-2 items-center relative z-20">
+                            <div className="card-logo w-[28px] h-[28px] shrink-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                                 {paper.logo && paper.logo.startsWith('http') ? (
                                     <img src={paper.logo} className={`max-w-full max-h-full object-contain`} />
                                 ) : (
@@ -636,7 +952,7 @@
                                 )}
                             </div>
                             <div className="flex flex-col min-w-0 flex-1">
-                                <div className="flex items-center justify-between mb-0.5">
+                                <div className="card-title-row flex items-center justify-between mb-0.5">
                                     <h4 className={`text-[12px] font-black tracking-tight leading-none truncate pr-1 group-hover:text-blue-400 transition-colors ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}>{paper.name}</h4>
                                     <div className="flex items-center gap-1 shrink-0">
                                         <div className="flex items-center gap-1">
@@ -653,7 +969,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p className={`text-[9.5px] font-medium italic truncate mb-1 leading-tight ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{paper.anno}</p>
+                                <p className={`card-anno text-[9.5px] font-medium italic truncate mb-1 leading-tight ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{paper.anno}</p>
                                 <div className="flex items-center"><span className="text-[8px] font-black tracking-tighter uppercase leading-none opacity-70" style={{ color: confColor }}>{paper.conf}</span></div>
                             </div>
                         </div>
@@ -671,7 +987,13 @@
             const scrollRef = useRef(null);
             const exportRef = useRef(null);
             const timelineRef = useRef(null);
-            const COLUMN_WIDTH = 200; 
+            const getColumnWidth = () => {
+                if (typeof window === 'undefined') return 200;
+                if (window.innerWidth <= 640) return 170;
+                if (window.innerWidth <= 900) return 185;
+                return 200;
+            };
+            const [columnWidth, setColumnWidth] = useState(() => getColumnWidth());
 
 
             useEffect(() => {
@@ -687,6 +1009,12 @@
             }, [theme]);
 
             useEffect(() => { document.body.classList.toggle('light-theme', !resolvedDarkMode); }, [resolvedDarkMode]);
+
+            useEffect(() => {
+                const onResize = () => setColumnWidth(getColumnWidth());
+                window.addEventListener('resize', onResize);
+                return () => window.removeEventListener('resize', onResize);
+            }, []);
 
             const handleExportPng = async () => {
                 if (isExporting) return;
@@ -1071,17 +1399,33 @@
                 return columns;
             }, []);
 
+            const flatPapers = useMemo(() => {
+                const monthOf = (p) => {
+                    const key = Object.keys(CONF_MONTHS).find(k => p.conf.includes(k));
+                    return key ? CONF_MONTHS[key] : 6;
+                };
+                return [...PAPER_DATA].sort((a, b) => {
+                    const ya = parseInt(a.year, 10);
+                    const yb = parseInt(b.year, 10);
+                    if (ya !== yb) return ya - yb;
+                    const ma = monthOf(a);
+                    const mb = monthOf(b);
+                    if (ma !== mb) return ma - mb;
+                    return a.name.localeCompare(b.name);
+                });
+            }, []);
+
             return (
                 <div ref={exportRef} className="h-screen w-full flex flex-col relative overflow-hidden">
                     <div className="export-bg" />
                     <div className="top-left-bar">
                         <button onClick={() => setTheme(prev => prev === 'dark' ? 'light' : prev === 'light' ? 'system' : 'dark')} className="theme-toggle-btn">
-                            <Icon name={theme === 'dark' ? "Moon" : theme === 'light' ? "Sun" : "Monitor"} size={16} />
+                            <Icon name={theme === 'dark' ? "Moon" : theme === 'light' ? "Sun" : "Monitor"} size={14} />
                         </button>
                     </div>
 
-                    <div className="top-right-bar">
-                        <div className="flex items-center gap-2 mr-3">
+                    <div className="top-right-bar gap-2">
+                        <div className="flex items-center gap-2">
                             <button className="export-btn" onClick={handleExportPng} disabled={isExporting}>
                                 {isExporting ? 'Exporting...' : 'PNG'}
                             </button>
@@ -1097,22 +1441,42 @@
                         </div>
                     </div>
 
-                    <div className="fixed top-12 w-full flex flex-col items-center pointer-events-none z-50">
+                    <div className="top-bar-landscape">
+                        <h1 className="atlas-handwritten-title">Tracing Video Anomaly Understanding</h1>
+                        <div className="bar-actions">
+                            <button onClick={() => setTheme(prev => prev === 'dark' ? 'light' : prev === 'light' ? 'system' : 'dark')} className="theme-toggle-btn">
+                                <Icon name={theme === 'dark' ? "Moon" : theme === 'light' ? "Sun" : "Monitor"} size={14} />
+                            </button>
+                            <button className="export-btn" onClick={handleExportPng} disabled={isExporting}>
+                                {isExporting ? 'Exporting...' : 'PNG'}
+                            </button>
+                            <button className="export-btn" onClick={handleExportSvg} disabled={isExporting}>
+                                {isExporting ? 'Exporting...' : 'SVG'}
+                            </button>
+                            <div className="github-link-group relative flex items-center">
+                                <a href={GITHUB_LINK} target="_blank">
+                                    <Icon name="Github" size={22} className={`${resolvedDarkMode ? 'text-white/60' : 'text-slate-800/60'} transition-all duration-300 hover:rotate-12 hover:scale-110`} />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="fixed top-12 title-bar w-full flex flex-col items-center pointer-events-none z-50">
                         <h1 className="atlas-handwritten-title">Tracing Video Anomaly Understanding</h1>
                     </div>
 
-                    <div className="fixed top-44 w-full flex justify-center gap-4 z-50">
+                    <div className="fixed top-44 year-nav w-full flex justify-center gap-4 z-50">
                         {['2023', '2024', '2025'].map(y => (
-                            <button key={y} onClick={() => scrollRef.current.scrollLeft = timeline.findIndex(t => t.year === y) * COLUMN_WIDTH + (window.innerWidth/3)} className="nav-btn">{y}</button>
+                            <button key={y} onClick={() => scrollRef.current.scrollLeft = timeline.findIndex(t => t.year === y) * columnWidth + (window.innerWidth/3)} className="nav-btn">{y}</button>
                         ))}
                     </div>
 
                     <main ref={scrollRef} className="flex-1 panorama-viewport no-scrollbar relative pt-[120px] pb-[60px] pl-[6vw]">
                         <div
                             ref={timelineRef}
-                            className="inline-flex h-full items-stretch pl-[50vw] pr-0 relative"
+                            className="timeline-view inline-flex h-full items-stretch pl-[50vw] pr-0 relative"
                             style={{
-                                minWidth: `${timeline.length * COLUMN_WIDTH + 100}px`
+                                minWidth: `${timeline.length * columnWidth + 100}px`
                             }}
                         >
                             <div className="timeline-spine" />
@@ -1121,15 +1485,15 @@
                                     const firstIdx = timeline.findIndex(t => t.year === y);
                                     if (firstIdx === -1) return null;
                                     const verticalStagger = (parseInt(y) % 2 === 0) ? '40%' : '78%';
-                                    return <div key={y} className="absolute flex justify-center items-center" style={{ left: `${firstIdx * COLUMN_WIDTH}px`, width: `${timeline.filter(t => t.year === y).length * COLUMN_WIDTH}px`, height: '100%', top: verticalStagger, transform: 'translateY(-50%)' }}><span className="bg-year-watermark">{y}</span></div>;
+                                    return <div key={y} className="absolute flex justify-center items-center" style={{ left: `${firstIdx * columnWidth}px`, width: `${timeline.filter(t => t.year === y).length * columnWidth}px`, height: '100%', top: verticalStagger, transform: 'translateY(-50%)' }}><span className="bg-year-watermark">{y}</span></div>;
                                 })}
                             </div>
                             {timeline.map((seg, idx) => (
-                                <div key={seg.id} className="absolute w-[200px] grid grid-rows-[65fr_20px_35fr] h-full" style={{ left: `${idx * COLUMN_WIDTH}px` }}>
+                                <div key={seg.id} className="timeline-column absolute w-[200px] grid grid-rows-[65fr_20px_35fr] h-full" style={{ left: `${idx * columnWidth}px`, width: `${columnWidth}px` }}>
                                     <div className="flex flex-col-reverse items-center justify-start gap-1.5 pb-2.5 relative z-10 overflow-visible">
                                         {seg.top.map((p, i) => <PaperCard key={i} paper={p} position="top" onClick={() => setActiveItem(p)} isDarkMode={resolvedDarkMode} />)}
                                     </div>
-                                    <div className="flex items-center justify-center relative">
+                                    <div className="timeline-axis flex items-center justify-center relative">
                                         {seg.isFirstInMonth ? (
                                             <div className={`${resolvedDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} border px-2 py-0.5 rounded shadow-lg z-20 flex items-center justify-center h-[18px]`}>
                                                 <span className={`${resolvedDarkMode ? 'text-slate-200' : 'text-slate-800'} text-[9px] font-black uppercase tracking-tighter leading-none`}>{seg.date}</span>
@@ -1145,9 +1509,16 @@
                             ))}
                             <div className="h-full w-[20vw] shrink-0" aria-hidden="true"></div>
                         </div>
+                        <div className="stacked-view">
+                            {flatPapers.map((paper) => (
+                                <div key={`${paper.name}-${paper.year}`} className="stacked-item">
+                                    <PaperCard paper={paper} position="top" onClick={() => setActiveItem(paper)} isDarkMode={resolvedDarkMode} />
+                                </div>
+                            ))}
+                        </div>
                     </main>
 
-                    <div className="fixed bottom-10 w-full flex justify-center gap-12 z-50">
+                    <div className="fixed bottom-10 legend-bar w-full z-50">
                         {Object.entries(ACCENTS).map(([k,v]) => (
                             <div key={k} className="flex items-center gap-2.5 cursor-default group opacity-60 hover:opacity-100 transition-opacity">
                                 <div className={`w-3.5 h-1 ${v.accent} rounded-[1px] transition-all group-hover:scale-x-150 shadow-[0_0_10px_rgba(255,255,255,0.2)]`} />

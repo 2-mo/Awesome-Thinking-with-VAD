@@ -2,6 +2,7 @@
 
 ## Quick Navigation
 
+- 2026: [CueBench](#-cuebench-advancing-unified-understanding-of-context-aware-video-anomalies-in-real-world)（VAU基准）、 [IAD-R1](#-iad-r1-reinforcing-consistent-reasoning-in-industrial-anomaly-detection-oral)（工业推理）、 [HeadHunt-VAD](#-headhunt-vad-hunting-robust-anomaly-sensitive-heads-in-mllm-for-tuning-free-video-anomaly-detection-oral)（免调参MLLM）、 [AD-FM](#-ad-fm-multimodal-llms-for-anomaly-detection-via-multi-stage-reasoning-and-fine-grained-reward-optimization)（多阶段推理）、 [PromptMoE](#-promptmoe-generalizable-zero-shot-anomaly-detection-via-visually-guided-prompt-mixtures)（零样本MoE）<br>[TargetVAU](#-targetvau-multimodal-anomaly-aware-reasoning-for-target-behavior-understanding-in-videos)（行为理解）、 [ICAD-LLM](#-icad-llm-one-for-all-anomaly-detection-via-incontext-learning-with-large-language-models)（ICL统一）、 [AdaptCLIP](#-adaptclip-adapting-clip-for-universal-visual-anomaly-detection)（CLIP适配）、 [VAGU & GtS](#-vagu--gts-llm-based-benchmark-and-framework-for-joint-video-anomaly-grounding-and-understanding)（定位+理解）、 [FineVAU](#-finevau-a-novel-human-aligned-benchmark-for-finegrained-video-anomaly-understanding)（细粒度VAU）
 - 2025: [Motion-Appearance Diffusion](#-video-anomaly-detection-with-motion-and-appearance-guided-patch-diffusion-model)（运动外观扩散）、 [UCF-Crime-DVS](#-ucf-crime-dvs-a-novel-event-based-dataset-for-video-anomaly-detection-with-spiking-neural-networks)（脉冲神经网络）、 [Dual Conditioned Diffusion](#-dual-conditioned-motion-diffusion-for-pose-based-video-anomaly-detection)（姿态扩散）、 [Federated Multimodal Prompt](#-federated-weakly-supervised-video-anomaly-detection-with-multimodal-prompt)（联邦多模态）、 [VarCMP](#-varcmp-adapting-cross-modal-pre-training-models-for-video-anomaly-retrieval)（跨模态检索）
 - 2024: [VadCLIP](#-vadclip-adapting-vision-language-models-for-weakly-supervised-video-anomaly-detection)（CLIP弱监督）、 [SDAC](#-sdac-a-multimodal-synthetic-dataset-for-anomaly-and-corner-case-detection-in-autonomous-driving)（自动驾驶数据集）
 - 2023: [MGFN](#-mgfn-magnitude-contrastive-glance-and-focus-network-for-weakly-supervised-video-anomaly-detection)（对比学习）、 [Mean-Shifted Contrastive](#-mean-shifted-contrastive-loss-for-anomaly-detection)（均值偏移）、 [Event-Relevant Factors](#-learning-event-relevant-factors-for-video-anomaly-detection)（事件因子）、 [UR-DMU](#-dual-memory-units-with-uncertainty-regulation-for-weakly-supervised-video-anomaly-detection)（不确定性记忆）
@@ -9,112 +10,131 @@
 
 ## 2026
 
-#### IAD-R1: Reinforcing Consistent Reasoning in Industrial Anomaly Detection （Oral）
-Yanhui Li; Yunkang Cao; Chengliang Liu; Yuan
-Xiong; Xinghui Dong; Chao Huang
+#### 📊 CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World
+Yating Yu; Congqi Cao; Zhaoying Wang; Weihua Meng; Jie Li; Yuxin Li; Zihao Wei; Zhongpei Shen; Jiajun Zhang
+`Benchmark` `VAU` `Context-aware` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2511.00613) Code: N/A
 
+> 提出上下文感知的 VAU 统一评测基准 CueBench，构建事件中心的分层 taxonomy（14 类条件异常、18 类绝对异常），覆盖 174 个场景与 198 个属性，并在识别、时间定位、检测、预测等任务上统一评测 VLM。提出 Cue-R1 通过 R1 风格强化微调改进推理表现，显著优于现有 VLM。
 
-#### HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection （Oral）
+#### 🏭 IAD-R1: Reinforcing Consistent Reasoning in Industrial Anomaly Detection （Oral）
+Yanhui Li; Yunkang Cao; Chengliang Liu; Yuan Xiong; Xinghui Dong; Chao Huang
+`Industrial` `Reasoning` `R1` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2508.09178) Code: N/A
 
-Zhaolin Cai; Fan Li; Ziwei Zheng; Haixia Bi;
-Lijun He
+> 面向工业异常检测的一致推理问题，提出 IAD-R1 强化推理一致性。
 
-#### RefineVAD: Semantic-Guided Feature Recalibration for Weakly Supervised Video Anomaly Detection
-Junhee Lee; ChaeBeen Bang; MyoungChul Kim;
-MyeongAh Cho
+#### 🧠 HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection （Oral）
+Zhaolin Cai; Fan Li; Ziwei Zheng; Haixia Bi; Lijun He
+`MLLM` `Tuning-free` `Head Selection` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2512.17601) Code: N/A
 
+> 在 MLLM 中定位异常敏感 head，实现免调参的 VAD 增强。
 
-#### FDP: A Frequency-Decomposition Preprocessing Pipeline for Unsupervised Anomaly Detection in Brain MRI
-Hao Li; Zhenfeng Zhuang; Jingyu Lin; Yu Liu; Yifei Chen;
-Qiong Peng; Lequan Yu; Liansheng Wang
+#### 🎯 RefineVAD: Semantic-Guided Feature Recalibration for Weakly Supervised Video Anomaly Detection
+Junhee Lee; ChaeBeen Bang; MyoungChul Kim; MyeongAh Cho
+`Weakly-supervised` `Semantic` `Feature Recalibration` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2511.13204) Code: N/A
 
+> 提出语义引导的特征重校准策略，提升弱监督 VAD 表达。
 
+#### 🧪 D-GARA: A Dynamic Benchmarking Framework for GUI Agent Robustness in Real-World Anomalies
+Sen Chen; Tong Zhao; Yi Bin; Fei Ma; Wenqi Shao; Zheng Wang
+`Benchmark` `GUI Agent` `Robustness` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2511.16590) Code: N/A
 
-#### AD-FM: Multimodal LLMs for Anomaly Detection via Multi-Stage Reasoning and Fine-Grained Reward Optimization
+> 提出 GUI Agent 在真实异常场景下的动态评测框架 D-GARA。
 
-Jingyi Liao; Yongyi Su; Rong-Cheng Tu; Zhao Jin;
-Wenhao Sun; Yiting Li; Xun Xu; Dacheng Tao; Xulei
-Yang
+#### 🔄 Reimagining Anomalies: What If Anomalies Were Normal?
+Philipp Liznerski; Saurabh Varshneya; Ece Calikus; Puyu Wang; Alexander Bartscher; Sebastian Josef Vollmer; Sophie Fellenz; Marius Kloft
+`Paradigm` `Reformulation` `Anomaly` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2402.14469) Code: N/A
 
+> 从“异常可被视为正常”视角重审异常检测设定与学习范式。
 
-#### PromptMoE: Generalizable Zero-Shot Anomaly Detection via Visually-Guided Prompt Mixtures
-Yuheng Shao; Lizhang Wang; Changhao Li; Peixian Chen;
-Qinyuan Liu
+#### 🤖 AD-FM: Multimodal LLMs for Anomaly Detection via Multi-Stage Reasoning and Fine-Grained Reward Optimization
+Jingyi Liao; Yongyi Su; Rong-Cheng Tu; Zhao Jin; Wenhao Sun; Yiting Li; Xun Xu; Dacheng Tao; Xulei Yang
+`Multimodal LLM` `Reasoning` `Reward Optimization` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2508.04175) Code: N/A
 
+> 基于多模态 LLM，采用多阶段推理与细粒度奖励优化进行异常检测。
 
-#### TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos
+#### 🧩 PromptMoE: Generalizable Zero-Shot Anomaly Detection via Visually-Guided Prompt Mixtures
+Yuheng Shao; Lizhang Wang; Changhao Li; Peixian Chen; Qinyuan Liu
+`Zero-shot` `Prompt` `MoE` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2511.18116) Code: N/A
 
-Lingru Zhou; Peng Wu; Manqing Zhang; Qingsheng
-Wang; Guansong Pang; Peng Wang
+> 通过视觉引导的提示混合（Prompt MoE）实现通用零样本异常检测。
 
+#### 🎬 TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos
+Lingru Zhou; Peng Wu; Manqing Zhang; Qingsheng Wang; Guansong Pang; Peng Wang
+`VAU` `Multimodal` `Behavior Understanding` | Paper: N/A, Code: N/A
 
-#### AnomalyMoE: Towards a Language-free Generalist Model for Unified Visual Anomaly Detection
-Zhaopeng Gu; Bingke Zhu; Guibo Zhu; Yingying Chen;
-Wei Ge; Ming Tang; Jinqiao Wang
+> 面向视频目标行为理解的多模态异常感知推理框架。
 
+#### 🧠 AnomalyMoE: Towards a Language-free Generalist Model for Unified Visual Anomaly Detection
+Zhaopeng Gu; Bingke Zhu; Guibo Zhu; Yingying Chen; Wei Ge; Ming Tang; Jinqiao Wang
+`Generalist` `Language-free` `MoE` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2508.06203) Code: N/A
 
-#### RPE-PAD: Relative Pose Estimation for Pose-agnostic Anomaly Detection
-Zhipeng Zhang; Mengzan Qi; Rongkang Ma; Yingying
-Fang; Guixu Zhang; Tieyong Zeng; Zhi Li
+> 提出无语言的通用视觉异常检测模型（MoE 架构）。
 
+#### 🦴 RPE-PAD: Relative Pose Estimation for Pose-agnostic Anomaly Detection
+Zhipeng Zhang; Mengzan Qi; Rongkang Ma; Yingying Fang; Guixu Zhang; Tieyong Zeng; Zhi Li
+`Pose` `Relative Pose` `Pose-agnostic` | Paper: N/A, Code: N/A
 
-#### ICAD-LLM: One-for-All Anomaly Detection via InContext Learning with Large Language Models
-Zhongyuan Wu; Jingyuan Wang; Zexuan Cheng; Yilong
-Zhou; Weizhi Wang; Juhua Pu; Chao Li; Changqing Ma
+> 以相对姿态估计为核心，实现姿态无关的异常检测。
 
+#### 🤖 ICAD-LLM: One-for-All Anomaly Detection via InContext Learning with Large Language Models
+Zhongyuan Wu; Jingyuan Wang; Zexuan Cheng; Yilong Zhou; Weizhi Wang; Juhua Pu; Chao Li; Changqing Ma
+`LLM` `In-Context Learning` `Unified` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2512.01672) [![Code](https://img.shields.io/badge/Code-GitHub-black?logo=github)](https://github.com/nobody384/ICAD-LLM)
 
-#### AdaptCLIP: Adapting CLIP for Universal Visual Anomaly Detection
-Bin-Bin Gao; Yue Zhou; Jiangtao Yan; Yuezhi Cai; Weixi
-Zhang; Meng Wang; Jun Liu; Yong Liu; Lei Wang;
-Chengjie Wang
+> 利用 LLM 的 In-Context Learning 实现统一异常检测框架。
 
+#### 🔧 AdaptCLIP: Adapting CLIP for Universal Visual Anomaly Detection
+Bin-Bin Gao; Yue Zhou; Jiangtao Yan; Yuezhi Cai; Weixi Zhang; Meng Wang; Jun Liu; Yong Liu; Lei Wang; Chengjie Wang
+`CLIP` `Universal` `Anomaly Detection` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2505.09926) [![Code](https://img.shields.io/badge/Code-GitHub-black?logo=github)](https://github.com/bbggay/AdaptCLIP)
 
+> 适配 CLIP 以实现通用视觉异常检测能力。
 
-#### Commonality in Few: Few-Shot Multimodal Anomaly Detection via Hypergraph-Enhanced Memory
+#### 🧩 Commonality in Few: Few-Shot Multimodal Anomaly Detection via Hypergraph-Enhanced Memory
+Yuxuan Lin; Hanjing Yan; Xuan Tong; Yang Chang; Huanzhen Wang; Ziheng Zhou; Shuyong Gao; Yan Wang; Wenqiang Zhang
+`Few-shot` `Hypergraph` `Multimodal` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2511.05966) [![Code](https://img.shields.io/badge/Code-GitHub-black?logo=github)](https://github.com/DSANet/DSANet)
 
-Yuxuan Lin; Hanjing Yan; Xuan Tong; Yang Chang;
-Huanzhen Wang; Ziheng Zhou; Shuyong Gao; Yan Wang;
-Wenqiang Zhang
+> 通过超图增强记忆建模，实现少样本多模态异常检测。
 
+#### 🧭 Unsupervised Multi-View Visual Anomaly Detection via Progressive Homography-Guided Alignment
+Xintao Chen; Xiaohao Xu; Bozhong Zheng; Yun Liu; Yingna Wu
+`Unsupervised` `Multi-view` `Alignment` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2511.18766) Code: N/A
 
-#### Unsupervised Multi-View Visual Anomaly Detection via Progressive Homography-Guided Alignment
-Xintao Chen; Xiaohao Xu; Bozhong Zheng; Yun Liu;
-Yingna Wu
+> 提出渐进式单应性对齐的无监督多视角异常检测方法。
 
+#### 🔍 Learning to Tell Apart: Weakly Supervised Video Anomaly Detection via Disentangled Semantic Alignment
+Wenti Yin; Huaxin Zhang; Xiang Wang; Yuqing Lu; Yicheng Zhang; Bingquan Gong; Jialong Zuo; Li Yu; Changxin Gao; Nong Sang
+`Weakly-supervised` `Disentangled` `Semantic Alignment` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2511.10334) [![Code](https://img.shields.io/badge/Code-GitHub-black?logo=github)](https://github.com/DSANet/DSANet)
 
-#### Learning to Tell Apart: Weakly Supervised Video Anomaly Detection via Disentangled Semantic Alignment
-Wenti Yin; Huaxin Zhang; Xiang Wang; Yuqing Lu;
-Yicheng Zhang; Bingquan Gong; Jialong Zuo; Li Yu;
-Changxin Gao; Nong Sang
+> 通过解耦语义对齐进行弱监督视频异常检测。
 
+#### 🏭 MAU-GPT: Enhancing Multi-type Industrial Anomaly Understanding via Anomaly-aware and Generalist Experts Adaptation
+Zhuonan Wang; Zhenxuan Fan; Siwen Tan; Yu Zhong; Yuqian Yuan; Haoyuan Li; Hao Jiang; Wenqiao Zhang; Feifei Shao; Hongwei Wang; Jun Xiao
+`Industrial` `LLM` `Expert Adaptation` | Paper: N/A, Code: N/A
 
+> 面向多类型工业异常理解，结合异常感知与通用专家适配。
 
-#### MAU-GPT: Enhancing Multi-type Industrial Anomaly Understanding via Anomaly-aware and Generalist Experts Adaptation
-Zhuonan Wang; Zhenxuan Fan; Siwen Tan; Yu Zhong;
-Yuqian Yuan; Haoyuan Li; Hao Jiang; Wenqiao Zhang;
-Feifei Shao; Hongwei Wang; Jun Xiao
+#### 📊 VAGU & GtS: LLM-Based Benchmark and Framework for Joint Video Anomaly Grounding and Understanding
+Shibo Gao; Peipei Yang; Yangyang Liu; Yi Chen; Han Zhu; Xu-Yao Zhang; Linlin Huang
+`Benchmark` `Grounding` `Understanding` | Paper: N/A, Code: N/A
 
+> 提出用于视频异常定位与理解的 LLM 基准与框架。
 
-#### VAGU & GtS: LLM-Based Benchmark and Framework for Joint Video Anomaly Grounding and Understanding
-
-Shibo Gao; Peipei Yang; Yangyang Liu; Yi Chen; Han
-Zhu; Xu-Yao Zhang; Linlin Huang
-
-
-
-#### Exploring High-order-aware Prompt Learning for Zeroshot Anomaly Detection
+#### 🧠 Exploring High-order-aware Prompt Learning for Zeroshot Anomaly Detection
 Shun Wei; Jielin Jiang; Xiaolong Xu
+`Zero-shot` `Prompt Learning` `High-order` | Paper: N/A, Code: N/A
 
+> 探索高阶感知的提示学习以实现零样本异常检测。
 
-#### MaskAD: Parallel Masked Autoencoder for Multi-class Unsupervised Anomaly Detection
+#### 🎭 MaskAD: Parallel Masked Autoencoder for Multi-class Unsupervised Anomaly Detection
 Ruiying Lu; Gang Liu; Kang Li; Long Tian; Junwei Zhang
+`Unsupervised` `Masked Autoencoder` `Multi-class` | Paper: N/A, Code: N/A
 
+> 并行掩码自编码器用于多类别无监督异常检测。
 
-#### FineVAU: A Novel Human-Aligned Benchmark for FineGrained Video Anomaly Understanding
-Joao Alexandre Cardeira Pereira; Vasco Lopes; João C.
-Neves; David Semedo
+#### 📊 FineVAU: A Novel Human-Aligned Benchmark for FineGrained Video Anomaly Understanding
+Joao Alexandre Cardeira Pereira; Vasco Lopes; João C. Neves; David Semedo
+`Benchmark` `Fine-grained` `VAU` | Paper: N/A, Code: N/A
 
-
+> 提出面向细粒度视频异常理解的人类对齐评测基准。
 
 ## 2025
 - Accepted papers: <https://dblp.org/db/conf/aaai/aaai2025.html>
