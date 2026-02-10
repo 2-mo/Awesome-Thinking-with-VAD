@@ -769,7 +769,7 @@
                 display: inline-grid;
                 grid-auto-flow: column;
                 grid-auto-columns: var(--stacked-col-width);
-                grid-template-rows: repeat(3, var(--stacked-row-size));
+                grid-template-rows: repeat(4, var(--stacked-row-size));
                 gap: var(--stacked-gap);
                 padding: 0 2px 6px;
                 width: max-content;
@@ -798,13 +798,7 @@
                 grid-template-rows: 1fr 0px 1fr !important;
             }
             .legend-bar {
-                bottom: var(--legend-offset);
-                gap: 8px;
-                height: var(--legend-height);
-            }
-            .legend-bar span {
-                font-size: 8px !important;
-                letter-spacing: 0.16em;
+                display: none !important;
             }
             .copyright-note {
                 display: block;
