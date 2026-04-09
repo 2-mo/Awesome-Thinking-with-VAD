@@ -10,11 +10,17 @@
 
 ## 2026
 
-#### 📊 CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World
-Yating Yu; Congqi Cao; Zhaoying Wang; Weihua Meng; Jie Li; Yuxin Li; Zihao Wei; Zhongpei Shen; Jiajun Zhang
-`Benchmark` `VAU` `Context-aware` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2511.00613) Code: N/A
+### 基于大模型
 
-> 提出上下文感知的 VAU 统一评测基准 CueBench，构建事件中心的分层 taxonomy（14 类条件异常、18 类绝对异常），覆盖 174 个场景与 198 个属性，并在识别、时间定位、检测、预测等任务上统一评测 VLM。提出 Cue-R1 通过 R1 风格强化微调改进推理表现，显著优于现有 VLM。
+#### 🔍 Learning to Tell Apart: Weakly Supervised Video Anomaly Detection via Disentangled Semantic Alignment
+华中科技大学 | `视频异常检测` `弱监督检测` `基于大模型` | [[Paper]](https://ojs.aaai.org/index.php/AAAI/article/view/38191) [[Code]](https://github.com/lessiYin/DSANet)
+
+> 提出 DSANet，通过正态性建模与解耦语义对齐解决 WSVAD 的类别混淆问题。
+
+#### 📊 CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World
+西北工业大学 | `视频异常检测` `异常理解与基准` `基于大模型` | [[Paper]](https://ojs.aaai.org/index.php/AAAI/article/view/38209) [[Code]](https://github.com/Mia-YatingYu/Cue-R1)
+
+> 针对场景依赖型异常构建大规模基准 CueBench，并通过强化学习训练 Cue-R1 模型。
 
 #### 🏭 IAD-R1: Reinforcing Consistent Reasoning in Industrial Anomaly Detection （Oral）
 Yanhui Li; Yunkang Cao; Chengliang Liu; Yuan Xiong; Xinghui Dong; Chao Huang
@@ -28,11 +34,22 @@ Zhaolin Cai; Fan Li; Ziwei Zheng; Haixia Bi; Lijun He
 
 > 在 MLLM 中定位异常敏感 head，实现免调参的 VAD 增强。
 
-#### 🎯 RefineVAD: Semantic-Guided Feature Recalibration for Weakly Supervised Video Anomaly Detection
-Junhee Lee; ChaeBeen Bang; MyoungChul Kim; MyeongAh Cho
-`Weakly-supervised` `Semantic` `Feature Recalibration` | [![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B)](https://arxiv.org/abs/2511.13204) Code: N/A
+#### 📊 FineVAU: A Novel Human-Aligned Benchmark for Fine-Grained Video Anomaly Understanding
+里斯本 | `视频异常检测` `细粒度理解` `基于大模型` | [[Paper]](https://ojs.aaai.org/index.php/AAAI/article/view/37790) Code: N/A
 
-> 提出语义引导的特征重校准策略，提升弱监督 VAD 表达。
+> 提出人类对齐的指标 FV-Score，评估 LVLM 在事件、实体、位置维度的细粒度理解。
+
+#### 🎬 TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos
+西北工业大学 | `视频异常检测` `行为理解` `基于大模型` | [[Paper]](https://doi.org/10.1609/aaai.v40i16.38378) [[Code]](https://github.com/nwpu-zxr/)
+
+> 构建时空交互图并利用 Q-Former 融合特征，专注于视频中个体的异常行为识别与解释。
+
+### 经典方案
+
+#### 🎯 RefineVAD: Semantic-Guided Feature Recalibration for Weakly Supervised Video Anomaly Detection
+庆熙大学 (KHU) | `视频异常检测` `弱监督检测` `非大模型` | [[Project]](https://visualsciencelab-khu.github.io/RefineVAD-project/) [[Paper]](https://ojs.aaai.org/index.php/AAAI/article/view/37512) [[Code]](https://github.com/VisualScienceLab-KHU/RefineVAD)
+
+> 模拟人类感知，通过运动显著性估计与类别原型对齐实现特征精细化。
 
 #### 🧪 D-GARA: A Dynamic Benchmarking Framework for GUI Agent Robustness in Real-World Anomalies
 Sen Chen; Tong Zhao; Yi Bin; Fei Ma; Wenqi Shao; Zheng Wang
