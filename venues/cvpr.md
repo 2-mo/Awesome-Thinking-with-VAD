@@ -2,9 +2,76 @@
 
 ## Quick Navigation
 
+- 2026: [Alert-CLIP](#-alert-clip-abnormality-aware-latent-enhanced-representation-tuning-of-clip-for-video-anomaly-detection)（表征调优）、 [LAVIDA](#-no-need-for-real-anomaly-mllm-empowered-zero-shot-video-anomaly-detection)（零样本）、 [D²MIL](#-learning-from-noisy-supervision-a-denoisingdebiasing-framework-for-weakly-supervised-video-anomaly-detection)（去噪去偏）、 [Fine-VAD](#-fine-vad-towards-fine-grained-video-anomaly-detection-via-progressive-cross-granularity-learning)（细粒度）、 [STCRC](#️-streaming-video-crime-anticipation-with-spatio-temporal-causal-reasoning)（犯罪预判）、 [Rare-E2E](#-rare-e2e-rare-events-dataset-for-end-to-end-driving-in-challenging-long-tail-scenarios)（长尾事件）
 - 2025: [Just Dance with pi!](#-just-dance-with-pi-a-poly-modal-inductor-for-weakly-supervised-video-anomaly-detection)（多模态·弱监督）、 [Anomize](#-anomize-better-open-vocabulary-video-anomaly-detection)（开放词汇）、 [VERA](#-vera-explainable-video-anomaly-detection-via-verbalized-learning-of-vision-language-models)（语言化·解释）、 [TAO](#-track-any-anomalous-object-a-granular-video-anomaly-detection-pipeline)（细粒度跟踪）、 [Holmes-VAU](#-holmes-vau-towards-long-term-video-anomaly-understanding-at-any-granularity)（长时序理解）、 [Noise-Resistant VAD](#-noise-resistant-video-anomaly-detection-via-rgb-error-guided-multiscale-predictive-coding-and-dynamic-memory)（重建·抗噪）
 - 2024: [MULDE](#-mulde-multiscale-log-density-estimation-via-denoising-score-matching-for-video-anomaly-detection)（多尺度密度）、 [CLAP](#-collaborative-learning-of-anomalies-with-privacy-clap-for-unsupervised-video-anomaly-detection-a-new-baseline)（联邦无监督）、 [Self-Distilled MAE](#-self-distilled-masked-auto-encoders-are-efficient-video-anomaly-detectors)（自蒸馏 MAE）、 [Open-Vocabulary VAD](#-open-vocabulary-video-anomaly-detection)（开放词汇）、 [Normality Prompt](#-text-prompt-with-normality-guidance-for-weakly-supervised-video-anomaly-detection)（文本正则）、 [Multi-Grained VAD](#-multi-scale-video-anomaly-detection-by-multi-grained-spatio-temporal-representation-learning)（多粒度时空）、 [PE-MIL](#-prompt-enhanced-multiple-instance-learning-for-weakly-supervised-video-anomaly-detection)（Prompt MIL）、 [LAVAD](#-harnessing-large-language-models-for-training-free-video-anomaly-detection)（LLM 免训练）、 [CUVA](#-uncovering-what-why-and-how-a-comprehensive-benchmark-for-causation-understanding-of-video-anomaly)（因果基准）
 - 2023: [Pseudo Labels VAD](#-exploiting-completeness-and-uncertainty-of-pseudo-labels-for-weakly-supervised-video-anomaly-detection)（伪标签·弱监督）、 [Prompt Skeleton](#-prompt-guided-zero-shot-anomaly-action-recognition-using-pretrained-deep-skeleton-features)（骨架零样本）、 [Context-Motion](#-look-around-for-anomalies-weakly-supervised-anomaly-detection-via-context-motion-relational-learning)（上下文运动）、 [EVAL](#-eval-explainable-video-anomaly-localization)（可解释定位）、 [Keyframe Restoration](#-video-event-restoration-based-on-keyframes-for-video-anomaly-detection)（关键帧重建）、 [HSC-VAD](#-hierarchical-semantic-contrast-for-scene-aware-video-anomaly-detection)（场景对比）、 [UMIL](#-unbiased-multiple-instance-learning-for-weakly-supervised-video-anomaly-detection)（无偏 MIL）、 [Audio-Visual Forensics](#-self-supervised-video-forensics-by-audio-visual-anomaly-detection)（音视频自监督）、 [CampusVAD Benchmark](#-a-new-comprehensive-benchmark-for-semi-supervised-video-anomaly-detection-and-anticipation)（半监督基准）、 [Prompt-Based Generation](#-generating-anomalies-for-video-anomaly-detection-with-prompt-based-feature-mapping)（Prompt 生成）
+
+## 2026
+- Accepted papers: <https://cvpr.thecvf.com/Conferences/2026/AcceptedPapers>
+- Observations:
+  - 大模型/视觉语言模型在异常检测中的应用进一步深入，涵盖表征调优、纠偏去噪、零样本语义推理等。
+  - 数据集与应用场景拓展延伸，涉及细粒度、交通事故、犯罪预判及长尾极端事件挑战。
+
+### 基于大模型
+
+#### 🧠 Joint Learning of General and Diverse Patterns with Mixture of Memory Experts for Weakly-Supervised Video Anomaly Detection
+University of Chinese Academy of Sciences | `Memory Mixture` `LLM Prototype` | [[Paper]](https://cvpr.thecvf.com/virtual/2026/poster/36266)
+
+> 提出 MoME 记忆专家混合框架，同时建模通用异常模式与多样异常模式。
+
+#### 🛡️ Learning from Noisy Supervision: A Denoising–Debiasing Framework for Weakly Supervised Video Anomaly Detection
+Nankai University | `Denoising-Debiasing` `VLM` | [[Paper]](https://cvpr.thecvf.com/virtual/2026/poster/38070)
+
+> 提出 D²MIL，在 MIL 框架中先过滤疑似噪声样本，再用视觉语言模型辅助找回难识别异常片段。
+
+#### 🚀 No Need For Real Anomaly: MLLM Empowered Zero-Shot Video Anomaly Detection
+Beijing University of Posts and Telecommunications | `Zero-Shot` `MLLM` | [[ArXiv]](https://arxiv.org/pdf/2602.19248) [[Code]](https://github.com/VitaminCreed/LAVIDA)
+
+> 提出 LAVIDA，仅使用伪异常训练，并结合 MLLM 语义理解实现零样本视频异常检测。
+
+#### 🕵️ Streaming Video Crime Anticipation with Spatio-Temporal Causal Reasoning
+TeleAI | `Crime Anticipation` `VLM` `Causal Reasoning` | [[Project]](https://zqsiat.github.io/) [[Paper]](https://cvpr.thecvf.com/virtual/2026/poster/39800)
+
+> 构建 STCRC 数据集和 STCH 流式模块，用显式时空因果结构增强视频犯罪预判。
+
+
+### 经典方案
+
+#### 💬 Alert-CLIP: Abnormality-aware Latent-Enhanced Representation Tuning of CLIP for Video Anomaly Detection
+Beijing University of Posts and Telecommunications | `CLIP Representation Tuning` `Multi-level Alignment` | [[Paper]](https://cvpr.thecvf.com/virtual/2026/poster/36334)
+
+> 针对 CLIP 异常感知不足的问题，通过视频-标签、区域-文本、区域-语义多层对齐增强 VAD 表征。
+
+#### 🎯 Fine-VAD: Towards Fine-Grained Video Anomaly Detection via Progressive Cross-Granularity Learning
+Beijing University of Posts and Telecommunications | `Fine-Grained` `Cross-Granularity` | [[Paper]](https://cvpr.thecvf.com/virtual/2026/poster/38061)
+
+> 利用粗粒度与细粒度标签的渐进跨粒度学习，同时提升异常检测与细粒度异常类别识别。
+
+#### 🔍 Weakly Supervised Video Anomaly Detection with Anomaly-Connected Components and Intention Reasoning
+Tongji University | `Intention Reasoning` `Weakly Supervised` | [[ArXiv]](https://arxiv.org/pdf/2603.00550)
+
+> 提出 LAS-VAD，用异常连通组件学习异常语义，并通过意图推理区分相似的正常/异常行为。
+
+#### 🧭 The Road Less Seen: Segment Exploration for Weakly Supervised Video Anomaly Detection
+Rochester Institute of Technology | `Segment Exploration` `Weakly Supervised` | [[Paper]](https://cvpr.thecvf.com/virtual/2026/poster/39364)
+
+> 指出 AUROC 在实际高风险场景下可能掩盖低召回问题，并用时序聚类与不确定性采样探索更多异常片段。
+
+#### 🧩 TLMA: Mitigating the Impact of Weakly Labeled Information for Video Anomaly Detection
+Beijing Jiaotong University | `Weak Label Mitigation` `Triplet Learning` | [[Paper]](https://cvpr.thecvf.com/virtual/2026/poster/38505)
+
+> 通过三元组学习和运动感知特征增强，降低弱标签信息对异常定位边界学习的干扰。
+
+#### 🚨 RiskProp: Collision-Anchored Self-supervised Temporal Constraints for Early Accident Anticipation
+Wuhan University | `Accident Anticipation` `Self-supervised` | [[ArXiv]](https://arxiv.org/pdf/2603.27165)
+
+> 只依赖碰撞帧标注，通过风险反向传播和单调时序约束实现更早、更平滑的事故风险预判。
+
+#### 📊 Rare-E2E: Rare Events Dataset for End-to-End Driving in Challenging Long-tail Scenarios
+University of California, Los Angeles | `Dataset` `Rare Events` `End-to-End Driving` | [[ArXiv]](https://arxiv.org/pdf/2510.26125)
+
+> 提出面向端到端驾驶的长尾稀有事件数据集，并用 RFS 评价轨迹与人工偏好的一致性。
 
 ## 2025
 - Accepted papers: <https://cvpr.thecvf.com/Conferences/2025/AcceptedPapers>
