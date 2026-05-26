@@ -8,6 +8,7 @@ A curated list of papers and resources on Large Language Models for Video Anomal
 - [Overview](#overview)
 - [Motivation: Why Does VAD Need "Thinking"?](#motivation-why-does-vad-need-thinking)
 - [Papers by Year](#papers-by-year)
+  - [2026](#2026)
   - [2025](#2025)
   - [2024](#2024)
 - [Metrics & Evaluation](#metrics--evaluation)
@@ -47,6 +48,73 @@ In short, we need **reasoning**, not just post-hoc explanation.
 ---
 
 ## Papers by Year
+
+### 2026
+
+#### ICML 2026
+
+##### Linguistic Relative Policy Optimization for Video Anomaly Reasoning
+[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/64285)
+> Enhances the video anomaly reasoning and explanation capabilities of Multimodal Large Language Models through linguistic relative policy optimization.
+
+##### Learning to Watch: Active Video Anomaly Understanding via Interleaved Policy Optimization
+[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/60569)
+> Focuses on video anomaly understanding (VAU) by actively selecting key evidence frames to improve both anomaly judgment and interpretation capabilities.
+
+##### Towards Trustworthy Video Anomaly Understanding: A Class-Guided Chain-of-Evaluation Metric and An Anomaly-focused Meta-Benchmark
+[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/66013)
+> Constructs evaluation metrics and meta-benchmarks for video anomaly understanding to measure the trustworthiness and reasoning performance of large models.
+
+##### TD-VAD: Breaking Visual Dependence in Video Anomaly Detection with Text-Driven Learning
+[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/65928)
+> Leverages text-driven learning to reduce dependence on visual anomaly samples, enhancing the generalization capabilities of video anomaly detection across diverse scenarios.
+
+##### PRISM: Training-Free Video Anomaly Detection via Intrinsic Statistical Modeling
+[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/66758)
+> Proposes a training-free video anomaly detection approach using intrinsic statistical modeling, capable of identifying open-world anomalies without relying on explicit video training.
+
+#### CVPR 2026
+
+##### No Need For Real Anomaly: MLLM Empowered Zero-Shot Video Anomaly Detection
+[![CVPR](https://img.shields.io/badge/CVPR-2026-1E90FF)](https://arxiv.org/pdf/2602.19248)
+[![Code](https://img.shields.io/github/stars/VitaminCreed/LAVIDA?style=social&label=Code&logo=github)](https://github.com/VitaminCreed/LAVIDA)
+> Proposes LAVIDA, which trains purely on pseudo anomalies and leverages the semantic understanding capabilities of Multimodal Large Language Models (MLLMs) to achieve zero-shot video anomaly detection.
+
+##### Streaming Video Crime Anticipation with Spatio-Temporal Causal Reasoning
+[![CVPR](https://img.shields.io/badge/CVPR-2026-1E90FF)](https://cvpr.thecvf.com/virtual/2026/poster/39800)
+> Constructs the STCRC dataset and integrates VLMs with explicit spatio-temporal causal reasoning structures to enhance crime anticipation in streaming videos.
+
+#### ICLR 2026
+
+##### Steering and Rectifying Latent representation manifolds in Frozen Multi-modal LLMs for Video Anomaly Detection
+[![ICLR](https://img.shields.io/badge/ICLR-2026-4B0082)](https://openreview.net/forum?id=ol78tbpqyu)
+> Explores steering latent representation manifolds within frozen Multimodal Large Language Models (MLLMs) specifically tailored for video anomaly detection tasks.
+
+##### Language-guided Open-world Video Anomaly Detection under Weak Supervision
+[![ICLR](https://img.shields.io/badge/ICLR-2026-4B0082)](https://openreview.net/forum?id=70lFIQG5OB)
+> Proposes a language-guided approach to tackle open-world video anomaly detection under weak supervision, pushing boundaries for detecting unseen anomalies using text semantics.
+
+#### AAAI 2026
+
+##### CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World
+[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](https://ojs.aaai.org/index.php/AAAI/article/view/38209)
+[![Code](https://img.shields.io/badge/Code-GitHub-black?logo=github)](https://github.com/Mia-YatingYu/Cue-R1)
+> Introduces CueBench for context-aware video anomalies and trains the Cue-R1 model via reinforcement learning for deeper anomaly reasoning.
+
+##### HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection
+[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](https://arxiv.org/abs/2512.17601)
+> Proposes a tuning-free video anomaly detection framework by hunting and selecting robust, anomaly-sensitive heads directly within pre-trained MLLMs.
+
+##### FineVAU: A Novel Human-Aligned Benchmark for Fine-Grained Video Anomaly Understanding
+[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](https://ojs.aaai.org/index.php/AAAI/article/view/37790)
+> Proposes a human-aligned FV-Score to evaluate Large Vision-Language Models (LVLMs) in their fine-grained understanding of anomalies across events, entities, and locations.
+
+##### TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos
+[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](https://doi.org/10.1609/aaai.v40i16.38378)
+[![Code](https://img.shields.io/badge/Code-GitHub-black?logo=github)](https://github.com/nwpu-zxr/)
+> Focuses on target behavior understanding via reasoning. It constructs spatiotemporal interaction graphs and fuses multimodal features to identify individual anomalies.
+
+---
 
 ### 2025
 
