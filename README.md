@@ -11,8 +11,7 @@ English | [简体中文](README.zh-CN.md)
 
 ## 🗞️ Recent Updates
 
-- **2026-02-06** — Updated the AAAI paper list.
-- **2026-02-06** — Updated the ICLR paper list.
+- **2026-05-26** — Updated the CVPR and ICML paper lists with the latest 2026 publications.
 - **2026-02-06** — Refreshed the Interactive Atlas timeline page ([View Interactive Research Atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/)).
 
 ---
@@ -20,7 +19,7 @@ English | [简体中文](README.zh-CN.md)
 ## 📖 Table of Contents
 
 - [Awesome Thinking with VAD](#awesome-thinking-with-vad)
-  - [🗞️ Recent Updates](#-recent-updates)
+  - [🗞️ Recent Updates](#️-recent-updates)
   - [📖 Table of Contents](#-table-of-contents)
   - [🌟 Overview](#-overview)
   - [📚 Conference Snapshots](#-conference-snapshots)
