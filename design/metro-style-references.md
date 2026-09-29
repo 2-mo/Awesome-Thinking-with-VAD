@@ -13,6 +13,7 @@ Both reference PDFs were rendered and visually inspected. Additional official re
 
 - Keep the existing five method colors, time axis, compact conference labels and three sourced shared stations.
 - Regularize free station heights on a 24-unit grid, suppressing minor deviations from a method trunk. This removes small ripples caused by continuous barycentric relaxation.
+- Shared papers now use separate, vertically paired platforms and a short neutral outlined connector. Keep one paper name, one click/focus target and highlight all member lines together. This replaces the concentric-ring junction where all colored routes converged to one point.
 - Approach and leave stations on short horizontal platforms. The current full catalog has straight segments extending at least 10 units either side of all 54 line visits to its 51 stations.
 - Use true circular fillets, normally radius 12, at 45°/90° bends. The older renderer used a quadratic curve with a trim distance as large as 28, whose apparent radius varied with turning angle.
 - Leave at least 14 units of straight track between adjacent fillets; shrink or omit a fillet if a short segment or a label requires it. Keep station centers on their route.

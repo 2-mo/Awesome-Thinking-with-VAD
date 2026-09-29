@@ -7,7 +7,7 @@ import {
   publicationLabel,
   stationName,
 } from "./publication-layout";
-import type { Point } from "./publication-layout";
+import type { Point, Station } from "./publication-layout";
 import { paperMethods, publicationVenue } from "../publication";
 import { metroPath } from "./metro-path";
 import "./research-map.css";
@@ -31,6 +31,48 @@ const clamp = (n: number, min: number, max: number) =>
   Math.min(max, Math.max(min, n));
 const fitLabel = (text: string, size: number, available: number) =>
   labelWidth(text, size) > available ? available : undefined;
+
+function StationMarker({ station, colors, active = false, muted = false }: {
+  station: Station; colors: Map<string, string>; active?: boolean; muted?: boolean;
+}) {
+  const color = colors.get(station.lineId) || INK;
+  const first = station.platforms[0], last = station.platforms.at(-1)!;
+  const interchange = station.platforms.length > 1;
+  const connector = `M${station.x} ${first.y}V${last.y}`;
+  return (
+    <g className={interchange ? "metro-interchange" : undefined}>
+      {interchange ? (
+        <>
+          {active && <path d={connector} stroke={color} strokeWidth="36" strokeLinecap="round" opacity=".14" />}
+          <path d={connector} stroke={PAPER} strokeWidth="22" strokeLinecap="round" />
+          <path d={connector} stroke={muted ? "#b1b9ae" : INK} strokeWidth="7" strokeLinecap="round" />
+          <path d={connector} stroke={PAPER} strokeWidth="3" strokeLinecap="round" />
+          {station.platforms.map((platform) => (
+            <g key={platform.lineId}>
+              <circle cx={platform.x} cy={platform.y} r={muted ? 5 : 8}
+                fill={PAPER} stroke={muted ? "#b1b9ae" : INK} strokeWidth={muted ? 2 : 2.8} />
+              {!muted && <circle cx={platform.x} cy={platform.y} r={active ? 3.6 : 3}
+                fill={colors.get(platform.lineId) || INK} />}
+            </g>
+          ))}
+        </>
+      ) : muted ? (
+        <circle cx={station.x} cy={station.y} r="3.5" fill={PAPER} stroke="#b1b9ae" strokeWidth="1.5" />
+      ) : (
+        <>
+          <circle className="metro-station-halo" cx={station.x} cy={station.y}
+            r={active ? 16 : 11} fill={color} fillOpacity={active ? .16 : 0} />
+          <circle cx={station.x} cy={station.y} r={active ? 12.5 : 11} fill={PAPER} />
+          <circle className="metro-station-dot" cx={station.x} cy={station.y}
+            r={active ? 9.5 : 8} fill={active ? color : PAPER} stroke={color} strokeWidth="3.2" />
+          <circle cx={station.x} cy={station.y} r={active ? 3 : 2.3} fill={active ? PAPER : color} />
+        </>
+      )}
+      {!muted && <rect x={station.x - 18} y={first.y - 18} width="36"
+        height={last.y - first.y + 36} rx="18" fill="transparent" />}
+    </g>
+  );
+}
 
 export default function ResearchMap({
   papers,
@@ -65,6 +107,7 @@ export default function ResearchMap({
     [sourcePapers],
   );
   const { width, height } = network;
+  const lineColors = new Map(network.lines.map((line) => [line.id, line.color]));
   const focusedPaper = sourcePapers.find((paper) => paper.id === (hoveredId || selectedId));
   const focusedLines = new Set(focusedPaper ? paperMethods(focusedPaper) :
     activeCluster === "all" ? [] : [activeCluster]);
@@ -292,8 +335,8 @@ export default function ResearchMap({
                 const focus = !focusedLines.size || focusedLines.has(line.id);
                 const path = metroPath(
                   line.track,
-                  [...network.stations.values()].filter(
-                    (station) => station.lineIds.includes(line.id),
+                  [...network.stations.values()].flatMap(
+                    (station) => station.platforms.filter((platform) => platform.lineId === line.id),
                   ),
                   [...network.stations.values()].map((station) => station.label),
                 );
@@ -326,18 +369,10 @@ export default function ResearchMap({
                 .filter((paper) => !visibleIds.has(paper.id))
                 .map((paper) => {
                   const point = network.stations.get(paper.id);
-                  return (
-                    point && (
-                      <circle
-                        key={paper.id}
-                        cx={point.x}
-                        cy={point.y}
-                        r="3.5"
-                        fill={PAPER}
-                        stroke="#b1b9ae"
-                        strokeWidth="1.5"
-                      />
-                    )
+                  return point && (
+                    <g key={paper.id} pointerEvents="none">
+                      <StationMarker station={point} colors={lineColors} muted />
+                    </g>
                   );
                 })}
               {network.lines.map((line, index) => {
@@ -428,6 +463,9 @@ export default function ResearchMap({
             const tx = station ? box.x + box.width / 2 : box.x + 13;
             const available = box.width - (station ? 10 : 26);
             const labelY = station ? box.y + 21 : box.y + 18;
+            const leader = station
+              ? box.y + box.height < station.y ? station.platforms[0] : station.platforms.at(-1)!
+              : null;
             const anchor = station
               ? {
                   x: clamp(station.x, box.x, box.x + box.width),
@@ -457,10 +495,10 @@ export default function ResearchMap({
                 }}
               >
                 <title>{`${paper.title} — ${paper.venue}, ${paper.year}${interchange ? " · 换乘站" : ""}`}</title>
-                {station && anchor && (
+                {station && leader && anchor && (
                   <path
-                    d={`M${station.x} ${station.y}L${anchor.x} ${anchor.y}`}
-                    stroke={color}
+                    d={`M${leader.x} ${leader.y}L${anchor.x} ${anchor.y}`}
+                    stroke={interchange ? INK : color}
                     strokeWidth="1.4"
                   />
                 )}
@@ -476,45 +514,7 @@ export default function ResearchMap({
                   strokeWidth={selected ? 1.5 : 3}
                 />
                 {station ? (
-                  <>
-                    <circle
-                      className="metro-station-halo"
-                      cx={station.x}
-                      cy={station.y}
-                      r={interchange ? 19 : active ? 16 : 11}
-                      fill={color}
-                      fillOpacity={active ? 0.16 : 0}
-                    />
-                    <circle
-                      cx={station.x}
-                      cy={station.y}
-                      r={interchange ? 15 : active ? 12.5 : 11}
-                      fill={PAPER}
-                    />
-                    <circle
-                      className="metro-station-dot"
-                      cx={station.x}
-                      cy={station.y}
-                      r={interchange ? 11.5 : active ? 9.5 : 8}
-                      fill={interchange ? PAPER : active ? color : PAPER}
-                      stroke={interchange ? INK : color}
-                      strokeWidth="3.2"
-                    />
-                    <circle
-                      cx={station.x}
-                      cy={station.y}
-                      r={interchange ? 6.5 : active ? 3 : 2.3}
-                      fill={interchange ? PAPER : active ? PAPER : color}
-                      stroke={interchange ? INK : "none"}
-                      strokeWidth={interchange ? 1.6 : 0}
-                    />
-                    <circle
-                      cx={station.x}
-                      cy={station.y}
-                      r="16"
-                      fill="transparent"
-                    />
-                  </>
+                  <StationMarker station={station} colors={lineColors} active={active} />
                 ) : (
                   <rect
                     x={box.x}

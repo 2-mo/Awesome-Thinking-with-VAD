@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readCatalog } from '../scripts/catalog.mjs';
 import { paperMethods } from '../src/publication.ts';
-import { createPublicationLayout } from '../src/components/publication-layout.ts';
+import { createPublicationLayout, stationBounds } from '../src/components/publication-layout.ts';
 
 const { papers } = await readCatalog();
 const layout = createPublicationLayout(papers);
@@ -26,7 +26,9 @@ test('each paper stays in its publication year and on all of its method routes',
     assert.deepEqual(station.lineIds, paperMethods(paper));
     for (const id of station.lineIds) {
       const line = layout.lines.find(item => item.id === id);
-      assert.ok(segments(line).some(([a, b]) => onSegment(station, a, b)), `${paper.id} is on ${id}`);
+      const platform = station.platforms.find(item => item.lineId === id);
+      assert.ok(contains(cell, platform), `${paper.id} platform stays in year`);
+      assert.ok(segments(line).some(([a, b]) => onSegment(platform, a, b)), `${paper.id} is on ${id}`);
     }
   }
 });
@@ -137,9 +139,35 @@ test('tracks avoid paper labels and unrelated station markers', () => {
     for (const station of layout.stations.values()) {
       assert.ok(!crossesBox(a, b, station.label), `${line.id} crosses ${station.paperId} label`);
       if (!station.lineIds.includes(line.id)) {
-        assert.ok(!crossesBox(a, b, { x: station.x - 10, y: station.y - 10, width: 20, height: 20 }),
+        assert.ok(!crossesBox(a, b, stationBounds(station, 10)),
           `${line.id} passes through unrelated ${station.paperId}`);
+      } else {
+        for (const platform of station.platforms.filter(item => item.lineId !== line.id)) {
+          assert.ok(!crossesBox(a, b, { x: platform.x - 9, y: platform.y - 9, width: 18, height: 18 }),
+            `${line.id} uses the wrong platform at ${station.paperId}`);
+        }
       }
+    }
+  }
+});
+
+test('interchange routes use separate straight platforms with one shared label', () => {
+  for (const station of layout.stations.values()) {
+    const bounds = stationBounds(station);
+    for (const other of layout.stations.values()) {
+      const label = other.label;
+      assert.ok(label.x + label.width <= bounds.x || bounds.x + bounds.width <= label.x ||
+        label.y + label.height <= bounds.y || bounds.y + bounds.height <= label.y,
+        `${other.paperId} label avoids ${station.paperId} station body`);
+    }
+    if (station.platforms.length < 2) continue;
+    for (const [index, platform] of station.platforms.entries()) {
+      assert.equal(platform.x, station.x, 'all platforms keep the paper date');
+      if (index) assert.ok(platform.y - station.platforms[index - 1].y >= 24, 'platform markers remain separate');
+      const line = layout.lines.find(item => item.id === platform.lineId);
+      assert.ok(segments(line).some(([a, b]) => Math.abs(a.y - platform.y) < epsilon &&
+        Math.abs(b.y - platform.y) < epsilon && a.x <= platform.x - 10 && b.x >= platform.x + 10),
+        `${station.paperId}: ${line.id} stays straight through its platform`);
     }
   }
 });
