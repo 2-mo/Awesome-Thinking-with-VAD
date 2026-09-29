@@ -8,7 +8,7 @@ import {
   stationName,
 } from "./publication-layout";
 import type { Point } from "./publication-layout";
-import { publicationVenue } from "../publication";
+import { paperMethods, publicationVenue } from "../publication";
 import "./research-map.css";
 
 interface Props {
@@ -111,9 +111,9 @@ export default function ResearchMap({
     [sourcePapers],
   );
   const { width, height } = network;
-  const focusedLine =
-    sourcePapers.find((paper) => paper.id === (hoveredId || selectedId))
-      ?.cluster || (activeCluster === "all" ? null : activeCluster);
+  const focusedPaper = sourcePapers.find((paper) => paper.id === (hoveredId || selectedId));
+  const focusedLines = new Set(focusedPaper ? paperMethods(focusedPaper) :
+    activeCluster === "all" ? [] : [activeCluster]);
   const timeline = useMemo(() => {
     const years = [...new Set(sourcePapers.map((p) => p.year))].sort(
       (a, b) => a - b,
@@ -155,9 +155,8 @@ export default function ResearchMap({
     return { nodes, columns };
   }, [sourcePapers, papers, width]);
   const left = network.years[0]?.x ?? 190;
-  const plotTop = network.venues[0]?.y ?? 90;
-  const lastVenue = network.venues[network.venues.length - 1];
-  const plotBottom = lastVenue ? lastVenue.y + lastVenue.height : height - 70;
+  const plotTop = network.plotBounds.y;
+  const plotBottom = plotTop + network.plotBounds.height;
 
   useEffect(() => {
     setPan({ x: 0, y: 0 });
@@ -229,7 +228,7 @@ export default function ResearchMap({
     <section
       className={`research-map metro-map publication-map${dragging ? " is-dragging" : ""}`}
       aria-label={
-        layout === "map" ? "年份、会议与方法派别研究线路图" : "论文发表时间排列"
+        layout === "map" ? "时间与方法拓扑研究线路图" : "论文发表时间排列"
       }
     >
       <svg
@@ -238,7 +237,7 @@ export default function ResearchMap({
         viewBox={`0 0 ${width} ${height}`}
         aria-label={
           layout === "map"
-            ? `${papers.length}篇论文，横轴年份与季度，纵轴会议，彩色线路表示方法派别`
+            ? `${papers.length}篇论文，横轴年份与季度，站点高度依方法拓扑排布，会议标于论文名下，多方法论文为换乘站`
             : `${papers.length}篇论文，按发表年份排列`
         }
         onPointerDown={onPointerDown}
@@ -252,7 +251,7 @@ export default function ResearchMap({
       >
         <title>
           视频异常理解 ·{" "}
-          {layout === "map" ? "年份 × 会议 · 方法线路" : "发表时间线"}
+          {layout === "map" ? "时间 × 方法 · 拓扑线路" : "发表时间线"}
         </title>
         <defs>
           <pattern
@@ -335,85 +334,12 @@ export default function ResearchMap({
                   ))}
                 </g>
               ))}
-              <text
-                x="25"
-                y={plotTop - 49}
-                fill={INK}
-                fontSize="13"
-                fontWeight="800"
-                letterSpacing="1"
-              >
-                会议 / 时间 →
-              </text>
-              {network.venues.map((venue) => {
-                const selectedVenue =
-                  publicationVenue(
-                    sourcePapers.find((paper) => paper.id === selectedId)
-                      ?.venue || "",
-                  ) === venue.venue;
-                const label = venue.label;
-                const parts =
-                  venue.venue === "arXiv" ? ["arXiv", "预印本"] : [label];
-                return (
-                  <g key={venue.venue}>
-                    <rect
-                      x="16"
-                      y={venue.y + 3}
-                      width={left - 27}
-                      height={venue.height - 6}
-                      rx="4"
-                      fill={selectedVenue ? "#fce8a2" : "transparent"}
-                    />
-                    <path
-                      d={`M${left} ${venue.y + venue.height}H${width - 24}`}
-                      stroke="#d8ded3"
-                      strokeWidth=".8"
-                      opacity=".3"
-                    />
-                    <text
-                      x="29"
-                      y={
-                        venue.y + venue.height / 2 - (parts.length > 1 ? 2 : -5)
-                      }
-                      fill={INK}
-                      fontSize="14"
-                      fontWeight="750"
-                    >
-                      {parts.map((part, index) => (
-                        <tspan
-                          key={part}
-                          x="29"
-                          dy={index ? 14 : 0}
-                          fontSize={index ? 11 : 14}
-                        >
-                          {part}
-                        </tspan>
-                      ))}
-                    </text>
-                    <text
-                      x={left - 23}
-                      y={venue.y + venue.height / 2 + 5}
-                      textAnchor="end"
-                      fill="#768379"
-                      fontSize="11"
-                      fontWeight="650"
-                    >
-                      {
-                        papers.filter(
-                          (paper) =>
-                            publicationVenue(paper.venue) === venue.venue,
-                        ).length
-                      }
-                    </text>
-                  </g>
-                );
-              })}
               {network.lines.map((line) => {
-                const focus = !focusedLine || line.id === focusedLine;
+                const focus = !focusedLines.size || focusedLines.has(line.id);
                 const path = routePath(
                   line.track,
                   [...network.stations.values()].filter(
-                    (station) => station.lineId === line.id,
+                    (station) => station.lineIds.includes(line.id),
                   ),
                   [...network.stations.values()].map((station) => station.label),
                 );
@@ -427,7 +353,7 @@ export default function ResearchMap({
                       d={path}
                       fill="none"
                       stroke={PAPER}
-                      strokeWidth={focus && focusedLine ? 11 : 9}
+                      strokeWidth={focus && focusedLines.size ? 11 : 9}
                       strokeLinejoin="round"
                       strokeLinecap="round"
                     />
@@ -435,7 +361,7 @@ export default function ResearchMap({
                       d={path}
                       fill="none"
                       stroke={line.color}
-                      strokeWidth={focus && focusedLine ? 6 : 4.8}
+                      strokeWidth={focus && focusedLines.size ? 6 : 4.8}
                       strokeLinejoin="round"
                       strokeLinecap="round"
                     />
@@ -482,7 +408,7 @@ export default function ResearchMap({
                       x="41"
                       y="5"
                       fill={INK}
-                      fontSize="14"
+                      fontSize="18"
                       fontWeight="700"
                     >
                       {clusters.find((cluster) => cluster.id === line.id)
@@ -542,11 +468,12 @@ export default function ResearchMap({
             );
             const color = line?.color || INK;
             const label = publicationLabel(paper);
-            const fontSize = station ? 14 : 16;
+            const fontSize = station ? 20 : 16;
+            const interchange = (station?.lineIds.length ?? 0) > 1;
             const name = station ? stationName(paper) : paper.shortTitle;
             const tx = station ? box.x + box.width / 2 : box.x + 13;
             const available = box.width - (station ? 10 : 26);
-            const labelY = station ? box.y + box.height / 2 + 5 : box.y + 18;
+            const labelY = station ? box.y + 21 : box.y + 18;
             const anchor = station
               ? {
                   x: clamp(station.x, box.x, box.x + box.width),
@@ -558,7 +485,7 @@ export default function ResearchMap({
                 key={paper.id}
                 role="button"
                 tabIndex={0}
-                aria-label={`${paper.title}，${paper.venue}，${paper.year}，${clusters.find((cluster) => cluster.id === paper.cluster)?.name || ""}，查看详情`}
+                aria-label={`${paper.title}，${paper.venue}，${paper.year}，${paperMethods(paper).map((id) => clusters.find((cluster) => cluster.id === id)?.name || id).join("、")}${interchange ? "，换乘站" : ""}，查看详情`}
                 aria-pressed={selected}
                 className={`metro-station${selected ? " is-selected" : ""}`}
                 onMouseEnter={() => setHoveredId(paper.id)}
@@ -575,7 +502,7 @@ export default function ResearchMap({
                   }
                 }}
               >
-                <title>{`${paper.title} — ${paper.venue}, ${paper.year}`}</title>
+                <title>{`${paper.title} — ${paper.venue}, ${paper.year}${interchange ? " · 换乘站" : ""}`}</title>
                 {station && anchor && (
                   <path
                     d={`M${station.x} ${station.y}L${anchor.x} ${anchor.y}`}
@@ -600,30 +527,32 @@ export default function ResearchMap({
                       className="metro-station-halo"
                       cx={station.x}
                       cy={station.y}
-                      r={active ? 16 : 11}
+                      r={interchange ? 19 : active ? 16 : 11}
                       fill={color}
                       fillOpacity={active ? 0.16 : 0}
                     />
                     <circle
                       cx={station.x}
                       cy={station.y}
-                      r={active ? 12.5 : 11}
+                      r={interchange ? 15 : active ? 12.5 : 11}
                       fill={PAPER}
                     />
                     <circle
                       className="metro-station-dot"
                       cx={station.x}
                       cy={station.y}
-                      r={active ? 9.5 : 8}
-                      fill={active ? color : PAPER}
-                      stroke={color}
+                      r={interchange ? 11.5 : active ? 9.5 : 8}
+                      fill={interchange ? PAPER : active ? color : PAPER}
+                      stroke={interchange ? INK : color}
                       strokeWidth="3.2"
                     />
                     <circle
                       cx={station.x}
                       cy={station.y}
-                      r={active ? 3 : 2.3}
-                      fill={active ? PAPER : color}
+                      r={interchange ? 6.5 : active ? 3 : 2.3}
+                      fill={interchange ? PAPER : active ? PAPER : color}
+                      stroke={interchange ? INK : "none"}
+                      strokeWidth={interchange ? 1.6 : 0}
                     />
                     <circle
                       cx={station.x}
@@ -654,19 +583,18 @@ export default function ResearchMap({
                 >
                   {name}
                 </text>
-                {!station && (
-                  <text
+                <text
                     x={tx}
-                    y={box.y + 35}
+                    y={box.y + (station ? 41 : 35)}
+                    textAnchor={station ? "middle" : "start"}
                     fill="#52605a"
-                    fontSize="12.5"
-                    fontWeight="550"
-                    textLength={fitLabel(label, 12.5, available)}
+                    fontSize={station ? 14 : 12.5}
+                    fontWeight="650"
+                    textLength={fitLabel(station ? publicationVenue(paper.venue) : label, station ? 14 : 12.5, available)}
                     lengthAdjust="spacingAndGlyphs"
                   >
-                    {label}
+                    {station ? publicationVenue(paper.venue) : label}
                   </text>
-                )}
               </g>
             );
           })}

@@ -1,9 +1,9 @@
 import type { Paper } from "../types";
-import { publicationVenue } from "../publication.ts";
+import { paperMethods, publicationVenue } from "../publication.ts";
 
 export type Point = { x: number; y: number };
 export type Box = Point & { width: number; height: number };
-export type Station = Point & { paperId: string; lineId: string; label: Box };
+export type Station = Point & { paperId: string; lineId: string; lineIds: string[]; label: Box };
 export type PublicationLine = {
   id: string;
   label: string;
@@ -23,13 +23,7 @@ export type PublicationLayout = {
     count: number;
     quarters: { quarter: number | null; x: number; width: number; count: number }[];
   }[];
-  venues: {
-    venue: string;
-    label: string;
-    y: number;
-    height: number;
-    count: number;
-  }[];
+  methodOrder: string[];
   lines: PublicationLine[];
   stations: Map<string, Station>;
 };
@@ -40,20 +34,6 @@ const SCHOOLS = [
   { id: "understanding", label: "时序分层与记忆", color: "#8160ad" },
   { id: "evidence", label: "主动观察与工具决策", color: "#b38216" },
   { id: "reasoning", label: "结构化推理与验证", color: "#438778" },
-];
-// Preserve the familiar order only as a deterministic tie-breaker.
-const VENUE_TIE_ORDER = [
-  "AAAI",
-  "CVPR",
-  "ICCV",
-  "ECCV",
-  "NeurIPS",
-  "ICML",
-  "ICLR",
-  "ACM MM",
-  "ACL",
-  "IJCAI",
-  "arXiv",
 ];
 export const publicationLabel = (paper: Paper): string =>
   `${paper.venue === "NeurIPS Datasets and Benchmarks" ? "NeurIPS D&B" : paper.venue === "CVPR Workshops" ? "CVPRW" : paper.venue} · ${paper.year}`;
@@ -183,6 +163,22 @@ function parallelPenalty(a: Point, b: Point, occupied: Segment[]): number {
   return penalty;
 }
 
+function crossingPenalty(a: Point, b: Point, occupied: Segment[]): number {
+  const dx = b.x - a.x, dy = b.y - a.y;
+  let penalty = 0;
+  for (const other of occupied) {
+    const ex = other.b.x - other.a.x, ey = other.b.y - other.a.y;
+    const cross = dx * ey - dy * ex;
+    if (Math.abs(cross) < .001) continue;
+    const ox = other.a.x - a.x, oy = other.a.y - a.y;
+    const t = (ox * ey - oy * ex) / cross;
+    const u = (ox * dy - oy * dx) / cross;
+    // Shared station endpoints are connections, not incidental crossings.
+    if (t > .001 && t < .999 && u > .001 && u < .999) penalty += 320;
+  }
+  return penalty;
+}
+
 // Time never runs backwards: every candidate and visibility edge must move
 // rightwards. This rules out the tiny U-turns caused by label avoidance.
 function route(
@@ -190,11 +186,16 @@ function route(
   end: Point,
   obstacles: Box[],
   occupied: Segment[],
+  bounds: Box,
 ): Point[] {
+  obstacles = obstacles.filter((box) => box.x < end.x && box.x + box.width > start.x);
+  occupied = occupied.filter(({ a, b }) => a.x <= end.x && b.x >= start.x);
   const forward = (path: Point[]) =>
     segments(path).every(({ a, b }) => b.x >= a.x);
   const clear = (path: Point[]) =>
     forward(path) &&
+    path.every((point) => point.x >= bounds.x && point.x <= bounds.x + bounds.width &&
+      point.y >= bounds.y && point.y <= bounds.y + bounds.height) &&
     // Move right immediately when leaving a station, so a route arriving
     // vertically cannot double back along the same segment at a peak/valley.
     (!same(path[0], start) || path[1]?.x > start.x) &&
@@ -203,7 +204,7 @@ function route(
     );
   const cost = (path: Point[]) =>
     segments(path).reduce(
-      (sum, { a, b }) => sum + length(a, b) + parallelPenalty(a, b, occupied),
+      (sum, { a, b }) => sum + length(a, b) + parallelPenalty(a, b, occupied) + crossingPenalty(a, b, occupied),
       0,
     ) +
     (path.length - 2) * 100;
@@ -287,210 +288,194 @@ function route(
   throw new Error(`Unable to route a forward publication metro segment: ${JSON.stringify(start)} → ${JSON.stringify(end)}`);
 }
 
-export function createPublicationLayout(papers: Paper[]): PublicationLayout {
-  // Equal-cost route candidates must not depend on catalog input order.
-  papers = [...papers].sort((a, b) => a.id.localeCompare(b.id));
-  const yearValues = [...new Set(papers.map((p) => p.year))].sort(
-    (a, b) => a - b,
-  );
-  const venueCounts = new Map<string, number>();
-  for (const paper of papers) {
-    const venue = publicationVenue(paper.venue);
-    venueCounts.set(venue, (venueCounts.get(venue) ?? 0) + 1);
+// Shared-method topology determines neighboring lines. Five methods need only
+// 120 orderings; the fallback keeps future, larger catalogs bounded.
+export function methodOrder(papers: Paper[], ids: string[]): string[] {
+  const links = papers.flatMap((paper) => {
+    const methods = paperMethods(paper);
+    return methods.flatMap((a, i) => methods.slice(i + 1).map((b) => [a, b]));
+  });
+  const score = (order: string[]) => links.reduce((sum, [a, b]) =>
+    sum + (order.indexOf(a) - order.indexOf(b)) ** 2, 0);
+  let best = [...ids], bestScore = score(best);
+  const visit = (prefix: string[], remaining: string[]) => {
+    if (!remaining.length) {
+      const value = score(prefix);
+      if (value < bestScore) { best = prefix; bestScore = value; }
+      return;
+    }
+    remaining.forEach((id, i) => visit([...prefix, id], remaining.filter((_, j) => i !== j)));
+  };
+  if (ids.length <= 7) visit([], ids);
+  else {
+    for (let pass = 0; pass < ids.length; pass++) {
+      let improved = false;
+      for (let i = 1; i < best.length; i++) {
+        const candidate = [...best];
+        [candidate[i - 1], candidate[i]] = [candidate[i], candidate[i - 1]];
+        if (score(candidate) < bestScore) {
+          best = candidate; bestScore = score(best); improved = true;
+        }
+      }
+      if (!improved) break;
+    }
   }
-  const venueValues = [
-    ...VENUE_TIE_ORDER.filter((venue) => venueCounts.has(venue)),
-    ...[...venueCounts.keys()]
-      .filter((venue) => !VENUE_TIE_ORDER.includes(venue))
-      .sort(),
-  ].sort((a, b) =>
-    // Rank the full catalog's conference rows by volume; preprints stay last.
-    Number(a === "arXiv") - Number(b === "arXiv") ||
-    venueCounts.get(b)! - venueCounts.get(a)!,
-  );
-  const margin = 140,
-    top = 99;
-  const methodOrder = SCHOOLS.map((school) => school.id);
+  return best;
+}
+
+const overlaps = (a: Box, b: Box, gap = 0) =>
+  a.x < b.x + b.width + gap && a.x + a.width + gap > b.x &&
+  a.y < b.y + b.height + gap && a.y + a.height + gap > b.y;
+
+export function createPublicationLayout(papers: Paper[]): PublicationLayout {
   const month = (paper: Paper) => paper.timeline?.month ?? 13;
-  const compare = (a: Paper, b: Paper) =>
-    a.year - b.year || month(a) - month(b) ||
-    methodOrder.indexOf(a.cluster) - methodOrder.indexOf(b.cluster) ||
-    a.shortTitle.localeCompare(b.shortTitle) || a.id.localeCompare(b.id);
+  papers = [...papers].sort((a, b) =>
+    a.year - b.year || month(a) - month(b) || a.id.localeCompare(b.id));
+  const ids = [...new Set(papers.flatMap(paperMethods))];
+  const schools = [
+    ...SCHOOLS.filter((school) => ids.includes(school.id)),
+    ...ids.filter((id) => !SCHOOLS.some((school) => school.id === id)).sort()
+      .map((id) => ({ id, label: id, color: "#617282" })),
+  ];
+  const order = methodOrder(papers, schools.map((school) => school.id));
+  const rank = (paper: Paper) => paperMethods(paper)
+    .reduce((sum, id) => sum + order.indexOf(id), 0) / paperMethods(paper).length;
+  const margin = 24, top = 104, laneGap = 148;
   const stationXs = new Map<string, number>();
+  const yearValues = [...new Set(papers.map((paper) => paper.year))];
   let x = margin;
-  // Hidden month groups establish a consistent order across *all* venue rows.
-  // Equal-month papers spread into short slots; widths are schematic, not a
-  // proportional calendar. Dense labels stack instead of stretching the map.
   const years = yearValues.map((year) => {
     const members = papers.filter((paper) => paper.year === year);
     const months = [...new Set(members.map(month))].sort((a, b) => a - b);
-    let cursor = x + 24;
-    let right = cursor;
+    let cursor = x + 40;
     const packMonth = (value: number) => {
-      const group = members.filter((paper) => month(paper) === value);
-      const entries = group.sort((a, b) =>
-        venueValues.indexOf(publicationVenue(a.venue)) - venueValues.indexOf(publicationVenue(b.venue)) || compare(a, b));
-      // Leave room for left-facing labels at the year edge. Clamping those
-      // labels to the edge would otherwise block a route climbing to a new row.
-      cursor = Math.max(cursor, ...entries.map((paper, index) =>
-        x + labelWidth(stationName(paper)) + 15 - index * 58,
-      ));
-      const span = Math.max(0, entries.length - 1) * 58;
-      entries.forEach((paper, index) => {
-        const stationX = cursor + index * 58;
-        stationXs.set(paper.id, stationX);
-        right = Math.max(right, stationX + labelWidth(stationName(paper)) + 12);
-      });
-      cursor += span + 44;
+      const entries = members.filter((paper) => month(paper) === value)
+        .sort((a, b) => rank(a) - rank(b) || a.id.localeCompare(b.id));
+      const nextSlot = new Map<string, number>();
+      let lastSlot = 0;
+      for (const paper of entries) {
+        const methods = paperMethods(paper);
+        const slot = Math.max(0, ...methods.map((id) => nextSlot.get(id) ?? 0));
+        stationXs.set(paper.id, cursor + slot * 64);
+        methods.forEach((id) => nextSlot.set(id, slot + 1));
+        lastSlot = Math.max(lastSlot, slot);
+      }
+      cursor += lastSlot * 64 + 72;
     };
     const quarters: PublicationLayout["years"][number]["quarters"] = [];
     if (year >= 2025) {
-      // Quarter dividers follow the packed month groups, not equal-width
-      // calendar slices. Reserve a small slot even when a quarter has no papers.
       const values: (number | null)[] = [1, 2, 3, 4];
       if (months.includes(13)) values.push(null);
       for (const quarter of values) {
-        const left = quarters.length ? cursor - 22 : x;
+        const left = quarters.length ? cursor - 36 : x;
         const quarterMonths = months.filter((value) =>
-          quarter === null ? value === 13 : value <= 12 && Math.ceil(value / 3) === quarter,
-        );
+          quarter === null ? value === 13 : value <= 12 && Math.ceil(value / 3) === quarter);
         quarterMonths.forEach(packMonth);
-        if (!quarterMonths.length) cursor = left + 52 + 22;
-        quarters.push({
-          quarter,
-          x: left,
-          width: cursor - 22 - left,
-          count: members.filter((paper) => quarterMonths.includes(month(paper))).length,
-        });
+        if (!quarterMonths.length) cursor = left + 48 + 36;
+        quarters.push({ quarter, x: left, width: cursor - 36 - left,
+          count: members.filter((paper) => quarterMonths.includes(month(paper))).length });
       }
-    } else {
-      months.forEach(packMonth);
-    }
-    const width = Math.max(96, cursor - x + 12, right - x + 22);
+    } else months.forEach(packMonth);
+    const widestTail = Math.max(0, ...members.map((paper) =>
+      stationXs.get(paper.id)! - x + labelWidth(stationName(paper), 20) / 2 + 16));
+    const width = Math.max(140, cursor - x, widestTail, ...members.map((paper) =>
+      Math.max(labelWidth(stationName(paper), 20), labelWidth(publicationVenue(paper.venue), 14)) + 22));
     if (quarters.length) quarters.at(-1)!.width = x + width - quarters.at(-1)!.x;
     const item = { year, x, width, count: members.length, quarters };
     x += width;
     return item;
   });
-  const labelXs = new Map<string, number>();
-  const labelsBelow = new Set<string>();
-  for (const paper of papers) {
-    const stationX = stationXs.get(paper.id)!;
-    const route = papers.filter((other) => other.cluster === paper.cluster)
-      .sort((a, b) => stationXs.get(a.id)! - stationXs.get(b.id)!);
-    const index = route.findIndex((other) => other.id === paper.id);
-    const previous = route[index - 1], next = route[index + 1];
-    const row = (item: Paper) => venueValues.indexOf(publicationVenue(item.venue));
-    const leavesUp = next && row(next) < row(paper);
-    const valley = previous && next && row(previous) < row(paper) && leavesUp;
-    if (valley) labelsBelow.add(paper.id);
-    const year = years.find((column) => column.year === paper.year)!;
-    labelXs.set(paper.id, Math.max(year.x + 10,
-      leavesUp && !valley ? stationX - labelWidth(stationName(paper)) - 5 : stationX - 7));
+
+  const neighbors = new Map(papers.map((paper) => [paper.id, [] as string[]]));
+  const lineMembers = new Map(schools.map((school) => {
+    const members = papers.filter((paper) => paperMethods(paper).includes(school.id))
+      .sort((a, b) => stationXs.get(a.id)! - stationXs.get(b.id)! || a.id.localeCompare(b.id));
+    for (let i = 1; i < members.length; i++) {
+      neighbors.get(members[i].id)!.push(members[i - 1].id);
+      neighbors.get(members[i - 1].id)!.push(members[i].id);
+    }
+    return [school.id, members];
+  }));
+  const home = new Map(papers.map((paper) => [paper.id, top + 118 + rank(paper) * laneGap]));
+  let ys = new Map(home);
+  // Barycentric relaxation follows each paper's actual neighboring stations.
+  // Soft method anchors preserve long trunks without imposing vertical rows.
+  for (let iteration = 0; iteration < 32; iteration++) {
+    const next = new Map<string, number>();
+    for (const paper of papers) {
+      const adjacent = neighbors.get(paper.id)!;
+      const weight = paperMethods(paper).length > 1 ? 1.8 : 3.5;
+      next.set(paper.id, (home.get(paper.id)! * weight +
+        adjacent.reduce((sum, id) => sum + ys.get(id)!, 0)) / (weight + adjacent.length));
+    }
+    ys = next;
   }
+  const plotBottom = top + Math.max(1, schools.length - 1) * laneGap + 244;
+  const plotBounds = { x: margin, y: top, width: x - margin, height: plotBottom - top };
   const stations = new Map<string, Station>();
-  let y = top;
-  const venues = venueValues.map((venue) => {
-    const members = papers.filter((paper) => publicationVenue(paper.venue) === venue);
-    const cells = years.map((year) => {
-      const entries = members.filter((paper) => paper.year === year.year);
-      const methods = [...new Set(entries.map((paper) => paper.cluster))]
-        .sort((a, b) => methodOrder.indexOf(a) - methodOrder.indexOf(b));
-      const tierStarts: number[][] = [[], []];
-      const tiers = new Map<string, number>();
-      // Later labels occupy the upper tier; valley labels sit below the track.
-      for (const paper of [...entries].sort((a, b) => labelXs.get(b.id)! - labelXs.get(a.id)!)) {
-        const left = labelXs.get(paper.id)!;
-        const right = left + labelWidth(stationName(paper)) + 12;
-        const starts = tierStarts[labelsBelow.has(paper.id) ? 1 : 0];
-        let tier = starts.findIndex((start) => right + 10 <= start);
-        if (tier < 0) tier = starts.length;
-        starts[tier] = left;
-        tiers.set(paper.id, tier);
-      }
-      const aboveHeight = tierStarts[0].length * 27;
-      const belowHeight = tierStarts[1].length * 27;
-      const trackHeight = 31 + Math.max(0, methods.length - 1) * 12;
-      return { entries, methods, tiers, aboveHeight, trackHeight,
-        height: aboveHeight + trackHeight + belowHeight };
-    });
-    const height = Math.max(58, ...cells.map((cell) => cell.height));
-    for (const cell of cells) {
-      const base = y + (height - cell.height) / 2;
-      for (const paper of cell.entries) {
-        stations.set(paper.id, {
-          paperId: paper.id,
-          lineId: paper.cluster,
-          x: stationXs.get(paper.id)!,
-          y: base + cell.aboveHeight + 19 + cell.methods.indexOf(paper.cluster) * 12,
-          label: {
-            x: labelXs.get(paper.id)!,
-            y: base + 4 + (labelsBelow.has(paper.id) ? cell.aboveHeight + cell.trackHeight : 0) + cell.tiers.get(paper.id)! * 27,
-            width: labelWidth(stationName(paper)) + 12,
-            height: 23,
-          },
-        });
+  for (const paper of papers) {
+    stations.set(paper.id, { paperId: paper.id, lineId: paper.cluster,
+      lineIds: paperMethods(paper), x: stationXs.get(paper.id)!,
+      y: Math.round(ys.get(paper.id)! / 4) * 4,
+      label: { x: 0, y: 0, width: Math.max(labelWidth(stationName(paper), 20),
+        labelWidth(publicationVenue(paper.venue), 14)) + 14, height: 48 } });
+  }
+  // A label is kept near its paper, not in a conference band. Reserve stations
+  // and already placed labels; high-degree transfer stations get first choice.
+  const placed: Box[] = [];
+  const nodes = [...stations.values()].map((station) => ({
+    x: station.x - 15, y: station.y - 15, width: 30, height: 30 }));
+  const labelOrder = [...papers].sort((a, b) => paperMethods(b).length - paperMethods(a).length ||
+    stationXs.get(a.id)! - stationXs.get(b.id)! || a.id.localeCompare(b.id));
+  for (const paper of labelOrder) {
+    const station = stations.get(paper.id)!;
+    const year = years.find((item) => item.year === paper.year)!;
+    const candidates: { box: Box; score: number }[] = [];
+    for (let tier = 0; tier < 6; tier++) {
+      for (const side of [-1, 1]) {
+        for (const align of [0, -1, 1]) {
+          const box = { ...station.label,
+            x: Math.max(year.x + 4, Math.min(year.x + year.width - station.label.width - 4,
+              station.x - station.label.width / 2 + align * station.label.width / 2)),
+            y: side < 0 ? station.y - 68 - tier * 56 : station.y + 20 + tier * 56 };
+          if (box.y < top + 10 || box.y + box.height > plotBottom - 12 ||
+              placed.some((other) => overlaps(box, other, 9)) ||
+              nodes.some((node) => overlaps(box, node, 4))) continue;
+          const drift = Math.abs(box.x + box.width / 2 - station.x);
+          candidates.push({ box, score: tier * 100 + drift * .3 + (side > 0 ? 6 : 0) });
+        }
       }
     }
-    const item = { venue, label: venue, y, height, count: members.length };
-    y += height;
-    return item;
-  });
-  const schools = [
-    ...SCHOOLS,
-    ...[...new Set(papers.map((p) => p.cluster))]
-      .filter((id) => !SCHOOLS.some((s) => s.id === id))
-      .map((id) => ({ id, label: id, color: "#617282" })),
-  ];
-  const labels: Box[] = [...stations.values()].map((s) => ({
-    x: s.label.x - 5,
-    y: s.label.y - 3,
-    width: s.label.width + 10,
-    height: s.label.height + 6,
-  }));
+    candidates.sort((a, b) => a.score - b.score);
+    if (!candidates.length) throw new Error(`Unable to place topology label: ${paper.id}`);
+    station.label = candidates[0].box;
+    placed.push(station.label);
+  }
+  const labels = placed.map((box) => ({ x: box.x - 4, y: box.y - 4,
+    width: box.width + 8, height: box.height + 8 }));
   const occupied: Segment[] = [];
-  const lines = schools
-    .map((school, schoolIndex): PublicationLine => {
-      const ordered = papers
-        .filter((paper) => paper.cluster === school.id)
-        .sort((a, b) => stations.get(a.id)!.x - stations.get(b.id)!.x);
-      const stops = ordered.map((p) => stations.get(p.id)!);
-      const track: Point[] = [];
-      stops.forEach((stop, i) => {
-        if (!i) {
-          track.push({ x: stop.x - 10, y: stop.y }, { x: stop.x, y: stop.y });
-          return;
-        }
-        const before = stops[i - 1];
-        const unrelated = [...stations.values()]
-          .filter(
-            (s) => s.paperId !== stop.paperId && s.paperId !== before.paperId,
-          )
-          .map((s) => ({ x: s.x - 8, y: s.y - 8, width: 16, height: 16 }));
-        track.push(
-          ...route(before, stop, [...labels, ...unrelated], occupied).slice(1),
-        );
-      });
-      if (stops.length)
-        track.push({
-          x: stops[stops.length - 1].x + 10,
-          y: stops[stops.length - 1].y,
-        });
-      occupied.push(...segments(track));
-      return {
-        ...school,
-        track: simplify(track),
-        labelPosition: { x: margin + schoolIndex * 265, y: y + 30 },
-      };
-    })
-    .filter((line) => line.track.length);
-  return {
-    width: Math.max(1700, x + 38),
-    height: y + 50,
-    years,
-    venues,
-    stations,
-    lines,
-    plotBounds: { x: margin, y: top, width: x - margin, height: y - top },
-  };
+  const lines = order.map((id): PublicationLine => {
+    const school = schools.find((item) => item.id === id)!;
+    const stops = lineMembers.get(id)!.map((paper) => stations.get(paper.id)!);
+    const track: Point[] = [];
+    stops.forEach((stop, i) => {
+      if (!i) {
+        track.push({ x: stop.x - 18, y: stop.y }, { x: stop.x, y: stop.y });
+        return;
+      }
+      const before = stops[i - 1];
+      const unrelated = [...stations.values()]
+        .filter((station) => station.paperId !== stop.paperId && station.paperId !== before.paperId)
+        .map((station) => ({ x: station.x - 12, y: station.y - 12, width: 24, height: 24 }));
+      track.push(...route(before, stop, [...labels, ...unrelated], occupied, plotBounds).slice(1));
+    });
+    if (stops.length) track.push({ x: stops.at(-1)!.x + 18, y: stops.at(-1)!.y });
+    const simplified = simplify(track);
+    occupied.push(...segments(simplified));
+    return { ...school, track: simplified,
+      labelPosition: { x: 24 + order.indexOf(id) * 300, y: plotBottom + 32 } };
+  });
+  return { width: Math.max(1700, x + 24), height: plotBottom + 60,
+    years, methodOrder: order, lines, stations,
+    plotBounds };
 }
