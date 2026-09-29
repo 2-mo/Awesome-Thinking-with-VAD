@@ -286,7 +286,7 @@
 
 ### Learning to Watch: Active Video Anomaly Understanding via Interleaved Policy Optimization
 
-**2026 · arXiv** · [paper](<https://arxiv.org/abs/2607.00622>)
+**2026 · ICML** · [paper](<https://arxiv.org/abs/2607.00622>)
 
 **创新抓手：交替推理与观察策略**
 
@@ -294,7 +294,7 @@
 
 - 核心启示：“下一步观察什么”也可以成为 VAU 的学习对象。
 - 局限：阅读关注：证据收益、任务成功和交互成本是否被共同衡量？
-- 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2607.00622>)
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2607.00622>) · [来源 2](<https://icml.cc/Downloads/2026>)
 
 ### MemoVAD: Resource-Efficient Video Anomaly Detection via Dynamic Semantic Memory in Edge Computing Scenarios
 

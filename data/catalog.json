@@ -461,7 +461,7 @@
       "shortTitle": "Anom-π",
       "title": "Learning to Watch: Active Video Anomaly Understanding via Interleaved Policy Optimization",
       "year": 2026,
-      "venue": "arXiv",
+      "venue": "ICML",
       "scope": "core",
       "cluster": "evidence",
       "tasks": [
@@ -477,10 +477,14 @@
       "sources": [
         {
           "url": "https://arxiv.org/abs/2607.00622",
-          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+          "note": "作者 arXiv 摘要页 Comments 明确标注 Accepted at ICML 2026；据此确认正式录用会议与年份，保留预印本链接供阅读。"
+        },
+        {
+          "url": "https://icml.cc/Downloads/2026",
+          "note": "ICML 2026 官方 Downloads 目录收录论文完整题名 Learning to Watch: Active Video Anomaly Understanding via Interleaved Policy Optimization，与作者 arXiv 的录用声明相互印证。"
         }
       ],
-      "verifiedAt": "2026-09-29",
+      "verifiedAt": "2026-09-30",
       "datasetIds": [],
       "mechanism": "交替推理与观察策略"
     },

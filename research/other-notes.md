@@ -22,7 +22,7 @@
 
 - LRPO：Linguistic Relative Policy Optimization for Video Anomaly Reasoning。官方 <https://icml.cc/Downloads/2026> 可检出题名；作者主页 <https://faculty.cqupt.edu.cn/lengjiaxu/en/index/106917/list/index.htm> 明确 ICML 2026；作者 arXiv <https://doi.org/10.48550/arXiv.2607.00654> 明确 Accepted at ICML 2026，方法是以多条推理轨迹形成通用/场景语言经验，并注入上下文，不更新参数。已知 poster <https://icml.cc/virtual/2026/poster/64285>、OpenReview id P8tBsNibfm 的具体页面本轮无法读取。按父任务要求暂不纳入，建议后续取得 official poster / PMLR 后优先加入。
 - Towards Trustworthy Video Anomaly Understanding: A Class-Guided Chain-of-Evaluation Metric and An Anomaly-focused Meta-Benchmark。上述作者主页明确 ICML 2026；poster <https://icml.cc/virtual/2026/poster/66013>、OpenReview id 7waVdY1WmW 本轮读不到。第三方转录提及 CG-CoE、AEA 与 CVP，但未将其作为数据来源，暂不纳入。
-- 既有 Anom-π / Learning to Watch：官方 ICML 2026 Downloads 索引与上述作者主页均列出；poster <https://icml.cc/virtual/2026/poster/60569> 本轮无法读取。未擅自改已有 arXiv 标记。
+- 既有 Anom-π / Learning to Watch：2026-09-30 补核作者 arXiv 摘要页 <https://arxiv.org/abs/2607.00622>，Comments 明确标注 Accepted at ICML 2026；已将目录会议更正为 ICML 2026。此前官方 ICML 2026 Downloads 索引与作者主页亦列出该文；poster <https://icml.cc/virtual/2026/poster/60569> 未能直接读取。
 - HiProbe-VAD：arXiv <https://arxiv.org/abs/2507.17394> 有 ACM DOI 10.1145/3746027.3755575，但 DOI 页读取失败。第三方引文称 MM25 592–601，不作为本轮正式会议核验依据；暂不纳入。
 
 ## 其余边界
