@@ -666,7 +666,9 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div
+      className={`app-shell ${view === "map" && layout === "map" ? "is-metro" : ""}`}
+    >
       <a className="skip-link" href="#main">
         跳到主要内容
       </a>
@@ -858,10 +860,10 @@ export default function App() {
         <section className="workspace" aria-label="研究工作区">
           <div className="workspace-toolbar">
             {view === "map" ? (
-              <div className="layout-tabs" aria-label="地图排列方式">
+              <div className="layout-tabs" aria-label="论文浏览方式">
                 {(
                   [
-                    ["map", "创新分镜", Map],
+                    ["map", "线路图", Map],
                     ["timeline", "时间线", GitBranch],
                     ["list", "索引", List],
                   ] as const
@@ -882,7 +884,9 @@ export default function App() {
             )}
             <span className="workspace-count" aria-live="polite">
               {view === "map"
-                ? `${visiblePapers.length} 篇可见`
+                ? layout === "map"
+                  ? `${visiblePapers.length} / ${catalog.papers.length} 论文站`
+                  : `${visiblePapers.length} 篇可见`
                 : view === "guides"
                   ? "3 条编辑路线"
                   : `${catalog.datasets.length} 个数据资源`}

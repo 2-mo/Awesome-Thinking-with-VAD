@@ -1,4 +1,4 @@
-.research-map.comic-map {
+.research-map.metro-map {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -7,8 +7,8 @@
   min-height: 0;
   min-width: 0;
   overflow: hidden;
-  background: #fff8e9;
-  color: #20201e;
+  background: #fffcf5;
+  color: #263836;
   isolation: isolate;
 }
 .research-map .research-map-canvas {
@@ -23,71 +23,67 @@
   -webkit-user-select: none;
 }
 .research-map.is-dragging .research-map-canvas,
-.research-map.is-dragging .comic-paper {
+.research-map.is-dragging .metro-station {
   cursor: grabbing;
 }
-.research-map .comic-cluster,
-.research-map .comic-paper {
+.research-map .metro-station {
   cursor: pointer;
   outline: none;
 }
-.research-map .comic-cluster:hover .comic-cluster-hit {
-  fill: #fff8e930;
-}
-.research-map .comic-cluster:focus-visible .comic-cluster-hit {
-  stroke: #20201e;
-  stroke-width: 3;
-  stroke-dasharray: 5 3;
-}
-.research-map .comic-card-body {
+.research-map .metro-station-label,
+.research-map .metro-station-dot {
   transition:
     fill 0.12s,
     stroke-width 0.12s;
 }
-.research-map .comic-paper:hover .comic-card-body {
-  fill: #ffefb4;
-  stroke-width: 3;
+.research-map .metro-station:hover .metro-station-label {
+  fill: #f7edcf;
 }
-.research-map .comic-paper:focus-visible .comic-card-body {
-  stroke: #174f98;
-  stroke-width: 4;
+.research-map .metro-station:hover .metro-station-dot {
+  stroke-width: 5;
 }
-.research-map .comic-paper.is-selected:hover .comic-card-body {
-  fill: #ffdf70;
+.research-map .metro-station:focus-visible .metro-station-label {
+  fill: #fce8a2;
+  stroke: #263836;
+  stroke-width: 2;
 }
-.research-map .comic-map-bottom {
+.research-map .metro-station.is-selected:hover .metro-station-label {
+  fill: #fce8a2;
+}
+.research-map .metro-map-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex: none;
   gap: 10px;
   min-height: 34px;
-  padding: 2px 8px 5px;
-  background: #fff8e9;
+  padding: 2px 12px 6px;
+  background: #fffcf5;
 }
-.research-map .comic-map-count {
-  font-size: 11px;
+.research-map .metro-map-count {
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0;
-  color: #686253;
+  letter-spacing: 0.08em;
+  color: #65726a;
 }
-.research-map .comic-controls {
+.research-map .metro-controls {
   display: flex;
   align-items: center;
-  background: #fffdf6;
-  border: 2px solid #20201e;
-  box-shadow: 2px 2px 0 #20201e;
+  background: #fffcf5;
+  border: 1.5px solid #263836;
+  border-radius: 5px;
+  overflow: hidden;
   min-height: 28px;
   flex-shrink: 0;
 }
-.research-map .comic-controls button {
+.research-map .metro-controls button {
   display: grid;
   place-items: center;
   border: 0;
-  border-right: 1px solid #20201e;
+  border-right: 1px solid #c6cec3;
   background: transparent;
-  color: #20201e;
-  min-width: 28px;
+  color: #263836;
+  min-width: 30px;
   height: 27px;
   padding: 0 5px;
   font: inherit;
@@ -96,56 +92,52 @@
   cursor: pointer;
   border-radius: 0;
 }
-.research-map .comic-controls button:last-child {
+.research-map .metro-controls button:last-child {
   border-right: 0;
 }
-.research-map .comic-controls .comic-zoom {
+.research-map .metro-controls .metro-zoom {
   font-size: 10px;
-  min-width: 42px;
+  min-width: 45px;
   font-variant-numeric: tabular-nums;
 }
-.research-map .comic-controls .comic-export {
+.research-map .metro-controls .metro-export {
   font-size: 10px;
   padding: 0 9px;
-  background: #ffdf70;
-  min-width: 49px;
+  background: #fce8a2;
+  min-width: 52px;
 }
-.research-map .comic-controls button:hover:not(:disabled) {
-  background: #badff5;
+.research-map .metro-controls button:hover:not(:disabled) {
+  background: #e3ebdf;
 }
-.research-map .comic-controls button:disabled {
-  color: #b3ada0;
+.research-map .metro-controls button:disabled {
+  color: #a4aba3;
   cursor: default;
 }
-.research-map .comic-controls button:focus-visible {
-  outline: 3px solid #174f98;
-  outline-offset: 2px;
+.research-map .metro-controls button:focus-visible {
+  outline: 2px solid #267bad;
+  outline-offset: -3px;
 }
-.research-map .comic-empty {
+.research-map .metro-empty {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%) rotate(-1deg);
-  width: min(300px, 85%);
+  transform: translate(-50%, -50%);
+  width: min(260px, 85%);
   padding: 21px;
-  background: #fff8e9;
-  border: 3px solid #20201e;
-  box-shadow: 5px 5px 0 #20201e;
+  background: #fffcf5;
+  border: 2px solid #263836;
+  border-radius: 6px;
   text-align: center;
   z-index: 4;
 }
-.research-map .comic-empty strong {
+.research-map .metro-empty strong {
+  display: block;
+  margin-bottom: 14px;
   font-size: 16px;
 }
-.research-map .comic-empty p {
-  font-size: 12px;
-  line-height: 1.6;
-}
-.research-map .comic-empty button {
-  border: 2px solid #20201e;
-  box-shadow: 2px 2px 0 #20201e;
-  background: #ffdf70;
-  color: #20201e;
+.research-map .metro-empty button {
+  border: 1.5px solid #263836;
+  background: #fce8a2;
   padding: 7px 14px;
   font: inherit;
   font-size: 12px;
@@ -153,7 +145,8 @@
   cursor: pointer;
 }
 @media (prefers-reduced-motion: reduce) {
-  .research-map .comic-card-body {
+  .research-map .metro-station-label,
+  .research-map .metro-station-dot {
     transition: none;
   }
 }
