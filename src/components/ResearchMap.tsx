@@ -7,6 +7,7 @@ import {
   publicationLabel,
 } from "./publication-layout";
 import type { Point } from "./publication-layout";
+import { publicationVenue } from "../publication";
 import "./research-map.css";
 
 interface Props {
@@ -30,13 +31,24 @@ const fitLabel = (text: string, size: number, available: number) =>
   labelWidth(text, size) > available ? available : undefined;
 
 // Small rounded elbows preserve the deliberately authored octilinear geometry.
-function routePath(points: Point[]) {
+function routePath(points: Point[], stations: Point[]) {
   if (!points.length) return "";
   let path = `M${points[0].x} ${points[0].y}`;
   for (let i = 1; i < points.length - 1; i++) {
     const a = points[i - 1],
       p = points[i],
       b = points[i + 1];
+    // Keep the line exactly under a station even when it sits on a bend.
+    if (
+      stations.some(
+        (station) =>
+          Math.abs(station.x - p.x) < 0.001 &&
+          Math.abs(station.y - p.y) < 0.001,
+      )
+    ) {
+      path += `L${p.x} ${p.y}`;
+      continue;
+    }
     const before = Math.hypot(p.x - a.x, p.y - a.y),
       after = Math.hypot(b.x - p.x, b.y - p.y);
     if (!before || !after) continue;
@@ -263,7 +275,7 @@ export default function ResearchMap({
                     width={year.width}
                     height={plotBottom - plotTop}
                     fill={index % 2 ? "#e9eee7" : PAPER}
-                    fillOpacity={index % 2 ? 0.42 : 0.2}
+                    fillOpacity={index % 2 ? 0.2 : 0.1}
                   />
                   <path
                     d={`M${year.x} ${plotTop - 10}V${plotBottom}`}
@@ -301,17 +313,13 @@ export default function ResearchMap({
               </text>
               {network.venues.map((venue) => {
                 const selectedVenue =
-                  sourcePapers.find((paper) => paper.id === selectedId)
-                    ?.venue === venue.venue;
+                  publicationVenue(
+                    sourcePapers.find((paper) => paper.id === selectedId)
+                      ?.venue || "",
+                  ) === venue.venue;
                 const label = venue.label;
                 const parts =
-                  venue.venue === "NeurIPS Datasets and Benchmarks"
-                    ? ["NeurIPS", "Datasets & Benchmarks"]
-                    : label === "CVPR Workshops"
-                      ? ["CVPR", "Workshops"]
-                      : venue.venue === "arXiv"
-                        ? ["arXiv", "预印本"]
-                        : [label];
+                  venue.venue === "arXiv" ? ["arXiv", "预印本"] : [label];
                 return (
                   <g key={venue.venue}>
                     <rect
@@ -320,13 +328,13 @@ export default function ResearchMap({
                       width={left - 27}
                       height={venue.height - 6}
                       rx="4"
-                      fill={selectedVenue ? "#fce8a2" : "#f0eee3"}
+                      fill={selectedVenue ? "#fce8a2" : "transparent"}
                     />
                     <path
                       d={`M${left} ${venue.y + venue.height}H${width - 24}`}
                       stroke="#d8ded3"
                       strokeWidth=".8"
-                      opacity=".7"
+                      opacity=".3"
                     />
                     <text
                       x="29"
@@ -357,8 +365,10 @@ export default function ResearchMap({
                       fontWeight="650"
                     >
                       {
-                        papers.filter((paper) => paper.venue === venue.venue)
-                          .length
+                        papers.filter(
+                          (paper) =>
+                            publicationVenue(paper.venue) === venue.venue,
+                        ).length
                       }
                     </text>
                   </g>
@@ -366,18 +376,23 @@ export default function ResearchMap({
               })}
               {network.lines.map((line) => {
                 const focus = !focusedLine || line.id === focusedLine;
-                const path = routePath(line.track);
+                const path = routePath(
+                  line.track,
+                  [...network.stations.values()].filter(
+                    (station) => station.lineId === line.id,
+                  ),
+                );
                 return (
                   <g
                     key={line.id}
                     className="publication-route"
-                    opacity={focus ? 0.86 : 0.17}
+                    opacity={focus ? 0.95 : 0.17}
                   >
                     <path
                       d={path}
                       fill="none"
                       stroke={PAPER}
-                      strokeWidth={focus && focusedLine ? 9 : 7.5}
+                      strokeWidth={focus && focusedLine ? 11 : 9}
                       strokeLinejoin="round"
                       strokeLinecap="round"
                     />
@@ -385,7 +400,7 @@ export default function ResearchMap({
                       d={path}
                       fill="none"
                       stroke={line.color}
-                      strokeWidth={focus && focusedLine ? 4.8 : 3.8}
+                      strokeWidth={focus && focusedLine ? 6 : 4.8}
                       strokeLinejoin="round"
                       strokeLinecap="round"
                     />

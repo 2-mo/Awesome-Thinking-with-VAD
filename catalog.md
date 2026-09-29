@@ -2,7 +2,7 @@
 
 这是从结构化数据生成的精选核验目录，并非完整文献综述。原仓库的会议笔记作为额外资料保留，尚未全面复核，不应视作本目录的核验条目。
 
-数据更新时间：2026-09-29。核验来源与日期、数据集、证据关系和阅读路线请见 [data/catalog.json](data/catalog.json) 与交互式研究地图。
+数据更新时间：2026-09-30。核验来源与日期、数据集、证据关系和阅读路线请见 [data/catalog.json](data/catalog.json) 与交互式研究地图。
 
 > 自动生成：请编辑 `data/catalog.json` 后运行 `npm run generate`，不要手工修改此文件。
 
@@ -13,18 +13,6 @@
 创新抓手：字幕特征融合、视觉语言对齐和运动语言监督，为异常建立可解释的语义表征。
 
 研究问题：如何把外观、运动与语言转化为异常相关的表征？
-
-### TEVAD: Improved Video Anomaly Detection With Captions
-
-**2023 · CVPR Workshops** · [paper](<https://openaccess.thecvf.com/content/CVPR2023W/O-DRUM/papers/Chen_TEVAD_Improved_Video_Anomaly_Detection_With_Captions_CVPRW_2023_paper.pdf>)
-
-**创新抓手：字幕语义特征融合**
-
-融合视频特征与字幕语义，补充纯视觉检测缺少的事件信息。
-
-- 核心启示：先理解语言如何进入检测器，再讨论更复杂的推理。
-- 局限：阅读关注：字幕中的错误会怎样影响异常分数？
-- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2023W/O-DRUM/papers/Chen_TEVAD_Improved_Video_Anomaly_Detection_With_Captions_CVPRW_2023_paper.pdf>)
 
 ### VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection
 
@@ -175,30 +163,6 @@
 - 核心启示：异常解释可从可核查的对象和运动属性开始，而不必依赖自由文本。
 - 局限：阅读关注：可读属性是否覆盖需要长期交互背景的异常？
 - 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html>)
-
-### AnyAnomaly: Zero-Shot Customizable Video Anomaly Detection with LVLM
-
-**2026 · WACV** · [paper](<https://openaccess.thecvf.com/content/WACV2026/html/Ahn_AnyAnomaly_Zero-Shot_Customizable_Video_Anomaly_Detection_with_LVLM_WACV_2026_paper.html>) · [code](<https://github.com/SkiddieAhn/Paper-AnyAnomaly>)
-
-**创新抓手：文本定义与上下文问答**
-
-由用户文本定义异常，使用位置与时间上下文增强的片段级视觉问答，无需微调即可定位指定事件。
-
-- 核心启示：异常定义可以作为用户输入，而不必固定为训练时的类别。
-- 局限：阅读关注：不同文本粒度与位置、时间上下文如何影响可定制异常判断？
-- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/WACV2026/html/Ahn_AnyAnomaly_Zero-Shot_Customizable_Video_Anomaly_Detection_with_LVLM_WACV_2026_paper.html>) · [来源 2](<https://github.com/SkiddieAhn/Paper-AnyAnomaly>)
-
-### Unlocking Vision-Language Models for Video Anomaly Detection via Fine-Grained Prompting
-
-**2026 · WACV** · [paper](<https://openaccess.thecvf.com/content/WACV2026/html/Zou_Unlocking_Vision-Language_Models_for_Video_Anomaly_Detection_via_Fine-Grained_Prompting_WACV_2026_paper.html>)
-
-**创新抓手：动作线索分组提问**
-
-按语义组组织以动作为中心的细粒度问题，引导冻结视觉语言模型关注人与对象的交互证据并产生解释轨迹。
-
-- 核心启示：提示的细粒度应落实到能观察的动作线索，而非只写抽象异常类别。
-- 局限：阅读关注：问题集合的覆盖程度、数量与跨类别泛化之间如何权衡？
-- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/WACV2026/html/Zou_Unlocking_Vision-Language_Models_for_Video_Anomaly_Detection_via_Fine-Grained_Prompting_WACV_2026_paper.html>)
 
 ### Language-guided Open-world Video Anomaly Detection under Weak Supervision
 
@@ -374,18 +338,6 @@
 - 局限：阅读关注：可见事件证据能支持多强的因果结论？
 - 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2405.00181>)
 
-### VADER: Towards Causal Video Anomaly Understanding with Relation-Aware Large Language Models
-
-**2026 · WACV** · [paper](<https://openaccess.thecvf.com/content/WACV2026/html/Cheng_VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_WACV_2026_paper.html>)
-
-**创新抓手：对象关系编码推理**
-
-融合上下文采样与对象关系特征，支持异常描述、解释和因果问答。
-
-- 核心启示：将对象交互显式接入模型，连接可见关系与语言解释。
-- 局限：阅读关注：关系特征提供的是因果证据，还是相关性线索？
-- 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2511.07299>) · [来源 2](<https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf>) · [来源 3](<https://openaccess.thecvf.com/content/WACV2026/html/Cheng_VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_WACV_2026_paper.html>)
-
 ### SRVAU-R1: Enhancing Video Anomaly Understanding via Reflection-Aware Learning
 
 **2026 · arXiv** · [paper](<https://arxiv.org/abs/2602.01004>)
@@ -409,18 +361,6 @@
 - 核心启示：流畅的描述不等于抓住异常；评估需要追问关键事实。
 - 局限：阅读关注：自动扩展标注的质量及其与人类判断的一致性。
 - 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2601.17258>)
-
-### MissionGNN: Hierarchical Multimodal GNN-Based Weakly Supervised Video Anomaly Recognition with Mission-Specific Knowledge Graph Generation
-
-**2025 · WACV** · [paper](<https://openaccess.thecvf.com/content/WACV2025/html/Yun_MissionGNN_Hierarchical_Multimodal_GNN-Based_Weakly_Supervised_Video_Anomaly_Recognition_with_WACV_2025_paper.html>) · [code](<https://github.com/c0510gy/MissionGNN>)
-
-**创新抓手：任务知识图谱传播**
-
-利用语言模型自动生成面向异常任务的知识图谱，以层级多模态图网络连接视频帧与语义概念。
-
-- 核心启示：语言知识可以编译成可学习的图结构，而不必逐帧调用大模型生成答案。
-- 局限：阅读关注：知识图谱生成质量与短时上下文分别影响哪些异常类别？
-- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/WACV2025/html/Yun_MissionGNN_Hierarchical_Multimodal_GNN-Based_Weakly_Supervised_Video_Anomaly_Recognition_with_WACV_2025_paper.html>) · [来源 2](<https://github.com/c0510gy/MissionGNN>) · [来源 3](<https://arxiv.org/html/2406.18815>)
 
 ### Weakly Supervised Video Anomaly Detection with Anomaly-Connected Components and Intention Reasoning
 
