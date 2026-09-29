@@ -226,3 +226,28 @@
     transition: none;
   }
 }
+.research-map .comic-navigation {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  min-width: 0;
+}
+.research-map .comic-paper-pages {
+  gap: 8px;
+}
+.research-map .comic-paper-pages > span {
+  white-space: nowrap;
+  font-size: 13px;
+}
+.research-map.is-paged .comic-map-bottom {
+  flex-wrap: wrap;
+}
+.research-map.is-paged .comic-navigation {
+  flex: 1 1 270px;
+  justify-content: space-between;
+  gap: 6px 12px;
+}
+.research-map.is-paged .comic-controls {
+  margin-left: auto;
+}

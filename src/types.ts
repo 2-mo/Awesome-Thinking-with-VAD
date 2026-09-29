@@ -21,6 +21,9 @@ export interface Paper {
   datasetIds: string[];
 }
 export interface Dataset {
+  year: number;
+  venue: string;
+  thumbnail: { src: string; alt: string; sourceUrl: string; credit: string };
   id: string;
   name: string;
   description: string;

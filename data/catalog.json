@@ -472,7 +472,7 @@
       "takeaway": "将对象交互显式接入模型，连接可见关系与语言解释。",
       "limitation": "阅读关注：关系特征提供的是因果证据，还是相关性线索？",
       "links": {
-        "paper": "https://arxiv.org/abs/2511.07299"
+        "paper": "https://openaccess.thecvf.com/content/WACV2026/html/Cheng_VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_WACV_2026_paper.html"
       },
       "sources": [
         {
@@ -482,6 +482,10 @@
         {
           "url": "https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf",
           "note": "作者托管论文的实验设置明确使用 HIVAU-70k、HAWK、CUVA。"
+        },
+        {
+          "url": "https://openaccess.thecvf.com/content/WACV2026/html/Cheng_VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_WACV_2026_paper.html",
+          "note": "WACV 2026 正式论文集确认发表年份、标题与关系感知异常理解方法。"
         }
       ],
       "verifiedAt": "2026-09-29",
@@ -605,6 +609,664 @@
       "verifiedAt": "2026-09-29",
       "datasetIds": [],
       "mechanism": "语义分层边界评估"
+    },
+    {
+      "id": "eval",
+      "shortTitle": "EVAL",
+      "title": "EVAL: Explainable Video Anomaly Localization",
+      "year": 2023,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "explanation",
+      "tasks": [
+        "异常检测",
+        "异常定位",
+        "异常解释"
+      ],
+      "summary": "以对象类别、运动方向和速度等可读属性建立位置相关的正常模式，解释局部异常。",
+      "mechanism": "对象运动属性解释",
+      "takeaway": "异常解释可从可核查的对象和运动属性开始，而不必依赖自由文本。",
+      "limitation": "阅读关注：可读属性是否覆盖需要长期交互背景的异常？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": []
+    },
+    {
+      "id": "ovvad",
+      "shortTitle": "OVVAD",
+      "title": "Open-Vocabulary Video Anomaly Detection",
+      "year": 2024,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "alignment",
+      "tasks": [
+        "异常检测"
+      ],
+      "summary": "将开放词汇检测分解为类别无关检测与类别识别，用语言知识和合成未知异常支持未见类别。",
+      "mechanism": "语言知识与异常合成",
+      "takeaway": "异常检测之外，还需回答未知异常属于什么语义类别。",
+      "limitation": "阅读关注：合成异常与真实未见事件之间的差异如何影响识别？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        },
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.pdf",
+          "note": "CVF 正文实验设置和结果表明确使用 UCF-Crime 与 XD-Violence；未由参考文献推断。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "tpwng",
+      "shortTitle": "TPWNG",
+      "title": "Text Prompt with Normality Guidance for Weakly Supervised Video Anomaly Detection",
+      "year": 2024,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "alignment",
+      "tasks": [
+        "异常检测",
+        "异常定位"
+      ],
+      "summary": "将事件描述与视频帧对齐，结合正常性视觉提示生成帧级伪标签，再进行时序自训练。",
+      "mechanism": "正常引导伪标签学习",
+      "takeaway": "正常性参照可把事件文字转化为更细的弱监督信号。",
+      "limitation": "阅读关注：正常性提示与文本对齐误差如何共同影响伪标签？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        },
+        {
+          "url": "https://arxiv.org/abs/2404.08531",
+          "note": "作者摘要明确正常性视觉提示、伪标签、自训练及 UCF-Crime、XD-Violence 实验。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "uca-paper",
+      "shortTitle": "UCA",
+      "title": "Towards Surveillance Video-and-Language Understanding: New Dataset, Baselines, and Challenges",
+      "year": 2024,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "understanding",
+      "tasks": [
+        "异常检测",
+        "异常定位",
+        "异常解释"
+      ],
+      "summary": "为 UCF-Crime 添加句子级事件描述与时间标注，建立监控视频定位、描述等语言理解任务基线。",
+      "mechanism": "事件句子与时间对齐",
+      "takeaway": "监控理解需要把事件语义和发生时间一起标注。",
+      "limitation": "阅读关注：通用视频语言模型迁移至长监控视频时，哪些任务最受背景和时长影响？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
+        "project": "https://xuange923.github.io/Surveillance-Video-Understanding"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        },
+        {
+          "url": "https://xuange923.github.io/Surveillance-Video-Understanding",
+          "note": "论文首页脚注明确指向数据项目。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "uca"
+      ]
+    },
+    {
+      "id": "anomize",
+      "shortTitle": "Anomize",
+      "title": "Anomize: Better Open Vocabulary Video Anomaly Detection",
+      "year": 2025,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "alignment",
+      "tasks": [
+        "异常检测"
+      ],
+      "summary": "结合多层视觉信息与匹配文本，并利用标签关系编码新类别，改善未见异常的检测和语义分类。",
+      "mechanism": "多源语义与标签关系",
+      "takeaway": "开放词汇识别需要同时处理异常分数与新类别语义对齐。",
+      "limitation": "阅读关注：标签关系对视觉相似但语义不同的异常有多大帮助？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "va-gpt",
+      "shortTitle": "VA-GPT",
+      "title": "Aligning Effective Tokens with Video Anomaly in Large Language Models",
+      "year": 2025,
+      "venue": "ICCV",
+      "scope": "core",
+      "cluster": "understanding",
+      "tasks": [
+        "异常定位",
+        "异常解释",
+        "视频问答"
+      ],
+      "summary": "通过空间有效词元选择与时间有效词元生成，减少冗余视觉信息，支持异常总结和时间定位。",
+      "mechanism": "时空有效词元对齐",
+      "takeaway": "进入语言模型的时空证据如何筛选，本身就是异常理解的关键。",
+      "limitation": "阅读关注：词元选择保留局部异常时，是否也保留解释所需的上下文？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        },
+        {
+          "url": "https://openaccess.thecvf.com/content/ICCV2025/papers/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.pdf",
+          "note": "CVF 正文实验设置和结果表明确使用 UCF-Crime 与 XD-Violence；未由参考文献推断。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "missiongnn",
+      "shortTitle": "MissionGNN",
+      "title": "MissionGNN: Hierarchical Multimodal GNN-Based Weakly Supervised Video Anomaly Recognition with Mission-Specific Knowledge Graph Generation",
+      "year": 2025,
+      "venue": "WACV",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常检测"
+      ],
+      "summary": "利用语言模型自动生成面向异常任务的知识图谱，以层级多模态图网络连接视频帧与语义概念。",
+      "mechanism": "任务知识图谱传播",
+      "takeaway": "语言知识可以编译成可学习的图结构，而不必逐帧调用大模型生成答案。",
+      "limitation": "阅读关注：知识图谱生成质量与短时上下文分别影响哪些异常类别？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/WACV2025/html/Yun_MissionGNN_Hierarchical_Multimodal_GNN-Based_Weakly_Supervised_Video_Anomaly_Recognition_with_WACV_2025_paper.html",
+        "code": "https://github.com/c0510gy/MissionGNN"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/WACV2025/html/Yun_MissionGNN_Hierarchical_Multimodal_GNN-Based_Weakly_Supervised_Video_Anomaly_Recognition_with_WACV_2025_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        },
+        {
+          "url": "https://github.com/c0510gy/MissionGNN",
+          "note": "作者 arXiv 正文明确链接此代码仓库；含模型、训练与评估实现。"
+        },
+        {
+          "url": "https://arxiv.org/html/2406.18815",
+          "note": "实验第 4.2 节明确使用 UCF-Crime 和 XD-Violence；官方代码链接位于摘要后。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "alert-clip",
+      "shortTitle": "Alert-CLIP",
+      "title": "Alert-CLIP: Abnormality-aware Latent-Enhanced Representation Tuning of CLIP for Video Anomaly Detection",
+      "year": 2026,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "alignment",
+      "tasks": [
+        "异常检测"
+      ],
+      "summary": "通过视频与标签、区域与文本、区域与语义的多层对齐，增强视觉语言表征对正常和异常的区分能力。",
+      "mechanism": "区域语义多层对齐",
+      "takeaway": "语言异常判断的基础是视觉语言空间能否区分相近的正常与异常描述。",
+      "limitation": "阅读关注：区域描述与困难负样本的收益能否迁移到新的场景定义？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": []
+    },
+    {
+      "id": "lavida",
+      "shortTitle": "LAVIDA",
+      "title": "No Need For Real Anomaly: MLLM Empowered Zero-Shot Video Anomaly Detection",
+      "year": 2026,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "alignment",
+      "tasks": [
+        "异常检测",
+        "异常定位"
+      ],
+      "summary": "仅用伪异常训练，结合多模态大模型语义理解与反向注意力词元压缩，实现零样本帧级和像素级异常检测。",
+      "mechanism": "伪异常与反向注意力",
+      "takeaway": "可通过合成暴露异常语义，再检验对真实异常的零样本迁移。",
+      "limitation": "阅读关注：伪异常覆盖的语义与真实上下文依赖异常有多大差距？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html",
+        "project": "https://github.com/VitaminCreed/LAVIDA"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        },
+        {
+          "url": "https://github.com/VitaminCreed/LAVIDA",
+          "note": "论文指定的作者仓库；核验时训练与推理代码仍列为待发布，因此仅作为项目链接。"
+        },
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.pdf",
+          "note": "CVF 正文实验设置和结果表明确使用 UCF-Crime 与 XD-Violence；未由参考文献推断。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "las-vad",
+      "shortTitle": "LAS-VAD",
+      "title": "Weakly Supervised Video Anomaly Detection with Anomaly-Connected Components and Intention Reasoning",
+      "year": 2026,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常检测",
+        "异常定位"
+      ],
+      "summary": "将视频帧组织为语义相连的成分，并结合行为意图与异常属性信息，区分外观相似的正常和异常行为。",
+      "mechanism": "语义连通与意图感知",
+      "takeaway": "动作外观相似时，异常判断需要考虑意图及其可见属性。",
+      "limitation": "阅读关注：意图建模所依赖的视觉证据能否与行为先验区分开？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "anyanomaly",
+      "shortTitle": "AnyAnomaly",
+      "title": "AnyAnomaly: Zero-Shot Customizable Video Anomaly Detection with LVLM",
+      "year": 2026,
+      "venue": "WACV",
+      "scope": "core",
+      "cluster": "explanation",
+      "tasks": [
+        "异常检测",
+        "异常定位"
+      ],
+      "summary": "由用户文本定义异常，使用位置与时间上下文增强的片段级视觉问答，无需微调即可定位指定事件。",
+      "mechanism": "文本定义与上下文问答",
+      "takeaway": "异常定义可以作为用户输入，而不必固定为训练时的类别。",
+      "limitation": "阅读关注：不同文本粒度与位置、时间上下文如何影响可定制异常判断？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/WACV2026/html/Ahn_AnyAnomaly_Zero-Shot_Customizable_Video_Anomaly_Detection_with_LVLM_WACV_2026_paper.html",
+        "code": "https://github.com/SkiddieAhn/Paper-AnyAnomaly"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/WACV2026/html/Ahn_AnyAnomaly_Zero-Shot_Customizable_Video_Anomaly_Detection_with_LVLM_WACV_2026_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        },
+        {
+          "url": "https://github.com/SkiddieAhn/Paper-AnyAnomaly",
+          "note": "作者 arXiv 与仓库说明共同确认官方代码，包含上下文视觉问答实现。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime"
+      ]
+    },
+    {
+      "id": "ask-hint",
+      "shortTitle": "ASK-HINT",
+      "title": "Unlocking Vision-Language Models for Video Anomaly Detection via Fine-Grained Prompting",
+      "year": 2026,
+      "venue": "WACV",
+      "scope": "core",
+      "cluster": "explanation",
+      "tasks": [
+        "异常检测",
+        "异常解释",
+        "异常推理"
+      ],
+      "summary": "按语义组组织以动作为中心的细粒度问题，引导冻结视觉语言模型关注人与对象的交互证据并产生解释轨迹。",
+      "mechanism": "动作线索分组提问",
+      "takeaway": "提示的细粒度应落实到能观察的动作线索，而非只写抽象异常类别。",
+      "limitation": "阅读关注：问题集合的覆盖程度、数量与跨类别泛化之间如何权衡？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/WACV2026/html/Zou_Unlocking_Vision-Language_Models_for_Video_Anomaly_Detection_via_Fine-Grained_Prompting_WACV_2026_paper.html"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/WACV2026/html/Zou_Unlocking_Vision-Language_Models_for_Video_Anomaly_Detection_via_Fine-Grained_Prompting_WACV_2026_paper.html",
+          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "vad-r1",
+      "shortTitle": "Vad-R1",
+      "title": "Vad-R1: Towards Video Anomaly Reasoning via Perception-to-Cognition Chain-of-Thought",
+      "year": 2025,
+      "venue": "NeurIPS",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常推理",
+        "异常解释",
+        "强化学习"
+      ],
+      "summary": "把视频异常推理独立为任务，构建从感知到认知的结构化推理链及 Vad-Reasoning 数据，并以带自验证的 AVA-GRPO 训练模型。",
+      "mechanism": "感知认知推理链与自验证奖励",
+      "takeaway": "把“看到了什么”与“为何异常”分步组织，再让训练奖励约束推理与结论。",
+      "limitation": "结构化文本与自验证是训练机制；解释是否忠实于实际视觉证据仍需单独检查。",
+      "links": {
+        "paper": "https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+        "code": "https://github.com/wbfwonderful/Vad-R1"
+      },
+      "sources": [
+        {
+          "url": "https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+          "note": "正式论文集确认题名、会议年份与方法摘要。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "vad-reasoning"
+      ]
+    },
+    {
+      "id": "vadtree",
+      "shortTitle": "VADTree",
+      "title": "VADTree: Explainable Training-Free Video Anomaly Detection via Hierarchical Granularity-Aware Tree",
+      "year": 2025,
+      "venue": "NeurIPS",
+      "scope": "core",
+      "cluster": "understanding",
+      "tasks": [
+        "异常检测",
+        "异常解释",
+        "多粒度时序"
+      ],
+      "summary": "由通用事件边界构建层次粒度树，在粗细事件节点上分别调用 VLM 感知与 LLM 推理，再融合跨粒度异常分数。",
+      "mechanism": "事件边界驱动的层次粒度树",
+      "takeaway": "先确定具有事件意义的时间单元，有助于减少固定窗口切碎事件或混入无关内容。",
+      "limitation": "仍依赖事件边界模型及节点描述质量；免训练不等于免除多阶段模型推理成本。",
+      "links": {
+        "paper": "https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html",
+        "code": "https://github.com/wenlongli10/VADTree"
+      },
+      "sources": [
+        {
+          "url": "https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html",
+          "note": "正式论文集确认题名、会议年份与方法摘要。"
+        },
+        {
+          "url": "https://github.com/wenlongli10/VADTree",
+          "note": "作者代码列明 UCF-Crime、XD-Violence 与 MSAD 的数据准备及实验流水线。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "cuebench",
+      "shortTitle": "CueBench / Cue-R1",
+      "title": "CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World",
+      "year": 2026,
+      "venue": "AAAI",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "上下文异常理解",
+        "异常定位",
+        "异常预判",
+        "基准评估"
+      ],
+      "summary": "以条件性与绝对异常为核心组织场景、属性和事件层级，统一评估识别、定位、检测与预判，并训练具有分层可验证奖励的 Cue-R1。",
+      "mechanism": "上下文异常分类体系与分层奖励",
+      "takeaway": "同一行为是否异常取决于安全条件与上下文，基准应显式检验这种条件依赖。",
+      "limitation": "结果受所定义的事件、场景和属性覆盖范围约束；不能将基准表现直接等同于所有真实场景可靠性。",
+      "links": {
+        "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+        "code": "https://github.com/Mia-YatingYu/Cue-R1"
+      },
+      "sources": [
+        {
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+          "note": "正式论文集确认题名、会议年份与方法摘要。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": []
+    },
+    {
+      "id": "targetvau",
+      "shortTitle": "TargetVAU",
+      "title": "TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos",
+      "year": 2026,
+      "venue": "AAAI",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "个体异常理解",
+        "异常解释",
+        "关系推理"
+      ],
+      "summary": "结合全局和人体中心视觉特征，用异常引导采样与时空交互图刻画个体关系，再以指令微调语言模型识别异常个体并解释行为。",
+      "mechanism": "个体时空交互图与指令推理",
+      "takeaway": "异常解释应明确“谁做了什么”，以关系结构补足全局事件描述对具体行为主体的忽略。",
+      "limitation": "以可见个体及其交互为建模中心；遮挡和人体特征质量会影响细粒度主体解释。",
+      "links": {
+        "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/38378"
+      },
+      "sources": [
+        {
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38378",
+          "note": "正式论文集确认题名、会议年份与方法摘要。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "hivau-70k"
+      ]
+    },
+    {
+      "id": "holotrace",
+      "shortTitle": "HoloTrace",
+      "title": "HoloTrace: LLM-based Bidirectional Causal Knowledge Graph for Edge-Cloud Video Anomaly Detection",
+      "year": 2025,
+      "venue": "ACM MM",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常检测",
+        "因果推理",
+        "边云协同"
+      ],
+      "summary": "用 LLM 构建并更新双向因果知识图，边缘侧结合隐马尔可夫模型进行事件推理与边界判断，云端依据关键帧更新事件关系。",
+      "mechanism": "双向因果知识图与边云更新",
+      "takeaway": "将事件关系显式存入可更新结构，使边缘检测能够复用语言模型获得的语义知识。",
+      "limitation": "图中的因果关系来自模型构建与更新，不能自动视为经干预验证的真实因果关系。",
+      "links": {
+        "paper": "https://doi.org/10.1145/3746027.3755185",
+        "code": "https://github.com/kongyanye/HoloTrace-MM25"
+      },
+      "sources": [
+        {
+          "url": "https://doi.org/10.1145/3746027.3755185",
+          "note": "正式论文集确认题名、会议年份与方法摘要。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": []
+    },
+    {
+      "id": "lagovad",
+      "shortTitle": "LaGoVAD",
+      "title": "Language-guided Open-world Video Anomaly Detection under Weak Supervision",
+      "year": 2026,
+      "venue": "ICLR",
+      "scope": "core",
+      "cluster": "explanation",
+      "tasks": [
+        "开放世界异常检测",
+        "语言条件判据"
+      ],
+      "summary": "把用户给定的自然语言异常定义作为推理输入，结合动态视频合成与负样本对比学习训练模型，并建设带异常定义的 PreVAD 数据。",
+      "mechanism": "自然语言条件化异常定义",
+      "takeaway": "异常标准可以变化；把定义作为显式输入，比假设类别永远对应同一异常标签更贴近开放场景。",
+      "limitation": "核心输出仍是条件化异常分数；具备语言输入并不等同于能够生成完整因果解释。",
+      "links": {
+        "paper": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html",
+        "code": "https://github.com/Kamino666/LaGoVAD-PreVAD"
+      },
+      "sources": [
+        {
+          "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html",
+          "note": "正式论文集确认题名、会议年份与方法摘要。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": []
+    },
+    {
+      "id": "memovad",
+      "shortTitle": "MemoVAD",
+      "title": "MemoVAD: Resource-Efficient Video Anomaly Detection via Dynamic Semantic Memory in Edge Computing Scenarios",
+      "year": 2026,
+      "venue": "IJCAI",
+      "scope": "core",
+      "cluster": "evidence",
+      "tasks": [
+        "流式异常检测",
+        "选择性模型调用",
+        "语义记忆"
+      ],
+      "summary": "边缘轻量检测器维护因果时序上下文，仅对高不确定且语义新颖的片段查询云端 VLM，并缓存验证后的语义原型用于后续检索。",
+      "mechanism": "不确定性门控与动态语义记忆",
+      "takeaway": "把何时调用大型语义模型作为决策问题，让曾经获取的异常证据在后续视频中复用。",
+      "limitation": "选择性查询取决于边缘不确定性估计；未被触发的片段无法获得云端语义补充。",
+      "links": {
+        "paper": "https://www.ijcai.org/proceedings/2026/618"
+      },
+      "sources": [
+        {
+          "url": "https://www.ijcai.org/proceedings/2026/618",
+          "note": "正式论文集确认题名、会议年份与方法摘要。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ]
+    },
+    {
+      "id": "a2seek",
+      "shortTitle": "A2Seek / A2Seek-R1",
+      "title": "A2Seek: Towards Reasoning-Centric Benchmark for Aerial Anomaly Understanding",
+      "year": 2025,
+      "venue": "NeurIPS Datasets and Benchmarks",
+      "scope": "core",
+      "cluster": "evidence",
+      "tasks": [
+        "航拍异常理解",
+        "空间定位",
+        "异常解释",
+        "基准评估"
+      ],
+      "summary": "构建含事件类别、时间戳、区域框和语言解释的真实航拍异常基准，以图式推理监督、A-GRPO 与区域 seeking 机制训练 A2Seek-R1。",
+      "mechanism": "图式推理与主动区域观察",
+      "takeaway": "异常理解不仅要说明原因，也要在动态航拍视角下找到支撑判断的局部区域。",
+      "limitation": "面向航拍视角与区域级证据的设计，迁移到固定监控或其他场景时仍需验证。",
+      "links": {
+        "paper": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+        "project": "https://2-mo.github.io/A2Seek/"
+      },
+      "sources": [
+        {
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+          "note": "正式论文集确认题名、会议年份与方法摘要。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": []
     }
   ],
   "datasets": [
@@ -626,14 +1288,26 @@
       "protocol": "采用官方训练／测试划分；弱监督训练与帧级定位评估须区分。",
       "links": {
         "website": "https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/",
-        "paper": "https://arxiv.org/abs/1801.04264"
+        "paper": "https://openaccess.thecvf.com/content_cvpr_2018/html/Sultani_Real-World_Anomaly_Detection_CVPR_2018_paper.html"
       },
       "sources": [
         {
-          "url": "https://arxiv.org/abs/1801.04264",
-          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+          "url": "https://openaccess.thecvf.com/content_cvpr_2018/html/Sultani_Real-World_Anomaly_Detection_CVPR_2018_paper.html",
+          "note": "资源首发论文或作者发布页：核实任务、标注与出版信息。"
+        },
+        {
+          "url": "https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/",
+          "note": "作者数据发布页与使用说明。"
         }
-      ]
+      ],
+      "year": 2018,
+      "venue": "CVPR",
+      "thumbnail": {
+        "src": "/datasets/ucf-crime.png",
+        "alt": "UCF-Crime 官方方法示意图，包含监控视频片段",
+        "sourceUrl": "https://www.crcv.ucf.edu/projects/real-world/method.png",
+        "credit": "Waqas Sultani, Chen Chen, Mubarak Shah"
+      }
     },
     {
       "id": "xd-violence",
@@ -653,14 +1327,27 @@
       ],
       "protocol": "报告所用模态与官方划分；不可将音视频方法和纯视觉方法混为同一设置。",
       "links": {
-        "website": "https://roc-ng.github.io/XD-Violence/"
+        "website": "https://roc-ng.github.io/XD-Violence/",
+        "paper": "https://roc-ng.github.io/XD-Violence/"
       },
       "sources": [
         {
           "url": "https://roc-ng.github.io/XD-Violence/",
-          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+          "note": "资源首发论文或作者发布页：核实任务、标注与出版信息。"
+        },
+        {
+          "url": "https://roc-ng.github.io/XD-Violence/",
+          "note": "作者数据发布页与使用说明。"
         }
-      ]
+      ],
+      "year": 2020,
+      "venue": "ECCV",
+      "thumbnail": {
+        "src": "/datasets/xd-violence.png",
+        "alt": "XD-Violence 作者发布的多场景视频样例拼图",
+        "sourceUrl": "https://roc-ng.github.io/XD-Violence/images/samples.png",
+        "credit": "Peng Wu et al. / XD-Violence"
+      }
     },
     {
       "id": "cuva-dataset",
@@ -684,14 +1371,26 @@
       "protocol": "按原论文任务与 MMEval 协议评估；定位、描述和因果解释分别报告。",
       "links": {
         "website": "https://github.com/fesvhtr/CUVA",
-        "paper": "https://arxiv.org/abs/2405.00181"
+        "paper": "https://openaccess.thecvf.com/content/CVPR2024/html/Du_Uncovering_What_Why_and_How_A_Comprehensive_Benchmark_for_Causation_CVPR_2024_paper.html"
       },
       "sources": [
         {
-          "url": "https://arxiv.org/abs/2405.00181",
-          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+          "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Du_Uncovering_What_Why_and_How_A_Comprehensive_Benchmark_for_Causation_CVPR_2024_paper.html",
+          "note": "资源首发论文或作者发布页：核实任务、标注与出版信息。"
+        },
+        {
+          "url": "https://github.com/fesvhtr/CUVA",
+          "note": "作者数据发布页与使用说明。"
         }
-      ]
+      ],
+      "year": 2024,
+      "venue": "CVPR",
+      "thumbnail": {
+        "src": "/datasets/cuva-dataset.png",
+        "alt": "CUVA 论文中的异常视频及因果标注示例",
+        "sourceUrl": "https://arxiv.org/html/2405.00181v3/dataset_4.png",
+        "credit": "Hang Du et al. / CUVA"
+      }
     },
     {
       "id": "hivau-70k",
@@ -714,14 +1413,26 @@
       "protocol": "区分时间粒度与任务类型；数据构建包含模型生成与人工复核。",
       "links": {
         "website": "https://github.com/pipixin321/HolmesVAU",
-        "paper": "https://arxiv.org/abs/2412.06171"
+        "paper": "https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.html"
       },
       "sources": [
         {
-          "url": "https://arxiv.org/abs/2412.06171",
-          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+          "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.html",
+          "note": "资源首发论文或作者发布页：核实任务、标注与出版信息。"
+        },
+        {
+          "url": "https://github.com/pipixin321/HolmesVAU",
+          "note": "作者数据发布页与使用说明。"
         }
-      ]
+      ],
+      "year": 2025,
+      "venue": "CVPR",
+      "thumbnail": {
+        "src": "/datasets/hivau-70k.png",
+        "alt": "HIVAU-70k 片段、事件和视频三级异常理解示例",
+        "sourceUrl": "https://raw.githubusercontent.com/pipixin321/HolmesVAU/master/assets/teaser.png",
+        "credit": "Huaxin Zhang et al. / Holmes-VAU"
+      }
     },
     {
       "id": "hawk-dataset",
@@ -742,18 +1453,30 @@
       "protocol": "遵循作者数据划分，分别检查描述生成与问答表现。",
       "links": {
         "website": "https://github.com/jqtangust/hawk",
-        "paper": "https://arxiv.org/abs/2405.16886"
+        "paper": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/3ef815416f775098fe9df75ac84d597a-Abstract-Conference.html"
       },
       "sources": [
         {
-          "url": "https://arxiv.org/abs/2405.16886",
-          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/3ef815416f775098fe9df75ac84d597a-Abstract-Conference.html",
+          "note": "资源首发论文或作者发布页：核实任务、标注与出版信息。"
+        },
+        {
+          "url": "https://github.com/jqtangust/hawk",
+          "note": "作者数据发布页与使用说明。"
         }
-      ]
+      ],
+      "year": 2024,
+      "venue": "NeurIPS",
+      "thumbnail": {
+        "src": "/datasets/hawk-dataset.png",
+        "alt": "Hawk 作者发布的开放场景异常理解与问答示例",
+        "sourceUrl": "https://raw.githubusercontent.com/jqtangust/hawk/main/figs/motivation1.png",
+        "credit": "Jiaqi Tang et al. / Hawk"
+      }
     },
     {
       "id": "finew3",
-      "name": "FineW3 / FineVAU",
+      "name": "FineW3",
       "description": "围绕 What、Who、Where 补充细粒度视觉事实的异常理解数据与评估。",
       "tasks": [
         "异常解释"
@@ -770,12 +1493,159 @@
       "protocol": "使用 FVScore 检查关键视觉元素，结合人类一致性分析；不能只比较语言流畅度。",
       "links": {
         "website": "https://finevau.github.io/",
-        "paper": "https://arxiv.org/abs/2601.17258"
+        "paper": "https://ojs.aaai.org/index.php/AAAI/article/download/37790/41752"
       },
       "sources": [
         {
-          "url": "https://arxiv.org/abs/2601.17258",
-          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/download/37790/41752",
+          "note": "资源首发论文或作者发布页：核实任务、标注与出版信息。"
+        },
+        {
+          "url": "https://finevau.github.io/",
+          "note": "作者数据发布页与使用说明。"
+        }
+      ],
+      "year": 2026,
+      "venue": "AAAI",
+      "thumbnail": {
+        "src": "/datasets/finew3.png",
+        "alt": "FineVAU 论文中的细粒度异常描述和视觉要素对照",
+        "sourceUrl": "https://arxiv.org/html/2601.17258v2/figs/Teaser.png",
+        "credit": "João Pereira et al. / FineVAU"
+      }
+    },
+    {
+      "id": "uca",
+      "name": "UCA",
+      "year": 2024,
+      "venue": "CVPR",
+      "description": "在 UCF-Crime 监控视频上增加细粒度事件语句和时间边界，连接异常检测、语言定位与密集描述。",
+      "tasks": [
+        "异常检测",
+        "异常定位",
+        "异常解释"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "事件级自然语言描述",
+        "句子起止时间"
+      ],
+      "protocol": "使用作者训练、验证、测试划分；分别报告语言时序定位、视频描述、密集描述与多模态异常检测。",
+      "links": {
+        "website": "https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet",
+        "paper": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html"
+      },
+      "thumbnail": {
+        "src": "/datasets/uca.jpg",
+        "alt": "UCA 官方仓库展示的细粒度事件语句与对应时间段",
+        "sourceUrl": "https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet",
+        "credit": "Tongtong Yuan et al. / UCA"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
+          "note": "一手论文：定义数据任务与标注。"
+        },
+        {
+          "url": "https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet",
+          "note": "作者仓库：数据已发布，提供数据获取与评估说明。"
+        }
+      ]
+    },
+    {
+      "id": "ecva",
+      "name": "ECVA",
+      "year": 2024,
+      "venue": "arXiv",
+      "description": "CUVA 的扩展因果理解基准，围绕异常经过、发生原因与事件后果提供人工语言标注。",
+      "tasks": [
+        "异常解释",
+        "异常推理",
+        "视频问答"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "异常类别与时间边界",
+        "事件描述",
+        "原因解释",
+        "后果描述"
+      ],
+      "protocol": "按作者发布版本分别评估描述、原因和后果；AnomEval 检查推理、回答一致性与幻觉，避免与 CUVA 的 MMEval 混用。",
+      "links": {
+        "website": "https://github.com/Dulpy/ECVA",
+        "paper": "https://arxiv.org/abs/2412.07183"
+      },
+      "thumbnail": {
+        "src": "/datasets/ecva.png",
+        "alt": "ECVA 论文中异常因果理解的挑战与视频样例",
+        "sourceUrl": "https://arxiv.org/html/2412.07183v1/challenge_v7.png",
+        "credit": "Hang Du et al. / ECVA"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2412.07183",
+          "note": "一手论文：定义数据任务与标注。"
+        },
+        {
+          "url": "https://github.com/Dulpy/ECVA",
+          "note": "作者仓库：数据已发布，提供数据获取与评估说明。"
+        },
+        {
+          "url": "https://www.modelscope.cn/datasets/gouchenyi/ECVA/files",
+          "note": "作者仓库链接的数据与标注发布位置。"
+        }
+      ]
+    },
+    {
+      "id": "vad-reasoning",
+      "name": "Vad-Reasoning",
+      "year": 2025,
+      "venue": "NeurIPS",
+      "description": "Vad-R1 提出的异常推理数据，使用感知到认知的结构化推理标注，并区分监督微调和强化学习子集。",
+      "tasks": [
+        "异常检测",
+        "异常推理",
+        "异常解释"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "结构化推理过程",
+        "最终异常判断",
+        "异常类型与时间边界",
+        "RL 子集视频级弱标签"
+      ],
+      "protocol": "分别使用 Vad-Reasoning-SFT 的训练／测试划分与 Vad-Reasoning-RL；SFT 含推理文本，RL 仅有视频级弱标签。",
+      "links": {
+        "website": "https://github.com/wbfwonderful/Vad-R1",
+        "paper": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html"
+      },
+      "thumbnail": {
+        "src": "/datasets/vad-reasoning.png",
+        "alt": "Vad-Reasoning 官方仓库中的视频、推理过程与最终答案标注示例",
+        "sourceUrl": "https://raw.githubusercontent.com/wbfwonderful/Vad-R1/main/images/data-example.png",
+        "credit": "Chao Huang, Benfeng Wang et al. / Vad-R1"
+      },
+      "sources": [
+        {
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+          "note": "一手论文：定义数据任务与标注。"
+        },
+        {
+          "url": "https://github.com/wbfwonderful/Vad-R1",
+          "note": "作者仓库：数据已发布，提供数据获取与评估说明。"
+        },
+        {
+          "url": "https://huggingface.co/datasets/wbfwonderful/Vad-R1",
+          "note": "作者发布的 Vad-Reasoning 数据文件。"
         }
       ]
     }
@@ -949,6 +1819,26 @@
       "evidence": {
         "url": "https://arxiv.org/abs/2601.17258",
         "note": "原文提出并发布此数据资源。"
+      }
+    },
+    {
+      "id": "uca-paper-uca",
+      "source": "uca-paper",
+      "target": "uca",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
+        "note": "论文明确提出该数据集；作者仓库已发布数据。"
+      }
+    },
+    {
+      "id": "vad-r1-vad-reasoning",
+      "source": "vad-r1",
+      "target": "vad-reasoning",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+        "note": "论文明确提出该数据集；作者仓库已发布数据。"
       }
     }
   ],

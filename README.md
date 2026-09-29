@@ -11,7 +11,7 @@ English | [简体中文](README.zh-CN.md)
 
 ## 🗞️ Recent Updates
 
-- **2026-09-29** — Rebuilt the research atlas around a selected, source-checked catalog: 17 core papers, 6 datasets, and 3 reading guides.
+- **2026-09-29** — Rebuilt the research atlas around a selected, source-checked catalog: 37 core papers, 9 datasets, and 3 reading guides.
 
 - **2026-05-26** — Updated the CVPR and ICML paper lists with the latest 2026 publications.
 - **2026-02-06** — Refreshed the Interactive Atlas timeline page ([View Interactive Research Atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/)).
@@ -59,11 +59,11 @@ Video anomaly detection is evolving from simple frame-level alerts to systems th
 
 [Open the interactive atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/) · [Read the selected catalog](catalog.md) · [Inspect the source data](data/catalog.json)
 
-The current selected catalog contains **17 core papers across 5 research directions, 6 datasets, and 3 reading guides**. The atlas brings research directions, paper evidence and reading routes into a compact view with in-place pagination. Routes follow innovation ideas and research questions; dataset coverage is supporting evaluation context, not the organizing principle.
+The current selected catalog contains **37 core papers across 5 research directions, 9 datasets, and 3 reading guides**. The atlas brings research directions, paper evidence and reading routes into a compact view with in-place pagination. Routes follow innovation ideas and research questions; dataset coverage is supporting evaluation context, not the organizing principle.
 
 The catalog covers video anomaly detection and understanding only. Reading routes trace innovation ideas and are editorial suggestions, not claims of research lineage.
 
-[data/catalog.json](data/catalog.json) is the single source of truth for the interactive atlas and generated [catalog.md](catalog.md). Selected entries record verification sources and dates. The historical [conference notes](venues/), [journal notes](journals/), [dataset notes](dataset.md) and [LLM/VAD notes](llm4vad.md) remain additional resources and **have not all been reverified**; inclusion there does not imply inclusion in the checked catalog.
+[data/catalog.json](data/catalog.json) is the single source of truth for the interactive atlas and generated [catalog.md](catalog.md). Selected entries record verification sources and dates. Dataset cards include original author/paper figures, publication year and venue, with image attribution. The expansion adds 20 verified conference papers; NeurIPS Datasets and Benchmarks is labeled explicitly. Historical workshops and unconfirmed preprints retain their original status; generic video understanding and ordinary detection papers are not added merely to increase coverage. The historical [conference notes](venues/), [journal notes](journals/), [dataset notes](dataset.md) and [LLM/VAD notes](llm4vad.md) remain additional resources and **have not all been reverified**; inclusion there does not imply inclusion in the checked catalog.
 
 ## 💻 Run Locally
 
@@ -117,7 +117,7 @@ See [journals/README.md](journals/README.md) for historical journal notes, which
 
 ## 🧪 Benchmarks and Datasets
 
-The atlas provides 6 selected datasets with task, annotation and evaluation-protocol notes. The broader historical **[dataset.md](dataset.md)** remains available but has not been fully reverified; it is organized by:
+The atlas provides 9 selected datasets with task, annotation and evaluation-protocol notes. The broader historical **[dataset.md](dataset.md)** remains available but has not been fully reverified; it is organized by:
 
 - 🤖 **LLM/VLM-Ready Datasets** — Multimodal & explainable annotations
   - Video-language annotation (UCA, VAD-Instruct50k, UCCD)

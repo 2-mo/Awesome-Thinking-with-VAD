@@ -19,7 +19,7 @@ function fixture() {
     version: 1, updatedAt: '2026-09-29',
     clusters: [{ id: 'reasoning', name: 'Reasoning', description: 'Anomaly reasoning.', question: 'What happened?', color: '#667799', position: { x: 10, y: 20 } }],
     papers: [paper, { ...structuredClone(paper), id: 'core-b', title: 'Another core paper' }],
-    datasets: [{ id: 'dataset-a', name: 'Dataset A', description: 'A research benchmark.', tasks: ['understanding'], modalities: ['video'], annotations: ['events'], protocol: 'Use the official split.', links: { website: 'https://example.org/dataset' }, sources: [source] }],
+    datasets: [{ id: 'dataset-a', name: 'Dataset A', year: 2024, venue: 'Example Conference', thumbnail: { src: '/datasets/example.png', alt: 'Example dataset figure', sourceUrl: 'https://example.org/figure.png', credit: 'Dataset authors' }, description: 'A research benchmark.', tasks: ['understanding'], modalities: ['video'], annotations: ['events'], protocol: 'Use the official split.', links: { website: 'https://example.org/dataset' }, sources: [source] }],
     relations: [{ id: 'relation-a', source: 'core-a', target: 'dataset-a', type: 'uses', evidence: source }],
     guides: [{ id: 'guide-a', title: 'Start here', description: 'Read the core method.', steps: [{ paperId: 'core-a', note: 'Understand the evaluation.' }] }],
   };
@@ -29,6 +29,16 @@ test('valid structured fixture passes', () => assert.deepEqual(validateCatalog(f
 test('the checked-in catalog passes semantic validation', async () => assert.deepEqual(validateCatalog(await readCatalog()), []));
 
 const corruptions = [
+  ['missing dataset thumbnail', data => { delete data.datasets[0].thumbnail; }, /thumbnail.*local artwork/],
+  ['remote thumbnail path', data => { data.datasets[0].thumbnail.src = 'https://example.org/image.png'; }, /thumbnail.src.*local/],
+  ['thumbnail path traversal', data => { data.datasets[0].thumbnail.src = '/datasets/../image.png'; }, /thumbnail.src.*traversal/],
+  ['encoded thumbnail traversal', data => { data.datasets[0].thumbnail.src = '/datasets/%2e%2e/image.png'; }, /thumbnail.src.*local/],
+  ['thumbnail outside datasets', data => { data.datasets[0].thumbnail.src = '/assets/image.png'; }, /thumbnail.src.*local/],
+  ['missing image credit', data => { data.datasets[0].thumbnail.credit = ''; }, /thumbnail.credit.*non-empty/],
+  ['missing image alt', data => { delete data.datasets[0].thumbnail.alt; }, /thumbnail.alt.*non-empty/],
+  ['invalid image provenance URL', data => { data.datasets[0].thumbnail.sourceUrl = 'file:///image.png'; }, /thumbnail.sourceUrl.*absolute HTTP/],
+  ['missing dataset publication year', data => { delete data.datasets[0].year; }, /datasets.*year.*publication year/],
+  ['missing dataset venue', data => { delete data.datasets[0].venue; }, /datasets.*venue.*non-empty/],
   ['non-core scope', data => { data.papers[0].scope = 'external'; }, /scope.*must be core/],
   ['unsupported relationship type', data => { data.relations[0].type = 'similar'; }, /unknown relation type/],
   ['duplicate entity IDs', data => { data.papers[1].id = data.papers[0].id; }, /duplicate id/],
@@ -67,6 +77,11 @@ test('generated catalog includes grouped core research and provenance context', 
   assert.match(markdown, /### Another core paper/);
   assert.match(markdown, /尚未全面复核/);
   assert.match(markdown, /创新抓手：证据约束解释/);
+  assert.match(markdown, /### Dataset A/);
+  assert.match(markdown, /2024 · Example Conference/);
+  assert.match(markdown, /https:\/\/example.org\/figure.png/);
+  assert.match(markdown, /Dataset authors/);
+  assert.doesNotMatch(markdown, /!\[/);
   assert.equal(markdown, renderCatalog(fixture()));
 });
 

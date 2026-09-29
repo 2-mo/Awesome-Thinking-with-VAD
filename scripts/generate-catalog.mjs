@@ -25,6 +25,10 @@ export function renderCatalog(catalog) {
     lines.push(`## ${escape(cluster.name)}`, '', escape(cluster.description), '', `研究问题：${escape(cluster.question)}`, '');
     for (const paper of papers) lines.push(...paperLines(paper));
   }
+  lines.push('## Datasets / 数据资源', '', '图片为作者项目或论文原图的本地副本；此目录只链接出处，不嵌入大图。', '');
+  for (const dataset of catalog.datasets) {
+    lines.push(`### ${escape(dataset.name)}`, '', `**${dataset.year} · ${escape(dataset.venue)}** · ${link('资源', dataset.links.website)}`, '', escape(dataset.description), '', `- 评估协议：${escape(dataset.protocol)}`, `- 图片：${link(escape(dataset.thumbnail.alt), dataset.thumbnail.sourceUrl)}；署名：${escape(dataset.thumbnail.credit)}`, `- 核验：${dataset.sources.map((source, i) => link(`来源 ${i + 1}`, source.url)).join(' · ')}`, '');
+  }
   return `${lines.join('\n').trimEnd()}\n`;
 }
 

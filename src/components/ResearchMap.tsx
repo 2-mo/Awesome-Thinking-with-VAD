@@ -73,6 +73,7 @@ export default function ResearchMap({
   const [mobile, setMobile] = useState(() => window.innerWidth < 800);
   const [page, setPage] = useState(0);
   const [yearPage, setYearPage] = useState(0);
+  const [paperPage, setPaperPage] = useState(0);
   const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const patternId = `comic-dots-${id}`;
   const arrowId = `comic-arrow-${id}`;
@@ -106,7 +107,34 @@ export default function ResearchMap({
   useEffect(() => {
     setPan({ x: 0, y: 0 });
     setZoom(1);
-  }, [layout, mobile, page, yearPage]);
+  }, [layout, mobile, page, yearPage, paperPage]);
+
+  const paperGroups = useMemo(() => {
+    const groups = new Map<string, Paper[]>();
+    for (const paper of papers) {
+      const key = layout === "map" ? paper.cluster : String(paper.year);
+      const members = groups.get(key) || [];
+      members.push(paper);
+      groups.set(key, members);
+    }
+    for (const members of groups.values())
+      members.sort((a, b) =>
+        layout === "map"
+          ? a.year - b.year || a.id.localeCompare(b.id)
+          : ORDER.indexOf(a.cluster) - ORDER.indexOf(b.cluster) ||
+            a.id.localeCompare(b.id),
+      );
+    return groups;
+  }, [papers, layout]);
+  const papersPerPage = layout === "map" ? 4 : 5;
+  const groupPageCount = (key: string) =>
+    Math.max(1, Math.ceil((paperGroups.get(key)?.length || 0) / papersPerPage));
+  const groupPage = (key: string) =>
+    Math.min(paperPage, groupPageCount(key) - 1);
+  const pageMembers = (key: string) => {
+    const start = groupPage(key) * papersPerPage;
+    return (paperGroups.get(key) || []).slice(start, start + papersPerPage);
+  };
 
   const geometry = useMemo(() => {
     const width = mobile ? 420 : 1200;
@@ -128,17 +156,8 @@ export default function ResearchMap({
       });
     if (layout === "timeline") {
       yearColumns.forEach((column) => {
-        const members = sourcePapers
-          .filter((paper) => paper.year === column.year)
-          .sort(
-            (a, b) =>
-              ORDER.indexOf(a.cluster) - ORDER.indexOf(b.cluster) ||
-              a.id.localeCompare(b.id),
-          );
-        const cardHeight = Math.min(
-          77,
-          (mobile ? 472 : 590) / Math.max(1, members.length) - 9,
-        );
+        const members = pageMembers(String(column.year));
+        const cardHeight = 77;
         members.forEach((paper, index) =>
           nodes.set(paper.id, {
             x: column.x + 4,
@@ -156,9 +175,7 @@ export default function ResearchMap({
             ? { x: 10 + index * 398, y: 12, width: 384, height: 340 }
             : { x: index === 3 ? 610 : 10, y: 382, width: 584, height: 275 };
         panels.set(cluster.id, panel);
-        const members = sourcePapers
-          .filter((paper) => paper.cluster === cluster.id)
-          .sort((a, b) => a.year - b.year || a.id.localeCompare(b.id));
+        const members = pageMembers(cluster.id);
         const cardWidth = mobile ? panel.width - 32 : (panel.width - 45) / 2;
         const cardHeight = mobile ? 68 : index < 3 ? 102 : 75;
         const gap = mobile ? 10 : 12;
@@ -177,16 +194,33 @@ export default function ResearchMap({
       });
     }
     return { width, height, panels, nodes, yearColumns };
-  }, [sourcePapers, orderedClusters, mobile, layout]);
+  }, [sourcePapers, orderedClusters, mobile, layout, paperGroups, paperPage]);
   const mobilePage = orderedClusters[page];
   const mobileYear = geometry.yearColumns[yearPage]?.year;
-  const displayedPapers = mobile
-    ? papers.filter((paper) =>
-        layout === "map"
+  const displayedPapers = papers.filter(
+    (paper) =>
+      geometry.nodes.has(paper.id) &&
+      (!mobile ||
+        (layout === "map"
           ? paper.cluster === mobilePage?.id
-          : paper.year === mobileYear,
-      )
-    : papers;
+          : paper.year === mobileYear)),
+  );
+  const visibleGroupKeys = mobile
+    ? [layout === "map" ? mobilePage?.id || "" : String(mobileYear)]
+    : [...paperGroups.keys()];
+  const paperPageCount = Math.max(1, ...visibleGroupKeys.map(groupPageCount));
+  const currentPaperPage = Math.min(paperPage, paperPageCount - 1);
+  useEffect(() => {
+    setPaperPage((current) => Math.min(current, paperPageCount - 1));
+  }, [paperPageCount]);
+  useEffect(() => {
+    const selected = papers.find((paper) => paper.id === selectedId);
+    if (!selected) return;
+    const key = layout === "map" ? selected.cluster : String(selected.year);
+    const index =
+      paperGroups.get(key)?.findIndex((paper) => paper.id === selectedId) ?? -1;
+    if (index >= 0) setPaperPage(Math.floor(index / papersPerPage));
+  }, [selectedId, paperGroups, papersPerPage, papers, layout]);
   const displayedClusters =
     mobile && layout === "map"
       ? orderedClusters.filter((_, index) => index === page)
@@ -218,14 +252,7 @@ export default function ResearchMap({
             ),
       );
     }
-  }, [
-    papers,
-    layout,
-    mobile,
-    activeCluster,
-    orderedClusters,
-    geometry.yearColumns,
-  ]);
+  }, [papers, layout, mobile, activeCluster, orderedClusters, sourcePapers]);
   useEffect(() => {
     const paper = sourcePapers.find((item) => item.id === selectedId);
     if (!mobile || !paper) return;
@@ -241,7 +268,7 @@ export default function ResearchMap({
         geometry.yearColumns.findIndex((column) => column.year === paper.year),
       ),
     );
-  }, [selectedId, mobile, sourcePapers, orderedClusters, geometry.yearColumns]);
+  }, [selectedId, mobile, sourcePapers, orderedClusters]);
   const changePage = (direction: number) => {
     if (layout === "timeline") {
       setYearPage((value) =>
@@ -512,6 +539,17 @@ export default function ResearchMap({
                       strokeWidth="1.5"
                       aria-hidden="true"
                     />
+                    {groupPageCount(cluster.id) > 1 && (
+                      <text
+                        x={panel.x + 18}
+                        y={panel.y + 97}
+                        fill={INK}
+                        fontSize="12"
+                        fontWeight="650"
+                      >
+                        {`${groupPage(cluster.id) + 1} / ${groupPageCount(cluster.id)} 页 · ${count} 篇`}
+                      </text>
+                    )}
                     {count === 0 && (
                       <text
                         x={panel.x + panel.width / 2}
@@ -523,36 +561,38 @@ export default function ResearchMap({
                         当前筛选下暂无论文
                       </text>
                     )}
-                    {cluster.id === "evidence" && !mobile && (
-                      <g
-                        transform={`translate(${panel.x + 20} ${panel.y + 232})`}
-                      >
-                        <path
-                          d="M0-14h363l10 12-10 12H0z"
-                          fill={CREAM}
-                          stroke={INK}
-                          strokeWidth="1.6"
-                        />
-                        <text
-                          x="13"
-                          y="4"
-                          fill={INK}
-                          fontSize="15"
-                          fontWeight="600"
+                    {cluster.id === "evidence" &&
+                      !mobile &&
+                      pageMembers(cluster.id).length <= 2 && (
+                        <g
+                          transform={`translate(${panel.x + 20} ${panel.y + 232})`}
                         >
-                          提出问题 → 调用工具 → 回看证据
-                        </text>
-                        <text
-                          x="398"
-                          y="4"
-                          fill={INK}
-                          fontSize="13"
-                          fontWeight="600"
-                        >
-                          机制导览 ↗
-                        </text>
-                      </g>
-                    )}
+                          <path
+                            d="M0-14h363l10 12-10 12H0z"
+                            fill={CREAM}
+                            stroke={INK}
+                            strokeWidth="1.6"
+                          />
+                          <text
+                            x="13"
+                            y="4"
+                            fill={INK}
+                            fontSize="15"
+                            fontWeight="600"
+                          >
+                            提出问题 → 调用工具 → 回看证据
+                          </text>
+                          <text
+                            x="398"
+                            y="4"
+                            fill={INK}
+                            fontSize="13"
+                            fontWeight="600"
+                          >
+                            机制导览 ↗
+                          </text>
+                        </g>
+                      )}
                   </g>
                 );
               })}
@@ -615,6 +655,9 @@ export default function ResearchMap({
                           .length
                       }{" "}
                       篇
+                      {groupPageCount(String(column.year)) > 1
+                        ? ` · ${groupPage(String(column.year)) + 1}/${groupPageCount(String(column.year))} 页`
+                        : ""}
                     </text>
                   </g>
                 ))}
@@ -633,8 +676,15 @@ export default function ResearchMap({
               !compact && box.width < 200 && mechanism.length > 8
                 ? [mechanism.slice(0, 8), mechanism.slice(8)]
                 : [mechanism];
-            const venue = paper.venue.replace(/\s+Workshops?\b/gi, "W");
-            const venueLabel = `${venue} · ${paper.year}`;
+            const venue = paper.venue
+              .replace(/\bDatasets and Benchmarks\b/gi, "D&B")
+              .replace(/\s+Workshops?\b/gi, "W");
+            // Keep named tracks intact; narrow overview cards expose the year
+            // through their full title and accessible label rather than squeezing type.
+            const venueLabel =
+              box.width < 200 && venue.length > 10
+                ? venue
+                : `${venue} · ${paper.year}`;
             return (
               <g
                 key={paper.id}
@@ -750,40 +800,63 @@ export default function ResearchMap({
         </div>
       )}
       <div className="comic-map-bottom">
-        {mobile ? (
-          <div
-            className="comic-pages"
-            aria-label={layout === "map" ? "切换创新机制分镜" : "切换年份"}
-          >
+        <div className="comic-navigation">
+          {mobile ? (
+            <div
+              className="comic-pages"
+              aria-label={layout === "map" ? "切换创新机制分镜" : "切换年份"}
+            >
+              <button
+                type="button"
+                disabled={(layout === "map" ? page : yearPage) === 0}
+                onClick={() => changePage(-1)}
+                aria-label={layout === "map" ? "上一个创新机制" : "上一年"}
+              >
+                ←
+              </button>
+              <span aria-live="polite">
+                {layout === "map"
+                  ? `${String(page + 1).padStart(2, "0")} / ${String(orderedClusters.length).padStart(2, "0")}`
+                  : mobileYear}
+              </span>
+              <button
+                type="button"
+                disabled={
+                  layout === "map"
+                    ? page >= orderedClusters.length - 1
+                    : yearPage >= geometry.yearColumns.length - 1
+                }
+                onClick={() => changePage(1)}
+                aria-label={layout === "map" ? "下一个创新机制" : "下一年"}
+              >
+                →
+              </button>
+            </div>
+          ) : (
+            <span className="comic-map-footnote" />
+          )}
+          <div className="comic-pages comic-paper-pages" aria-label="文献分页">
             <button
               type="button"
-              disabled={(layout === "map" ? page : yearPage) === 0}
-              onClick={() => changePage(-1)}
-              aria-label={layout === "map" ? "上一个创新机制" : "上一年"}
+              disabled={currentPaperPage === 0}
+              onClick={() => setPaperPage(currentPaperPage - 1)}
+              aria-label="上一页文献"
             >
-              ←
+              ‹
             </button>
             <span aria-live="polite">
-              {layout === "map"
-                ? `${String(page + 1).padStart(2, "0")} / ${String(orderedClusters.length).padStart(2, "0")}`
-                : mobileYear}
+              文献 {currentPaperPage + 1}/{paperPageCount}
             </span>
             <button
               type="button"
-              disabled={
-                layout === "map"
-                  ? page >= orderedClusters.length - 1
-                  : yearPage >= geometry.yearColumns.length - 1
-              }
-              onClick={() => changePage(1)}
-              aria-label={layout === "map" ? "下一个创新机制" : "下一年"}
+              disabled={currentPaperPage >= paperPageCount - 1}
+              onClick={() => setPaperPage(currentPaperPage + 1)}
+              aria-label="下一页文献"
             >
-              →
+              ›
             </button>
           </div>
-        ) : (
-          <span className="comic-map-footnote" />
-        )}
+        </div>
         <div className="comic-controls" aria-label="地图视图控制">
           <button
             type="button"
@@ -815,7 +888,7 @@ export default function ResearchMap({
             className="comic-export"
             onClick={exportSvg}
             disabled={exporting}
-            title="导出当前分镜或完整地图 SVG"
+            title="导出当前可见文献页 SVG"
           >
             {exporting ? "…" : exportFailed ? "重试 SVG" : "SVG ↗"}
           </button>

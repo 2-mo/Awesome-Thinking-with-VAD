@@ -25,12 +25,16 @@ import {
 import rawCatalog from "../data/catalog.json";
 import type { Catalog, Dataset, Paper } from "./types";
 import ResearchMap from "./components/ResearchMap";
+import DatasetGallery, { datasetImageUrl } from "./components/DatasetGallery";
 import stripUrl from "./assets/idea-strip.png";
 
 const catalog = rawCatalog as Catalog;
 const REPO = "https://github.com/2-mo/Awesome-Thinking-with-VAD";
 const initial = new URLSearchParams(window.location.search);
 const initialPaper = catalog.papers.find((p) => p.id === initial.get("paper"));
+const initialDataset = catalog.datasets.find(
+  (d) => d.id === initial.get("resource"),
+);
 type View = "map" | "datasets" | "guides";
 type Layout = "map" | "timeline" | "list";
 type DetailTab = "idea" | "question" | "evidence" | "sources";
@@ -133,6 +137,11 @@ export default function App() {
       ? initial.get("cluster")!
       : "all",
   );
+  const [venue, setVenue] = useState(
+    catalog.papers.some((p) => p.venue === initial.get("venue"))
+      ? initial.get("venue")!
+      : "all",
+  );
   const [year, setYear] = useState(
     catalog.papers.some((p) => String(p.year) === initial.get("year"))
       ? initial.get("year")!
@@ -152,7 +161,7 @@ export default function App() {
     initialPaper?.id || null,
   );
   const [selectedDataset, setSelectedDataset] = useState(
-    catalog.datasets[0].id,
+    initialDataset?.id || catalog.datasets[0].id,
   );
   const [layout, setLayout] = useState<Layout>(
     ["timeline", "list"].includes(initial.get("layout") || "")
@@ -165,9 +174,12 @@ export default function App() {
   const [listPage, setListPage] = useState(0);
   const [guidePage, setGuidePage] = useState(0);
   const [guideStepPage, setGuideStepPage] = useState(0);
-  const [datasetPage, setDatasetPage] = useState(0);
+  const [datasetQuery, setDatasetQuery] = useState(initial.get("dq") || "");
+  const [datasetRelatedPage, setDatasetRelatedPage] = useState(0);
   const [overviewPage, setOverviewPage] = useState(0);
-  const [datasetReading, setDatasetReading] = useState(false);
+  const [datasetReading, setDatasetReading] = useState(
+    initial.get("view") === "datasets" && !!initialDataset,
+  );
   const [notice, setNotice] = useState("");
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
@@ -176,6 +188,9 @@ export default function App() {
   const selected = catalog.papers.find((p) => p.id === selectedId);
   const selectedCluster = catalog.clusters.find(
     (c) => c.id === selected?.cluster,
+  );
+  const venues = [...new Set(catalog.papers.map((p) => p.venue))].sort((a, b) =>
+    a.localeCompare(b),
   );
   const years = [...new Set(catalog.papers.map((p) => p.year))].sort(
     (a, b) => b - a,
@@ -186,6 +201,7 @@ export default function App() {
     !!query ||
     cluster !== "all" ||
     year !== "all" ||
+    venue !== "all" ||
     task !== "all" ||
     !!datasetId;
   const visiblePapers = useMemo(
@@ -196,6 +212,7 @@ export default function App() {
         return (
           (cluster === "all" || p.cluster === cluster) &&
           (year === "all" || String(p.year) === year) &&
+          (venue === "all" || p.venue === venue) &&
           (task === "all" || p.tasks.includes(task)) &&
           (!datasetId || p.datasetIds.includes(datasetId)) &&
           query
@@ -205,7 +222,7 @@ export default function App() {
             .every((word) => text.includes(word))
         );
       }),
-    [query, cluster, year, task, datasetId],
+    [query, cluster, year, venue, task, datasetId],
   );
   const selectedIndex = visiblePapers.findIndex((p) => p.id === selectedId);
   const selectionRelations = catalog.relations.filter(
@@ -218,6 +235,10 @@ export default function App() {
     if (query) params.set("q", query);
     if (cluster !== "all") params.set("cluster", cluster);
     if (year !== "all") params.set("year", year);
+    if (venue !== "all") params.set("venue", venue);
+    if (view === "datasets" && datasetQuery) params.set("dq", datasetQuery);
+    if (view === "datasets" && datasetReading)
+      params.set("resource", selectedDataset);
     if (task !== "all") params.set("task", task);
     if (datasetId) params.set("dataset", datasetId);
     if (selectedId) params.set("paper", selectedId);
@@ -227,7 +248,20 @@ export default function App() {
       "",
       `${window.location.pathname}${params.size ? `?${params}` : ""}`,
     );
-  }, [view, query, cluster, year, task, datasetId, selectedId, layout]);
+  }, [
+    view,
+    query,
+    cluster,
+    year,
+    venue,
+    task,
+    datasetId,
+    selectedId,
+    layout,
+    datasetQuery,
+    datasetReading,
+    selectedDataset,
+  ]);
   useEffect(() => {
     if (selectedId && !visiblePapers.some((p) => p.id === selectedId))
       setSelectedId(null);
@@ -237,6 +271,9 @@ export default function App() {
   useEffect(() => {
     setDetailPage(0);
   }, [selectedId, detailTab]);
+  useEffect(() => {
+    setDatasetRelatedPage(0);
+  }, [selectedDataset]);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -252,7 +289,6 @@ export default function App() {
         )
       ) {
         event.preventDefault();
-        setView("map");
         document.getElementById("paper-search")?.focus();
       }
     };
@@ -277,6 +313,7 @@ export default function App() {
     setQuery("");
     setCluster("all");
     setYear("all");
+    setVenue("all");
     setTask("all");
     setDatasetId("");
   }
@@ -351,7 +388,9 @@ export default function App() {
         ? Math.ceil(paper.sources.length / 2)
         : detailTab === "evidence"
           ? selectionRelations.length
-          : 1;
+          : detailTab === "question"
+            ? Math.ceil(related.length / 6)
+            : 1;
     return (
       <>
         <div className="inspector-heading">
@@ -434,12 +473,14 @@ export default function App() {
                 <h3>同一创新方向</h3>
                 <p>{selectedCluster?.question}</p>
                 <div className="related-papers">
-                  {related.map((p) => (
-                    <button key={p.id} onClick={() => selectPaper(p.id)}>
-                      {p.shortTitle}
-                      <ArrowUpRight size={12} />
-                    </button>
-                  ))}
+                  {related
+                    .slice(detailPage * 6, detailPage * 6 + 6)
+                    .map((p) => (
+                      <button key={p.id} onClick={() => selectPaper(p.id)}>
+                        {p.shortTitle}
+                        <ArrowUpRight size={12} />
+                      </button>
+                    ))}
                 </div>
               </div>
             </>
@@ -554,21 +595,41 @@ export default function App() {
     );
   }
   function DatasetInspector({ dataset }: { dataset: Dataset }) {
+    const related = catalog.papers.filter((p) =>
+      p.datasetIds.includes(dataset.id),
+    );
     return (
       <>
         <div className="inspector-heading">
           <Database size={18} />
           <strong>评测语境</strong>
           <button
-            className="icon-button mobile-back"
+            className="icon-button"
             onClick={() => setDatasetReading(false)}
             aria-label="返回数据资源"
           >
             <X size={18} />
           </button>
         </div>
+        <a
+          className="dataset-detail-image"
+          href={dataset.thumbnail.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            src={datasetImageUrl(dataset.thumbnail.src)}
+            alt={dataset.thumbnail.alt}
+          />
+          <span>
+            {dataset.thumbnail.credit}
+            <ArrowUpRight size={12} />
+          </span>
+        </a>
         <div className="paper-id dataset-id">
-          <span className="overline">DATA / PROTOCOL</span>
+          <span className="overline">
+            {dataset.venue} · {dataset.year}
+          </span>
           <h2>{dataset.name}</h2>
           <p>{dataset.modalities.join(" · ")}</p>
         </div>
@@ -582,14 +643,14 @@ export default function App() {
             </div>
           </div>
           <div className="detail-block">
-            <h3>比较结果前先确认</h3>
+            <h3>评测协议</h3>
             <p>{dataset.protocol}</p>
           </div>
           <div className="detail-block">
             <h3>关联论文</h3>
             <div className="related-papers">
-              {catalog.papers
-                .filter((p) => p.datasetIds.includes(dataset.id))
+              {related
+                .slice(datasetRelatedPage * 6, datasetRelatedPage * 6 + 6)
                 .map((p) => (
                   <button key={p.id} onClick={() => selectPaper(p.id)}>
                     {p.shortTitle}
@@ -599,6 +660,14 @@ export default function App() {
             </div>
           </div>
         </div>
+        {related.length > 6 && (
+          <Pager
+            page={datasetRelatedPage}
+            total={Math.ceil(related.length / 6)}
+            onChange={setDatasetRelatedPage}
+            label="数据集关联论文"
+          />
+        )}
         <div className="inspector-bottom detail-resources">
           <ResourceLink href={dataset.links.website}>官方资源</ResourceLink>
           <button onClick={() => showDatasetPapers(dataset.id)}>
@@ -688,29 +757,45 @@ export default function App() {
         </a>
       </header>
       <div className="command-bar">
-        <button
-          className="mobile-filter-toggle"
-          aria-label="展开筛选"
-          aria-expanded={showFilters}
-          onClick={() => setShowFilters(!showFilters)}
-        >
-          <SlidersHorizontal size={17} />
-        </button>
+        {view !== "datasets" && (
+          <button
+            className="mobile-filter-toggle"
+            aria-label="展开筛选"
+            aria-expanded={showFilters}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <SlidersHorizontal size={17} />
+          </button>
+        )}
         <label className="search-field">
           <Search size={16} />
           <input
             id="paper-search"
-            aria-label="搜索论文、机制或关键词"
-            placeholder="找论文、创新机制、研究问题…"
-            value={query}
+            aria-label={
+              view === "datasets" ? "搜索数据集" : "搜索论文、机制或关键词"
+            }
+            placeholder={
+              view === "datasets"
+                ? "找数据集、任务、标注…"
+                : "找论文、创新机制、研究问题…"
+            }
+            value={view === "datasets" ? datasetQuery : query}
             onChange={(e) => {
-              setQuery(e.target.value);
-              setView("map");
+              if (view === "datasets") setDatasetQuery(e.target.value);
+              else {
+                setQuery(e.target.value);
+                setView("map");
+              }
             }}
           />
           <kbd>/</kbd>
-          {query && (
-            <button onClick={() => setQuery("")} aria-label="清空搜索">
+          {(view === "datasets" ? datasetQuery : query) && (
+            <button
+              onClick={() =>
+                view === "datasets" ? setDatasetQuery("") : setQuery("")
+              }
+              aria-label="清空搜索"
+            >
               <X size={14} />
             </button>
           )}
@@ -788,6 +873,24 @@ export default function App() {
                 <ChevronRight size={13} />
               </button>
             ))}
+          </div>
+          <div className="venue-filter">
+            <label>
+              发表出处
+              <select
+                aria-label="发表出处"
+                value={venue}
+                onChange={(e) => {
+                  setVenue(e.target.value);
+                  setView("map");
+                }}
+              >
+                <option value="all">全部会议 / 期刊</option>
+                {venues.map((v) => (
+                  <option key={v}>{v}</option>
+                ))}
+              </select>
+            </label>
           </div>
           <div className="rail-controls">
             <label>
@@ -868,7 +971,7 @@ export default function App() {
                 ? `${visiblePapers.length} 篇可见`
                 : view === "guides"
                   ? "3 条编辑路线"
-                  : "6 个数据资源"}
+                  : `${catalog.datasets.length} 个数据资源`}
             </span>
           </div>
           <div className="workspace-body">
@@ -994,40 +1097,15 @@ export default function App() {
               </div>
             )}
             {view === "datasets" && (
-              <div className="datasets-view">
-                <div className="dataset-grid">
-                  {catalog.datasets
-                    .slice(datasetPage * 3, datasetPage * 3 + 3)
-                    .map((d, i) => (
-                      <button
-                        key={d.id}
-                        className={`dataset-card ${selectedDataset === d.id ? "active" : ""}`}
-                        onClick={() => {
-                          setSelectedDataset(d.id);
-                          setDatasetReading(true);
-                        }}
-                      >
-                        <div>
-                          <span>RESOURCE 0{datasetPage * 3 + i + 1}</span>
-                          <Database size={18} />
-                        </div>
-                        <h2>{d.name}</h2>
-                        <p>{d.description}</p>
-                        <small>{d.tasks.join(" · ")}</small>
-                        <span className="dataset-card-link">
-                          查看标注与协议
-                          <ArrowUpRight size={14} />
-                        </span>
-                      </button>
-                    ))}
-                </div>
-                <Pager
-                  page={datasetPage}
-                  total={2}
-                  onChange={setDatasetPage}
-                  label="数据资源"
-                />
-              </div>
+              <DatasetGallery
+                datasets={catalog.datasets}
+                query={datasetQuery}
+                selectedId={datasetReading ? selectedDataset : null}
+                onSelect={(id) => {
+                  setSelectedDataset(id);
+                  setDatasetReading(true);
+                }}
+              />
             )}
           </div>
         </section>

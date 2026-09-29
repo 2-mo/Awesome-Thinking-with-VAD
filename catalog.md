@@ -62,6 +62,66 @@
 - 局限：阅读关注：开放场景能力如何随数据来源和问题类型变化？
 - 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2405.16886>) · [来源 2](<https://github.com/jqtangust/hawk/blob/main/README.md>)
 
+### Open-Vocabulary Video Anomaly Detection
+
+**2024 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html>)
+
+**创新抓手：语言知识与异常合成**
+
+将开放词汇检测分解为类别无关检测与类别识别，用语言知识和合成未知异常支持未见类别。
+
+- 核心启示：异常检测之外，还需回答未知异常属于什么语义类别。
+- 局限：阅读关注：合成异常与真实未见事件之间的差异如何影响识别？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html>) · [来源 2](<https://openaccess.thecvf.com/content/CVPR2024/papers/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.pdf>)
+
+### Text Prompt with Normality Guidance for Weakly Supervised Video Anomaly Detection
+
+**2024 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html>)
+
+**创新抓手：正常引导伪标签学习**
+
+将事件描述与视频帧对齐，结合正常性视觉提示生成帧级伪标签，再进行时序自训练。
+
+- 核心启示：正常性参照可把事件文字转化为更细的弱监督信号。
+- 局限：阅读关注：正常性提示与文本对齐误差如何共同影响伪标签？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html>) · [来源 2](<https://arxiv.org/abs/2404.08531>)
+
+### Anomize: Better Open Vocabulary Video Anomaly Detection
+
+**2025 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html>)
+
+**创新抓手：多源语义与标签关系**
+
+结合多层视觉信息与匹配文本，并利用标签关系编码新类别，改善未见异常的检测和语义分类。
+
+- 核心启示：开放词汇识别需要同时处理异常分数与新类别语义对齐。
+- 局限：阅读关注：标签关系对视觉相似但语义不同的异常有多大帮助？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html>)
+
+### Alert-CLIP: Abnormality-aware Latent-Enhanced Representation Tuning of CLIP for Video Anomaly Detection
+
+**2026 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html>)
+
+**创新抓手：区域语义多层对齐**
+
+通过视频与标签、区域与文本、区域与语义的多层对齐，增强视觉语言表征对正常和异常的区分能力。
+
+- 核心启示：语言异常判断的基础是视觉语言空间能否区分相近的正常与异常描述。
+- 局限：阅读关注：区域描述与困难负样本的收益能否迁移到新的场景定义？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html>)
+
+### No Need For Real Anomaly: MLLM Empowered Zero-Shot Video Anomaly Detection
+
+**2026 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html>) · [project](<https://github.com/VitaminCreed/LAVIDA>)
+
+**创新抓手：伪异常与反向注意力**
+
+仅用伪异常训练，结合多模态大模型语义理解与反向注意力词元压缩，实现零样本帧级和像素级异常检测。
+
+- 核心启示：可通过合成暴露异常语义，再检验对真实异常的零样本迁移。
+- 局限：阅读关注：伪异常覆盖的语义与真实上下文依赖异常有多大差距？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html>) · [来源 2](<https://github.com/VitaminCreed/LAVIDA>) · [来源 3](<https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.pdf>)
+
 ## 语言判据与提示优化
 
 创新抓手：字幕到判断的语言中介、正常规则归纳与引导问题优化，将异常标准显式化。
@@ -103,6 +163,54 @@
 - 核心启示：不更新模型权重，也可以学习任务专属的推理提示。
 - 局限：阅读关注：语言问题的适应性与跨场景迁移需要分开验证。
 - 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2412.01095>) · [来源 2](<https://openaccess.thecvf.com/content/CVPR2025/papers/Ye_VERA_Explainable_Video_Anomaly_Detection_via_Verbalized_Learning_of_Vision-Language_CVPR_2025_paper.pdf>)
+
+### EVAL: Explainable Video Anomaly Localization
+
+**2023 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html>)
+
+**创新抓手：对象运动属性解释**
+
+以对象类别、运动方向和速度等可读属性建立位置相关的正常模式，解释局部异常。
+
+- 核心启示：异常解释可从可核查的对象和运动属性开始，而不必依赖自由文本。
+- 局限：阅读关注：可读属性是否覆盖需要长期交互背景的异常？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html>)
+
+### AnyAnomaly: Zero-Shot Customizable Video Anomaly Detection with LVLM
+
+**2026 · WACV** · [paper](<https://openaccess.thecvf.com/content/WACV2026/html/Ahn_AnyAnomaly_Zero-Shot_Customizable_Video_Anomaly_Detection_with_LVLM_WACV_2026_paper.html>) · [code](<https://github.com/SkiddieAhn/Paper-AnyAnomaly>)
+
+**创新抓手：文本定义与上下文问答**
+
+由用户文本定义异常，使用位置与时间上下文增强的片段级视觉问答，无需微调即可定位指定事件。
+
+- 核心启示：异常定义可以作为用户输入，而不必固定为训练时的类别。
+- 局限：阅读关注：不同文本粒度与位置、时间上下文如何影响可定制异常判断？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/WACV2026/html/Ahn_AnyAnomaly_Zero-Shot_Customizable_Video_Anomaly_Detection_with_LVLM_WACV_2026_paper.html>) · [来源 2](<https://github.com/SkiddieAhn/Paper-AnyAnomaly>)
+
+### Unlocking Vision-Language Models for Video Anomaly Detection via Fine-Grained Prompting
+
+**2026 · WACV** · [paper](<https://openaccess.thecvf.com/content/WACV2026/html/Zou_Unlocking_Vision-Language_Models_for_Video_Anomaly_Detection_via_Fine-Grained_Prompting_WACV_2026_paper.html>)
+
+**创新抓手：动作线索分组提问**
+
+按语义组组织以动作为中心的细粒度问题，引导冻结视觉语言模型关注人与对象的交互证据并产生解释轨迹。
+
+- 核心启示：提示的细粒度应落实到能观察的动作线索，而非只写抽象异常类别。
+- 局限：阅读关注：问题集合的覆盖程度、数量与跨类别泛化之间如何权衡？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/WACV2026/html/Zou_Unlocking_Vision-Language_Models_for_Video_Anomaly_Detection_via_Fine-Grained_Prompting_WACV_2026_paper.html>)
+
+### Language-guided Open-world Video Anomaly Detection under Weak Supervision
+
+**2026 · ICLR** · [paper](<https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html>) · [code](<https://github.com/Kamino666/LaGoVAD-PreVAD>)
+
+**创新抓手：自然语言条件化异常定义**
+
+把用户给定的自然语言异常定义作为推理输入，结合动态视频合成与负样本对比学习训练模型，并建设带异常定义的 PreVAD 数据。
+
+- 核心启示：异常标准可以变化；把定义作为显式输入，比假设类别永远对应同一异常标签更贴近开放场景。
+- 局限：核心输出仍是条件化异常分数；具备语言输入并不等同于能够生成完整因果解释。
+- 核验：2026-09-29；[来源 1](<https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html>)
 
 ## 时序分层与记忆
 
@@ -158,6 +266,42 @@
 - 局限：阅读关注：不同标注边界定义是否让结果失去可比性？
 - 核验：2026-09-29；[来源 1](<https://aclanthology.org/2026.acl-long.56/>)
 
+### Towards Surveillance Video-and-Language Understanding: New Dataset, Baselines, and Challenges
+
+**2024 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html>) · [project](<https://xuange923.github.io/Surveillance-Video-Understanding>)
+
+**创新抓手：事件句子与时间对齐**
+
+为 UCF-Crime 添加句子级事件描述与时间标注，建立监控视频定位、描述等语言理解任务基线。
+
+- 核心启示：监控理解需要把事件语义和发生时间一起标注。
+- 局限：阅读关注：通用视频语言模型迁移至长监控视频时，哪些任务最受背景和时长影响？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html>) · [来源 2](<https://xuange923.github.io/Surveillance-Video-Understanding>)
+
+### Aligning Effective Tokens with Video Anomaly in Large Language Models
+
+**2025 · ICCV** · [paper](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>)
+
+**创新抓手：时空有效词元对齐**
+
+通过空间有效词元选择与时间有效词元生成，减少冗余视觉信息，支持异常总结和时间定位。
+
+- 核心启示：进入语言模型的时空证据如何筛选，本身就是异常理解的关键。
+- 局限：阅读关注：词元选择保留局部异常时，是否也保留解释所需的上下文？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>) · [来源 2](<https://openaccess.thecvf.com/content/ICCV2025/papers/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.pdf>)
+
+### VADTree: Explainable Training-Free Video Anomaly Detection via Hierarchical Granularity-Aware Tree
+
+**2025 · NeurIPS** · [paper](<https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html>) · [code](<https://github.com/wenlongli10/VADTree>)
+
+**创新抓手：事件边界驱动的层次粒度树**
+
+由通用事件边界构建层次粒度树，在粗细事件节点上分别调用 VLM 感知与 LLM 推理，再融合跨粒度异常分数。
+
+- 核心启示：先确定具有事件意义的时间单元，有助于减少固定窗口切碎事件或混入无关内容。
+- 局限：仍依赖事件边界模型及节点描述质量；免训练不等于免除多阶段模型推理成本。
+- 核验：2026-09-29；[来源 1](<https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html>) · [来源 2](<https://github.com/wenlongli10/VADTree>)
+
 ## 主动观察与工具决策
 
 创新抓手：场景规划、工具调用、补充采样与交互策略学习，让异常证据获取随当前疑点调整。
@@ -188,6 +332,30 @@
 - 局限：阅读关注：证据收益、任务成功和交互成本是否被共同衡量？
 - 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2607.00622>)
 
+### MemoVAD: Resource-Efficient Video Anomaly Detection via Dynamic Semantic Memory in Edge Computing Scenarios
+
+**2026 · IJCAI** · [paper](<https://www.ijcai.org/proceedings/2026/618>)
+
+**创新抓手：不确定性门控与动态语义记忆**
+
+边缘轻量检测器维护因果时序上下文，仅对高不确定且语义新颖的片段查询云端 VLM，并缓存验证后的语义原型用于后续检索。
+
+- 核心启示：把何时调用大型语义模型作为决策问题，让曾经获取的异常证据在后续视频中复用。
+- 局限：选择性查询取决于边缘不确定性估计；未被触发的片段无法获得云端语义补充。
+- 核验：2026-09-29；[来源 1](<https://www.ijcai.org/proceedings/2026/618>)
+
+### A2Seek: Towards Reasoning-Centric Benchmark for Aerial Anomaly Understanding
+
+**2025 · NeurIPS Datasets and Benchmarks** · [paper](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html>) · [project](<https://2-mo.github.io/A2Seek/>)
+
+**创新抓手：图式推理与主动区域观察**
+
+构建含事件类别、时间戳、区域框和语言解释的真实航拍异常基准，以图式推理监督、A-GRPO 与区域 seeking 机制训练 A2Seek-R1。
+
+- 核心启示：异常理解不仅要说明原因，也要在动态航拍视角下找到支撑判断的局部区域。
+- 局限：面向航拍视角与区域级证据的设计，迁移到固定监控或其他场景时仍需验证。
+- 核验：2026-09-29；[来源 1](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html>)
+
 ## 结构化推理与验证
 
 创新抓手：因果问题分解、对象关系编码、反思修正与关键事实评估，让异常解释可以被检查。
@@ -208,7 +376,7 @@
 
 ### VADER: Towards Causal Video Anomaly Understanding with Relation-Aware Large Language Models
 
-**2026 · WACV** · [paper](<https://arxiv.org/abs/2511.07299>)
+**2026 · WACV** · [paper](<https://openaccess.thecvf.com/content/WACV2026/html/Cheng_VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_WACV_2026_paper.html>)
 
 **创新抓手：对象关系编码推理**
 
@@ -216,7 +384,7 @@
 
 - 核心启示：将对象交互显式接入模型，连接可见关系与语言解释。
 - 局限：阅读关注：关系特征提供的是因果证据，还是相关性线索？
-- 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2511.07299>) · [来源 2](<https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf>)
+- 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2511.07299>) · [来源 2](<https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf>) · [来源 3](<https://openaccess.thecvf.com/content/WACV2026/html/Cheng_VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_WACV_2026_paper.html>)
 
 ### SRVAU-R1: Enhancing Video Anomaly Understanding via Reflection-Aware Learning
 
@@ -241,3 +409,169 @@
 - 核心启示：流畅的描述不等于抓住异常；评估需要追问关键事实。
 - 局限：阅读关注：自动扩展标注的质量及其与人类判断的一致性。
 - 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2601.17258>)
+
+### MissionGNN: Hierarchical Multimodal GNN-Based Weakly Supervised Video Anomaly Recognition with Mission-Specific Knowledge Graph Generation
+
+**2025 · WACV** · [paper](<https://openaccess.thecvf.com/content/WACV2025/html/Yun_MissionGNN_Hierarchical_Multimodal_GNN-Based_Weakly_Supervised_Video_Anomaly_Recognition_with_WACV_2025_paper.html>) · [code](<https://github.com/c0510gy/MissionGNN>)
+
+**创新抓手：任务知识图谱传播**
+
+利用语言模型自动生成面向异常任务的知识图谱，以层级多模态图网络连接视频帧与语义概念。
+
+- 核心启示：语言知识可以编译成可学习的图结构，而不必逐帧调用大模型生成答案。
+- 局限：阅读关注：知识图谱生成质量与短时上下文分别影响哪些异常类别？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/WACV2025/html/Yun_MissionGNN_Hierarchical_Multimodal_GNN-Based_Weakly_Supervised_Video_Anomaly_Recognition_with_WACV_2025_paper.html>) · [来源 2](<https://github.com/c0510gy/MissionGNN>) · [来源 3](<https://arxiv.org/html/2406.18815>)
+
+### Weakly Supervised Video Anomaly Detection with Anomaly-Connected Components and Intention Reasoning
+
+**2026 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html>)
+
+**创新抓手：语义连通与意图感知**
+
+将视频帧组织为语义相连的成分，并结合行为意图与异常属性信息，区分外观相似的正常和异常行为。
+
+- 核心启示：动作外观相似时，异常判断需要考虑意图及其可见属性。
+- 局限：阅读关注：意图建模所依赖的视觉证据能否与行为先验区分开？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html>)
+
+### Vad-R1: Towards Video Anomaly Reasoning via Perception-to-Cognition Chain-of-Thought
+
+**2025 · NeurIPS** · [paper](<https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html>) · [code](<https://github.com/wbfwonderful/Vad-R1>)
+
+**创新抓手：感知认知推理链与自验证奖励**
+
+把视频异常推理独立为任务，构建从感知到认知的结构化推理链及 Vad-Reasoning 数据，并以带自验证的 AVA-GRPO 训练模型。
+
+- 核心启示：把“看到了什么”与“为何异常”分步组织，再让训练奖励约束推理与结论。
+- 局限：结构化文本与自验证是训练机制；解释是否忠实于实际视觉证据仍需单独检查。
+- 核验：2026-09-29；[来源 1](<https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html>)
+
+### CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World
+
+**2026 · AAAI** · [paper](<https://ojs.aaai.org/index.php/AAAI/article/view/38209>) · [code](<https://github.com/Mia-YatingYu/Cue-R1>)
+
+**创新抓手：上下文异常分类体系与分层奖励**
+
+以条件性与绝对异常为核心组织场景、属性和事件层级，统一评估识别、定位、检测与预判，并训练具有分层可验证奖励的 Cue-R1。
+
+- 核心启示：同一行为是否异常取决于安全条件与上下文，基准应显式检验这种条件依赖。
+- 局限：结果受所定义的事件、场景和属性覆盖范围约束；不能将基准表现直接等同于所有真实场景可靠性。
+- 核验：2026-09-29；[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/view/38209>)
+
+### TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos
+
+**2026 · AAAI** · [paper](<https://ojs.aaai.org/index.php/AAAI/article/view/38378>)
+
+**创新抓手：个体时空交互图与指令推理**
+
+结合全局和人体中心视觉特征，用异常引导采样与时空交互图刻画个体关系，再以指令微调语言模型识别异常个体并解释行为。
+
+- 核心启示：异常解释应明确“谁做了什么”，以关系结构补足全局事件描述对具体行为主体的忽略。
+- 局限：以可见个体及其交互为建模中心；遮挡和人体特征质量会影响细粒度主体解释。
+- 核验：2026-09-29；[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/view/38378>)
+
+### HoloTrace: LLM-based Bidirectional Causal Knowledge Graph for Edge-Cloud Video Anomaly Detection
+
+**2025 · ACM MM** · [paper](<https://doi.org/10.1145/3746027.3755185>) · [code](<https://github.com/kongyanye/HoloTrace-MM25>)
+
+**创新抓手：双向因果知识图与边云更新**
+
+用 LLM 构建并更新双向因果知识图，边缘侧结合隐马尔可夫模型进行事件推理与边界判断，云端依据关键帧更新事件关系。
+
+- 核心启示：将事件关系显式存入可更新结构，使边缘检测能够复用语言模型获得的语义知识。
+- 局限：图中的因果关系来自模型构建与更新，不能自动视为经干预验证的真实因果关系。
+- 核验：2026-09-29；[来源 1](<https://doi.org/10.1145/3746027.3755185>)
+
+## Datasets / 数据资源
+
+图片为作者项目或论文原图的本地副本；此目录只链接出处，不嵌入大图。
+
+### UCF-Crime
+
+**2018 · CVPR** · [资源](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>)
+
+真实监控长视频异常检测基准，也是多项语言异常理解工作的视觉来源。
+
+- 评估协议：采用官方训练／测试划分；弱监督训练与帧级定位评估须区分。
+- 图片：[UCF-Crime 官方方法示意图，包含监控视频片段](<https://www.crcv.ucf.edu/projects/real-world/method.png>)；署名：Waqas Sultani, Chen Chen, Mubarak Shah
+- 核验：[来源 1](<https://openaccess.thecvf.com/content_cvpr_2018/html/Sultani_Real-World_Anomaly_Detection_CVPR_2018_paper.html>) · [来源 2](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>)
+
+### XD-Violence
+
+**2020 · ECCV** · [资源](<https://roc-ng.github.io/XD-Violence/>)
+
+包含音视频与多场景暴力事件的弱监督检测基准。
+
+- 评估协议：报告所用模态与官方划分；不可将音视频方法和纯视觉方法混为同一设置。
+- 图片：[XD-Violence 作者发布的多场景视频样例拼图](<https://roc-ng.github.io/XD-Violence/images/samples.png>)；署名：Peng Wu et al. / XD-Violence
+- 核验：[来源 1](<https://roc-ng.github.io/XD-Violence/>) · [来源 2](<https://roc-ng.github.io/XD-Violence/>)
+
+### CUVA
+
+**2024 · CVPR** · [资源](<https://github.com/fesvhtr/CUVA>)
+
+以异常事件的内容、原因与后果为核心的因果理解基准。
+
+- 评估协议：按原论文任务与 MMEval 协议评估；定位、描述和因果解释分别报告。
+- 图片：[CUVA 论文中的异常视频及因果标注示例](<https://arxiv.org/html/2405.00181v3/dataset_4.png>)；署名：Hang Du et al. / CUVA
+- 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Du_Uncovering_What_Why_and_How_A_Comprehensive_Benchmark_for_Causation_CVPR_2024_paper.html>) · [来源 2](<https://github.com/fesvhtr/CUVA>)
+
+### HIVAU-70k
+
+**2025 · CVPR** · [资源](<https://github.com/pipixin321/HolmesVAU>)
+
+Holmes-VAU 提出的片段、事件和视频三级异常指令数据。
+
+- 评估协议：区分时间粒度与任务类型；数据构建包含模型生成与人工复核。
+- 图片：[HIVAU-70k 片段、事件和视频三级异常理解示例](<https://raw.githubusercontent.com/pipixin321/HolmesVAU/master/assets/teaser.png>)；署名：Huaxin Zhang et al. / Holmes-VAU
+- 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.html>) · [来源 2](<https://github.com/pipixin321/HolmesVAU>)
+
+### HAWK
+
+**2024 · NeurIPS** · [资源](<https://github.com/jqtangust/hawk>)
+
+面向开放场景异常视频描述与交互问答的数据资源。
+
+- 评估协议：遵循作者数据划分，分别检查描述生成与问答表现。
+- 图片：[Hawk 作者发布的开放场景异常理解与问答示例](<https://raw.githubusercontent.com/jqtangust/hawk/main/figs/motivation1.png>)；署名：Jiaqi Tang et al. / Hawk
+- 核验：[来源 1](<https://proceedings.neurips.cc/paper_files/paper/2024/hash/3ef815416f775098fe9df75ac84d597a-Abstract-Conference.html>) · [来源 2](<https://github.com/jqtangust/hawk>)
+
+### FineW3
+
+**2026 · AAAI** · [资源](<https://finevau.github.io/>)
+
+围绕 What、Who、Where 补充细粒度视觉事实的异常理解数据与评估。
+
+- 评估协议：使用 FVScore 检查关键视觉元素，结合人类一致性分析；不能只比较语言流畅度。
+- 图片：[FineVAU 论文中的细粒度异常描述和视觉要素对照](<https://arxiv.org/html/2601.17258v2/figs/Teaser.png>)；署名：João Pereira et al. / FineVAU
+- 核验：[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/download/37790/41752>) · [来源 2](<https://finevau.github.io/>)
+
+### UCA
+
+**2024 · CVPR** · [资源](<https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet>)
+
+在 UCF-Crime 监控视频上增加细粒度事件语句和时间边界，连接异常检测、语言定位与密集描述。
+
+- 评估协议：使用作者训练、验证、测试划分；分别报告语言时序定位、视频描述、密集描述与多模态异常检测。
+- 图片：[UCA 官方仓库展示的细粒度事件语句与对应时间段](<https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet>)；署名：Tongtong Yuan et al. / UCA
+- 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html>) · [来源 2](<https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet>)
+
+### ECVA
+
+**2024 · arXiv** · [资源](<https://github.com/Dulpy/ECVA>)
+
+CUVA 的扩展因果理解基准，围绕异常经过、发生原因与事件后果提供人工语言标注。
+
+- 评估协议：按作者发布版本分别评估描述、原因和后果；AnomEval 检查推理、回答一致性与幻觉，避免与 CUVA 的 MMEval 混用。
+- 图片：[ECVA 论文中异常因果理解的挑战与视频样例](<https://arxiv.org/html/2412.07183v1/challenge_v7.png>)；署名：Hang Du et al. / ECVA
+- 核验：[来源 1](<https://arxiv.org/abs/2412.07183>) · [来源 2](<https://github.com/Dulpy/ECVA>) · [来源 3](<https://www.modelscope.cn/datasets/gouchenyi/ECVA/files>)
+
+### Vad-Reasoning
+
+**2025 · NeurIPS** · [资源](<https://github.com/wbfwonderful/Vad-R1>)
+
+Vad-R1 提出的异常推理数据，使用感知到认知的结构化推理标注，并区分监督微调和强化学习子集。
+
+- 评估协议：分别使用 Vad-Reasoning-SFT 的训练／测试划分与 Vad-Reasoning-RL；SFT 含推理文本，RL 仅有视频级弱标签。
+- 图片：[Vad-Reasoning 官方仓库中的视频、推理过程与最终答案标注示例](<https://raw.githubusercontent.com/wbfwonderful/Vad-R1/main/images/data-example.png>)；署名：Chao Huang, Benfeng Wang et al. / Vad-R1
+- 核验：[来源 1](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html>) · [来源 2](<https://github.com/wbfwonderful/Vad-R1>) · [来源 3](<https://huggingface.co/datasets/wbfwonderful/Vad-R1>)
