@@ -1,9 +1,11 @@
-# Research transit map
+# Research publication network
 
-The map uses a transit schematic: five numbered innovation lines, one station per paper, chronological order along each line, and publication metadata directly beside each station. Line bends use horizontal and 45-degree segments. The 37-paper overview uses restrained warm paper colors, no raster backdrop, no duplicated sidebars, and no pagination.
+The diagram has three explicit dimensions: publication year on the horizontal axis, exact publication venue on the vertical axis, and five colored method-school routes through the papers. The current catalog supplies 37 stations, four year zones and 14 venue categories. CVPR Workshops, NeurIPS Datasets and Benchmarks, and arXiv retain separate rows.
 
-Visual reference: [Transport for London — official Tube map](https://tfl.gov.uk/cdn/static/cms/documents/standard-tube-map.pdf), consulted on 2026-09-30. This informed the colored-line, station-marker and separate-label vocabulary. No TfL artwork, marks, fonts or map geometry is copied into the application.
+Stations use compact paper names; the axes supply venue and year, and the interactive title and detail panel preserve full publication metadata. Route colors identify editorial method families. Crossings without a station do not represent method fusion, citation or inheritance. There are no invented interchange stations. Within each year, horizontal spacing serves label packing, not precise publication dates.
 
-Geometry is authored in `src/components/metro-layout.ts`, separate from the scientific catalog. Positions remain stable while filtering. Paper ordering uses publication year and then name; this is an editorial reading order, not a citation, influence or inheritance claim. Crossings have a paper-colored casing and no interchange symbol. Data-backed relationships remain in the details panel.
+`src/components/publication-layout.ts` separates layout from scientific data. It packs full-catalog stations into year/venue bands, allocates distinct method baselines in dense cells, and routes around label boxes and unrelated paper nodes. The renderer rounds elbows and uses a narrow paper-colored casing to make crossings legible. Hover or keyboard focus emphasizes the corresponding method route. Search preserves the full-catalog geometry.
 
-The route layout is tuned for the current 37 papers. Additional papers have a horizontal-segment placement fallback, but publication growth should be accompanied by an editorial spacing review. The map and exported SVG use live text and vector paths. The older generated panorama is retained as a historical design asset and is no longer loaded by the map.
+Visual vocabulary was informed by the [official Transport for London Tube map](https://tfl.gov.uk/cdn/static/cms/documents/standard-tube-map.pdf): colored lines, station markers and separate labels. No TfL artwork, fonts, marks or map geometry is copied. The earlier free-position innovation routes and generated panorama are superseded by this coordinate-based network; decorative source images remain historical design assets.
+
+All drawing and text is vector-based and included in exported SVGs. The overview stays on one screen with pan/zoom and an on-demand detail overlay.

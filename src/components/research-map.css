@@ -150,3 +150,23 @@
     transition: none;
   }
 }
+.publication-map .publication-route {
+  transition: opacity 140ms ease;
+  pointer-events: none;
+}
+.publication-map .metro-station:hover .metro-station-label {
+  fill: #fce8a2;
+  stroke: #fce8a2;
+}
+.publication-map .metro-station:hover .metro-station-dot {
+  stroke-width: 3.5;
+}
+.publication-map .metro-station:focus-visible .metro-station-label {
+  stroke: #243b3b;
+  stroke-width: 2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .publication-map .publication-route {
+    transition: none;
+  }
+}

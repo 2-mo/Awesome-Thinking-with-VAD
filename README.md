@@ -59,7 +59,7 @@ Video anomaly detection is evolving from simple frame-level alerts to systems th
 
 [Open the interactive atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/) · [Read the selected catalog](catalog.md) · [Inspect the source data](data/catalog.json)
 
-The current selected catalog contains **37 core papers across 5 research directions, 9 datasets, and 3 reading guides**. The metro-style atlas shows all 37 papers as stations on five innovation lines. A vector schematic with consistent station markers and labeled lines keeps paper names, venues and years visible together; details open on selection. Lines group innovation ideas and research questions; dataset coverage supplies evaluation context.
+The current selected catalog contains **37 core papers across 5 research directions, 9 datasets, and 3 reading guides**. The metro-style atlas positions all 37 papers by publication year on the horizontal axis and publication venue on the vertical axis. Five colored method-school lines weave through those stations. Short paper names stay on the map; publication metadata is visible on the axes and in paper details. Same-year spacing is for readability, not precise publication dates; dataset coverage supplies evaluation context.
 
 The catalog covers video anomaly detection and understanding only. Map lines and reading routes are editorial groupings, not citation edges or claims of research inheritance. Evidence-backed relationships remain available in each paper’s detail pane.
 
