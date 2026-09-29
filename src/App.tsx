@@ -863,7 +863,7 @@ export default function App() {
               <div className="layout-tabs" aria-label="论文浏览方式">
                 {(
                   [
-                    ["map", "线路图", Map],
+                    ["map", "研究线路", Map],
                     ["timeline", "时间线", GitBranch],
                     ["list", "索引", List],
                   ] as const
@@ -885,7 +885,7 @@ export default function App() {
             <span className="workspace-count" aria-live="polite">
               {view === "map"
                 ? layout === "map"
-                  ? `${visiblePapers.length} / ${catalog.papers.length} 论文站`
+                  ? `${visiblePapers.length} / ${catalog.papers.length} 篇论文`
                   : `${visiblePapers.length} 篇可见`
                 : view === "guides"
                   ? "3 条编辑路线"
