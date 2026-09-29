@@ -181,7 +181,7 @@ function crossingPenalty(a: Point, b: Point, occupied: Segment[]): number {
 
 // Time never runs backwards: every candidate and visibility edge must move
 // rightwards. This rules out the tiny U-turns caused by label avoidance.
-function route(
+function routeBetween(
   start: Point,
   end: Point,
   obstacles: Box[],
@@ -288,6 +288,23 @@ function route(
   throw new Error(`Unable to route a forward publication metro segment: ${JSON.stringify(start)} → ${JSON.stringify(end)}`);
 }
 
+function route(start: Point, end: Point, obstacles: Box[], occupied: Segment[], bounds: Box): Point[] {
+  // Short horizontal platforms keep turns outside station rings. At an
+  // interchange the white marker covers the shared end of the two platforms.
+  for (const size of [16, 12]) {
+    if (end.x - start.x <= size * 2) continue;
+    const departure = { x: start.x + size, y: start.y };
+    const arrival = { x: end.x - size, y: end.y };
+    if (obstacles.some((box) => crosses(start, departure, box) || crosses(arrival, end, box))) continue;
+    try {
+      return simplify([start, ...routeBetween(departure, arrival, obstacles, occupied, bounds), end]);
+    } catch {
+      // A tight label corridor can require a shorter platform or a direct route.
+    }
+  }
+  return routeBetween(start, end, obstacles, occupied, bounds);
+}
+
 // Shared-method topology determines neighboring lines. Five methods need only
 // 120 orderings; the fallback keeps future, larger catalogs bounded.
 export function methodOrder(papers: Paper[], ids: string[]): string[] {
@@ -340,7 +357,7 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
   const order = methodOrder(papers, schools.map((school) => school.id));
   const rank = (paper: Paper) => paperMethods(paper)
     .reduce((sum, id) => sum + order.indexOf(id), 0) / paperMethods(paper).length;
-  const margin = 24, top = 104, laneGap = 148;
+  const margin = 24, top = 104, laneGap = 144;
   const stationXs = new Map<string, number>();
   const yearValues = [...new Set(papers.map((paper) => paper.year))];
   let x = margin;
@@ -414,9 +431,13 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
   const plotBounds = { x: margin, y: top, width: x - margin, height: plotBottom - top };
   const stations = new Map<string, Station>();
   for (const paper of papers) {
+    const origin = top + 118;
+    const relaxed = ys.get(paper.id)!;
+    const anchored = paperMethods(paper).length === 1 && Math.abs(relaxed - home.get(paper.id)!) < 24
+      ? home.get(paper.id)! : relaxed;
     stations.set(paper.id, { paperId: paper.id, lineId: paper.cluster,
       lineIds: paperMethods(paper), x: stationXs.get(paper.id)!,
-      y: Math.round(ys.get(paper.id)! / 4) * 4,
+      y: origin + Math.round((anchored - origin) / 24) * 24,
       label: { x: 0, y: 0, width: Math.max(labelWidth(stationName(paper), 20),
         labelWidth(publicationVenue(paper.venue), 14)) + 14, height: 48 } });
   }

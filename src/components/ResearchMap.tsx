@@ -9,6 +9,7 @@ import {
 } from "./publication-layout";
 import type { Point } from "./publication-layout";
 import { paperMethods, publicationVenue } from "../publication";
+import { metroPath } from "./metro-path";
 import "./research-map.css";
 
 interface Props {
@@ -30,53 +31,6 @@ const clamp = (n: number, min: number, max: number) =>
   Math.min(max, Math.max(min, n));
 const fitLabel = (text: string, size: number, available: number) =>
   labelWidth(text, size) > available ? available : undefined;
-
-// Round the metro skeleton without moving its stations. At station bends the
-// small curve stays underneath the opaque marker; other bends have more room.
-function routePath(points: Point[], stations: Point[], labels: Box[]) {
-  if (!points.length) return "";
-  let path = `M${points[0].x} ${points[0].y}`;
-  for (let i = 1; i < points.length - 1; i++) {
-    const a = points[i - 1],
-      p = points[i],
-      b = points[i + 1];
-    const atStation = stations.some(
-      (station) =>
-        Math.abs(station.x - p.x) < 0.001 &&
-        Math.abs(station.y - p.y) < 0.001,
-    );
-    const before = Math.hypot(p.x - a.x, p.y - a.y),
-      after = Math.hypot(b.x - p.x, b.y - p.y);
-    if (!before || !after) continue;
-    let radius = Math.min(atStation ? 12 : 28, before * 0.45, after * 0.45);
-    const trim = (point: Point, distance: number): Point => ({
-      x: p.x + ((point.x - p.x) * radius) / distance,
-      y: p.y + ((point.y - p.y) * radius) / distance,
-    });
-    let start = trim(a, before),
-      end = trim(b, after);
-    // The curve lies inside this control triangle. Preserve the label clearance
-    // of the straight route instead of rounding through a nearby paper name.
-    const overlapsLabel = () => {
-      const left = Math.min(start.x, p.x, end.x),
-        right = Math.max(start.x, p.x, end.x),
-        top = Math.min(start.y, p.y, end.y),
-        bottom = Math.max(start.y, p.y, end.y);
-      return labels.some((box) =>
-        left < box.x + box.width + 3 && right > box.x - 3 &&
-        top < box.y + box.height + 3 && bottom > box.y - 3,
-      );
-    };
-    while (radius > 1 && overlapsLabel()) {
-      radius *= 0.65;
-      start = trim(a, before);
-      end = trim(b, after);
-    }
-    path += `L${start.x} ${start.y}Q${p.x} ${p.y} ${end.x} ${end.y}`;
-  }
-  const last = points[points.length - 1];
-  return `${path}L${last.x} ${last.y}`;
-}
 
 export default function ResearchMap({
   papers,
@@ -336,7 +290,7 @@ export default function ResearchMap({
               ))}
               {network.lines.map((line) => {
                 const focus = !focusedLines.size || focusedLines.has(line.id);
-                const path = routePath(
+                const path = metroPath(
                   line.track,
                   [...network.stations.values()].filter(
                     (station) => station.lineIds.includes(line.id),
