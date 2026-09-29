@@ -90,6 +90,16 @@ export function validateCatalog(catalog) {
   datasets.forEach((dataset, i) => {
     const path = `datasets[${i}]`;
     for (const key of ['name', 'description', 'protocol']) text(dataset[key], `${path}.${key}`);
+    if (!Number.isInteger(dataset.year) || dataset.year < 1900 || dataset.year > new Date().getUTCFullYear() + 1) fail(`${path}.year`, 'must be a plausible publication year');
+    text(dataset.venue, `${path}.venue`);
+    if (!object(dataset.thumbnail)) fail(`${path}.thumbnail`, 'must include local artwork and provenance');
+    else {
+      const thumbnail = dataset.thumbnail;
+      if (typeof thumbnail.src !== 'string' || !/^\/datasets\/[A-Za-z0-9][A-Za-z0-9_./-]*$/.test(thumbnail.src) || thumbnail.src.includes('..') || thumbnail.src.endsWith('/') || thumbnail.src.includes('//')) fail(`${path}.thumbnail.src`, 'must be a local /datasets/ path without traversal');
+      text(thumbnail.alt, `${path}.thumbnail.alt`);
+      text(thumbnail.credit, `${path}.thumbnail.credit`);
+      url(thumbnail.sourceUrl, `${path}.thumbnail.sourceUrl`);
+    }
     for (const key of ['tasks', 'modalities', 'annotations']) strings(dataset[key], `${path}.${key}`);
     links(dataset.links, `${path}.links`, 'website', ['website', 'paper']);
     sources(dataset.sources, `${path}.sources`);

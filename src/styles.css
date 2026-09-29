@@ -2191,3 +2191,146 @@ p {
     font-size: 15px;
   }
 }
+/* The dataset exhibition uses the full desk; details open as a separate pane. */
+.desk.view-datasets {
+  grid-template-columns: minmax(0, 1fr);
+}
+.view-datasets .idea-rail,
+.view-datasets .inspector {
+  display: none;
+}
+.desk.view-datasets.has-dataset-selection {
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+.view-datasets.has-dataset-selection .inspector {
+  display: flex;
+}
+.dataset-detail-image {
+  display: block;
+  position: relative;
+  height: 104px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-bottom: 2px solid var(--ink);
+  background: #e7e2d5;
+}
+.dataset-detail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.dataset-detail-image > span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  font-size: 10px;
+  background: #fffaf0eb;
+  padding: 4px 7px;
+  line-height: 1.2;
+}
+.view-datasets .paper-id {
+  margin: 8px 9px 0;
+  padding: 8px 10px;
+}
+.view-datasets .paper-id h2 {
+  font-size: 25px;
+}
+.view-datasets .detail-content {
+  gap: 12px;
+  padding: 10px 12px;
+}
+.view-datasets .inspector > .pager {
+  margin: 0;
+  padding: 5px 0 8px;
+}
+.venue-filter label {
+  display: block;
+  font-size: 11px;
+  color: #655f52;
+}
+.venue-filter select {
+  width: 100%;
+  display: block;
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  font-size: 12px;
+  padding: 5px 3px;
+  margin-top: 4px;
+  color: var(--ink);
+}
+@media (max-height: 760px) {
+  .dataset-detail-image {
+    height: 72px;
+  }
+  .view-datasets .paper-id h2 {
+    font-size: 22px;
+  }
+  .view-datasets .detail-content {
+    gap: 8px;
+  }
+  .view-datasets .detail-block p {
+    font-size: 12px;
+  }
+  .view-datasets .related-papers {
+    gap: 4px;
+  }
+  .view-datasets .related-papers button {
+    font-size: 10px;
+  }
+}
+@media (max-height: 650px) {
+  .dataset-detail-image {
+    height: 50px;
+  }
+  .view-datasets .paper-id {
+    padding: 6px 8px;
+  }
+  .view-datasets .paper-id h2 {
+    font-size: 20px;
+  }
+  .view-datasets .detail-content {
+    padding: 8px;
+    gap: 7px;
+  }
+  .view-datasets .task-tags span {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+  .venue-filter select {
+    padding: 3px;
+    font-size: 11px;
+  }
+}
+@media (max-width: 1100px) {
+  .desk.view-datasets.has-dataset-selection {
+    grid-template-columns: minmax(0, 1fr) 285px;
+  }
+}
+@media (max-width: 760px) {
+  .desk.view-datasets.has-dataset-selection {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .view-datasets.has-dataset-selection .workspace {
+    display: none;
+  }
+  .dataset-detail-image {
+    height: 100px;
+  }
+  .view-datasets .paper-id h2 {
+    font-size: 26px;
+  }
+  .view-datasets .detail-content {
+    padding: 12px;
+    gap: 14px;
+  }
+  .view-datasets .detail-block p {
+    font-size: 13px;
+  }
+}

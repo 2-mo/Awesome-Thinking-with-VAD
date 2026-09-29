@@ -1,0 +1,253 @@
+[
+  {
+    "id": "vad-r1",
+    "shortTitle": "Vad-R1",
+    "title": "Vad-R1: Towards Video Anomaly Reasoning via Perception-to-Cognition Chain-of-Thought",
+    "year": 2025,
+    "venue": "NeurIPS",
+    "scope": "core",
+    "cluster": "reasoning",
+    "tasks": [
+      "异常推理",
+      "异常解释",
+      "强化学习"
+    ],
+    "summary": "把视频异常推理独立为任务，构建从感知到认知的结构化推理链及 Vad-Reasoning 数据，并以带自验证的 AVA-GRPO 训练模型。",
+    "mechanism": "感知认知推理链与自验证奖励",
+    "takeaway": "把“看到了什么”与“为何异常”分步组织，再让训练奖励约束推理与结论。",
+    "limitation": "结构化文本与自验证是训练机制；解释是否忠实于实际视觉证据仍需单独检查。",
+    "links": {
+      "paper": "https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+      "code": "https://github.com/wbfwonderful/Vad-R1"
+    },
+    "sources": [
+      {
+        "url": "https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+        "note": "正式论文集确认题名、会议年份与方法摘要。"
+      }
+    ],
+    "verifiedAt": "2026-09-29",
+    "datasetIds": []
+  },
+  {
+    "id": "vadtree",
+    "shortTitle": "VADTree",
+    "title": "VADTree: Explainable Training-Free Video Anomaly Detection via Hierarchical Granularity-Aware Tree",
+    "year": 2025,
+    "venue": "NeurIPS",
+    "scope": "core",
+    "cluster": "understanding",
+    "tasks": [
+      "异常检测",
+      "异常解释",
+      "多粒度时序"
+    ],
+    "summary": "由通用事件边界构建层次粒度树，在粗细事件节点上分别调用 VLM 感知与 LLM 推理，再融合跨粒度异常分数。",
+    "mechanism": "事件边界驱动的层次粒度树",
+    "takeaway": "先确定具有事件意义的时间单元，有助于减少固定窗口切碎事件或混入无关内容。",
+    "limitation": "仍依赖事件边界模型及节点描述质量；免训练不等于免除多阶段模型推理成本。",
+    "links": {
+      "paper": "https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html",
+      "code": "https://github.com/wenlongli10/VADTree"
+    },
+    "sources": [
+      {
+        "url": "https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html",
+        "note": "正式论文集确认题名、会议年份与方法摘要。"
+      },
+      {
+        "url": "https://github.com/wenlongli10/VADTree",
+        "note": "作者代码列明 UCF-Crime、XD-Violence 与 MSAD 的数据准备及实验流水线。"
+      }
+    ],
+    "verifiedAt": "2026-09-29",
+    "datasetIds": [
+      "ucf-crime",
+      "xd-violence"
+    ]
+  },
+  {
+    "id": "cuebench",
+    "shortTitle": "CueBench / Cue-R1",
+    "title": "CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World",
+    "year": 2026,
+    "venue": "AAAI",
+    "scope": "core",
+    "cluster": "reasoning",
+    "tasks": [
+      "上下文异常理解",
+      "异常定位",
+      "异常预判",
+      "基准评估"
+    ],
+    "summary": "以条件性与绝对异常为核心组织场景、属性和事件层级，统一评估识别、定位、检测与预判，并训练具有分层可验证奖励的 Cue-R1。",
+    "mechanism": "上下文异常分类体系与分层奖励",
+    "takeaway": "同一行为是否异常取决于安全条件与上下文，基准应显式检验这种条件依赖。",
+    "limitation": "结果受所定义的事件、场景和属性覆盖范围约束；不能将基准表现直接等同于所有真实场景可靠性。",
+    "links": {
+      "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+      "code": "https://github.com/Mia-YatingYu/Cue-R1"
+    },
+    "sources": [
+      {
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+        "note": "正式论文集确认题名、会议年份与方法摘要。"
+      }
+    ],
+    "verifiedAt": "2026-09-29",
+    "datasetIds": []
+  },
+  {
+    "id": "targetvau",
+    "shortTitle": "TargetVAU",
+    "title": "TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos",
+    "year": 2026,
+    "venue": "AAAI",
+    "scope": "core",
+    "cluster": "reasoning",
+    "tasks": [
+      "个体异常理解",
+      "异常解释",
+      "关系推理"
+    ],
+    "summary": "结合全局和人体中心视觉特征，用异常引导采样与时空交互图刻画个体关系，再以指令微调语言模型识别异常个体并解释行为。",
+    "mechanism": "个体时空交互图与指令推理",
+    "takeaway": "异常解释应明确“谁做了什么”，以关系结构补足全局事件描述对具体行为主体的忽略。",
+    "limitation": "以可见个体及其交互为建模中心；遮挡和人体特征质量会影响细粒度主体解释。",
+    "links": {
+      "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/38378"
+    },
+    "sources": [
+      {
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38378",
+        "note": "正式论文集确认题名、会议年份与方法摘要。"
+      }
+    ],
+    "verifiedAt": "2026-09-29",
+    "datasetIds": [
+      "hivau-70k"
+    ]
+  },
+  {
+    "id": "holotrace",
+    "shortTitle": "HoloTrace",
+    "title": "HoloTrace: LLM-based Bidirectional Causal Knowledge Graph for Edge-Cloud Video Anomaly Detection",
+    "year": 2025,
+    "venue": "ACM MM",
+    "scope": "core",
+    "cluster": "reasoning",
+    "tasks": [
+      "异常检测",
+      "因果推理",
+      "边云协同"
+    ],
+    "summary": "用 LLM 构建并更新双向因果知识图，边缘侧结合隐马尔可夫模型进行事件推理与边界判断，云端依据关键帧更新事件关系。",
+    "mechanism": "双向因果知识图与边云更新",
+    "takeaway": "将事件关系显式存入可更新结构，使边缘检测能够复用语言模型获得的语义知识。",
+    "limitation": "图中的因果关系来自模型构建与更新，不能自动视为经干预验证的真实因果关系。",
+    "links": {
+      "paper": "https://doi.org/10.1145/3746027.3755185",
+      "code": "https://github.com/kongyanye/HoloTrace-MM25"
+    },
+    "sources": [
+      {
+        "url": "https://doi.org/10.1145/3746027.3755185",
+        "note": "正式论文集确认题名、会议年份与方法摘要。"
+      }
+    ],
+    "verifiedAt": "2026-09-29",
+    "datasetIds": []
+  },
+  {
+    "id": "lagovad",
+    "shortTitle": "LaGoVAD",
+    "title": "Language-guided Open-world Video Anomaly Detection under Weak Supervision",
+    "year": 2026,
+    "venue": "ICLR",
+    "scope": "core",
+    "cluster": "explanation",
+    "tasks": [
+      "开放世界异常检测",
+      "语言条件判据"
+    ],
+    "summary": "把用户给定的自然语言异常定义作为推理输入，结合动态视频合成与负样本对比学习训练模型，并建设带异常定义的 PreVAD 数据。",
+    "mechanism": "自然语言条件化异常定义",
+    "takeaway": "异常标准可以变化；把定义作为显式输入，比假设类别永远对应同一异常标签更贴近开放场景。",
+    "limitation": "核心输出仍是条件化异常分数；具备语言输入并不等同于能够生成完整因果解释。",
+    "links": {
+      "paper": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html",
+      "code": "https://github.com/Kamino666/LaGoVAD-PreVAD"
+    },
+    "sources": [
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html",
+        "note": "正式论文集确认题名、会议年份与方法摘要。"
+      }
+    ],
+    "verifiedAt": "2026-09-29",
+    "datasetIds": []
+  },
+  {
+    "id": "memovad",
+    "shortTitle": "MemoVAD",
+    "title": "MemoVAD: Resource-Efficient Video Anomaly Detection via Dynamic Semantic Memory in Edge Computing Scenarios",
+    "year": 2026,
+    "venue": "IJCAI",
+    "scope": "core",
+    "cluster": "evidence",
+    "tasks": [
+      "流式异常检测",
+      "选择性模型调用",
+      "语义记忆"
+    ],
+    "summary": "边缘轻量检测器维护因果时序上下文，仅对高不确定且语义新颖的片段查询云端 VLM，并缓存验证后的语义原型用于后续检索。",
+    "mechanism": "不确定性门控与动态语义记忆",
+    "takeaway": "把何时调用大型语义模型作为决策问题，让曾经获取的异常证据在后续视频中复用。",
+    "limitation": "选择性查询取决于边缘不确定性估计；未被触发的片段无法获得云端语义补充。",
+    "links": {
+      "paper": "https://www.ijcai.org/proceedings/2026/618"
+    },
+    "sources": [
+      {
+        "url": "https://www.ijcai.org/proceedings/2026/618",
+        "note": "正式论文集确认题名、会议年份与方法摘要。"
+      }
+    ],
+    "verifiedAt": "2026-09-29",
+    "datasetIds": [
+      "ucf-crime",
+      "xd-violence"
+    ]
+  },
+  {
+    "id": "a2seek",
+    "shortTitle": "A2Seek / A2Seek-R1",
+    "title": "A2Seek: Towards Reasoning-Centric Benchmark for Aerial Anomaly Understanding",
+    "year": 2025,
+    "venue": "NeurIPS Datasets and Benchmarks",
+    "scope": "core",
+    "cluster": "evidence",
+    "tasks": [
+      "航拍异常理解",
+      "空间定位",
+      "异常解释",
+      "基准评估"
+    ],
+    "summary": "构建含事件类别、时间戳、区域框和语言解释的真实航拍异常基准，以图式推理监督、A-GRPO 与区域 seeking 机制训练 A2Seek-R1。",
+    "mechanism": "图式推理与主动区域观察",
+    "takeaway": "异常理解不仅要说明原因，也要在动态航拍视角下找到支撑判断的局部区域。",
+    "limitation": "面向航拍视角与区域级证据的设计，迁移到固定监控或其他场景时仍需验证。",
+    "links": {
+      "paper": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+      "project": "https://2-mo.github.io/A2Seek/"
+    },
+    "sources": [
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+        "note": "正式论文集确认题名、会议年份与方法摘要。"
+      }
+    ],
+    "verifiedAt": "2026-09-29",
+    "datasetIds": []
+  }
+]

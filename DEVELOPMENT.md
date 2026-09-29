@@ -44,3 +44,11 @@ python3 -m http.server 8000 --directory docs
 Open `http://localhost:8000/`. After editing source data or application code, run `npm run build`, inspect the output, then include `docs/` and `catalog.md` with the source changes. Do not edit those generated files by hand.
 
 `.github/workflows/check.yml` installs dependencies with `npm ci`, runs `npm run check` and `npm run build`, and verifies `git diff --exit-code -- docs catalog.md` plus `git status --porcelain -- docs catalog.md` so new untracked build output is checked too. GitHub Pages keeps its existing deployment from `docs/`; no repository Pages settings or extra publishing workflow are required by these checks.
+
+## Dataset gallery provenance
+
+The catalog now contains 37 papers and 9 datasets. Every dataset requires `year`, `venue`, and `thumbnail: { src, alt, sourceUrl, credit }`. Thumbnail paths must be local `/datasets/` assets without traversal; provenance URLs must be HTTP(S), and alt text and credit must be nonempty. Validation is structural and does not confirm image rights or scientific content. Keep the original author/paper figures and their attribution; [public/datasets/README.md](public/datasets/README.md) records the mapping. Images are not generated samples. The Markdown generator emits publication metadata and image-source links without embedding full images.
+
+The literature expansion prioritizes video anomaly understanding, explanation, reasoning and their semantic foundations. Use formal proceedings to establish conference/year, distinguish NeurIPS Datasets and Benchmarks, and preserve workshop or arXiv status where appropriate. Files under `research/` are retained verification notes and merge inputs, not another runtime source of truth.
+
+The dataset exhibition shows a 3×3 grid (9 per page); narrow screens use 2×3 pages to keep labels readable. Images retain source attribution in the detail pane. Search and task filters operate within datasets; paper publication filters remain separate. Map panels page through 4 papers per innovation cluster, and timeline columns page through 5 papers per year, keeping text size independent of catalog size.
