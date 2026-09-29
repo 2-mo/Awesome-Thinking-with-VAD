@@ -3,7 +3,15 @@ import { paperMethods, publicationVenue } from "../publication.ts";
 
 export type Point = { x: number; y: number };
 export type Box = Point & { width: number; height: number };
-export type Station = Point & { paperId: string; lineId: string; lineIds: string[]; label: Box };
+export type Platform = Point & { lineId: string };
+export type Station = Point & {
+  paperId: string; lineId: string; lineIds: string[]; platforms: Platform[]; label: Box;
+};
+export function stationBounds(station: Station, padding = 12): Box {
+  const top = Math.min(...station.platforms.map((platform) => platform.y));
+  const bottom = Math.max(...station.platforms.map((platform) => platform.y));
+  return { x: station.x - padding, y: top - padding, width: padding * 2, height: bottom - top + padding * 2 };
+}
 export type PublicationLine = {
   id: string;
   label: string;
@@ -289,8 +297,8 @@ function routeBetween(
 }
 
 function route(start: Point, end: Point, obstacles: Box[], occupied: Segment[], bounds: Box): Point[] {
-  // Short horizontal platforms keep turns outside station rings. At an
-  // interchange the white marker covers the shared end of the two platforms.
+  // Short horizontal approaches keep turns outside station rings. Each method
+  // uses its own platform at an interchange, with a separate neutral connector.
   for (const size of [16, 12]) {
     if (end.x - start.x <= size * 2) continue;
     const departure = { x: start.x + size, y: start.y };
@@ -435,17 +443,20 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
     const relaxed = ys.get(paper.id)!;
     const anchored = paperMethods(paper).length === 1 && Math.abs(relaxed - home.get(paper.id)!) < 24
       ? home.get(paper.id)! : relaxed;
+    const stationX = stationXs.get(paper.id)!;
+    const stationY = origin + Math.round((anchored - origin) / 24) * 24;
+    const methods = paperMethods(paper);
+    const platforms = [...methods].sort((a, b) => order.indexOf(a) - order.indexOf(b))
+      .map((lineId, index) => ({ lineId, x: stationX, y: stationY + (index - (methods.length - 1) / 2) * 32 }));
     stations.set(paper.id, { paperId: paper.id, lineId: paper.cluster,
-      lineIds: paperMethods(paper), x: stationXs.get(paper.id)!,
-      y: origin + Math.round((anchored - origin) / 24) * 24,
+      lineIds: methods, platforms, x: stationX, y: stationY,
       label: { x: 0, y: 0, width: Math.max(labelWidth(stationName(paper), 20),
         labelWidth(publicationVenue(paper.venue), 14)) + 14, height: 48 } });
   }
   // A label is kept near its paper, not in a conference band. Reserve stations
   // and already placed labels; high-degree transfer stations get first choice.
   const placed: Box[] = [];
-  const nodes = [...stations.values()].map((station) => ({
-    x: station.x - 15, y: station.y - 15, width: 30, height: 30 }));
+  const nodes = [...stations.values()].map((station) => stationBounds(station, 15));
   const labelOrder = [...papers].sort((a, b) => paperMethods(b).length - paperMethods(a).length ||
     stationXs.get(a.id)! - stationXs.get(b.id)! || a.id.localeCompare(b.id));
   for (const paper of labelOrder) {
@@ -458,7 +469,7 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
           const box = { ...station.label,
             x: Math.max(year.x + 4, Math.min(year.x + year.width - station.label.width - 4,
               station.x - station.label.width / 2 + align * station.label.width / 2)),
-            y: side < 0 ? station.y - 68 - tier * 56 : station.y + 20 + tier * 56 };
+            y: side < 0 ? station.platforms[0].y - 68 - tier * 56 : station.platforms.at(-1)!.y + 20 + tier * 56 };
           if (box.y < top + 10 || box.y + box.height > plotBottom - 12 ||
               placed.some((other) => overlaps(box, other, 9)) ||
               nodes.some((node) => overlaps(box, node, 4))) continue;
@@ -477,7 +488,9 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
   const occupied: Segment[] = [];
   const lines = order.map((id): PublicationLine => {
     const school = schools.find((item) => item.id === id)!;
-    const stops = lineMembers.get(id)!.map((paper) => stations.get(paper.id)!);
+    const stops = lineMembers.get(id)!.map((paper) => ({
+      paperId: paper.id, ...stations.get(paper.id)!.platforms.find((platform) => platform.lineId === id)!,
+    }));
     const track: Point[] = [];
     stops.forEach((stop, i) => {
       if (!i) {
@@ -485,9 +498,11 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
         return;
       }
       const before = stops[i - 1];
-      const unrelated = [...stations.values()]
-        .filter((station) => station.paperId !== stop.paperId && station.paperId !== before.paperId)
-        .map((station) => ({ x: station.x - 12, y: station.y - 12, width: 24, height: 24 }));
+      const unrelated = [...stations.values()].flatMap((station) =>
+        station.paperId !== stop.paperId && station.paperId !== before.paperId
+          ? [stationBounds(station)]
+          : station.platforms.filter((platform) => platform.lineId !== id)
+              .map((platform) => ({ x: platform.x - 11, y: platform.y - 11, width: 22, height: 22 })));
       track.push(...route(before, stop, [...labels, ...unrelated], occupied, plotBounds).slice(1));
     });
     if (stops.length) track.push({ x: stops.at(-1)!.x + 18, y: stops.at(-1)!.y });
