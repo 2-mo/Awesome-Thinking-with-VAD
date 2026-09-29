@@ -1,7 +1,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import type { Cluster, Paper, Relation } from "../types";
-import ideaStrip from "../assets/idea-strip.png";
+import panorama from "../assets/research-panorama.png";
 import "./research-map.css";
 
 interface Props {
@@ -27,6 +27,13 @@ const ORDER = [
   "evidence",
   "reasoning",
 ];
+const ROUTE_BENDS = [
+  [0, 24, 12, -12, -24, -8, 16, 26, 0],
+  [0, -16, -22, 4, 24, 8, 0],
+  [0, 22, 8, -24, -12, 26, 0],
+  [0, 20, -28, 0],
+  [0, -18, 20, 28, -10, -26, 6, 18, -12, 0],
+];
 const COLORS: Record<string, string> = {
   alignment: "#badff5",
   explanation: "#ffc3b5",
@@ -34,15 +41,27 @@ const COLORS: Record<string, string> = {
   evidence: "#ffdf70",
   understanding: "#d9cef1",
 };
-const QUESTIONS: Record<string, string> = {
-  alignment: "视觉与语言，如何对齐异常？",
-  explanation: "把异常判断变成可检查的判据",
-  understanding: "长视频，如何保留关键上下文？",
-  evidence: "证据不够，下一步该看哪里？",
-  reasoning: "如何构造、验证并修正推理？",
-};
 const clamp = (n: number, min: number, max: number) =>
   Math.min(max, Math.max(min, n));
+// A conservative width estimate bounds every label, including mixed CJK/Latin text.
+const labelWidth = (text: string, size: number) =>
+  [...text].reduce(
+    (width, char) =>
+      width +
+      size *
+        (/[^\u0000-\u00ff]/.test(char)
+          ? 1
+          : /[MW@]/.test(char)
+            ? 0.95
+            : /[A-Z]/.test(char)
+              ? 0.72
+              : /[a-z0-9]/.test(char)
+                ? 0.6
+                : 0.4),
+    0,
+  );
+const fitLabel = (text: string, size: number, available: number) =>
+  labelWidth(text, size) > available ? available : undefined;
 
 export default function ResearchMap({
   papers,
@@ -56,7 +75,6 @@ export default function ResearchMap({
   onReset,
 }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
   const drag = useRef<{
     id: number;
     x: number;
@@ -70,14 +88,8 @@ export default function ResearchMap({
   const [dragging, setDragging] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [exportFailed, setExportFailed] = useState(false);
-  const [mobile, setMobile] = useState(() => window.innerWidth < 800);
-  const [page, setPage] = useState(0);
-  const [yearPage, setYearPage] = useState(0);
-  const [paperPage, setPaperPage] = useState(0);
   const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const patternId = `comic-dots-${id}`;
-  const arrowId = `comic-arrow-${id}`;
-  const artId = `comic-art-${id}`;
   const sourcePapers = allPapers || papers;
   const orderedClusters = useMemo(
     () =>
@@ -85,31 +97,17 @@ export default function ResearchMap({
     [clusters],
   );
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const update = (width: number, height: number) =>
-      setMobile(width < 800 || height - 44 < 480);
-    const bounds = section.getBoundingClientRect();
-    update(bounds.width, bounds.height);
-    const observer = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      if (entry) update(entry.contentRect.width, entry.contentRect.height);
-    });
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-  useEffect(() => {
-    const next = orderedClusters.findIndex(
-      (cluster) => cluster.id === activeCluster,
-    );
-    if (next >= 0) setPage(next);
-  }, [activeCluster, orderedClusters]);
-  useEffect(() => {
     setPan({ x: 0, y: 0 });
     setZoom(1);
-  }, [layout, mobile, page, yearPage, paperPage]);
+  }, [layout]);
 
-  const paperGroups = useMemo(() => {
+  const geometry = useMemo(() => {
+    const width = 1600;
+    const height = 700;
+    const panels = new Map<string, Box>();
+    const nodes = new Map<string, Box>();
+    const stations = new Map<string, Point>();
+    const routes = new Map<string, Point[]>();
     const groups = new Map<string, Paper[]>();
     for (const paper of papers) {
       const key = layout === "map" ? paper.cluster : String(paper.year);
@@ -124,163 +122,95 @@ export default function ResearchMap({
           : ORDER.indexOf(a.cluster) - ORDER.indexOf(b.cluster) ||
             a.id.localeCompare(b.id),
       );
-    return groups;
-  }, [papers, layout]);
-  const papersPerPage = layout === "map" ? 4 : 5;
-  const groupPageCount = (key: string) =>
-    Math.max(1, Math.ceil((paperGroups.get(key)?.length || 0) / papersPerPage));
-  const groupPage = (key: string) =>
-    Math.min(paperPage, groupPageCount(key) - 1);
-  const pageMembers = (key: string) => {
-    const start = groupPage(key) * papersPerPage;
-    return (paperGroups.get(key) || []).slice(start, start + papersPerPage);
-  };
-
-  const geometry = useMemo(() => {
-    const width = mobile ? 420 : 1200;
-    const height = mobile ? (layout === "timeline" ? 600 : 440) : 720;
-    const panels = new Map<string, Box>();
-    const nodes = new Map<string, Box>();
+    const placeCards = (members: Paper[], panel: Box, columns: number) => {
+      const rows = Math.max(1, Math.ceil(members.length / columns));
+      const gap = 10;
+      const cardWidth = (panel.width - 28 - (columns - 1) * gap) / columns;
+      const cardHeight = Math.min(
+        46,
+        (panel.height - 70 - (rows - 1) * gap) / rows,
+      );
+      members.forEach((paper, index) =>
+        nodes.set(paper.id, {
+          x: panel.x + 12 + (index % columns) * (cardWidth + gap),
+          y: panel.y + 54 + Math.floor(index / columns) * (cardHeight + gap),
+          width: cardWidth,
+          height: cardHeight,
+        }),
+      );
+    };
     const years = [...new Set(sourcePapers.map((paper) => paper.year))].sort(
       (a, b) => a - b,
     );
-    const minYear = years[0] || new Date().getFullYear();
-    const maxYear = years[years.length - 1] || minYear;
-    const yearWidth = mobile ? 394 : 1160 / (maxYear - minYear + 1);
-    const yearColumns: { year: number; x: number; width: number }[] = [];
-    for (let year = minYear; year <= maxYear; year++)
-      yearColumns.push({
-        year,
-        x: mobile ? 20 : 20 + (year - minYear) * yearWidth,
-        width: yearWidth - 14,
-      });
-    if (layout === "timeline") {
-      yearColumns.forEach((column) => {
-        const members = pageMembers(String(column.year));
-        const cardHeight = 77;
-        members.forEach((paper, index) =>
-          nodes.set(paper.id, {
-            x: column.x + 4,
-            y: 93 + index * (cardHeight + 9),
-            width: column.width - 8,
-            height: cardHeight,
-          }),
-        );
-      });
-    } else {
+    const yearUnits = years.map((year) =>
+      Math.max(
+        1,
+        Math.ceil(sourcePapers.filter((p) => p.year === year).length / 10),
+      ),
+    );
+    const unitWidth =
+      (1580 - (years.length - 1) * 12) /
+      Math.max(
+        1,
+        yearUnits.reduce((sum, n) => sum + n, 0),
+      );
+    let yearX = 8;
+    const yearColumns = years.map((year, index) => {
+      const panel = {
+        x: yearX,
+        y: 8,
+        width: unitWidth * yearUnits[index],
+        height: 656,
+      };
+      yearX += panel.width + 12;
+      if (layout === "timeline")
+        placeCards(groups.get(String(year)) || [], panel, yearUnits[index]);
+      return { ...panel, year };
+    });
+    if (layout === "map")
       orderedClusters.forEach((cluster, index) => {
-        const panel: Box = mobile
-          ? { x: 8, y: 8, width: 404, height: 415 }
-          : index < 3
-            ? { x: 10 + index * 398, y: 12, width: 384, height: 340 }
-            : { x: index === 3 ? 610 : 10, y: 382, width: 584, height: 275 };
-        panels.set(cluster.id, panel);
-        const members = pageMembers(cluster.id);
-        const cardWidth = mobile ? panel.width - 32 : (panel.width - 45) / 2;
-        const cardHeight = mobile ? 68 : index < 3 ? 102 : 75;
-        const gap = mobile ? 10 : 12;
-        members.forEach((paper, position) =>
+        const baseline = 82 + index * 130;
+        const members = sourcePapers
+          .filter((paper) => paper.cluster === cluster.id)
+          .sort((a, b) => a.year - b.year || a.id.localeCompare(b.id));
+        const spacing = 1266 / Math.max(1, members.length - 1);
+        const reverse = index % 2 === 1;
+        const points = members.map((paper, position) => {
+          const x = reverse
+            ? 1516 - position * spacing
+            : 250 + position * spacing;
+          const bends = ROUTE_BENDS[index] || [0];
+          const bend =
+            bends[
+              Math.round(
+                (position / Math.max(1, members.length - 1)) *
+                  (bends.length - 1),
+              )
+            ];
+          const station = { x, y: baseline + bend };
+          stations.set(paper.id, station);
           nodes.set(paper.id, {
-            x: panel.x + 16 + (mobile ? 0 : position % 2) * (cardWidth + 12),
-            y:
-              panel.y +
-              105 +
-              (mobile ? position : Math.floor(position / 2)) *
-                (cardHeight + gap),
-            width: cardWidth,
-            height: cardHeight,
-          }),
-        );
+            x: station.x - 68,
+            y: station.y + (position % 2 ? 12 : -55),
+            width: 136,
+            height: 42,
+          });
+          return station;
+        });
+        routes.set(cluster.id, [
+          { x: reverse ? 1562 : 194, y: baseline },
+          ...points,
+          { x: reverse ? 194 : 1562, y: baseline },
+        ]);
+        panels.set(cluster.id, {
+          x: 12,
+          y: baseline - 29,
+          width: 170,
+          height: 58,
+        });
       });
-    }
-    return { width, height, panels, nodes, yearColumns };
-  }, [sourcePapers, orderedClusters, mobile, layout, paperGroups, paperPage]);
-  const mobilePage = orderedClusters[page];
-  const mobileYear = geometry.yearColumns[yearPage]?.year;
-  const displayedPapers = papers.filter(
-    (paper) =>
-      geometry.nodes.has(paper.id) &&
-      (!mobile ||
-        (layout === "map"
-          ? paper.cluster === mobilePage?.id
-          : paper.year === mobileYear)),
-  );
-  const visibleGroupKeys = mobile
-    ? [layout === "map" ? mobilePage?.id || "" : String(mobileYear)]
-    : [...paperGroups.keys()];
-  const paperPageCount = Math.max(1, ...visibleGroupKeys.map(groupPageCount));
-  const currentPaperPage = Math.min(paperPage, paperPageCount - 1);
-  useEffect(() => {
-    setPaperPage((current) => Math.min(current, paperPageCount - 1));
-  }, [paperPageCount]);
-  useEffect(() => {
-    const selected = papers.find((paper) => paper.id === selectedId);
-    if (!selected) return;
-    const key = layout === "map" ? selected.cluster : String(selected.year);
-    const index =
-      paperGroups.get(key)?.findIndex((paper) => paper.id === selectedId) ?? -1;
-    if (index >= 0) setPaperPage(Math.floor(index / papersPerPage));
-  }, [selectedId, paperGroups, papersPerPage, papers, layout]);
-  const displayedClusters =
-    mobile && layout === "map"
-      ? orderedClusters.filter((_, index) => index === page)
-      : orderedClusters;
-  useEffect(() => {
-    if (!mobile || !papers.length) return;
-    if (layout === "timeline") {
-      setYearPage((current) =>
-        papers.some(
-          (paper) => paper.year === geometry.yearColumns[current]?.year,
-        )
-          ? current
-          : Math.max(
-              0,
-              geometry.yearColumns.findIndex((column) =>
-                papers.some((paper) => paper.year === column.year),
-              ),
-            ),
-      );
-    } else if (activeCluster === "all") {
-      setPage((current) =>
-        papers.some((paper) => paper.cluster === orderedClusters[current]?.id)
-          ? current
-          : Math.max(
-              0,
-              orderedClusters.findIndex((cluster) =>
-                papers.some((paper) => paper.cluster === cluster.id),
-              ),
-            ),
-      );
-    }
-  }, [papers, layout, mobile, activeCluster, orderedClusters, sourcePapers]);
-  useEffect(() => {
-    const paper = sourcePapers.find((item) => item.id === selectedId);
-    if (!mobile || !paper) return;
-    setPage(
-      Math.max(
-        0,
-        orderedClusters.findIndex((cluster) => cluster.id === paper.cluster),
-      ),
-    );
-    setYearPage(
-      Math.max(
-        0,
-        geometry.yearColumns.findIndex((column) => column.year === paper.year),
-      ),
-    );
-  }, [selectedId, mobile, sourcePapers, orderedClusters]);
-  const changePage = (direction: number) => {
-    if (layout === "timeline") {
-      setYearPage((value) =>
-        clamp(value + direction, 0, geometry.yearColumns.length - 1),
-      );
-      return;
-    }
-    const next = clamp(page + direction, 0, orderedClusters.length - 1);
-    setPage(next);
-    if (activeCluster !== "all" && orderedClusters[next])
-      onCluster(orderedClusters[next].id);
-  };
+    return { width, height, panels, nodes, stations, routes, yearColumns };
+  }, [papers, sourcePapers, orderedClusters, layout]);
   const resetView = () => {
     setPan({ x: 0, y: 0 });
     setZoom(1);
@@ -332,23 +262,23 @@ export default function ResearchMap({
       clone.setAttribute("width", String(geometry.width));
       clone.setAttribute("height", String(geometry.height));
       clone.querySelector("[data-map-content]")?.removeAttribute("transform");
-      const response = await fetch(ideaStrip);
-      if (!response.ok) throw new Error("Artwork unavailable");
-      const art = await response.blob();
-      const encodedArt = await new Promise<string>((resolve, reject) => {
+      const response = await fetch(panorama);
+      if (!response.ok) throw new Error("Background unavailable");
+      const artwork = await response.blob();
+      const encoded = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => resolve(String(reader.result));
         reader.onerror = () => reject(reader.error);
-        reader.readAsDataURL(art);
+        reader.readAsDataURL(artwork);
       });
-      clone.querySelector("image")?.setAttribute("href", encodedArt);
+      clone.querySelector("image")?.setAttribute("href", encoded);
       const xml = new XMLSerializer().serializeToString(clone);
       const url = URL.createObjectURL(
         new Blob([xml], { type: "image/svg+xml;charset=utf-8" }),
       );
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = `vau-idea-atlas-${layout}${mobile ? `-${layout === "map" ? mobilePage?.id : mobileYear}` : ""}.svg`;
+      anchor.download = `vau-idea-atlas-${layout}.svg`;
       anchor.click();
       window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     } catch {
@@ -360,15 +290,14 @@ export default function ResearchMap({
 
   return (
     <section
-      ref={sectionRef}
-      className={`research-map comic-map${mobile ? " is-paged" : ""}${dragging ? " is-dragging" : ""}`}
-      aria-label={layout === "map" ? "创新机制漫画地图" : "论文发表时间排列"}
+      className={`research-map comic-map${dragging ? " is-dragging" : ""}`}
+      aria-label={layout === "map" ? "创新机制路线地图" : "论文发表时间排列"}
     >
       <svg
         ref={svgRef}
         className="research-map-canvas"
         viewBox={`0 0 ${geometry.width} ${geometry.height}`}
-        aria-label="选择论文卡阅读机制与证据；箭头为编辑阅读顺序，不表示论文继承"
+        aria-label={`${papers.length}篇论文，选择卡片查看详情`}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
@@ -380,13 +309,9 @@ export default function ResearchMap({
       >
         <title>
           视频异常理解 ·{" "}
-          {layout === "map" ? "创新机制漫画地图" : "论文发表时间排列"}
+          {layout === "map" ? "创新机制路线地图" : "论文发表时间排列"}
         </title>
-        <desc>
-          论文按照创新机制归类。分镜间箭头只表示编辑建议的问题进阶顺序，不表示论文引用、继承或经验证的因果关系。
-        </desc>
         <defs>
-          <image id={artId} href={ideaStrip} width="2172" height="724" />
           <pattern
             id={patternId}
             width="8"
@@ -395,62 +320,91 @@ export default function ResearchMap({
           >
             <circle cx="2" cy="2" r="0.7" fill={INK} opacity="0.17" />
           </pattern>
-          <marker
-            id={arrowId}
-            markerWidth="8"
-            markerHeight="8"
-            refX="6"
-            refY="4"
-            orient="auto"
-          >
-            <path d="M1 1l5 3-5 3" fill="none" stroke={INK} strokeWidth="1.5" />
-          </marker>
         </defs>
         <rect width={geometry.width} height={geometry.height} fill={CREAM} />
+
         <g
           data-map-content="true"
           transform={`translate(${pan.x + geometry.width / 2} ${pan.y + geometry.height / 2}) scale(${zoom}) translate(${-geometry.width / 2} ${-geometry.height / 2})`}
         >
+          <image
+            href={panorama}
+            width={geometry.width}
+            height={geometry.height}
+            preserveAspectRatio="xMidYMid slice"
+            opacity=".34"
+          />
+          <rect
+            width={geometry.width}
+            height={geometry.height}
+            fill={`url(#${patternId})`}
+            opacity=".2"
+          />
           {layout === "map" ? (
             <>
-              {displayedClusters.map((cluster) => {
-                const panel = geometry.panels.get(cluster.id)!;
-                const index = orderedClusters.findIndex(
-                  (item) => item.id === cluster.id,
+              {[0, 1, 2, 3].map((index) => {
+                const right = index % 2 === 0;
+                const x = right ? 1562 : 194;
+                const bend = right ? 1590 : 165;
+                const y = 82 + index * 130;
+                return (
+                  <path
+                    key={index}
+                    d={`M${x} ${y}C${bend} ${y + 25} ${bend} ${y + 105} ${x} ${y + 130}`}
+                    fill="none"
+                    stroke={INK}
+                    strokeWidth="3"
+                    strokeDasharray="4 6"
+                    opacity=".38"
+                  />
                 );
+              })}
+              {orderedClusters.map((cluster, index) => {
+                const panel = geometry.panels.get(cluster.id)!;
                 const count = papers.filter(
-                  (paper) => paper.cluster === cluster.id,
+                  (p) => p.cluster === cluster.id,
                 ).length;
                 const active = activeCluster === cluster.id;
+                const points = geometry.routes.get(cluster.id)!;
+                const path = points
+                  .map((point, position) => {
+                    if (!position) return `M${point.x} ${point.y}`;
+                    const previous = points[position - 1];
+                    const middle = (previous.x + point.x) / 2;
+                    return `C${middle} ${previous.y} ${middle} ${point.y} ${point.x} ${point.y}`;
+                  })
+                  .join(" ");
                 return (
                   <g key={cluster.id}>
-                    <rect
-                      x={panel.x + 4}
-                      y={panel.y + 5}
-                      width={panel.width}
-                      height={panel.height}
-                      rx="2"
-                      fill={INK}
-                    />
-                    <rect
-                      x={panel.x}
-                      y={panel.y}
-                      width={panel.width}
-                      height={panel.height}
-                      rx="2"
-                      fill={COLORS[cluster.id] || "#badff5"}
+                    <path
+                      d={path}
+                      fill="none"
                       stroke={INK}
-                      strokeWidth={active ? 5 : 3}
+                      strokeWidth={active ? 12 : 10}
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
                     />
                     <path
-                      d={`M${panel.x + panel.width - 83} ${panel.y + 1}h82v${panel.height - 2}h-82z`}
-                      fill={`url(#${patternId})`}
+                      d={path}
+                      fill="none"
+                      stroke={COLORS[cluster.id]}
+                      strokeWidth={active ? 8 : 6}
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                    />
+                    <circle
+                      cx={points[0].x}
+                      cy={panel.y + 29}
+                      r="7"
+                      fill={COLORS[cluster.id]}
+                      stroke={INK}
+                      strokeWidth="2"
                     />
                     <g
                       className="comic-cluster"
                       role="button"
                       tabIndex={0}
-                      aria-label={`筛选${cluster.name}，当前${count}篇论文`}
+                      aria-label={`筛选${cluster.name}，${count}篇论文`}
                       aria-pressed={active}
                       onClick={() => {
                         if (!suppressClick.current) onCluster(cluster.id);
@@ -464,233 +418,118 @@ export default function ResearchMap({
                     >
                       <rect
                         className="comic-cluster-hit"
-                        x={panel.x + 6}
-                        y={panel.y + 7}
-                        width={panel.width - 70}
-                        height="81"
+                        x={panel.x}
+                        y={panel.y}
+                        width={panel.width}
+                        height={panel.height}
+                        rx="4"
                         fill="transparent"
-                        rx="2"
+                      />
+                      <path
+                        d={`M${panel.x + 3} ${panel.y + 5}h27l-3 22h-27z`}
+                        fill={COLORS[cluster.id]}
+                        stroke={INK}
+                        strokeWidth="1.8"
                       />
                       <text
-                        x={panel.x + 14}
-                        y={panel.y + 52}
+                        x={panel.x + 15}
+                        y={panel.y + 21}
+                        textAnchor="middle"
                         fill={INK}
-                        fontFamily="Impact, 'Arial Black', sans-serif"
-                        fontSize="51"
+                        fontSize="15"
                         fontStyle="italic"
                         fontWeight="900"
                       >
-                        0{index + 1}
+                        {index + 1}
                       </text>
                       <text
-                        x={panel.x + 78}
-                        y={panel.y + 34}
+                        x={panel.x + 39}
+                        y={panel.y + 21}
+                        fill="#585348"
+                        fontSize="12"
+                        fontWeight="700"
+                      >
+                        {count} 篇
+                      </text>
+                      <text
+                        x={panel.x + 1}
+                        y={panel.y + 48}
                         fill={INK}
-                        fontSize={mobile ? 22 : 21}
-                        fontWeight="900"
-                        letterSpacing="-0.8"
+                        fontSize="17"
+                        fontWeight="850"
+                        textLength={fitLabel(cluster.name, 17, panel.width - 8)}
+                        lengthAdjust="spacingAndGlyphs"
                       >
                         {cluster.name}
                       </text>
-                      <text
-                        x={panel.x + 79}
-                        y={panel.y + 59}
-                        fill={INK}
-                        fontSize={mobile ? 14.5 : 14}
-                        fontWeight="500"
-                      >
-                        {QUESTIONS[cluster.id]}
-                      </text>
-                      <path
-                        d={`M${panel.x + 17} ${panel.y + 80}h${panel.width - 110}`}
-                        stroke={INK}
-                        strokeWidth="2"
-                      />
                     </g>
-                    <svg
-                      x={panel.x + panel.width - 72}
-                      y={panel.y + 8}
-                      width="64"
-                      height="87"
-                      viewBox="0 0 434.4 590"
-                      aria-hidden="true"
-                    >
-                      <use
-                        href={`#${artId}`}
-                        x={
-                          -[
-                            "alignment",
-                            "explanation",
-                            "reasoning",
-                            "evidence",
-                            "understanding",
-                          ].indexOf(cluster.id) * 434.4
-                        }
-                        y="-75"
-                      />
-                    </svg>
-                    <rect
-                      x={panel.x + panel.width - 72}
-                      y={panel.y + 8}
-                      width="64"
-                      height="87"
-                      fill="none"
-                      stroke={INK}
-                      strokeWidth="1.5"
-                      aria-hidden="true"
-                    />
-                    {groupPageCount(cluster.id) > 1 && (
-                      <text
-                        x={panel.x + 18}
-                        y={panel.y + 97}
-                        fill={INK}
-                        fontSize="12"
-                        fontWeight="650"
-                      >
-                        {`${groupPage(cluster.id) + 1} / ${groupPageCount(cluster.id)} 页 · ${count} 篇`}
-                      </text>
-                    )}
-                    {count === 0 && (
-                      <text
-                        x={panel.x + panel.width / 2}
-                        y={panel.y + 176}
-                        textAnchor="middle"
-                        fill={INK}
-                        fontSize="17"
-                      >
-                        当前筛选下暂无论文
-                      </text>
-                    )}
-                    {cluster.id === "evidence" &&
-                      !mobile &&
-                      pageMembers(cluster.id).length <= 2 && (
-                        <g
-                          transform={`translate(${panel.x + 20} ${panel.y + 232})`}
-                        >
-                          <path
-                            d="M0-14h363l10 12-10 12H0z"
-                            fill={CREAM}
-                            stroke={INK}
-                            strokeWidth="1.6"
-                          />
-                          <text
-                            x="13"
-                            y="4"
-                            fill={INK}
-                            fontSize="15"
-                            fontWeight="600"
-                          >
-                            提出问题 → 调用工具 → 回看证据
-                          </text>
-                          <text
-                            x="398"
-                            y="4"
-                            fill={INK}
-                            fontSize="13"
-                            fontWeight="600"
-                          >
-                            机制导览 ↗
-                          </text>
-                        </g>
-                      )}
                   </g>
                 );
               })}
-              {!mobile && (
-                <g
-                  aria-label="编辑阅读路径，非论文继承关系"
-                  stroke={INK}
-                  strokeWidth="2.4"
-                  fill="none"
-                  markerEnd={`url(#${arrowId})`}
-                >
-                  <path d="M384 165h28" />
-                  <path d="M782 165h28" />
-                  <path d="M1118 354v24" />
-                  <path d="M613 556h-27" />
-                </g>
-              )}
             </>
           ) : (
-            <>
-              {geometry.yearColumns
-                .filter((_, index) => !mobile || index === yearPage)
-                .map((column) => (
-                  <g key={column.year}>
-                    <rect
-                      x={column.x}
-                      y="14"
-                      width={column.width}
-                      height={mobile ? 570 : 658}
-                      fill="#fffdf6"
-                      stroke={INK}
-                      strokeWidth="2"
-                    />
-                    <path
-                      d={`M${column.x} 14h${column.width}v60h-${column.width}z`}
-                      fill="#ffdf70"
-                      stroke={INK}
-                      strokeWidth="2"
-                    />
-                    <text
-                      x={column.x + 15}
-                      y="57"
-                      fill={INK}
-                      fontFamily="Impact, 'Arial Black', sans-serif"
-                      fontSize="42"
-                      fontWeight="900"
-                    >
-                      {column.year}
-                    </text>
-                    <text
-                      x={column.x + column.width - 13}
-                      y="51"
-                      fill={INK}
-                      textAnchor="end"
-                      fontSize="15"
-                      fontWeight="700"
-                    >
-                      {
-                        papers.filter((paper) => paper.year === column.year)
-                          .length
-                      }{" "}
-                      篇
-                      {groupPageCount(String(column.year)) > 1
-                        ? ` · ${groupPage(String(column.year)) + 1}/${groupPageCount(String(column.year))} 页`
-                        : ""}
-                    </text>
-                  </g>
-                ))}
-            </>
+            geometry.yearColumns.map((column) => (
+              <g key={column.year}>
+                <rect
+                  x={column.x + 4}
+                  y={column.y + 5}
+                  width={column.width}
+                  height={column.height}
+                  fill={INK}
+                />
+                <rect
+                  x={column.x}
+                  y={column.y}
+                  width={column.width}
+                  height={column.height}
+                  fill="#fffdf6"
+                  stroke={INK}
+                  strokeWidth="2.5"
+                />
+                <path
+                  d={`M${column.x} ${column.y}h${column.width}v44h-${column.width}z`}
+                  fill="#ffdf70"
+                  stroke={INK}
+                  strokeWidth="2"
+                />
+                <text
+                  x={column.x + 12}
+                  y={column.y + 33}
+                  fill={INK}
+                  fontFamily="Impact, 'Arial Black', sans-serif"
+                  fontSize="31"
+                  fontWeight="900"
+                >
+                  {column.year}
+                </text>
+                <text
+                  x={column.x + column.width - 12}
+                  y={column.y + 29}
+                  fill={INK}
+                  textAnchor="end"
+                  fontSize="13"
+                  fontWeight="700"
+                >
+                  {papers.filter((p) => p.year === column.year).length} 篇
+                </text>
+              </g>
+            ))
           )}
-          {displayedPapers.map((paper) => {
+          {papers.map((paper) => {
             const box = geometry.nodes.get(paper.id);
             if (!box) return null;
             const selected = selectedId === paper.id;
-            const compact = box.height < 90;
-            const tiny = box.height < 50;
-            const color = COLORS[paper.cluster] || "#badff5";
-            const titleSize = tiny ? 20 : mobile ? 23 : 21;
-            const mechanism = paper.mechanism;
-            const mechanismLines =
-              !compact && box.width < 200 && mechanism.length > 8
-                ? [mechanism.slice(0, 8), mechanism.slice(8)]
-                : [mechanism];
+            const station = geometry.stations.get(paper.id);
             const venue = paper.venue
               .replace(/\bDatasets and Benchmarks\b/gi, "D&B")
               .replace(/\s+Workshops?\b/gi, "W");
-            // Keep named tracks intact; narrow overview cards expose the year
-            // through their full title and accessible label rather than squeezing type.
-            const venueLabel =
-              box.width < 200 && venue.length > 10
-                ? venue
-                : `${venue} · ${paper.year}`;
+            const venueLabel = `${venue} · ${paper.year}`;
             return (
               <g
                 key={paper.id}
                 role="button"
                 tabIndex={0}
-                aria-label={`${paper.shortTitle}，${paper.venue}，${paper.year}，${mechanism}，视频异常理解，查看详情`}
+                aria-label={`${paper.title}，${paper.venue}，${paper.year}，查看详情`}
                 aria-pressed={selected}
                 className={`comic-paper${selected ? " is-selected" : ""}`}
                 transform={`translate(${box.x} ${box.y})`}
@@ -705,90 +544,71 @@ export default function ResearchMap({
                 }}
               >
                 <title>{`${paper.title} — ${paper.venue}, ${paper.year}`}</title>
-                <rect
+                {station && (
+                  <g aria-hidden="true">
+                    <path
+                      d={`M${station.x - box.x} ${station.y - box.y}V${station.y < box.y ? 0 : box.height}`}
+                      fill="none"
+                      stroke={INK}
+                      strokeWidth="1.8"
+                    />
+                    <circle
+                      cx={station.x - box.x}
+                      cy={station.y - box.y}
+                      r={selected ? 7 : 5.5}
+                      fill={selected ? "#ffdf70" : CREAM}
+                      stroke={INK}
+                      strokeWidth="2"
+                    />
+                  </g>
+                )}
+                <path
                   className="comic-card-shadow"
-                  x={selected ? 4 : 2}
-                  y={selected ? 5 : 3}
-                  width={box.width}
-                  height={box.height}
-                  rx="3"
+                  transform={`translate(${selected ? 3 : 2} ${selected ? 4 : 2})`}
+                  d={`M0 0H${box.width}l-5 ${box.height / 2} 5 ${box.height / 2}H0Z`}
                   fill={INK}
                 />
-                <rect
+                <path
                   className="comic-card-body"
-                  width={box.width}
-                  height={box.height}
-                  rx="3"
+                  d={`M0 0H${box.width}l-5 ${box.height / 2} 5 ${box.height / 2}H0Z`}
                   fill={selected ? "#ffdf70" : "#fffefa"}
                   stroke={INK}
-                  strokeWidth={selected ? 3.5 : 2}
+                  strokeWidth={selected ? 3 : 1.6}
                 />
                 {layout === "timeline" && (
                   <rect
                     x="1.5"
                     y="1.5"
-                    width="5"
+                    width="4"
                     height={box.height - 3}
-                    fill={color}
+                    fill={COLORS[paper.cluster]}
                   />
                 )}
                 <text
-                  x="10"
-                  y={tiny ? 19 : 25}
+                  x="9"
+                  y="19"
                   fill={INK}
-                  fontSize={titleSize}
+                  fontSize="16"
                   fontWeight="800"
-                  letterSpacing="-0.5"
-                  textLength={
-                    paper.shortTitle.length > 15 ? box.width - 22 : undefined
-                  }
+                  textLength={fitLabel(paper.shortTitle, 16, box.width - 23)}
                   lengthAdjust="spacingAndGlyphs"
                 >
                   {paper.shortTitle}
                 </text>
-                {!tiny && (
-                  <text
-                    x="10"
-                    y={compact ? 46 : 50}
-                    fill="#35352f"
-                    fontSize="18"
-                    fontWeight="500"
-                  >
-                    {mechanismLines.map((line, index) => (
-                      <tspan key={index} x="10" dy={index ? 21 : 0}>
-                        {line}
-                      </tspan>
-                    ))}
-                  </text>
-                )}
                 <text
-                  x="10"
-                  y={tiny ? 39 : box.height - 6}
+                  x="9"
+                  y={box.height - 8}
                   fill="#333126"
-                  fontSize="18"
+                  fontSize="13"
                   fontWeight="650"
+                  textLength={fitLabel(venueLabel, 13, box.width - 23)}
+                  lengthAdjust="spacingAndGlyphs"
                 >
                   {venueLabel}
                 </text>
               </g>
             );
           })}
-          {!mobile && (
-            <g>
-              <path
-                d="M13 686h21l7 9-7 9H13z"
-                fill="#ffdf70"
-                stroke={INK}
-                strokeWidth="1.6"
-              />
-              <text x="51" y="700" fill={INK} fontSize="14" fontWeight="600">
-                {layout === "map" ? "阅读路径" : "论文发表年份"}
-              </text>
-              <text x="1182" y="700" textAnchor="end" fill={INK} fontSize="13">
-                {papers.length} 篇论文
-              </text>
-            </g>
-          )}
         </g>
       </svg>
       {papers.length === 0 && (
@@ -800,63 +620,9 @@ export default function ResearchMap({
         </div>
       )}
       <div className="comic-map-bottom">
-        <div className="comic-navigation">
-          {mobile ? (
-            <div
-              className="comic-pages"
-              aria-label={layout === "map" ? "切换创新机制分镜" : "切换年份"}
-            >
-              <button
-                type="button"
-                disabled={(layout === "map" ? page : yearPage) === 0}
-                onClick={() => changePage(-1)}
-                aria-label={layout === "map" ? "上一个创新机制" : "上一年"}
-              >
-                ←
-              </button>
-              <span aria-live="polite">
-                {layout === "map"
-                  ? `${String(page + 1).padStart(2, "0")} / ${String(orderedClusters.length).padStart(2, "0")}`
-                  : mobileYear}
-              </span>
-              <button
-                type="button"
-                disabled={
-                  layout === "map"
-                    ? page >= orderedClusters.length - 1
-                    : yearPage >= geometry.yearColumns.length - 1
-                }
-                onClick={() => changePage(1)}
-                aria-label={layout === "map" ? "下一个创新机制" : "下一年"}
-              >
-                →
-              </button>
-            </div>
-          ) : (
-            <span className="comic-map-footnote" />
-          )}
-          <div className="comic-pages comic-paper-pages" aria-label="文献分页">
-            <button
-              type="button"
-              disabled={currentPaperPage === 0}
-              onClick={() => setPaperPage(currentPaperPage - 1)}
-              aria-label="上一页文献"
-            >
-              ‹
-            </button>
-            <span aria-live="polite">
-              文献 {currentPaperPage + 1}/{paperPageCount}
-            </span>
-            <button
-              type="button"
-              disabled={currentPaperPage >= paperPageCount - 1}
-              onClick={() => setPaperPage(currentPaperPage + 1)}
-              aria-label="下一页文献"
-            >
-              ›
-            </button>
-          </div>
-        </div>
+        <span className="comic-map-count">
+          {papers.length} 篇{layout === "map" ? " · 编辑阅读路线" : ""}
+        </span>
         <div className="comic-controls" aria-label="地图视图控制">
           <button
             type="button"
@@ -888,7 +654,7 @@ export default function ResearchMap({
             className="comic-export"
             onClick={exportSvg}
             disabled={exporting}
-            title="导出当前可见文献页 SVG"
+            title="导出完整地图 SVG"
           >
             {exporting ? "…" : exportFailed ? "重试 SVG" : "SVG ↗"}
           </button>

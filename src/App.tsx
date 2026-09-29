@@ -12,14 +12,12 @@ import {
   Database,
   FileText,
   GitBranch,
-  Layers,
   Lightbulb,
   List,
   Map,
   Search,
   Share2,
   SlidersHorizontal,
-  Sparkles,
   X,
 } from "lucide-react";
 import rawCatalog from "../data/catalog.json";
@@ -50,13 +48,6 @@ const artIndex: Record<string, number> = {
   reasoning: 2,
   evidence: 3,
   understanding: 4,
-};
-const shortQuestions: Record<string, string> = {
-  alignment: "语言如何进入视觉表征？",
-  explanation: "异常的判据从哪里来？",
-  understanding: "如何组织时间与记忆？",
-  evidence: "证据不足，下一步看哪里？",
-  reasoning: "推理结论如何被验证？",
 };
 
 function ResourceLink({
@@ -171,12 +162,10 @@ export default function App() {
   const [showFilters, setShowFilters] = useState(false);
   const [detailTab, setDetailTab] = useState<DetailTab>("idea");
   const [detailPage, setDetailPage] = useState(0);
-  const [listPage, setListPage] = useState(0);
   const [guidePage, setGuidePage] = useState(0);
   const [guideStepPage, setGuideStepPage] = useState(0);
   const [datasetQuery, setDatasetQuery] = useState(initial.get("dq") || "");
   const [datasetRelatedPage, setDatasetRelatedPage] = useState(0);
-  const [overviewPage, setOverviewPage] = useState(0);
   const [datasetReading, setDatasetReading] = useState(
     initial.get("view") === "datasets" && !!initialDataset,
   );
@@ -195,7 +184,6 @@ export default function App() {
   const years = [...new Set(catalog.papers.map((p) => p.year))].sort(
     (a, b) => b - a,
   );
-  const tasks = [...new Set(catalog.papers.flatMap((p) => p.tasks))];
   const coreCount = catalog.papers.filter((p) => p.scope === "core").length;
   const hasFilters =
     !!query ||
@@ -265,8 +253,6 @@ export default function App() {
   useEffect(() => {
     if (selectedId && !visiblePapers.some((p) => p.id === selectedId))
       setSelectedId(null);
-    setListPage(0);
-    setOverviewPage(0);
   }, [visiblePapers]);
   useEffect(() => {
     setDetailPage(0);
@@ -757,7 +743,7 @@ export default function App() {
         </a>
       </header>
       <div className="command-bar">
-        {view !== "datasets" && (
+        {view === "map" && (
           <button
             className="mobile-filter-toggle"
             aria-label="展开筛选"
@@ -800,6 +786,44 @@ export default function App() {
             </button>
           )}
         </label>
+        {view === "map" && (
+          <div
+            className={`header-filters ${showFilters ? "is-open" : ""}`}
+            aria-label="论文搜索条件"
+          >
+            <select
+              aria-label="发表出处"
+              value={venue}
+              title={venue === "all" ? "发表出处" : venue}
+              onChange={(e) => setVenue(e.target.value)}
+            >
+              <option value="all">全部出处</option>
+              {venues.map((v) => (
+                <option key={v}>{v}</option>
+              ))}
+            </select>
+            <select
+              aria-label="发表年份"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+            >
+              <option value="all">全部年份</option>
+              {years.map((y) => (
+                <option key={y}>{y}</option>
+              ))}
+            </select>
+            {hasFilters && (
+              <button
+                onClick={resetFilters}
+                aria-label="清除所有筛选"
+                title="清除筛选"
+              >
+                <X size={13} />
+                清除
+              </button>
+            )}
+          </div>
+        )}
         <div className="command-actions">
           <button
             title="分享当前视图"
@@ -831,116 +855,6 @@ export default function App() {
         id="main"
         className={`desk ${view === "map" && selected ? "has-selection" : view === "datasets" && datasetReading ? "has-dataset-selection" : ""} view-${view}`}
       >
-        <aside
-          className={`idea-rail ${showFilters ? "is-open" : ""}`}
-          aria-label="论文筛选"
-        >
-          <div className="rail-title">
-            <Sparkles size={16} />
-            <strong>沿创新思路探索</strong>
-            <button
-              className="mobile-close"
-              onClick={() => setShowFilters(false)}
-              aria-label="关闭筛选"
-            >
-              <X size={16} />
-            </button>
-          </div>
-          <button
-            className={`all-ideas ${cluster === "all" ? "active" : ""}`}
-            onClick={() => {
-              setCluster("all");
-              setView("map");
-              setShowFilters(false);
-            }}
-          >
-            <Layers size={14} />
-            全部方向<span>{coreCount}</span>
-          </button>
-          <div className="idea-buttons">
-            {catalog.clusters.map((c, i) => (
-              <button
-                key={c.id}
-                style={{ "--panel-color": c.color } as React.CSSProperties}
-                className={cluster === c.id ? "active" : ""}
-                onClick={() => filterCluster(c.id)}
-              >
-                <span className="idea-number">0{i + 1}</span>
-                <span>
-                  <strong>{c.name}</strong>
-                  <small>{shortQuestions[c.id]}</small>
-                </span>
-                <ChevronRight size={13} />
-              </button>
-            ))}
-          </div>
-          <div className="venue-filter">
-            <label>
-              发表出处
-              <select
-                aria-label="发表出处"
-                value={venue}
-                onChange={(e) => {
-                  setVenue(e.target.value);
-                  setView("map");
-                }}
-              >
-                <option value="all">全部会议 / 期刊</option>
-                {venues.map((v) => (
-                  <option key={v}>{v}</option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <div className="rail-controls">
-            <label>
-              年份
-              <select
-                aria-label="发表年份"
-                value={year}
-                onChange={(e) => {
-                  setYear(e.target.value);
-                  setView("map");
-                }}
-              >
-                <option value="all">全部年份</option>
-                {years.map((y) => (
-                  <option key={y}>{y}</option>
-                ))}
-              </select>
-            </label>
-            <label>
-              任务
-              <select
-                aria-label="研究任务"
-                value={task}
-                onChange={(e) => {
-                  setTask(e.target.value);
-                  setView("map");
-                }}
-              >
-                <option value="all">全部任务</option>
-                {tasks.map((t) => (
-                  <option key={t}>{t}</option>
-                ))}
-              </select>
-            </label>
-          </div>
-          {datasetId && (
-            <button className="filter-chip" onClick={() => setDatasetId("")}>
-              {catalog.datasets.find((d) => d.id === datasetId)?.name}
-              <X size={12} />
-            </button>
-          )}
-          <button
-            className="clear-filters"
-            disabled={!hasFilters}
-            onClick={resetFilters}
-          >
-            重置筛选
-            <ArrowRight size={13} />
-          </button>
-        </aside>
         <section className="workspace" aria-label="研究工作区">
           <div className="workspace-toolbar">
             {view === "map" ? (
@@ -989,53 +903,48 @@ export default function App() {
               />
             )}
             {view === "map" && layout === "list" && (
-              <div className="index-view">
-                <div className="index-label">
-                  <span>METHOD / 创新抓手</span>
-                  <span>YEAR</span>
-                </div>
-                <div className="index-rows">
-                  {visiblePapers
-                    .slice(listPage * 6, listPage * 6 + 6)
+              <section className="paper-overview" aria-label="全部论文卡片">
+                <div className="paper-grid">
+                  {[...visiblePapers]
+                    .sort(
+                      (a, b) =>
+                        b.year - a.year ||
+                        a.shortTitle.localeCompare(b.shortTitle),
+                    )
                     .map((p) => (
                       <button
                         key={p.id}
-                        className={`index-row ${selectedId === p.id ? "selected" : ""}`}
+                        className={`paper-chip ${selectedId === p.id ? "selected" : ""}`}
                         onClick={() => selectPaper(p.id)}
-                      >
-                        <span
-                          className="index-color"
-                          style={{
-                            background: catalog.clusters.find(
+                        style={
+                          {
+                            "--paper-color": catalog.clusters.find(
                               (c) => c.id === p.cluster,
                             )?.color,
-                          }}
-                        />
+                          } as React.CSSProperties
+                        }
+                        title={`${p.title} — ${p.venue}, ${p.year}`}
+                      >
+                        <strong>{p.shortTitle}</strong>
                         <span>
-                          <strong>{p.shortTitle}</strong>
-                          <small>{p.mechanism}</small>
-                        </span>
-                        <span className="index-year">
-                          {p.venue} · {p.year}
-                          <ArrowUpRight size={13} />
+                          <span>
+                            {p.venue
+                              .replace(/Datasets and Benchmarks/g, "D&B")
+                              .replace(/ Workshops?/g, "W")}
+                          </span>
+                          <b>{p.year}</b>
                         </span>
                       </button>
                     ))}
                 </div>
                 {!visiblePapers.length && (
                   <div className="empty-state">
-                    <Search size={28} />
-                    <b>没有匹配的文献</b>
+                    <Search size={24} />
+                    <b>没有匹配的论文</b>
                     <button onClick={resetFilters}>清除筛选</button>
                   </div>
                 )}
-                <Pager
-                  page={listPage}
-                  total={Math.ceil(visiblePapers.length / 6)}
-                  onChange={setListPage}
-                  label="文献索引"
-                />
-              </div>
+              </section>
             )}
             {view === "guides" && (
               <div className="guides-view">
@@ -1109,64 +1018,23 @@ export default function App() {
             )}
           </div>
         </section>
-        <aside
-          className={`inspector ${selected && view === "map" ? "is-reading" : ""}`}
-          aria-label={
-            view === "datasets"
-              ? `${activeDataset.name} 数据集详情`
-              : selected
-                ? `${selected.shortTitle} 论文详情`
-                : "论文速览"
-          }
-        >
-          {view === "datasets" ? (
-            <DatasetInspector dataset={activeDataset} />
-          ) : selected ? (
-            <PaperInspector paper={selected} />
-          ) : (
-            <>
-              <div className="inspector-heading">
-                <List size={18} />
-                <strong>论文速览</strong>
-                <span className="overview-total">{visiblePapers.length}</span>
-              </div>
-              <div className="overview-list">
-                {visiblePapers
-                  .slice(overviewPage * 6, overviewPage * 6 + 6)
-                  .map((p) => (
-                    <button key={p.id} onClick={() => selectPaper(p.id)}>
-                      <span
-                        className="overview-dot"
-                        style={{
-                          background: catalog.clusters.find(
-                            (c) => c.id === p.cluster,
-                          )?.color,
-                        }}
-                      />
-                      <span>
-                        <strong>{p.shortTitle}</strong>
-                        <small>
-                          {p.venue} · {p.year}
-                        </small>
-                      </span>
-                      <ArrowUpRight size={13} />
-                    </button>
-                  ))}
-                {!visiblePapers.length && (
-                  <p className="small-notice">没有匹配的论文</p>
-                )}
-              </div>
-              <div className="inspector-bottom">
-                <Pager
-                  page={overviewPage}
-                  total={Math.ceil(visiblePapers.length / 6)}
-                  onChange={setOverviewPage}
-                  label="论文速览"
-                />
-              </div>
-            </>
-          )}
-        </aside>
+        {((view === "map" && selected) ||
+          (view === "datasets" && datasetReading)) && (
+          <aside
+            className={`inspector ${view === "map" ? "is-reading" : ""}`}
+            aria-label={
+              view === "datasets"
+                ? `${activeDataset.name} 数据集详情`
+                : `${selected?.shortTitle} 论文详情`
+            }
+          >
+            {view === "datasets" ? (
+              <DatasetInspector dataset={activeDataset} />
+            ) : (
+              selected && <PaperInspector paper={selected} />
+            )}
+          </aside>
+        )}
       </main>
       <footer className="statusbar">
         <span>
