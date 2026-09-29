@@ -37,6 +37,38 @@ test('hidden month order is consistent across venue rows', () => {
   }
 });
 
+test('quarter bands cover recent years and contain the correct paper months', () => {
+  for (const year of layout.years.filter(item => item.year >= 2025)) {
+    assert.deepEqual(year.quarters.slice(0, 4).map(item => item.quarter), [1, 2, 3, 4]);
+    assert.equal(year.quarters.reduce((sum, item) => sum + item.count, 0), year.count);
+    assert.equal(year.quarters[0].x, year.x);
+    const last = year.quarters.at(-1);
+    assert.equal(last.x + last.width, year.x + year.width);
+    for (const [index, quarter] of year.quarters.entries()) {
+      assert.ok(quarter.width > 0);
+      if (index) assert.equal(year.quarters[index - 1].x + year.quarters[index - 1].width, quarter.x);
+      const members = papers.filter(paper => paper.year === year.year &&
+        (paper.timeline ? Math.ceil(paper.timeline.month / 3) : null) === quarter.quarter);
+      assert.equal(quarter.count, members.length);
+      for (const paper of members) {
+        const station = layout.stations.get(paper.id);
+        assert.ok(station.x > quarter.x && station.x < quarter.x + quarter.width, `${paper.id} quarter`);
+      }
+    }
+  }
+});
+
+test('unknown months remain outside the four labeled quarters', () => {
+  const paper = { ...papers[0], year: 2026, timeline: undefined };
+  const network = createPublicationLayout([paper]);
+  const quarters = network.years[0].quarters;
+  assert.deepEqual(quarters.map(item => item.quarter), [1, 2, 3, 4, null]);
+  assert.equal(quarters.slice(0, 4).reduce((sum, item) => sum + item.count, 0), 0);
+  const unknown = quarters.at(-1);
+  assert.equal(unknown.count, 1);
+  assert.ok(network.stations.get(paper.id).x > unknown.x);
+});
+
 test('metro routes never turn backwards and use only 0, 45 or 90 degree segments', () => {
   for (const line of layout.lines) {
     const parts = segments(line);

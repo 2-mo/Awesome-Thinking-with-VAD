@@ -238,7 +238,7 @@ export default function ResearchMap({
         viewBox={`0 0 ${width} ${height}`}
         aria-label={
           layout === "map"
-            ? `${papers.length}篇论文，横轴年份，纵轴会议，彩色线路表示方法派别`
+            ? `${papers.length}篇论文，横轴年份与季度，纵轴会议，彩色线路表示方法派别`
             : `${papers.length}篇论文，按发表年份排列`
         }
         onPointerDown={onPointerDown}
@@ -296,7 +296,7 @@ export default function ResearchMap({
                   />
                   <text
                     x={year.x + year.width / 2}
-                    y={plotTop - 25}
+                    y={plotTop - 49}
                     textAnchor="middle"
                     fill={INK}
                     fontSize="27"
@@ -306,21 +306,44 @@ export default function ResearchMap({
                     {year.year}
                   </text>
                   <path
-                    d={`M${year.x + 20} ${plotTop - 12}h${year.width - 40}`}
+                    d={`M${year.x + 20} ${plotTop - 36}h${year.width - 40}`}
                     stroke={INK}
                     strokeWidth="2"
                   />
+                  {year.quarters.map((quarter, quarterIndex) => (
+                    <g key={quarter.quarter ?? "unknown"}>
+                      {quarterIndex > 0 && (
+                        <path
+                          d={`M${quarter.x} ${plotTop - 25}V${plotBottom}`}
+                          stroke="#c3cdc2"
+                          strokeWidth=".8"
+                          strokeDasharray="2 8"
+                          opacity=".55"
+                        />
+                      )}
+                      <text
+                        x={quarter.x + quarter.width / 2}
+                        y={plotTop - 13}
+                        textAnchor="middle"
+                        fill={quarter.count ? "#52685e" : "#8b978d"}
+                        fontSize="14"
+                        fontWeight="750"
+                      >
+                        {quarter.quarter === null ? "待定" : `Q${quarter.quarter}`}
+                      </text>
+                    </g>
+                  ))}
                 </g>
               ))}
               <text
                 x="25"
-                y={plotTop - 25}
+                y={plotTop - 49}
                 fill={INK}
                 fontSize="13"
                 fontWeight="800"
                 letterSpacing="1"
               >
-                会议 / 年份 →
+                会议 / 时间 →
               </text>
               {network.venues.map((venue) => {
                 const selectedVenue =

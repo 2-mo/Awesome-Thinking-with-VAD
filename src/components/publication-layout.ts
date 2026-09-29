@@ -16,7 +16,13 @@ export type PublicationLayout = {
   width: number;
   height: number;
   plotBounds: Box;
-  years: { year: number; x: number; width: number; count: number }[];
+  years: {
+    year: number;
+    x: number;
+    width: number;
+    count: number;
+    quarters: { quarter: number | null; x: number; width: number; count: number }[];
+  }[];
   venues: {
     venue: string;
     label: string;
@@ -290,7 +296,7 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
       .sort(),
   ];
   const margin = 140,
-    top = 75;
+    top = 99;
   const methodOrder = SCHOOLS.map((school) => school.id);
   const month = (paper: Paper) => paper.timeline?.month ?? 13;
   const compare = (a: Paper, b: Paper) =>
@@ -307,7 +313,7 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
     const months = [...new Set(members.map(month))].sort((a, b) => a - b);
     let cursor = x + 24;
     let right = cursor;
-    for (const value of months) {
+    const packMonth = (value: number) => {
       const group = members.filter((paper) => month(paper) === value);
       const entries = group.sort((a, b) =>
         venueValues.indexOf(publicationVenue(a.venue)) - venueValues.indexOf(publicationVenue(b.venue)) || compare(a, b));
@@ -318,9 +324,33 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
         right = Math.max(right, stationX + labelWidth(stationName(paper)) + 12);
       });
       cursor += span + 44;
+    };
+    const quarters: PublicationLayout["years"][number]["quarters"] = [];
+    if (year >= 2025) {
+      // Quarter dividers follow the packed month groups, not equal-width
+      // calendar slices. Reserve a small slot even when a quarter has no papers.
+      const values: (number | null)[] = [1, 2, 3, 4];
+      if (months.includes(13)) values.push(null);
+      for (const quarter of values) {
+        const left = quarters.length ? cursor - 22 : x;
+        const quarterMonths = months.filter((value) =>
+          quarter === null ? value === 13 : value <= 12 && Math.ceil(value / 3) === quarter,
+        );
+        quarterMonths.forEach(packMonth);
+        if (!quarterMonths.length) cursor = left + 52 + 22;
+        quarters.push({
+          quarter,
+          x: left,
+          width: cursor - 22 - left,
+          count: members.filter((paper) => quarterMonths.includes(month(paper))).length,
+        });
+      }
+    } else {
+      months.forEach(packMonth);
     }
     const width = Math.max(96, cursor - x + 12, right - x + 22);
-    const item = { year, x, width, count: members.length };
+    if (quarters.length) quarters.at(-1)!.width = x + width - quarters.at(-1)!.x;
+    const item = { year, x, width, count: members.length, quarters };
     x += width;
     return item;
   });
