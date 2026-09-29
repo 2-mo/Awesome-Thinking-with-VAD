@@ -1,0 +1,228 @@
+.research-map.comic-map {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  background: #fff8e9;
+  color: #20201e;
+  isolation: isolate;
+}
+.research-map .research-map-canvas {
+  display: block;
+  flex: 1;
+  width: 100%;
+  height: 0;
+  min-height: 0;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.research-map.is-dragging .research-map-canvas,
+.research-map.is-dragging .comic-paper {
+  cursor: grabbing;
+}
+.research-map .comic-cluster,
+.research-map .comic-paper {
+  cursor: pointer;
+  outline: none;
+}
+.research-map .comic-cluster:hover .comic-cluster-hit {
+  fill: #fff8e930;
+}
+.research-map .comic-cluster:focus-visible .comic-cluster-hit {
+  stroke: #20201e;
+  stroke-width: 3;
+  stroke-dasharray: 5 3;
+}
+.research-map .comic-card-body {
+  transition:
+    fill 0.12s,
+    stroke-width 0.12s;
+}
+.research-map .comic-paper:hover .comic-card-body {
+  fill: #ffefb4;
+  stroke-width: 3;
+}
+.research-map .comic-paper:focus-visible .comic-card-body {
+  stroke: #174f98;
+  stroke-width: 4;
+}
+.research-map .comic-paper.is-selected:hover .comic-card-body {
+  fill: #ffdf70;
+}
+.research-map .comic-map-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  gap: 10px;
+  min-height: 39px;
+  padding: 3px 8px 7px;
+  background: #fff8e9;
+}
+.research-map .comic-map-footnote {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  color: #686253;
+}
+.research-map .comic-controls {
+  display: flex;
+  align-items: center;
+  background: #fffdf6;
+  border: 2px solid #20201e;
+  box-shadow: 2px 2px 0 #20201e;
+  min-height: 28px;
+  flex-shrink: 0;
+}
+.research-map .comic-controls button {
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-right: 1px solid #20201e;
+  background: transparent;
+  color: #20201e;
+  min-width: 28px;
+  height: 27px;
+  padding: 0 5px;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 0;
+}
+.research-map .comic-controls button:last-child {
+  border-right: 0;
+}
+.research-map .comic-controls .comic-zoom {
+  font-size: 10px;
+  min-width: 42px;
+  font-variant-numeric: tabular-nums;
+}
+.research-map .comic-controls .comic-export {
+  font-size: 10px;
+  padding: 0 9px;
+  background: #ffdf70;
+  min-width: 49px;
+}
+.research-map .comic-controls button:hover:not(:disabled) {
+  background: #badff5;
+}
+.research-map .comic-controls button:disabled {
+  color: #b3ada0;
+  cursor: default;
+}
+.research-map .comic-controls button:focus-visible,
+.research-map .comic-pages button:focus-visible {
+  outline: 3px solid #174f98;
+  outline-offset: 2px;
+}
+.research-map .comic-empty {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-1deg);
+  width: min(300px, 85%);
+  padding: 21px;
+  background: #fff8e9;
+  border: 3px solid #20201e;
+  box-shadow: 5px 5px 0 #20201e;
+  text-align: center;
+  z-index: 4;
+}
+.research-map .comic-empty strong {
+  font-size: 16px;
+}
+.research-map .comic-empty p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.research-map .comic-empty button {
+  border: 2px solid #20201e;
+  box-shadow: 2px 2px 0 #20201e;
+  background: #ffdf70;
+  color: #20201e;
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.research-map .comic-pages {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.research-map .comic-pages button {
+  border: 2px solid #20201e;
+  background: #ffdf70;
+  color: #20201e;
+  width: 31px;
+  height: 33px;
+  padding: 0;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #20201e;
+}
+.research-map .comic-pages button:disabled {
+  background: #eee8dc;
+  color: #aaa59a;
+  cursor: default;
+  box-shadow: none;
+}
+.research-map .comic-pages > span {
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+  min-width: 48px;
+  font-variant-numeric: tabular-nums;
+}
+.research-map .comic-pages small {
+  display: block;
+  font-size: 8px;
+  font-weight: 500;
+  margin-top: 2px;
+}
+@media (max-width: 1000px) {
+  .research-map .comic-map-footnote {
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+}
+.research-map.is-paged .comic-map-bottom {
+  padding: 6px 8px 8px;
+  gap: 8px;
+  min-height: 50px;
+}
+.research-map.is-paged .comic-map-footnote {
+  display: none;
+}
+.research-map.is-paged .comic-controls button {
+  min-width: 25px;
+  padding: 0 4px;
+  height: 31px;
+}
+.research-map.is-paged .comic-controls .comic-export {
+  font-size: 9px;
+  min-width: 42px;
+  padding: 0 5px;
+}
+.research-map.is-paged .comic-controls .comic-zoom {
+  min-width: 35px;
+  font-size: 9px;
+}
+.research-map.is-paged .comic-pages {
+  gap: 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .research-map .comic-card-body {
+    transition: none;
+  }
+}

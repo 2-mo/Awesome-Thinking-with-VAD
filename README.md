@@ -11,6 +11,8 @@ English | [简体中文](README.zh-CN.md)
 
 ## 🗞️ Recent Updates
 
+- **2026-09-29** — Rebuilt the research atlas around a selected, source-checked catalog: 17 core papers, 6 datasets, and 3 reading guides.
+
 - **2026-05-26** — Updated the CVPR and ICML paper lists with the latest 2026 publications.
 - **2026-02-06** — Refreshed the Interactive Atlas timeline page ([View Interactive Research Atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/)).
 
@@ -22,6 +24,8 @@ English | [简体中文](README.zh-CN.md)
   - [🗞️ Recent Updates](#️-recent-updates)
   - [📖 Table of Contents](#-table-of-contents)
   - [🌟 Overview](#-overview)
+  - [🗺️ Research Atlas](#-research-atlas)
+  - [💻 Run Locally](#-run-locally)
   - [📚 Conference Snapshots](#-conference-snapshots)
   - [📰 Journal Snapshots](#-journal-snapshots)
   - [🧪 Benchmarks and Datasets](#-benchmarks-and-datasets)
@@ -41,6 +45,8 @@ This repository is a curated collection of research papers and resources explori
 Video anomaly detection is evolving from simple frame-level alerts to systems that **reason, explain, and communicate** what makes something suspicious. This repository tracks that shift, focusing on methods that leverage **LLMs** and **VLMs** for deeper anomaly understanding.
 
 **What's inside:**
+
+- 🗺️ A compact research map organized around innovation ideas, with evidence-linked paper details, datasets and reading routes
 - 📚 Conference & journal paper collections organized by venue and year
 - 📊 Datasets categorized by LLM-readiness (explainable annotations vs. traditional labels)
 - 🔗 Quick navigation to reasoning-centric VAD resources
@@ -49,9 +55,40 @@ Video anomaly detection is evolving from simple frame-level alerts to systems th
 
 ---
 
+## 🗺️ Research Atlas
+
+[Open the interactive atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/) · [Read the selected catalog](catalog.md) · [Inspect the source data](data/catalog.json)
+
+The current selected catalog contains **17 core papers across 5 research directions, 6 datasets, and 3 reading guides**. The atlas brings research directions, paper evidence and reading routes into a compact view with in-place pagination. Routes follow innovation ideas and research questions; dataset coverage is supporting evaluation context, not the organizing principle.
+
+The catalog covers video anomaly detection and understanding only. Reading routes trace innovation ideas and are editorial suggestions, not claims of research lineage.
+
+[data/catalog.json](data/catalog.json) is the single source of truth for the interactive atlas and generated [catalog.md](catalog.md). Selected entries record verification sources and dates. The historical [conference notes](venues/), [journal notes](journals/), [dataset notes](dataset.md) and [LLM/VAD notes](llm4vad.md) remain additional resources and **have not all been reverified**; inclusion there does not imply inclusion in the checked catalog.
+
+## 💻 Run Locally
+
+Use Node.js 24 for development:
+
+```sh
+npm ci
+npm run dev
+```
+
+Run `npm test` for the automated tests, `npm run check` for validation and type checking, `npm run build` to regenerate the catalog and production site, and `npm run preview` to inspect the production build. Use `npm install` when deliberately updating dependencies.
+
+The Vite output is committed in [docs/](docs/). On `main`, you can serve it directly without installing Node dependencies:
+
+```sh
+python3 -m http.server 8000 --directory docs
+```
+
+Open `http://localhost:8000/`. See [DEVELOPMENT.md](DEVELOPMENT.md) for the development workflow and [CONTRIBUTING.md](CONTRIBUTING.md) for data and source requirements. Edit source data and application code, then regenerate; do not hand-edit `catalog.md` or `docs/`.
+
+---
+
 ## 📚 Conference Snapshots
 
-The `venues/` directory hosts per-conference notes for 2023-2026. Quick links:
+The `venues/` directory preserves historical per-conference notes for 2023–2026, which have not all been reverified. Quick links:
 
 - [CVPR](venues/cvpr.md) — Computer Vision and Pattern Recognition
 - [ICCV](venues/iccv.md) — International Conference on Computer Vision
@@ -67,7 +104,7 @@ The `venues/` directory hosts per-conference notes for 2023-2026. Quick links:
 
 ## 📰 Journal Snapshots
 
-See [journals/README.md](journals/README.md) for the latest top-tier journal snapshots, including:
+See [journals/README.md](journals/README.md) for historical journal notes, which have not all been reverified, including:
 
 - [TPAMI](journals/tpami.md) — IEEE Transactions on Pattern Analysis and Machine Intelligence
 - [TIP](journals/tip.md) — IEEE Transactions on Image Processing
@@ -80,7 +117,7 @@ See [journals/README.md](journals/README.md) for the latest top-tier journal sna
 
 ## 🧪 Benchmarks and Datasets
 
-We maintain a comprehensive catalog of VAD datasets in **[dataset.md](dataset.md)**, organized by:
+The atlas provides 6 selected datasets with task, annotation and evaluation-protocol notes. The broader historical **[dataset.md](dataset.md)** remains available but has not been fully reverified; it is organized by:
 
 - 🤖 **LLM/VLM-Ready Datasets** — Multimodal & explainable annotations
   - Video-language annotation (UCA, VAD-Instruct50k, UCCD)
@@ -96,7 +133,7 @@ We maintain a comprehensive catalog of VAD datasets in **[dataset.md](dataset.md
 - 🚗 **Domain-Specific** — Driving, traffic, and specialized scenarios
   - Honda HDD, ROADWork, MSAD
 
-👉 **[View full dataset catalog →](dataset.md)**
+👉 **[View historical dataset notes →](dataset.md)**
 
 ---
 
@@ -117,26 +154,9 @@ We maintain a comprehensive catalog of VAD datasets in **[dataset.md](dataset.md
 
 ## 🤝 Contributing
 
-We welcome contributions! Please feel free to:
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before adding or correcting atlas entries. Edit [data/catalog.json](data/catalog.json), cite primary sources with evidence notes, record verification dates, and include explicit limitations. Keep entries directly relevant to video anomaly understanding.
 
-- Submit pull requests to add new papers, datasets, or resources
-- Open issues for corrections or suggestions
-- Share your own work related to thinking-based VAD
-
-**Guidelines:**
-- Follow the existing format for paper entries
-- Include links to paper, code, and project pages when available
-- Add a brief highlight describing the key contribution
-- Place papers in the appropriate year and conference section
-- If you're unsure where a paper belongs, open an issue and we'll help place it
-
-**Entry template:**
-```text
-- Title — Venue, Year
-- Links: paper | code | project
-- Task/Setting: ...
-- Highlight: ...
-```
+Run `npm run build` and `npm run check`, then include the generated `catalog.md` and `docs/` output in your pull request. CI checks that these outputs match the source. For corrections to historical notes, edit the relevant Markdown file and make the scope of verification clear. Issues with corrections, source evidence and suggested additions are welcome.
 
 ---
 
