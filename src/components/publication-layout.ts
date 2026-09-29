@@ -1,4 +1,5 @@
 import type { Paper } from "../types";
+import { publicationVenue } from "../publication.ts";
 
 export type Point = { x: number; y: number };
 export type Box = Point & { width: number; height: number };
@@ -37,12 +38,9 @@ const SCHOOLS = [
 const VENUES = [
   "AAAI",
   "CVPR",
-  "CVPR Workshops",
   "ICCV",
   "ECCV",
-  "WACV",
   "NeurIPS",
-  "NeurIPS Datasets and Benchmarks",
   "ICML",
   "ICLR",
   "ACM MM",
@@ -79,12 +77,11 @@ function simplify(points: Point[]): Point[] {
     while (result.length > 1) {
       const a = result[result.length - 2],
         b = result[result.length - 1];
-      if (
-        (a.x === b.x &&
-          b.x === point.x &&
-          (b.y - a.y) * (point.y - b.y) >= 0) ||
-        (a.y === b.y && b.y === point.y && (b.x - a.x) * (point.x - b.x) >= 0)
-      )
+      const ux = b.x - a.x,
+        uy = b.y - a.y;
+      const vx = point.x - b.x,
+        vy = point.y - b.y;
+      if (Math.abs(ux * vy - uy * vx) < 0.001 && ux * vx + uy * vy >= 0)
         result.pop();
       else break;
     }
@@ -92,137 +89,186 @@ function simplify(points: Point[]): Point[] {
   }
   return result;
 }
+
+// Slab intersection works for diagonal tracks as well as horizontal/vertical ones.
 function crosses(a: Point, b: Point, box: Box): boolean {
-  if (a.y === b.y)
-    return (
-      a.y > box.y &&
-      a.y < box.y + box.height &&
-      Math.max(a.x, b.x) > box.x &&
-      Math.min(a.x, b.x) < box.x + box.width
+  let lo = 0,
+    hi = 1;
+  for (const [origin, delta, min, max] of [
+    [a.x, b.x - a.x, box.x + 0.01, box.x + box.width - 0.01],
+    [a.y, b.y - a.y, box.y + 0.01, box.y + box.height - 0.01],
+  ]) {
+    if (Math.abs(delta) < 0.001) {
+      if (origin <= min || origin >= max) return false;
+    } else {
+      const t1 = (min - origin) / delta,
+        t2 = (max - origin) / delta;
+      lo = Math.max(lo, Math.min(t1, t2));
+      hi = Math.min(hi, Math.max(t1, t2));
+      if (lo >= hi) return false;
+    }
+  }
+  return hi > 0 && lo < 1;
+}
+type Segment = { a: Point; b: Point };
+const segments = (path: Point[]): Segment[] =>
+  path.slice(1).map((b, i) => ({ a: path[i], b }));
+const length = (a: Point, b: Point) => Math.hypot(b.x - a.x, b.y - a.y);
+
+// Two shortest octilinear alternatives: put the diagonal first or last.
+function elbows(a: Point, b: Point): Point[][] {
+  const dx = b.x - a.x,
+    dy = b.y - a.y;
+  const d = Math.min(Math.abs(dx), Math.abs(dy));
+  return [
+    simplify([
+      a,
+      { x: a.x + Math.sign(dx) * d, y: a.y + Math.sign(dy) * d },
+      b,
+    ]),
+    simplify([
+      a,
+      { x: b.x - Math.sign(dx) * d, y: b.y - Math.sign(dy) * d },
+      b,
+    ]),
+  ];
+}
+function chamfer(path: Point[], radius: number): Point[] {
+  const points = [path[0]];
+  for (let i = 1; i < path.length - 1; i++) {
+    const a = path[i - 1],
+      b = path[i],
+      c = path[i + 1];
+    const r = Math.min(radius, length(a, b) / 2, length(b, c) / 2);
+    if (r < 14) {
+      points.push(b);
+      continue;
+    }
+    points.push(
+      { x: b.x + Math.sign(a.x - b.x) * r, y: b.y + Math.sign(a.y - b.y) * r },
+      { x: b.x + Math.sign(c.x - b.x) * r, y: b.y + Math.sign(c.y - b.y) * r },
     );
-  return (
-    a.x > box.x &&
-    a.x < box.x + box.width &&
-    Math.max(a.y, b.y) > box.y &&
-    Math.min(a.y, b.y) < box.y + box.height
-  );
+  }
+  return simplify([...points, path[path.length - 1]]);
+}
+function parallelPenalty(a: Point, b: Point, occupied: Segment[]): number {
+  const size = length(a, b);
+  if (!size) return 0;
+  const ux = (b.x - a.x) / size,
+    uy = (b.y - a.y) / size;
+  let penalty = 0;
+  for (const other of occupied) {
+    const vx = other.b.x - other.a.x,
+      vy = other.b.y - other.a.y;
+    if (Math.abs(ux * vy - uy * vx) > 0.01) continue;
+    const distance = Math.abs((other.a.x - a.x) * uy - (other.a.y - a.y) * ux);
+    if (distance >= 12) continue;
+    const p = (other.a.x - a.x) * ux + (other.a.y - a.y) * uy;
+    const q = (other.b.x - a.x) * ux + (other.b.y - a.y) * uy;
+    const overlap =
+      Math.min(size, Math.max(p, q)) - Math.max(0, Math.min(p, q));
+    if (overlap > 0) penalty += overlap * (12 - distance) * 30;
+  }
+  return penalty;
 }
 
-// Orthogonal visibility routing protects every title and every unrelated stop.
-// Tracks express method membership, never paper-to-paper citation relations.
+// Prefer a small vocabulary of long, decisive metro bends. Visibility search is
+// only a fallback for crowded cells; its edges are native octilinear paths.
 function route(
   start: Point,
   end: Point,
   obstacles: Box[],
-  gutter: number,
+  occupied: Segment[],
 ): Point[] {
-  const clear = (a: Point, b: Point) =>
-    !obstacles.some((box) => crosses(a, b, box));
-  const preferred = [
-    start,
-    { x: gutter, y: start.y },
-    { x: gutter, y: end.y },
-    end,
-  ];
-  if (preferred.slice(1).every((point, i) => clear(preferred[i], point)))
-    return simplify(preferred);
-  const xs = [
-    ...new Set([
-      start.x,
-      end.x,
-      gutter,
-      ...obstacles.flatMap((b) => [b.x, b.x + b.width]),
-    ]),
-  ].sort((a, b) => a - b);
-  const ys = [
-    ...new Set([
-      start.y,
-      end.y,
-      ...obstacles.flatMap((b) => [b.y, b.y + b.height]),
-    ]),
-  ].sort((a, b) => a - b);
-  const nx = xs.length,
-    key = (x: number, y: number) => y * nx + x;
-  const first = key(xs.indexOf(start.x), ys.indexOf(start.y));
-  const last = key(xs.indexOf(end.x), ys.indexOf(end.y));
-  const point = (id: number): Point => ({
-    x: xs[id % nx],
-    y: ys[Math.floor(id / nx)],
-  });
-  const scores = new Map<number, number>([[first, 0]]),
-    previous = new Map<number, number>();
-  const heap: { id: number; score: number }[] = [];
-  const push = (item: { id: number; score: number }) => {
-    heap.push(item);
-    let i = heap.length - 1;
-    while (i > 0) {
-      const parent = (i - 1) >> 1;
-      if (heap[parent].score <= item.score) break;
-      heap[i] = heap[parent];
-      i = parent;
-    }
-    heap[i] = item;
-  };
-  const pop = () => {
-    const top = heap[0],
-      tail = heap.pop()!;
-    if (heap.length) {
-      let i = 0;
-      while (i * 2 + 1 < heap.length) {
-        let child = i * 2 + 1;
-        if (
-          child + 1 < heap.length &&
-          heap[child + 1].score < heap[child].score
-        )
-          child++;
-        if (heap[child].score >= tail.score) break;
-        heap[i] = heap[child];
-        i = child;
-      }
-      heap[i] = tail;
-    }
-    return top;
-  };
-  const visited = new Set<number>();
-  push({ id: first, score: 0 });
-  while (heap.length) {
-    const { id } = pop();
-    if (visited.has(id)) continue;
-    visited.add(id);
-    if (id === last) {
-      const path = [point(id)];
-      let cursor = id;
-      while (previous.has(cursor)) {
-        cursor = previous.get(cursor)!;
-        path.push(point(cursor));
-      }
-      return simplify(path.reverse());
-    }
-    const x = id % nx,
-      y = Math.floor(id / nx),
-      a = point(id);
-    const next = [
-      x > 0 ? id - 1 : -1,
-      x + 1 < nx ? id + 1 : -1,
-      y > 0 ? id - nx : -1,
-      y + 1 < ys.length ? id + nx : -1,
-    ];
-    for (const neighbor of next) {
-      if (neighbor < 0 || visited.has(neighbor)) continue;
-      const b = point(neighbor);
-      if (!clear(a, b)) continue;
-      const distance = Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-      const cost = scores.get(id)! + distance + 0.05;
-      if (cost >= (scores.get(neighbor) ?? Infinity)) continue;
-      scores.set(neighbor, cost);
-      previous.set(neighbor, id);
-      push({
-        id: neighbor,
-        score: cost + Math.abs(b.x - end.x) + Math.abs(b.y - end.y),
-      });
+  const clear = (path: Point[]) =>
+    segments(path).every(
+      ({ a, b }) => !obstacles.some((box) => crosses(a, b, box)),
+    );
+  const cost = (path: Point[]) =>
+    segments(path).reduce(
+      (sum, { a, b }) => sum + length(a, b) + parallelPenalty(a, b, occupied),
+      0,
+    ) +
+    (path.length - 2) * 60;
+  const candidates = elbows(start, end);
+  const xs = new Set([start.x, end.x, (start.x + end.x) / 2]);
+  const ys = new Set([start.y, end.y, (start.y + end.y) / 2]);
+  for (const box of obstacles) {
+    for (const offset of [0, 12, 24, 36, 48]) {
+      xs.add(box.x - offset);
+      xs.add(box.x + box.width + offset);
+      ys.add(box.y - offset);
+      ys.add(box.y + box.height + offset);
     }
   }
-  return preferred;
+  for (const x of xs)
+    for (const radius of [24, 48, 80])
+      candidates.push(
+        chamfer([start, { x, y: start.y }, { x, y: end.y }, end], radius),
+      );
+  for (const y of ys)
+    for (const radius of [24, 48, 80])
+      candidates.push(
+        chamfer([start, { x: start.x, y }, { x: end.x, y }, end], radius),
+      );
+  let best: Point[] | undefined,
+    bestCost = Infinity;
+  for (const candidate of candidates) {
+    const score = cost(candidate);
+    if (score < bestCost && clear(candidate)) {
+      best = candidate;
+      bestCost = score;
+    }
+  }
+  if (best) return best;
+
+  const nodes = [
+    start,
+    end,
+    ...obstacles.flatMap((box) => [
+      { x: box.x, y: box.y },
+      { x: box.x + box.width, y: box.y },
+      { x: box.x, y: box.y + box.height },
+      { x: box.x + box.width, y: box.y + box.height },
+    ]),
+  ];
+  const scores = nodes.map(() => Infinity),
+    done = new Set<number>();
+  const previous = new Map<number, { node: number; path: Point[] }>();
+  scores[0] = 0;
+  while (done.size < nodes.length) {
+    let current = -1,
+      score = Infinity;
+    nodes.forEach((_, i) => {
+      if (!done.has(i) && scores[i] < score) {
+        current = i;
+        score = scores[i];
+      }
+    });
+    if (current < 0) break;
+    if (current === 1) {
+      const parts: Point[][] = [];
+      while (current !== 0) {
+        const step = previous.get(current)!;
+        parts.unshift(step.path.slice(1));
+        current = step.node;
+      }
+      return simplify([start, ...parts.flat()]);
+    }
+    done.add(current);
+    nodes.forEach((node, next) => {
+      if (done.has(next) || same(nodes[current], node)) return;
+      for (const path of elbows(nodes[current], node)) {
+        const nextCost = score + cost(path) + 90;
+        if (nextCost < scores[next] && clear(path)) {
+          scores[next] = nextCost;
+          previous.set(next, { node: current, path });
+        }
+      }
+    });
+  }
+  // With finite rectangular obstacles the visibility graph has an exterior path.
+  throw new Error("Unable to route a publication metro segment");
 }
 
 export function createPublicationLayout(papers: Paper[]): PublicationLayout {
@@ -230,23 +276,30 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
     (a, b) => a - b,
   );
   const venueValues = [
-    ...VENUES.filter((v) => papers.some((p) => p.venue === v)),
-    ...[...new Set(papers.map((p) => p.venue))]
+    ...VENUES.filter((v) =>
+      papers.some((p) => publicationVenue(p.venue) === v),
+    ),
+    ...[...new Set(papers.map((p) => publicationVenue(p.venue)))]
       .filter((v) => !VENUES.includes(v))
       .sort(),
   ];
   const margin = 224,
     top = 75;
-  const rawWidths = yearValues.map((year) => (year === 2023 ? 184 : 418));
-  const scale =
-    1438 /
+  // Size each year from its busiest merged venue cell so labels fit in one
+  // tier; sparse years give their space to the denser publication columns.
+  const rawWidths = yearValues.map((year) =>
     Math.max(
-      1438,
-      rawWidths.reduce((sum, w) => sum + w, 0),
-    );
+      124,
+      ...venueValues.map((venue) =>
+        papers
+          .filter((p) => p.year === year && publicationVenue(p.venue) === venue)
+          .reduce((sum, p) => sum + labelWidth(p.shortTitle, 14) + 22, 44),
+      ),
+    ),
+  );
   let x = margin;
   const years = yearValues.map((year, index) => {
-    const width = rawWidths[index] * scale;
+    const width = rawWidths[index];
     const item = {
       year,
       x,
@@ -261,7 +314,9 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
   const venues = venueValues.map((venue) => {
     const cells = years.map((year) => {
       const entries = papers
-        .filter((p) => p.venue === venue && p.year === year.year)
+        .filter(
+          (p) => publicationVenue(p.venue) === venue && p.year === year.year,
+        )
         .sort((a, b) => a.shortTitle.localeCompare(b.shortTitle));
       const rows: Paper[][] = [[]];
       let used = 0;
@@ -288,8 +343,8 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
         ...cells.flatMap((c) =>
           c.rows.map((row) => rowMethods(row).length - 1),
         ),
-      ) * 7;
-    const tierHeight = 47 + methodSpread;
+      ) * 12;
+    const tierHeight = 56 + methodSpread;
     const height = tierCount * tierHeight + 2;
     for (const { year, rows } of cells)
       rows.forEach((row, tier) => {
@@ -307,8 +362,8 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
             y:
               y +
               tier * tierHeight +
-              36 +
-              rowMethods(row).indexOf(paper.cluster) * 7,
+              44 +
+              rowMethods(row).indexOf(paper.cluster) * 12,
             label: {
               x: cursor,
               y: y + tier * tierHeight + 7,
@@ -324,7 +379,7 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
       label: venue,
       y,
       height,
-      count: papers.filter((p) => p.venue === venue).length,
+      count: papers.filter((p) => publicationVenue(p.venue) === venue).length,
     };
     y += height;
     return item;
@@ -341,16 +396,32 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
     width: s.label.width + 10,
     height: s.label.height + 6,
   }));
+  const occupied: Segment[] = [];
   const lines = schools
     .map((school, schoolIndex): PublicationLine => {
-      const ordered = papers
-        .filter((p) => p.cluster === school.id)
-        .sort(
-          (a, b) =>
-            a.year - b.year ||
-            stations.get(a.id)!.y - stations.get(b.id)!.y ||
-            stations.get(a.id)!.x - stations.get(b.id)!.x,
-        );
+      // Within a year the order is spatial, not a publication sequence. Enter
+      // each column from its closer end to avoid repeated full-height returns.
+      const ordered: Paper[] = [];
+      for (const year of yearValues) {
+        const members = papers
+          .filter((p) => p.cluster === school.id && p.year === year)
+          .sort(
+            (a, b) =>
+              stations.get(a.id)!.y - stations.get(b.id)!.y ||
+              stations.get(a.id)!.x - stations.get(b.id)!.x,
+          );
+        const previous = ordered.length
+          ? stations.get(ordered[ordered.length - 1].id)!
+          : undefined;
+        if (
+          previous &&
+          members.length > 1 &&
+          length(previous, stations.get(members[members.length - 1].id)!) <
+            length(previous, stations.get(members[0].id)!)
+        )
+          members.reverse();
+        ordered.push(...members);
+      }
       const stops = ordered.map((p) => stations.get(p.id)!);
       const track: Point[] = [];
       stops.forEach((stop, i) => {
@@ -364,14 +435,8 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
             (s) => s.paperId !== stop.paperId && s.paperId !== before.paperId,
           )
           .map((s) => ({ x: s.x - 8, y: s.y - 8, width: 16, height: 16 }));
-        const zone = years.find((z) => z.year === ordered[i - 1].year)!;
-        const sameYear = ordered[i - 1].year === ordered[i].year;
-        const gutter =
-          sameYear && i % 2 === 0
-            ? zone.x + 8 + schoolIndex * 8
-            : zone.x + zone.width - 40 + schoolIndex * 8;
         track.push(
-          ...route(before, stop, [...labels, ...unrelated], gutter).slice(1),
+          ...route(before, stop, [...labels, ...unrelated], occupied).slice(1),
         );
       });
       if (stops.length)
@@ -379,6 +444,7 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
           x: stops[stops.length - 1].x + 10,
           y: stops[stops.length - 1].y,
         });
+      occupied.push(...segments(track));
       return {
         ...school,
         track: simplify(track),
@@ -388,7 +454,7 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
     .filter((line) => line.track.length);
   return {
     width: Math.max(1700, x + 38),
-    height: y + 64,
+    height: y + 50,
     years,
     venues,
     stations,

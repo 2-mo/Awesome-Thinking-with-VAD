@@ -25,10 +25,12 @@ import type { Catalog, Dataset, Paper } from "./types";
 import ResearchMap from "./components/ResearchMap";
 import DatasetGallery, { datasetImageUrl } from "./components/DatasetGallery";
 import stripUrl from "./assets/idea-strip.png";
+import { publicationVenue } from "./publication";
 
 const catalog = rawCatalog as Catalog;
 const REPO = "https://github.com/2-mo/Awesome-Thinking-with-VAD";
 const initial = new URLSearchParams(window.location.search);
+const initialVenue = publicationVenue(initial.get("venue") || "all");
 const initialPaper = catalog.papers.find((p) => p.id === initial.get("paper"));
 const initialDataset = catalog.datasets.find(
   (d) => d.id === initial.get("resource"),
@@ -129,8 +131,8 @@ export default function App() {
       : "all",
   );
   const [venue, setVenue] = useState(
-    catalog.papers.some((p) => p.venue === initial.get("venue"))
-      ? initial.get("venue")!
+    catalog.papers.some((p) => publicationVenue(p.venue) === initialVenue)
+      ? initialVenue
       : "all",
   );
   const [year, setYear] = useState(
@@ -178,9 +180,9 @@ export default function App() {
   const selectedCluster = catalog.clusters.find(
     (c) => c.id === selected?.cluster,
   );
-  const venues = [...new Set(catalog.papers.map((p) => p.venue))].sort((a, b) =>
-    a.localeCompare(b),
-  );
+  const venues = [
+    ...new Set(catalog.papers.map((p) => publicationVenue(p.venue))),
+  ].sort((a, b) => a.localeCompare(b));
   const years = [...new Set(catalog.papers.map((p) => p.year))].sort(
     (a, b) => b - a,
   );
@@ -200,7 +202,7 @@ export default function App() {
         return (
           (cluster === "all" || p.cluster === cluster) &&
           (year === "all" || String(p.year) === year) &&
-          (venue === "all" || p.venue === venue) &&
+          (venue === "all" || publicationVenue(p.venue) === venue) &&
           (task === "all" || p.tasks.includes(task)) &&
           (!datasetId || p.datasetIds.includes(datasetId)) &&
           query

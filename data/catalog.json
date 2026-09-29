@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-09-30",
   "clusters": [
     {
       "id": "alignment",
@@ -59,33 +59,6 @@
     }
   ],
   "papers": [
-    {
-      "id": "tevad",
-      "shortTitle": "TEVAD",
-      "title": "TEVAD: Improved Video Anomaly Detection With Captions",
-      "year": 2023,
-      "venue": "CVPR Workshops",
-      "scope": "core",
-      "cluster": "alignment",
-      "tasks": [
-        "异常检测"
-      ],
-      "summary": "融合视频特征与字幕语义，补充纯视觉检测缺少的事件信息。",
-      "takeaway": "先理解语言如何进入检测器，再讨论更复杂的推理。",
-      "limitation": "阅读关注：字幕中的错误会怎样影响异常分数？",
-      "links": {
-        "paper": "https://openaccess.thecvf.com/content/CVPR2023W/O-DRUM/papers/Chen_TEVAD_Improved_Video_Anomaly_Detection_With_Captions_CVPRW_2023_paper.pdf"
-      },
-      "sources": [
-        {
-          "url": "https://openaccess.thecvf.com/content/CVPR2023W/O-DRUM/papers/Chen_TEVAD_Improved_Video_Anomaly_Detection_With_Captions_CVPRW_2023_paper.pdf",
-          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
-        }
-      ],
-      "verifiedAt": "2026-09-29",
-      "datasetIds": [],
-      "mechanism": "字幕语义特征融合"
-    },
     {
       "id": "vadclip",
       "shortTitle": "VadCLIP",
@@ -456,47 +429,6 @@
       "mechanism": "流式记忆与分数队列"
     },
     {
-      "id": "vader",
-      "shortTitle": "VADER",
-      "title": "VADER: Towards Causal Video Anomaly Understanding with Relation-Aware Large Language Models",
-      "year": 2026,
-      "venue": "WACV",
-      "scope": "core",
-      "cluster": "reasoning",
-      "tasks": [
-        "异常解释",
-        "异常推理",
-        "视频问答"
-      ],
-      "summary": "融合上下文采样与对象关系特征，支持异常描述、解释和因果问答。",
-      "takeaway": "将对象交互显式接入模型，连接可见关系与语言解释。",
-      "limitation": "阅读关注：关系特征提供的是因果证据，还是相关性线索？",
-      "links": {
-        "paper": "https://openaccess.thecvf.com/content/WACV2026/html/Cheng_VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_WACV_2026_paper.html"
-      },
-      "sources": [
-        {
-          "url": "https://arxiv.org/abs/2511.07299",
-          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
-        },
-        {
-          "url": "https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf",
-          "note": "作者托管论文的实验设置明确使用 HIVAU-70k、HAWK、CUVA。"
-        },
-        {
-          "url": "https://openaccess.thecvf.com/content/WACV2026/html/Cheng_VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_WACV_2026_paper.html",
-          "note": "WACV 2026 正式论文集确认发表年份、标题与关系感知异常理解方法。"
-        }
-      ],
-      "verifiedAt": "2026-09-29",
-      "datasetIds": [
-        "hivau-70k",
-        "hawk-dataset",
-        "cuva-dataset"
-      ],
-      "mechanism": "对象关系编码推理"
-    },
-    {
       "id": "srvau-r1",
       "shortTitle": "SRVAU-R1",
       "title": "SRVAU-R1: Enhancing Video Anomaly Understanding via Reflection-Aware Learning",
@@ -812,45 +744,6 @@
       ]
     },
     {
-      "id": "missiongnn",
-      "shortTitle": "MissionGNN",
-      "title": "MissionGNN: Hierarchical Multimodal GNN-Based Weakly Supervised Video Anomaly Recognition with Mission-Specific Knowledge Graph Generation",
-      "year": 2025,
-      "venue": "WACV",
-      "scope": "core",
-      "cluster": "reasoning",
-      "tasks": [
-        "异常检测"
-      ],
-      "summary": "利用语言模型自动生成面向异常任务的知识图谱，以层级多模态图网络连接视频帧与语义概念。",
-      "mechanism": "任务知识图谱传播",
-      "takeaway": "语言知识可以编译成可学习的图结构，而不必逐帧调用大模型生成答案。",
-      "limitation": "阅读关注：知识图谱生成质量与短时上下文分别影响哪些异常类别？",
-      "links": {
-        "paper": "https://openaccess.thecvf.com/content/WACV2025/html/Yun_MissionGNN_Hierarchical_Multimodal_GNN-Based_Weakly_Supervised_Video_Anomaly_Recognition_with_WACV_2025_paper.html",
-        "code": "https://github.com/c0510gy/MissionGNN"
-      },
-      "sources": [
-        {
-          "url": "https://openaccess.thecvf.com/content/WACV2025/html/Yun_MissionGNN_Hierarchical_Multimodal_GNN-Based_Weakly_Supervised_Video_Anomaly_Recognition_with_WACV_2025_paper.html",
-          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
-        },
-        {
-          "url": "https://github.com/c0510gy/MissionGNN",
-          "note": "作者 arXiv 正文明确链接此代码仓库；含模型、训练与评估实现。"
-        },
-        {
-          "url": "https://arxiv.org/html/2406.18815",
-          "note": "实验第 4.2 节明确使用 UCF-Crime 和 XD-Violence；官方代码链接位于摘要后。"
-        }
-      ],
-      "verifiedAt": "2026-09-29",
-      "datasetIds": [
-        "ucf-crime",
-        "xd-violence"
-      ]
-    },
-    {
       "id": "alert-clip",
       "shortTitle": "Alert-CLIP",
       "title": "Alert-CLIP: Abnormality-aware Latent-Enhanced Representation Tuning of CLIP for Video Anomaly Detection",
@@ -939,73 +832,6 @@
       "sources": [
         {
           "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html",
-          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
-        }
-      ],
-      "verifiedAt": "2026-09-29",
-      "datasetIds": [
-        "ucf-crime",
-        "xd-violence"
-      ]
-    },
-    {
-      "id": "anyanomaly",
-      "shortTitle": "AnyAnomaly",
-      "title": "AnyAnomaly: Zero-Shot Customizable Video Anomaly Detection with LVLM",
-      "year": 2026,
-      "venue": "WACV",
-      "scope": "core",
-      "cluster": "explanation",
-      "tasks": [
-        "异常检测",
-        "异常定位"
-      ],
-      "summary": "由用户文本定义异常，使用位置与时间上下文增强的片段级视觉问答，无需微调即可定位指定事件。",
-      "mechanism": "文本定义与上下文问答",
-      "takeaway": "异常定义可以作为用户输入，而不必固定为训练时的类别。",
-      "limitation": "阅读关注：不同文本粒度与位置、时间上下文如何影响可定制异常判断？",
-      "links": {
-        "paper": "https://openaccess.thecvf.com/content/WACV2026/html/Ahn_AnyAnomaly_Zero-Shot_Customizable_Video_Anomaly_Detection_with_LVLM_WACV_2026_paper.html",
-        "code": "https://github.com/SkiddieAhn/Paper-AnyAnomaly"
-      },
-      "sources": [
-        {
-          "url": "https://openaccess.thecvf.com/content/WACV2026/html/Ahn_AnyAnomaly_Zero-Shot_Customizable_Video_Anomaly_Detection_with_LVLM_WACV_2026_paper.html",
-          "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
-        },
-        {
-          "url": "https://github.com/SkiddieAhn/Paper-AnyAnomaly",
-          "note": "作者 arXiv 与仓库说明共同确认官方代码，包含上下文视觉问答实现。"
-        }
-      ],
-      "verifiedAt": "2026-09-29",
-      "datasetIds": [
-        "ucf-crime"
-      ]
-    },
-    {
-      "id": "ask-hint",
-      "shortTitle": "ASK-HINT",
-      "title": "Unlocking Vision-Language Models for Video Anomaly Detection via Fine-Grained Prompting",
-      "year": 2026,
-      "venue": "WACV",
-      "scope": "core",
-      "cluster": "explanation",
-      "tasks": [
-        "异常检测",
-        "异常解释",
-        "异常推理"
-      ],
-      "summary": "按语义组组织以动作为中心的细粒度问题，引导冻结视觉语言模型关注人与对象的交互证据并产生解释轨迹。",
-      "mechanism": "动作线索分组提问",
-      "takeaway": "提示的细粒度应落实到能观察的动作线索，而非只写抽象异常类别。",
-      "limitation": "阅读关注：问题集合的覆盖程度、数量与跨类别泛化之间如何权衡？",
-      "links": {
-        "paper": "https://openaccess.thecvf.com/content/WACV2026/html/Zou_Unlocking_Vision-Language_Models_for_Video_Anomaly_Detection_via_Fine-Grained_Prompting_WACV_2026_paper.html"
-      },
-      "sources": [
-        {
-          "url": "https://openaccess.thecvf.com/content/WACV2026/html/Zou_Unlocking_Vision-Language_Models_for_Video_Anomaly_Detection_via_Fine-Grained_Prompting_WACV_2026_paper.html",
           "note": "CVF 正式主会论文集核验标题、作者、会议年份与摘要机制；数据关联仅保留一手资料明确支持的条目。"
         }
       ],
@@ -1782,36 +1608,6 @@
       }
     },
     {
-      "id": "vader-hivau-70k",
-      "source": "vader",
-      "target": "hivau-70k",
-      "type": "uses",
-      "evidence": {
-        "url": "https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf",
-        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
-      }
-    },
-    {
-      "id": "vader-hawk-dataset",
-      "source": "vader",
-      "target": "hawk-dataset",
-      "type": "uses",
-      "evidence": {
-        "url": "https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf",
-        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
-      }
-    },
-    {
-      "id": "vader-cuva-dataset",
-      "source": "vader",
-      "target": "cuva-dataset",
-      "type": "uses",
-      "evidence": {
-        "url": "https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf",
-        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
-      }
-    },
-    {
       "id": "finevau-finew3",
       "source": "finevau",
       "target": "finew3",
@@ -1900,15 +1696,11 @@
     {
       "id": "understand-anomaly",
       "title": "从结构化解释到可检验结论",
-      "description": "问题：怎样区分合理叙述与有依据的理解？连接问题分解、关系建模、反思修正和事实／边界评估。",
+      "description": "问题：怎样区分合理叙述与有依据的理解？连接问题分解、反思修正和事实／边界评估。",
       "steps": [
         {
           "paperId": "cuva",
           "note": "创新：事件、原因与后果的任务分解及评估。先明确解释到底要回答什么。"
-        },
-        {
-          "paperId": "vader",
-          "note": "创新：对象关系编码与上下文采样。检查交互证据怎样进入解释。"
         },
         {
           "paperId": "srvau-r1",
