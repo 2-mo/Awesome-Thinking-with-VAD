@@ -59,7 +59,7 @@ Video anomaly detection is evolving from simple frame-level alerts to systems th
 
 [Open the interactive atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/) · [Read the selected catalog](catalog.md) · [Inspect the source data](data/catalog.json)
 
-The current selected catalog contains **37 core papers across 5 research directions, 9 datasets, and 3 reading guides**. The atlas brings research directions, paper evidence and reading routes into a compact view with in-place pagination. Routes follow innovation ideas and research questions; dataset coverage is supporting evaluation context, not the organizing principle.
+The current selected catalog contains **37 core papers across 5 research directions, 9 datasets, and 3 reading guides**. The panoramic atlas shows all 37 papers as milestones on winding research routes. Compact flags retain names, venues and years; details open on selection. Routes follow innovation ideas and research questions; dataset coverage is supporting evaluation context, not the organizing principle.
 
 The catalog covers video anomaly detection and understanding only. Reading routes trace innovation ideas and are editorial suggestions, not claims of research lineage.
 

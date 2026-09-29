@@ -61,14 +61,14 @@
   justify-content: space-between;
   flex: none;
   gap: 10px;
-  min-height: 39px;
-  padding: 3px 8px 7px;
+  min-height: 34px;
+  padding: 2px 8px 5px;
   background: #fff8e9;
 }
-.research-map .comic-map-footnote {
-  font-size: 10px;
+.research-map .comic-map-count {
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.7px;
+  letter-spacing: 0;
   color: #686253;
 }
 .research-map .comic-controls {
@@ -117,8 +117,7 @@
   color: #b3ada0;
   cursor: default;
 }
-.research-map .comic-controls button:focus-visible,
-.research-map .comic-pages button:focus-visible {
+.research-map .comic-controls button:focus-visible {
   outline: 3px solid #174f98;
   outline-offset: 2px;
 }
@@ -153,101 +152,8 @@
   font-weight: 700;
   cursor: pointer;
 }
-.research-map .comic-pages {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-.research-map .comic-pages button {
-  border: 2px solid #20201e;
-  background: #ffdf70;
-  color: #20201e;
-  width: 31px;
-  height: 33px;
-  padding: 0;
-  font-size: 20px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 2px 2px 0 #20201e;
-}
-.research-map .comic-pages button:disabled {
-  background: #eee8dc;
-  color: #aaa59a;
-  cursor: default;
-  box-shadow: none;
-}
-.research-map .comic-pages > span {
-  font-size: 13px;
-  font-weight: 800;
-  text-align: center;
-  min-width: 48px;
-  font-variant-numeric: tabular-nums;
-}
-.research-map .comic-pages small {
-  display: block;
-  font-size: 8px;
-  font-weight: 500;
-  margin-top: 2px;
-}
-@media (max-width: 1000px) {
-  .research-map .comic-map-footnote {
-    font-size: 8px;
-    letter-spacing: 0;
-  }
-}
-.research-map.is-paged .comic-map-bottom {
-  padding: 6px 8px 8px;
-  gap: 8px;
-  min-height: 50px;
-}
-.research-map.is-paged .comic-map-footnote {
-  display: none;
-}
-.research-map.is-paged .comic-controls button {
-  min-width: 25px;
-  padding: 0 4px;
-  height: 31px;
-}
-.research-map.is-paged .comic-controls .comic-export {
-  font-size: 9px;
-  min-width: 42px;
-  padding: 0 5px;
-}
-.research-map.is-paged .comic-controls .comic-zoom {
-  min-width: 35px;
-  font-size: 9px;
-}
-.research-map.is-paged .comic-pages {
-  gap: 8px;
-}
 @media (prefers-reduced-motion: reduce) {
   .research-map .comic-card-body {
     transition: none;
   }
-}
-.research-map .comic-navigation {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  min-width: 0;
-}
-.research-map .comic-paper-pages {
-  gap: 8px;
-}
-.research-map .comic-paper-pages > span {
-  white-space: nowrap;
-  font-size: 13px;
-}
-.research-map.is-paged .comic-map-bottom {
-  flex-wrap: wrap;
-}
-.research-map.is-paged .comic-navigation {
-  flex: 1 1 270px;
-  justify-content: space-between;
-  gap: 6px 12px;
-}
-.research-map.is-paged .comic-controls {
-  margin-left: auto;
 }
