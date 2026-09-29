@@ -2,7 +2,7 @@
 
 这是从结构化数据生成的精选核验目录，并非完整文献综述。原仓库的会议笔记作为额外资料保留，尚未全面复核，不应视作本目录的核验条目。
 
-数据更新时间：2026-09-30。核验来源与日期、数据集、证据关系和阅读路线请见 [data/catalog.json](data/catalog.json) 与交互式研究地图。
+数据更新时间：2026-09-30 · 51 篇论文。另见 [按年份阅读](llm4vad.md)、[发表索引](venues/README.md)及 [data/catalog.json](data/catalog.json) 中的核验来源、数据集、证据关系和阅读路线。
 
 > 自动生成：请编辑 `data/catalog.json` 后运行 `npm run generate`，不要手工修改此文件。
 
@@ -110,6 +110,54 @@
 - 局限：阅读关注：伪异常覆盖的语义与真实上下文依赖异常有多大差距？
 - 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html>) · [来源 2](<https://github.com/VitaminCreed/LAVIDA>) · [来源 3](<https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.pdf>)
 
+### AnomalyCraft-700K: Component-Level Controllable and Verifiable Synthetic Anomalies for Fine-Grained Video Anomaly Understanding
+
+**2026 · arXiv** · [paper](<https://arxiv.org/abs/2609.06978>) · [project](<https://github.com/Eagen-l/AnomalyCraft>)
+
+**创新抓手：语义组件控制生成与逐项验证**
+
+以细粒度语义组件控制异常视频生成，逐组件校正文图不一致，并构造类别相关的困难正常样本，支持多任务异常理解。
+
+- 核心启示：合成数据的价值取决于异常语义可控、标注可验证及正常边界足够困难。
+- 局限：阅读关注：生成伪迹、组件覆盖和合成到真实视频的迁移差距。
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2609.06978>) · [来源 2](<https://github.com/Eagen-l/AnomalyCraft>)
+
+### TD-VAD: Breaking Visual Dependence in Video Anomaly Detection with Text-Driven Learning
+
+**2026 · ICML** · [paper](<https://arxiv.org/abs/2608.11820>)
+
+**创新抓手：文本时序监督与事件演化注意力**
+
+以 LLM 生成的时序事件文本训练检测器，通过事件演化因果注意力建模长短期依赖，推理时用冻结 CLIP 对齐视频。
+
+- 核心启示：用时序事件文本替代目标域异常视频。
+- 局限：阅读关注：主要输出异常分数；文本到视频的模态差距及语言先验偏差仍需检查。
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2608.11820>) · [来源 2](<https://icml.cc/virtual/2026/poster/65928>)
+
+### HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection
+
+**2026 · AAAI** · [paper](<https://arxiv.org/abs/2512.17601>) · [code](<https://github.com/CebCai/HeadHunt-VAD>)
+
+**创新抓手：稳定异常敏感注意力头探测**
+
+从冻结 MLLM 内部筛选对多种提示稳定的异常敏感注意力头，再用轻量评分器和时序定位器读取其特征。
+
+- 核心启示：从内部语义表征读取异常证据。
+- 局限：阅读关注：仅冻结大模型，评分器仍需少量校准数据；主任务为检测而非开放式解释。
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2512.17601>) · [来源 2](<https://github.com/CebCai/HeadHunt-VAD>)
+
+### Steering and Rectifying Latent Representation Manifolds in Frozen Multi-modal LLMs for Video Anomaly Detection
+
+**2026 · ICLR** · [paper](<https://arxiv.org/abs/2602.24021>)
+
+**创新抓手：潜在异常专家头与上下文表示校正**
+
+以表示可分性筛选潜在异常专家头，训练层次元控制器按上下文缩放其表示；异常片段可交回冻结模型生成事后解释。
+
+- 核心启示：从被动读取转向干预异常语义表征。
+- 局限：阅读关注：控制器和评分器仍需少量训练数据；事后生成解释不等同于检测依据的忠实证明。
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2602.24021>) · [来源 2](<https://iclr.cc/virtual/2026/papers.html>)
+
 ## 语言判据与提示优化
 
 创新抓手：字幕到判断的语言中介、正常规则归纳与引导问题优化，将异常标准显式化。
@@ -175,6 +223,30 @@
 - 核心启示：异常标准可以变化；把定义作为显式输入，比假设类别永远对应同一异常标签更贴近开放场景。
 - 局限：核心输出仍是条件化异常分数；具备语言输入并不等同于能够生成完整因果解释。
 - 核验：2026-09-29；[来源 1](<https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html>)
+
+### Linguistic Relative Policy Optimization for Video Anomaly Reasoning
+
+**2026 · ICML** · [paper](<https://arxiv.org/abs/2607.00654>)
+
+**创新抓手：组相对语言经验优化**
+
+从多条推理轨迹的组内语义优势归纳通用与场景经验，以语言先验注入上下文而不更新模型参数。
+
+- 核心启示：将轨迹优势转化为可复用语言经验。
+- 局限：阅读关注：经验归纳仍受基础模型感知与奖励设计影响；免参数更新不等于无需构建经验。
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2607.00654>) · [来源 2](<https://icml.cc/virtual/2026/poster/64285>)
+
+### Probe-VAD: Ordinal Likelihood Probing for Training-Free Video Anomaly Detection
+
+**2026 · arXiv** · [paper](<https://arxiv.org/abs/2609.17211>) · [code](<https://github.com/yvestine/Probe-VAD>)
+
+**创新抓手：序数语言探测与一致性评分**
+
+以冻结 VLM 对有序严重程度阈值作是／否判断，通过续写似然与序数一致性约束得到连续异常分数。
+
+- 核心启示：语言判据可通过概率接口转为细粒度判断，不依赖先生成字幕。
+- 局限：阅读关注：严重程度排序不等同于异常解释，仍需独立检查判断对场景规范与可见证据的依赖。
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2609.17211>) · [来源 2](<https://github.com/yvestine/Probe-VAD>)
 
 ## 时序分层与记忆
 
@@ -266,6 +338,18 @@
 - 局限：仍依赖事件边界模型及节点描述质量；免训练不等于免除多阶段模型推理成本。
 - 核验：2026-09-29；[来源 1](<https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html>) · [来源 2](<https://github.com/wenlongli10/VADTree>)
 
+### Flashback: Memory-Driven Zero-shot, Real-time Video Anomaly Detection
+
+**2025 · arXiv** · [paper](<https://arxiv.org/abs/2505.15205>)
+
+**创新抓手：离线语义记忆与在线匹配**
+
+离线用语言模型构建正常与异常字幕记忆，在线将视频片段与文本记忆匹配，以检索结果给出异常判断与文本依据。
+
+- 核心启示：把语言模型调用移到离线阶段，可以降低在线判断成本。
+- 局限：阅读关注：检索字幕是否真实匹配当前片段，固定记忆如何覆盖未知异常？
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2505.15205>) · [来源 2](<https://arxiv.org/html/2505.15205v2>)
+
 ## 主动观察与工具决策
 
 创新抓手：场景规划、工具调用、补充采样与交互策略学习，让异常证据获取随当前疑点调整。
@@ -319,6 +403,42 @@
 - 核心启示：异常理解不仅要说明原因，也要在动态航拍视角下找到支撑判断的局部区域。
 - 局限：面向航拍视角与区域级证据的设计，迁移到固定监控或其他场景时仍需验证。
 - 核验：2026-09-29；[来源 1](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html>)
+
+### AgenticVAU: Multi-Agent Explore-Verify Reasoning for Video Anomaly Understanding
+
+**2026 · arXiv** · [paper](<https://arxiv.org/abs/2608.03779>)
+
+**创新抓手：多智能体探索验证与证据记忆**
+
+用规则构建、搜索规划、视频观察和最终决策四类智能体，交替探索疑点与局部验证，并通过共享证据记忆协调判断。
+
+- 核心启示：异常理解可以显式区分发现疑点、收集证据和作出结论。
+- 局限：阅读关注：多轮观察成本、证据记忆错误与停止条件如何影响可靠性？
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2608.03779>)
+
+### VAGU & GtS: LLM-Based Benchmark and Framework for Joint Video Anomaly Grounding and Understanding
+
+**2026 · AAAI** · [paper](<https://ojs.aaai.org/index.php/AAAI/article/view/42412>)
+
+**创新抓手：先全局粗定位再局部细查**
+
+先通过文本引导粗定位异常区间，再细查异常语义与时间边界，并构建 VAGU 和 JeAUG 联合评价定位与理解。
+
+- 核心启示：异常解释与时间边界应联合评估，局部细查可连接两种能力。
+- 局限：阅读关注：粗定位漏检会否阻止后续细查，联合分数是否掩盖单项退化？
+- 核验：2026-09-30；[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/view/42412>) · [来源 2](<https://arxiv.org/abs/2507.21507>) · [来源 3](<https://arxiv.org/abs/2608.11260>)
+
+### SlowFastVAD: Video Anomaly Detection via Integrating Simple Detector and RAG-Enhanced Vision-Language Model
+
+**2025 · arXiv** · [paper](<https://arxiv.org/abs/2504.10320>)
+
+**创新抓手：快检测门控与检索增强慢推理**
+
+快速检测器先给出异常置信度，仅将模糊片段交给检索增强 VLM，利用正常参考与推断异常模式组成知识库辅助判断。
+
+- 核心启示：推理计算可以集中分配到快速模型无法确定的片段。
+- 局限：阅读关注：快速检测器的自信误判是否绕过慢推理，检索知识覆盖如何影响泛化？
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2504.10320>)
 
 ## 结构化推理与验证
 
@@ -421,6 +541,114 @@
 - 核心启示：将事件关系显式存入可更新结构，使边缘检测能够复用语言模型获得的语义知识。
 - 局限：图中的因果关系来自模型构建与更新，不能自动视为经干预验证的真实因果关系。
 - 核验：2026-09-29；[来源 1](<https://doi.org/10.1145/3746027.3755185>)
+
+### TAU-Bench: From Anomaly Instance Tracking to Fine-Grained Video Anomaly Understanding
+
+**2026 · arXiv** · [paper](<https://arxiv.org/abs/2608.05699>) · [project](<https://yarkupa.github.io/tau-bench.github.io/>)
+
+**创新抓手：实例轨迹与层级语义联合评估**
+
+把异常实例轨迹、像素掩码与实例、事件、场景三级描述绑定，联合评估跟踪和细粒度理解是否指向同一异常对象。
+
+- 核心启示：合理的异常描述仍可能对应错误对象，理解评估需要实例级视觉依据。
+- 局限：阅读关注：语义评分与跟踪指标是否同时改善，而非只生成更流畅的描述？
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2608.05699>) · [来源 2](<https://yarkupa.github.io/tau-bench.github.io/>)
+
+### Advancing Adaptive Multi-Stage Video Anomaly Reasoning: A Benchmark Dataset and Method
+
+**2026 · arXiv** · [paper](<https://arxiv.org/abs/2601.10165>) · [project](<https://github.com/wbfwonderful/Vad-R1-Plus>)
+
+**创新抓手：感知认知行动链与异常感知优化**
+
+用感知、认知与行动三级思维链组织异常推理，并以异常感知的组相对策略优化训练支持不同推理深度和风险判断的模型。
+
+- 核心启示：异常理解可以进一步评估风险解释和决策建议所需的推理深度。
+- 局限：阅读关注：风险判断和行动建议是否有可见证据支持，弱监督奖励如何约束可靠性？
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2601.10165>) · [来源 2](<https://github.com/wbfwonderful/Vad-R1-Plus>)
+
+### VAU-R1: Advancing Video Anomaly Understanding via Reinforcement Fine-Tuning
+
+**2025 · arXiv** · [paper](<https://arxiv.org/abs/2505.23504>) · [code](<https://github.com/GVCLab/VAU-R1>)
+
+**创新抓手：多任务奖励与强化微调**
+
+通过任务专属奖励进行强化微调，并构建包含选择问答、推理依据、时间边界和描述的 VAU-Bench。
+
+- 核心启示：问答、分类、推理与时间定位需要分别定义目标和评价协议。
+- 局限：阅读关注：格式、正确率与时间交并比奖励是否真正提升解释的视觉忠实度？
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2505.23504>) · [来源 2](<https://github.com/GVCLab/VAU-R1>)
+
+### Towards Trustworthy Video Anomaly Understanding: A Class-Guided Chain-of-Evaluation Metric and An Anomaly-focused Meta-Benchmark
+
+**2026 · ICML** · [paper](<https://icml.cc/virtual/2026/poster/66013>)
+
+**创新抓手：类别引导评价链与元评测**
+
+以类别约束的异常事件抽取与匹配构建评价链，并用 AEA 与 CVP 子集检验指标有效性及措辞扰动鲁棒性。
+
+- 核心启示：把异常语义正确性与措辞风格分开。
+- 局限：阅读关注：评价有效性仍需检验类别边界和事件抽取是否可靠；元评测不直接提升模型感知。
+- 核验：2026-09-30；[来源 1](<https://icml.cc/virtual/2026/poster/66013>) · [来源 2](<https://openreview.net/forum?id=7waVdY1WmW>)
+
+### A Unified Reasoning Framework for Holistic Zero-Shot Video Anomaly Analysis
+
+**2025 · NeurIPS** · [paper](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/2aa95cf3b6aefa84d6b001928b107b4e-Abstract-Conference.html>) · [code](<https://github.com/Rathgrith/URF-ZS-HVAA>)
+
+**创新抓手：任务内细化与跨任务推理链**
+
+任务内推理用视频上下文细化时间检测，任务间链式推理再引导冻结模型完成空间定位与文本解释。
+
+- 核心启示：把时间检测、空间定位和解释串起来。
+- 局限：阅读关注：链式结果依赖前序时间检测；应检查错误传递和多阶段推理成本。
+- 核验：2026-09-30；[来源 1](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/2aa95cf3b6aefa84d6b001928b107b4e-Abstract-Conference.html>) · [来源 2](<https://rathgrith.github.io/Unified_Frame_VAA/>)
+
+### Do LVLMs Truly Understand Video Anomalies? Revealing Hallucination via Co-Occurrence Patterns
+
+**2025 · NeurIPS** · [paper](<https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html>)
+
+**创新抓手：反例偏好优化抑制共现捷径**
+
+诊断模型对物体与异常词语共现的捷径依赖，以视觉相似但语义相反的视频对进行偏好优化，增强场景语义判断。
+
+- 核心启示：用语义反例检验并纠正异常共现偏见。
+- 局限：阅读关注：反例覆盖范围决定可纠正的偏见；检测改进不能替代完整解释忠实性评测。
+- 核验：2026-09-30；[来源 1](<https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html>)
+
+### CLUE-VAD: Structured Semantic Clues for Understanding Explainable Events in Video Anomaly Detection
+
+**2026 · ECCV** · [paper](<https://eccv.ecva.net/virtual/2026/poster/4744>)
+
+**创新抓手：结构化语义线索与类别感知归因**
+
+将片段分解为动作、环境和对象线索，用类别感知权重融合并将异常分数归因到线索及关键词，生成有依据的解释。
+
+- 核心启示：让异常分数对应具体语义因素。
+- 局限：阅读关注：字幕遗漏会限制证据；权重和关键词归因仍需与真实因果贡献区分。
+- 核验：2026-09-30；[来源 1](<https://eccv.ecva.net/virtual/2026/poster/4744>) · [来源 2](<https://media.eventhosts.cc/Conferences/ECCV2026/pdfs/7292.pdf>)
+
+### O-VAD: Industrial Video Anomaly Detection through Object-Centric Tracking and Reasoning
+
+**2026 · ECCV** · [paper](<https://arxiv.org/abs/2607.18142>) · [code](<https://github.com/o-vad/O-VAD>)
+
+**创新抓手：对象状态轨迹与时序推理**
+
+在工业视频中跟踪对象状态随时间的演化，再对对象轨迹推理，定位异常对象与帧并输出异常过程和类型报告。
+
+- 核心启示：从对象状态变化解释工业视频异常。
+- 局限：阅读关注：对象检测与跟踪错误可能传入推理；工业流程验证不能直接代表开放监控场景。
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2607.18142>) · [来源 2](<https://eccv.ecva.net/virtual/2026/poster/4659>)
+
+### Streaming Video Crime Anticipation with Spatio-Temporal Causal Reasoning
+
+**2026 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Streaming_Video_Crime_Anticipation_with_Spatio-Temporal_Causal_Reasoning_CVPR_2026_paper.html>)
+
+**创新抓手：流式时空因果超图**
+
+构建具有递进推理任务的 STCRC 基准，并用流式时空因果超图显式组织实体动态，支撑犯罪事件预判。
+
+- 核心启示：把实体动态组织为犯罪预兆推理结构。
+- 局限：阅读关注：任务是事件预判，与事后异常理解需分别评测；因果结构依赖事件和实体标注质量。
+- 核验：2026-09-30；[来源 1](<https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Streaming_Video_Crime_Anticipation_with_Spatio-Temporal_Causal_Reasoning_CVPR_2026_paper.html>) · [来源 2](<https://cvpr.thecvf.com/virtual/2026/poster/39800>)
 
 ## Datasets / 数据资源
 

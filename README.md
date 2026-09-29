@@ -5,180 +5,66 @@
 
 English | [简体中文](README.zh-CN.md)
 
-> 🚧 **This repository is under active construction.** We're continuously adding new papers, refining categorizations, and expanding dataset coverage. Stay tuned for updates!
+Research on **video anomaly understanding**: explaining abnormal events, grounding them in time and space, reasoning over evidence, and evaluating whether an explanation is faithful to the video. The collection also includes directly relevant language-guided representations and detection methods.
 
-[![Interactive Atlas](https://img.shields.io/badge/View-Interactive_Research_Atlas-indigo?style=for-the-badge&logo=react)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
+[**Research map**](https://2-mo.github.io/Awesome-Thinking-with-VAD/) · [**Papers by year**](llm4vad.md) · [**Papers by method**](catalog.md) · [**Venue index**](venues/README.md)
 
-## 🗞️ Recent Updates
+## Latest update
 
-- **2026-09-29** — Rebuilt the research atlas around a selected, source-checked catalog: 37 core papers, 9 datasets, and 3 reading guides.
+**2026-09-30** — Added 19 source-checked papers, bringing the selected catalog to **51 papers**, with 9 dataset exhibits and 3 reading guides. Additions cover missing NeurIPS 2025 work, AAAI/ICLR/CVPR/ICML/ECCV 2026 publications, and recent VAU preprints. See the [addition and version notes](research/literature-update-2026-09.md).
 
-- **2026-05-26** — Updated the CVPR and ICML paper lists with the latest 2026 publications.
-- **2026-02-06** — Refreshed the Interactive Atlas timeline page ([View Interactive Research Atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/)).
+The year-based reading document now comes from the same data as the website. Empty links, duplicate versions, incorrect publication groupings, and unrelated entries from the old LLM/VAD list have been removed.
 
----
+## Read the collection
 
-## 📖 Table of Contents
+| Entry point | Contents |
+| --- | --- |
+| [Interactive map](https://2-mo.github.io/Awesome-Thinking-with-VAD/) | Paper stations on five colored method routes; searchable publication metadata and sources |
+| [llm4vad.md](llm4vad.md) | Compact tables by year and conference, including separately labeled preprints |
+| [catalog.md](catalog.md) | Contributions, reading questions, limitations and primary sources by method family |
+| [Venue index](venues/README.md) | Current publication counts and links to year/conference sections |
+| [Data contract](data/README.md) | Scope, source requirements, publication status and version handling |
 
-- [Awesome Thinking with VAD](#awesome-thinking-with-vad)
-  - [🗞️ Recent Updates](#️-recent-updates)
-  - [📖 Table of Contents](#-table-of-contents)
-  - [🌟 Overview](#-overview)
-  - [🗺️ Research Atlas](#-research-atlas)
-  - [💻 Run Locally](#-run-locally)
-  - [📚 Conference Snapshots](#-conference-snapshots)
-  - [📰 Journal Snapshots](#-journal-snapshots)
-  - [🧪 Benchmarks and Datasets](#-benchmarks-and-datasets)
-  - [🔗 Related Resources](#-related-resources)
-    - [Tutorials \& Workshops](#tutorials--workshops)
-    - [Related Awesome Lists](#related-awesome-lists)
-  - [🤝 Contributing](#-contributing)
-  - [🤝 Stay Connected](#-stay-connected)
-  - [📜 License and Credits](#-license-and-credits)
+The map places **years horizontally and venues vertically**. Months establish an internal order without appearing on the map; lines move forward with metro-style bends. Each color denotes a method family, not a citation chain. NeurIPS and its Datasets and Benchmarks track share one display row while retaining exact track metadata in each record.
 
----
+The five families are semantic alignment and fusion; language-based criteria and prompt optimization; temporal hierarchy and memory; active observation and tool use; and structured reasoning and verification. Dataset exhibits use original author/paper figures with attribution.
 
-## 🌟 Overview
+## Scope and sources
 
-This repository is a curated collection of research papers and resources exploring **thoughtful reasoning approaches** in Video Anomaly Detection (VAD), with a special focus on **Large Language Models (LLMs)**, **Vision-Language Models (VLMs)**, and **Video Anomaly Understanding (VAU)**.
+[data/catalog.json](data/catalog.json) is the single source for the website and all three generated reading indexes. Each paper records the evidence supporting its title, venue, contribution and verification date. Formal publication metadata takes precedence over the initial preprint date; unconfirmed papers remain **arXiv**. An extended version is not counted twice merely because it has a new title.
 
-Video anomaly detection is evolving from simple frame-level alerts to systems that **reason, explain, and communicate** what makes something suspicious. This repository tracks that shift, focusing on methods that leverage **LLMs** and **VLMs** for deeper anomaly understanding.
+The selected catalog excludes WACV and workshop papers, generic video understanding, and static-image defect detection. Detection-only methods are included selectively when they directly support anomaly semantics. Author performance claims are not presented as independent reproductions. A project placeholder is distinguished from released code.
 
-**What's inside:**
+The [older conference notes](venues/), [journal notes](journals/README.md) and [broader dataset notes](dataset.md) remain historical references with a wider scope; they have not all been reverified. Use the generated indexes above for the current curated selection.
 
-- 🗺️ A compact research map organized around innovation ideas, with evidence-linked paper details, datasets and reading routes
-- 📚 Conference & journal paper collections organized by venue and year
-- 📊 Datasets categorized by LLM-readiness (explainable annotations vs. traditional labels)
-- 🔗 Quick navigation to reasoning-centric VAD resources
+## Run locally
 
-**For:** researchers and practitioners exploring the intersection of anomaly detection, multimodal reasoning, and foundation models.
-
----
-
-## 🗺️ Research Atlas
-
-[Open the interactive atlas](https://2-mo.github.io/Awesome-Thinking-with-VAD/) · [Read the selected catalog](catalog.md) · [Inspect the source data](data/catalog.json)
-
-The current selected catalog contains **32 core papers across 5 research directions, 9 datasets, and 3 reading guides**. The metro-style atlas positions all 32 papers by publication year on the horizontal axis and publication venue on the vertical axis. Five colored method-school lines connect those stations with horizontal, vertical and 45-degree segments. The map and publication filter group NeurIPS and its Datasets and Benchmarks track into one NeurIPS row/category, giving 11 displayed venues; paper details retain the exact track. Short paper names stay on the map; publication metadata is visible on the axes and in paper details. Same-year spacing is for readability, not precise publication dates; dataset coverage supplies evaluation context.
-
-The catalog covers video anomaly detection and understanding only. Map lines and reading routes are editorial groupings, not citation edges or claims of research inheritance. Evidence-backed relationships remain available in each paper’s detail pane.
-
-[data/catalog.json](data/catalog.json) is the single source of truth for the interactive atlas and generated [catalog.md](catalog.md). Selected entries record verification sources and dates. Dataset cards include original author/paper figures, publication year and venue, with image attribution. The curated paper catalog excludes WACV and workshop papers. NeurIPS Datasets and Benchmarks remains explicitly labeled in source data and paper details; unconfirmed preprints retain their arXiv status. Generic video understanding and ordinary detection papers are not added merely to increase coverage. The historical [conference notes](venues/), [journal notes](journals/), [dataset notes](dataset.md) and [LLM/VAD notes](llm4vad.md) remain additional resources and **have not all been reverified**; inclusion there does not imply inclusion in the checked catalog.
-
-## 💻 Run Locally
-
-Use Node.js 24 for development:
+Development uses Node.js 24:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Run `npm test` for the automated tests, `npm run check` for validation and type checking, `npm run build` to regenerate the catalog and production site, and `npm run preview` to inspect the production build. Use `npm install` when deliberately updating dependencies.
+`npm run build` validates the data, regenerates `catalog.md`, `llm4vad.md` and `venues/README.md`, and builds the static website. `npm run check` checks data, generated documents, tests and TypeScript.
 
-The Vite output is committed in [docs/](docs/). On `main`, you can serve it directly without installing Node dependencies:
+The production site is committed in [docs/](docs/), so `main` can run without a Node build:
 
 ```sh
 python3 -m http.server 8000 --directory docs
 ```
 
-Open `http://localhost:8000/`. See [DEVELOPMENT.md](DEVELOPMENT.md) for the development workflow and [CONTRIBUTING.md](CONTRIBUTING.md) for data and source requirements. Edit source data and application code, then regenerate; do not hand-edit `catalog.md` or `docs/`.
+Open `http://localhost:8000/`. See [DEVELOPMENT.md](DEVELOPMENT.md) for maintenance details.
 
----
+## Contribute
 
-## 📚 Conference Snapshots
+Edit the [source catalog](data/catalog.json), cite primary sources and follow [CONTRIBUTING.md](CONTRIBUTING.md). Include generated documents and `docs/` with the source change. CI rejects stale generated output. Work on a development branch and merge after the required checks pass.
 
-The `venues/` directory preserves historical per-conference notes for 2023–2026, which have not all been reverified. Quick links:
+Corrections to titles, publication status, version relationships and missing relevant papers are welcome.
 
-- [CVPR](venues/cvpr.md) — Computer Vision and Pattern Recognition
-- [ICCV](venues/iccv.md) — International Conference on Computer Vision
-- [ECCV](venues/eccv.md) — European Conference on Computer Vision
-- [NeurIPS](venues/neurips.md) — Neural Information Processing Systems
-- [ICML](venues/icml.md) — International Conference on Machine Learning
-- [ICLR](venues/iclr.md) — International Conference on Learning Representations
-- [AAAI](venues/aaai.md) — Association for the Advancement of Artificial Intelligence
-- [IJCAI](venues/ijcai.md) — International Joint Conference on Artificial Intelligence
-- [ACM MM](venues/acmmm.md) — ACM Multimedia
+## Contact and credits
 
----
+- Email: **mo1031@live.com**
+- WeChat: **tiumo-** (please mention VAD)
 
-## 📰 Journal Snapshots
-
-See [journals/README.md](journals/README.md) for historical journal notes, which have not all been reverified, including:
-
-- [TPAMI](journals/tpami.md) — IEEE Transactions on Pattern Analysis and Machine Intelligence
-- [TIP](journals/tip.md) — IEEE Transactions on Image Processing
-- [TNNLS](journals/tnnls.md) — IEEE Transactions on Neural Networks and Learning Systems
-- [TCYB](journals/tcyb.md) — IEEE Transactions on Cybernetics
-- [TIFS](journals/tifs.md) — IEEE Transactions on Information Forensics and Security
-- [IJCV](journals/ijcv.md) — International Journal of Computer Vision (Springer)
-
----
-
-## 🧪 Benchmarks and Datasets
-
-The atlas provides 9 selected datasets with task, annotation and evaluation-protocol notes. The broader historical **[dataset.md](dataset.md)** remains available but has not been fully reverified; it is organized by:
-
-- 🤖 **LLM/VLM-Ready Datasets** — Multimodal & explainable annotations
-  - Video-language annotation (UCA, VAD-Instruct50k, UCCD)
-  - Cross-modal retrieval (UCFCrime-AR, XDViolence-AR)
-  - Open-world understanding (UBnormal)
-  - Large-scale multimodal (XD-Violence)
-
-- 🔧 **Traditional VAD Benchmarks** — Classic deep learning datasets
-  - Weakly supervised (UCF-Crime, ShanghaiTech-W, TAD)
-  - Semi-supervised (UCSD, Avenue, ShanghaiTech, NWPU Campus)
-  - Fully supervised (Hockey Fight, RWF-2000, CCTV-Fights)
-
-- 🚗 **Domain-Specific** — Driving, traffic, and specialized scenarios
-  - Honda HDD, ROADWork, MSAD
-
-👉 **[View historical dataset notes →](dataset.md)**
-
----
-
-## 🔗 Related Resources
-
-### Tutorials & Workshops
-
-- [ICCV 2025 Tutorial: Foundation Models for Anomaly Detection](https://sites.google.com/view/iccv2025-tutorial-fm-driven-ad/home)
-
-### Related Awesome Lists
-
-- [![Awesome-Anomaly-Detection-Foundation-Models](https://img.shields.io/badge/Awesome-Anomaly_Detection_Foundation_Models-black?logo=github)](https://github.com/mala-lab/Awesome-Anomaly-Detection-Foundation-Models)
-- [![Awesome-Video-Anomaly-Detection](https://img.shields.io/badge/Awesome-Video_Anomaly_Detection-black?logo=github)](https://github.com/fjchange/awesome-video-anomaly-detection)
-- [![Deep-Learning-Based-Anomaly-Detection](https://img.shields.io/badge/Awesome-Deep_Learning_Anomaly_Detection-black?logo=github)](https://github.com/bitzhangcy/Deep-Learning-Based-Anomaly-Detection)
-- [![Awesome-Temporal-Video-Grounding](https://img.shields.io/badge/Awesome-Temporal_Video_Grounding-black?logo=github)](https://github.com/Tangkfan/Awesome-Temporal-Video-Grounding)
-
----
-
-## 🤝 Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before adding or correcting atlas entries. Edit [data/catalog.json](data/catalog.json), cite primary sources with evidence notes, record verification dates, and include explicit limitations. Keep entries directly relevant to video anomaly understanding.
-
-Run `npm run build` and `npm run check`, then include the generated `catalog.md` and `docs/` output in your pull request. CI checks that these outputs match the source. For corrections to historical notes, edit the relevant Markdown file and make the scope of verification clear. Issues with corrections, source evidence and suggested additions are welcome.
-
----
-
-## 🤝 Stay Connected
-
-<div align="center">
-  <p>📧 Email: <strong>mo1031@live.com</strong></p>
-  <p>📱 WeChat: <strong>tiumo-</strong> (please add note "VAD")</p>
-</div>
-
----
-
-## 📜 License and Credits
-
-This collection is maintained as an open resource for the research community.
-
-- Content is gathered from publicly available sources
-- Paper copyrights belong to their respective authors and publishers
-- This repository is for academic and educational purposes
-
-**Maintainers**: Feel free to reach out for collaborations or suggestions!
-
----
-
-**Star ⭐ this repo if you find it helpful!**
+Paper and dataset copyrights belong to their authors and publishers. This repository is an academic research collection; figures retain their source attribution.
