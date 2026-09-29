@@ -39,9 +39,6 @@
 .research-map .metro-station:hover .metro-station-label {
   fill: #f7edcf;
 }
-.research-map .metro-station:hover .metro-station-dot {
-  stroke-width: 5;
-}
 .research-map .metro-station:focus-visible .metro-station-label {
   fill: #fce8a2;
   stroke: #263836;
@@ -157,9 +154,6 @@
 .publication-map .metro-station:hover .metro-station-label {
   fill: #fce8a2;
   stroke: #fce8a2;
-}
-.publication-map .metro-station:hover .metro-station-dot {
-  stroke-width: 3.5;
 }
 .publication-map .metro-station:focus-visible .metro-station-label {
   stroke: #243b3b;

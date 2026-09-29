@@ -31,37 +31,47 @@ const clamp = (n: number, min: number, max: number) =>
 const fitLabel = (text: string, size: number, available: number) =>
   labelWidth(text, size) > available ? available : undefined;
 
-// Small rounded elbows preserve the deliberately authored octilinear geometry.
-function routePath(points: Point[], stations: Point[]) {
+// Round the metro skeleton without moving its stations. At station bends the
+// small curve stays underneath the opaque marker; other bends have more room.
+function routePath(points: Point[], stations: Point[], labels: Box[]) {
   if (!points.length) return "";
   let path = `M${points[0].x} ${points[0].y}`;
   for (let i = 1; i < points.length - 1; i++) {
     const a = points[i - 1],
       p = points[i],
       b = points[i + 1];
-    // Keep the line exactly under a station even when it sits on a bend.
-    if (
-      stations.some(
-        (station) =>
-          Math.abs(station.x - p.x) < 0.001 &&
-          Math.abs(station.y - p.y) < 0.001,
-      )
-    ) {
-      path += `L${p.x} ${p.y}`;
-      continue;
-    }
+    const atStation = stations.some(
+      (station) =>
+        Math.abs(station.x - p.x) < 0.001 &&
+        Math.abs(station.y - p.y) < 0.001,
+    );
     const before = Math.hypot(p.x - a.x, p.y - a.y),
       after = Math.hypot(b.x - p.x, b.y - p.y);
     if (!before || !after) continue;
-    const radius = Math.min(9, before / 3, after / 3);
-    const start = {
-      x: p.x + ((a.x - p.x) * radius) / before,
-      y: p.y + ((a.y - p.y) * radius) / before,
+    let radius = Math.min(atStation ? 12 : 28, before * 0.45, after * 0.45);
+    const trim = (point: Point, distance: number): Point => ({
+      x: p.x + ((point.x - p.x) * radius) / distance,
+      y: p.y + ((point.y - p.y) * radius) / distance,
+    });
+    let start = trim(a, before),
+      end = trim(b, after);
+    // The curve lies inside this control triangle. Preserve the label clearance
+    // of the straight route instead of rounding through a nearby paper name.
+    const overlapsLabel = () => {
+      const left = Math.min(start.x, p.x, end.x),
+        right = Math.max(start.x, p.x, end.x),
+        top = Math.min(start.y, p.y, end.y),
+        bottom = Math.max(start.y, p.y, end.y);
+      return labels.some((box) =>
+        left < box.x + box.width + 3 && right > box.x - 3 &&
+        top < box.y + box.height + 3 && bottom > box.y - 3,
+      );
     };
-    const end = {
-      x: p.x + ((b.x - p.x) * radius) / after,
-      y: p.y + ((b.y - p.y) * radius) / after,
-    };
+    while (radius > 1 && overlapsLabel()) {
+      radius *= 0.65;
+      start = trim(a, before);
+      end = trim(b, after);
+    }
     path += `L${start.x} ${start.y}Q${p.x} ${p.y} ${end.x} ${end.y}`;
   }
   const last = points[points.length - 1];
@@ -382,6 +392,7 @@ export default function ResearchMap({
                   [...network.stations.values()].filter(
                     (station) => station.lineId === line.id,
                   ),
+                  [...network.stations.values()].map((station) => station.label),
                 );
                 return (
                   <g
@@ -438,11 +449,12 @@ export default function ResearchMap({
                     />
                     <circle
                       cx="15"
-                      r="4.5"
+                      r="6.5"
                       fill={PAPER}
                       stroke={line.color}
-                      strokeWidth="2.3"
+                      strokeWidth="2.8"
                     />
+                    <circle cx="15" r="2" fill={line.color} />
                     <text
                       x="41"
                       y="5"
@@ -501,6 +513,7 @@ export default function ResearchMap({
             const box = station ? station.label : timeline.nodes.get(paper.id);
             if (!box) return null;
             const selected = selectedId === paper.id;
+            const active = selected || hoveredId === paper.id;
             const line = network.lines.find(
               (item) => item.id === paper.cluster,
             );
@@ -564,23 +577,35 @@ export default function ResearchMap({
                       className="metro-station-halo"
                       cx={station.x}
                       cy={station.y}
-                      r="11"
-                      fill={selected ? color : "transparent"}
-                      fillOpacity=".18"
+                      r={active ? 16 : 11}
+                      fill={color}
+                      fillOpacity={active ? 0.16 : 0}
+                    />
+                    <circle
+                      cx={station.x}
+                      cy={station.y}
+                      r={active ? 12.5 : 11}
+                      fill={PAPER}
                     />
                     <circle
                       className="metro-station-dot"
                       cx={station.x}
                       cy={station.y}
-                      r={selected ? 6.5 : 5}
-                      fill={PAPER}
+                      r={active ? 9.5 : 8}
+                      fill={active ? color : PAPER}
                       stroke={color}
-                      strokeWidth={selected ? 3.5 : 2.5}
+                      strokeWidth="3.2"
                     />
                     <circle
                       cx={station.x}
                       cy={station.y}
-                      r="12"
+                      r={active ? 3 : 2.3}
+                      fill={active ? PAPER : color}
+                    />
+                    <circle
+                      cx={station.x}
+                      cy={station.y}
+                      r="16"
                       fill="transparent"
                     />
                   </>

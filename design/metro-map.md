@@ -8,4 +8,6 @@ Stations use compact paper names; the axes supply venue and year, and the intera
 
 Visual vocabulary was informed by the [official Transport for London Tube map](https://tfl.gov.uk/cdn/static/cms/documents/standard-tube-map.pdf): colored lines, station markers and separate labels. No TfL artwork, fonts, marks or map geometry is copied. The earlier free-position innovation routes and generated panorama are superseded by this coordinate-based network; decorative source images remain historical design assets.
 
+The renderer uses broader rounded bends, including compact curves beneath station markers. Near labels, corner rounding shrinks to preserve text clearance. Paper stations use larger colored rings, center dots and opaque paper-colored backplates; hover, keyboard focus and selection strengthen the marker. Station coordinates and the forward-only route skeleton remain unchanged.
+
 All drawing and text is vector-based and included in exported SVGs. The overview stays on one screen with pan/zoom and an on-demand detail overlay.
