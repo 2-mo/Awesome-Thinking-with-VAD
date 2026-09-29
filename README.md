@@ -25,7 +25,7 @@ The year-based reading document now comes from the same data as the website. Emp
 | [Venue index](venues/README.md) | Current publication counts and links to year/conference sections |
 | [Data contract](data/README.md) | Scope, source requirements, publication status and version handling |
 
-The map places **years horizontally and venues vertically**. Months establish an internal order without appearing on the map. From 2025 onward, Q1–Q4 labels subdivide the year; lines move forward with metro-style bends. Each color denotes a method family, not a citation chain. NeurIPS and its Datasets and Benchmarks track share one display row while retaining exact track metadata in each record.
+The map places **years horizontally and venues vertically**. Conference rows descend by full-catalog paper count, with arXiv kept at the bottom; filtering preserves the row order. Months establish an internal order without appearing on the map. From 2025 onward, Q1–Q4 labels subdivide the year; lines move forward with metro-style bends. Each color denotes a method family, not a citation chain. NeurIPS and its Datasets and Benchmarks track share one display row while retaining exact track metadata in each record.
 
 The five families are semantic alignment and fusion; language-based criteria and prompt optimization; temporal hierarchy and memory; active observation and tool use; and structured reasoning and verification. Dataset exhibits use original author/paper figures with attribution.
 
