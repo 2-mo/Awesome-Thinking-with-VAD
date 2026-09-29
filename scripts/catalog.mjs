@@ -76,6 +76,14 @@ export function validateCatalog(catalog) {
     for (const key of ['shortTitle', 'title', 'venue', 'mechanism', 'summary', 'takeaway', 'limitation']) text(paper[key], `${path}.${key}`);
     if (typeof paper.mechanism === 'string' && [...paper.mechanism.trim()].length > 24) fail(`${path}.mechanism`, 'keep the innovation mechanism within 24 characters for compact cards');
     if (!Number.isInteger(paper.year) || paper.year < 1900 || paper.year > new Date().getUTCFullYear() + 1) fail(`${path}.year`, 'must be a plausible publication year');
+    if (paper.timeline !== undefined) {
+      if (!object(paper.timeline)) fail(`${path}.timeline`, 'must include month, basis and source');
+      else {
+        if (!Number.isInteger(paper.timeline.month) || paper.timeline.month < 1 || paper.timeline.month > 12) fail(`${path}.timeline.month`, 'must be an integer from 1 to 12');
+        if (!['conference', 'preprint'].includes(paper.timeline.basis)) fail(`${path}.timeline.basis`, 'must be conference or preprint');
+        source(paper.timeline.source, `${path}.timeline.source`);
+      }
+    }
     if (paper.scope !== 'core') fail(`${path}.scope`, 'must be core');
     if (!clusterIds.has(paper.cluster)) fail(`${path}.cluster`, `unknown cluster ${paper.cluster}`);
     strings(paper.tasks, `${path}.tasks`);

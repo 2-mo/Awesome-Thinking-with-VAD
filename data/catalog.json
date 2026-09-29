@@ -93,7 +93,15 @@
         "ucf-crime",
         "xd-violence"
       ],
-      "mechanism": "视觉语言双分支对齐"
+      "mechanism": "视觉语言双分支对齐",
+      "timeline": {
+        "month": 2,
+        "basis": "conference",
+        "source": {
+          "url": "https://aaai.org/conference/aaai/aaai-24/",
+          "note": "Conference: 20–27 February 2024."
+        }
+      }
     },
     {
       "id": "lavad",
@@ -130,7 +138,15 @@
         "ucf-crime",
         "xd-violence"
       ],
-      "mechanism": "字幕聚合语言评分"
+      "mechanism": "字幕聚合语言评分",
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2024",
+          "note": "Main conference: 19–21 June 2024."
+        }
+      }
     },
     {
       "id": "anomalyruler",
@@ -163,7 +179,15 @@
       ],
       "verifiedAt": "2026-09-29",
       "datasetIds": [],
-      "mechanism": "正常规则归纳演绎"
+      "mechanism": "正常规则归纳演绎",
+      "timeline": {
+        "month": 10,
+        "basis": "conference",
+        "source": {
+          "url": "https://eccv.ecva.net/Conferences/2024/Registration",
+          "note": "Main conference: 1–4 October 2024; September workshops do not determine this ordering."
+        }
+      }
     },
     {
       "id": "vera",
@@ -195,7 +219,15 @@
       ],
       "verifiedAt": "2026-09-29",
       "datasetIds": [],
-      "mechanism": "语言反馈优化问题"
+      "mechanism": "语言反馈优化问题",
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2025/News/MediaRegistration",
+          "note": "Conference: 11–15 June 2025."
+        }
+      }
     },
     {
       "id": "ex-vad",
@@ -226,7 +258,15 @@
         "ucf-crime",
         "xd-violence"
       ],
-      "mechanism": "解释融合与标签对齐"
+      "mechanism": "解释融合与标签对齐",
+      "timeline": {
+        "month": 7,
+        "basis": "conference",
+        "source": {
+          "url": "https://media.icml.cc/Conferences/ICML2025/ICML2025_Fact_Sheet.pdf",
+          "note": "Conference: 13–20 July 2025."
+        }
+      }
     },
     {
       "id": "cuva",
@@ -258,7 +298,15 @@
       "datasetIds": [
         "cuva-dataset"
       ],
-      "mechanism": "事件因果任务分解"
+      "mechanism": "事件因果任务分解",
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2024",
+          "note": "Main conference: 19–21 June 2024."
+        }
+      }
     },
     {
       "id": "hawk",
@@ -293,7 +341,15 @@
       "datasetIds": [
         "hawk-dataset"
       ],
-      "mechanism": "运动语言监督对齐"
+      "mechanism": "运动语言监督对齐",
+      "timeline": {
+        "month": 12,
+        "basis": "conference",
+        "source": {
+          "url": "https://media.neurips.cc/Conferences/NeurIPS2024/NeurIPS2024-Fact_Sheet.pdf",
+          "note": "Conference: 10–15 December 2024."
+        }
+      }
     },
     {
       "id": "holmes-vau",
@@ -329,7 +385,15 @@
       "datasetIds": [
         "hivau-70k"
       ],
-      "mechanism": "多粒度指令与采样"
+      "mechanism": "多粒度指令与采样",
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2025/News/MediaRegistration",
+          "note": "Conference: 11–15 June 2025."
+        }
+      }
     },
     {
       "id": "eventvad",
@@ -362,7 +426,15 @@
         "ucf-crime",
         "xd-violence"
       ],
-      "mechanism": "时空图划分事件边界"
+      "mechanism": "时空图划分事件边界",
+      "timeline": {
+        "month": 10,
+        "basis": "conference",
+        "source": {
+          "url": "https://acmmm2025.org/",
+          "note": "Conference: 27–31 October 2025."
+        }
+      }
     },
     {
       "id": "panda",
@@ -395,7 +467,15 @@
       ],
       "verifiedAt": "2026-09-29",
       "datasetIds": [],
-      "mechanism": "场景规划与工具反思"
+      "mechanism": "场景规划与工具反思",
+      "timeline": {
+        "month": 12,
+        "basis": "conference",
+        "source": {
+          "url": "https://neurips.cc/Conferences/2025",
+          "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
+        }
+      }
     },
     {
       "id": "monitor",
@@ -426,7 +506,15 @@
         "ucf-crime",
         "xd-violence"
       ],
-      "mechanism": "流式记忆与分数队列"
+      "mechanism": "流式记忆与分数队列",
+      "timeline": {
+        "month": 12,
+        "basis": "conference",
+        "source": {
+          "url": "https://neurips.cc/Conferences/2025",
+          "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
+        }
+      }
     },
     {
       "id": "srvau-r1",
@@ -454,7 +542,15 @@
       ],
       "verifiedAt": "2026-09-29",
       "datasetIds": [],
-      "mechanism": "反思修正序列训练"
+      "mechanism": "反思修正序列训练",
+      "timeline": {
+        "month": 2,
+        "basis": "preprint",
+        "source": {
+          "url": "https://arxiv.org/abs/2602.01004",
+          "note": "SRVAU-R1 v1 submitted 1 February 2026; conference status remains unconfirmed."
+        }
+      }
     },
     {
       "id": "anom-pi",
@@ -486,7 +582,15 @@
       ],
       "verifiedAt": "2026-09-30",
       "datasetIds": [],
-      "mechanism": "交替推理与观察策略"
+      "mechanism": "交替推理与观察策略",
+      "timeline": {
+        "month": 7,
+        "basis": "conference",
+        "source": {
+          "url": "https://icml.cc/Conferences/2026/index.html",
+          "note": "Main conference: 7–9 July 2026."
+        }
+      }
     },
     {
       "id": "finevau",
@@ -516,7 +620,15 @@
       "datasetIds": [
         "finew3"
       ],
-      "mechanism": "关键视觉事实评估"
+      "mechanism": "关键视觉事实评估",
+      "timeline": {
+        "month": 1,
+        "basis": "conference",
+        "source": {
+          "url": "https://aaai.org/wp-content/uploads/2026/01/AAAI-26_Overview-with-BLTW_1.14.pdf",
+          "note": "Main conference: 22–25 January 2026."
+        }
+      }
     },
     {
       "id": "valu",
@@ -544,7 +656,15 @@
       ],
       "verifiedAt": "2026-09-29",
       "datasetIds": [],
-      "mechanism": "语义分层边界评估"
+      "mechanism": "语义分层边界评估",
+      "timeline": {
+        "month": 7,
+        "basis": "conference",
+        "source": {
+          "url": "https://2026.aclweb.org/assets/Sponsorship%20brochure%20for%20ACL%202026%20Conferences%20-%202026-04-23.pdf",
+          "note": "Conference: 2–7 July 2026."
+        }
+      }
     },
     {
       "id": "eval",
@@ -573,7 +693,15 @@
         }
       ],
       "verifiedAt": "2026-09-29",
-      "datasetIds": []
+      "datasetIds": [],
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2023",
+          "note": "Main conference: 20–22 June 2023."
+        }
+      }
     },
     {
       "id": "ovvad",
@@ -607,7 +735,15 @@
       "datasetIds": [
         "ucf-crime",
         "xd-violence"
-      ]
+      ],
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2024",
+          "note": "Main conference: 19–21 June 2024."
+        }
+      }
     },
     {
       "id": "tpwng",
@@ -642,7 +778,15 @@
       "datasetIds": [
         "ucf-crime",
         "xd-violence"
-      ]
+      ],
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2024",
+          "note": "Main conference: 19–21 June 2024."
+        }
+      }
     },
     {
       "id": "uca-paper",
@@ -679,7 +823,15 @@
       "datasetIds": [
         "ucf-crime",
         "uca"
-      ]
+      ],
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2024",
+          "note": "Main conference: 19–21 June 2024."
+        }
+      }
     },
     {
       "id": "anomize",
@@ -709,7 +861,15 @@
       "datasetIds": [
         "ucf-crime",
         "xd-violence"
-      ]
+      ],
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2025/News/MediaRegistration",
+          "note": "Conference: 11–15 June 2025."
+        }
+      }
     },
     {
       "id": "va-gpt",
@@ -745,7 +905,15 @@
       "datasetIds": [
         "ucf-crime",
         "xd-violence"
-      ]
+      ],
+      "timeline": {
+        "month": 10,
+        "basis": "conference",
+        "source": {
+          "url": "https://iccv.thecvf.com/Conferences/2025/Dates",
+          "note": "Main conference: 21–23 October 2025."
+        }
+      }
     },
     {
       "id": "alert-clip",
@@ -772,7 +940,15 @@
         }
       ],
       "verifiedAt": "2026-09-29",
-      "datasetIds": []
+      "datasetIds": [],
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2026/TentativeSchedule",
+          "note": "Main conference in June 2026."
+        }
+      }
     },
     {
       "id": "lavida",
@@ -812,7 +988,15 @@
       "datasetIds": [
         "ucf-crime",
         "xd-violence"
-      ]
+      ],
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2026/TentativeSchedule",
+          "note": "Main conference in June 2026."
+        }
+      }
     },
     {
       "id": "las-vad",
@@ -843,7 +1027,15 @@
       "datasetIds": [
         "ucf-crime",
         "xd-violence"
-      ]
+      ],
+      "timeline": {
+        "month": 6,
+        "basis": "conference",
+        "source": {
+          "url": "https://cvpr.thecvf.com/Conferences/2026/TentativeSchedule",
+          "note": "Main conference in June 2026."
+        }
+      }
     },
     {
       "id": "vad-r1",
@@ -875,7 +1067,15 @@
       "verifiedAt": "2026-09-29",
       "datasetIds": [
         "vad-reasoning"
-      ]
+      ],
+      "timeline": {
+        "month": 12,
+        "basis": "conference",
+        "source": {
+          "url": "https://neurips.cc/Conferences/2025",
+          "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
+        }
+      }
     },
     {
       "id": "vadtree",
@@ -912,7 +1112,15 @@
       "datasetIds": [
         "ucf-crime",
         "xd-violence"
-      ]
+      ],
+      "timeline": {
+        "month": 12,
+        "basis": "conference",
+        "source": {
+          "url": "https://neurips.cc/Conferences/2025",
+          "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
+        }
+      }
     },
     {
       "id": "cuebench",
@@ -943,7 +1151,15 @@
         }
       ],
       "verifiedAt": "2026-09-29",
-      "datasetIds": []
+      "datasetIds": [],
+      "timeline": {
+        "month": 1,
+        "basis": "conference",
+        "source": {
+          "url": "https://aaai.org/wp-content/uploads/2026/01/AAAI-26_Overview-with-BLTW_1.14.pdf",
+          "note": "Main conference: 22–25 January 2026."
+        }
+      }
     },
     {
       "id": "targetvau",
@@ -974,7 +1190,15 @@
       "verifiedAt": "2026-09-29",
       "datasetIds": [
         "hivau-70k"
-      ]
+      ],
+      "timeline": {
+        "month": 1,
+        "basis": "conference",
+        "source": {
+          "url": "https://aaai.org/wp-content/uploads/2026/01/AAAI-26_Overview-with-BLTW_1.14.pdf",
+          "note": "Main conference: 22–25 January 2026."
+        }
+      }
     },
     {
       "id": "holotrace",
@@ -1004,7 +1228,15 @@
         }
       ],
       "verifiedAt": "2026-09-29",
-      "datasetIds": []
+      "datasetIds": [],
+      "timeline": {
+        "month": 10,
+        "basis": "conference",
+        "source": {
+          "url": "https://acmmm2025.org/",
+          "note": "Conference: 27–31 October 2025."
+        }
+      }
     },
     {
       "id": "lagovad",
@@ -1033,7 +1265,15 @@
         }
       ],
       "verifiedAt": "2026-09-29",
-      "datasetIds": []
+      "datasetIds": [],
+      "timeline": {
+        "month": 4,
+        "basis": "conference",
+        "source": {
+          "url": "https://iclr.cc/Conferences/2026/Dates",
+          "note": "Main conference: 23–25 April 2026."
+        }
+      }
     },
     {
       "id": "memovad",
@@ -1065,7 +1305,15 @@
       "datasetIds": [
         "ucf-crime",
         "xd-violence"
-      ]
+      ],
+      "timeline": {
+        "month": 8,
+        "basis": "conference",
+        "source": {
+          "url": "https://2026.ijcai.org/at-a-glance2/",
+          "note": "Main technical program: 18–21 August 2026."
+        }
+      }
     },
     {
       "id": "a2seek",
@@ -1096,7 +1344,15 @@
         }
       ],
       "verifiedAt": "2026-09-29",
-      "datasetIds": []
+      "datasetIds": [],
+      "timeline": {
+        "month": 12,
+        "basis": "conference",
+        "source": {
+          "url": "https://neurips.cc/Conferences/2025",
+          "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
+        }
+      }
     }
   ],
   "datasets": [

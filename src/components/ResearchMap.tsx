@@ -5,6 +5,7 @@ import {
   createPublicationLayout,
   labelWidth,
   publicationLabel,
+  stationName,
 } from "./publication-layout";
 import type { Point } from "./publication-layout";
 import { publicationVenue } from "../publication";
@@ -506,6 +507,7 @@ export default function ResearchMap({
             const color = line?.color || INK;
             const label = publicationLabel(paper);
             const fontSize = station ? 14 : 16;
+            const name = station ? stationName(paper) : paper.shortTitle;
             const tx = station ? box.x + box.width / 2 : box.x + 13;
             const available = box.width - (station ? 10 : 26);
             const labelY = station ? box.y + box.height / 2 + 5 : box.y + 18;
@@ -599,10 +601,10 @@ export default function ResearchMap({
                   fill={INK}
                   fontSize={fontSize}
                   fontWeight="750"
-                  textLength={fitLabel(paper.shortTitle, fontSize, available)}
+                  textLength={fitLabel(name, fontSize, available)}
                   lengthAdjust="spacingAndGlyphs"
                 >
-                  {paper.shortTitle}
+                  {name}
                 </text>
                 {!station && (
                   <text

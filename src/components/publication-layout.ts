@@ -50,6 +50,10 @@ const VENUES = [
 ];
 export const publicationLabel = (paper: Paper): string =>
   `${paper.venue === "NeurIPS Datasets and Benchmarks" ? "NeurIPS D&B" : paper.venue === "CVPR Workshops" ? "CVPRW" : paper.venue} · ${paper.year}`;
+// Combined benchmark/model titles keep their model name at the map station;
+// the complete title remains in the index, accessible name and detail panel.
+export const stationName = (paper: Paper): string =>
+  paper.shortTitle.split(" / ").at(-1)!;
 // Conservative glyph estimates keep packing deterministic before fonts load.
 export function labelWidth(text: string, size = 14): number {
   return Math.ceil(
@@ -172,15 +176,18 @@ function parallelPenalty(a: Point, b: Point, occupied: Segment[]): number {
   return penalty;
 }
 
-// Prefer a small vocabulary of long, decisive metro bends. Visibility search is
-// only a fallback for crowded cells; its edges are native octilinear paths.
+// Time never runs backwards: every candidate and visibility edge must move
+// rightwards. This rules out the tiny U-turns caused by label avoidance.
 function route(
   start: Point,
   end: Point,
   obstacles: Box[],
   occupied: Segment[],
 ): Point[] {
+  const forward = (path: Point[]) =>
+    segments(path).every(({ a, b }) => b.x >= a.x);
   const clear = (path: Point[]) =>
+    forward(path) &&
     segments(path).every(
       ({ a, b }) => !obstacles.some((box) => crosses(a, b, box)),
     );
@@ -189,7 +196,7 @@ function route(
       (sum, { a, b }) => sum + length(a, b) + parallelPenalty(a, b, occupied),
       0,
     ) +
-    (path.length - 2) * 60;
+    (path.length - 2) * 100;
   const candidates = elbows(start, end);
   const xs = new Set([start.x, end.x, (start.x + end.x) / 2]);
   const ys = new Set([start.y, end.y, (start.y + end.y) / 2]);
@@ -230,7 +237,7 @@ function route(
       { x: box.x + box.width, y: box.y },
       { x: box.x, y: box.y + box.height },
       { x: box.x + box.width, y: box.y + box.height },
-    ]),
+    ]).filter((point) => point.x >= start.x && point.x <= end.x),
   ];
   const scores = nodes.map(() => Infinity),
     done = new Set<number>();
@@ -257,7 +264,7 @@ function route(
     }
     done.add(current);
     nodes.forEach((node, next) => {
-      if (done.has(next) || same(nodes[current], node)) return;
+      if (done.has(next) || same(nodes[current], node) || node.x < nodes[current].x) return;
       for (const path of elbows(nodes[current], node)) {
         const nextCost = score + cost(path) + 90;
         if (nextCost < scores[next] && clear(path)) {
@@ -267,8 +274,7 @@ function route(
       }
     });
   }
-  // With finite rectangular obstacles the visibility graph has an exterior path.
-  throw new Error("Unable to route a publication metro segment");
+  throw new Error(`Unable to route a forward publication metro segment: ${JSON.stringify(start)} → ${JSON.stringify(end)}`);
 }
 
 export function createPublicationLayout(papers: Paper[]): PublicationLayout {
@@ -283,104 +289,102 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
       .filter((v) => !VENUES.includes(v))
       .sort(),
   ];
-  const margin = 224,
+  const margin = 140,
     top = 75;
-  // Size each year from its busiest merged venue cell so labels fit in one
-  // tier; sparse years give their space to the denser publication columns.
-  const rawWidths = yearValues.map((year) =>
-    Math.max(
-      124,
-      ...venueValues.map((venue) =>
-        papers
-          .filter((p) => p.year === year && publicationVenue(p.venue) === venue)
-          .reduce((sum, p) => sum + labelWidth(p.shortTitle, 14) + 22, 44),
-      ),
-    ),
-  );
+  const methodOrder = SCHOOLS.map((school) => school.id);
+  const month = (paper: Paper) => paper.timeline?.month ?? 13;
+  const compare = (a: Paper, b: Paper) =>
+    a.year - b.year || month(a) - month(b) ||
+    methodOrder.indexOf(a.cluster) - methodOrder.indexOf(b.cluster) ||
+    a.shortTitle.localeCompare(b.shortTitle) || a.id.localeCompare(b.id);
+  const stationXs = new Map<string, number>();
   let x = margin;
-  const years = yearValues.map((year, index) => {
-    const width = rawWidths[index];
-    const item = {
-      year,
-      x,
-      width,
-      count: papers.filter((p) => p.year === year).length,
-    };
+  // Hidden month groups establish a consistent order across *all* venue rows.
+  // Equal-month papers spread into short slots; widths are schematic, not a
+  // proportional calendar. Dense labels stack instead of stretching the map.
+  const years = yearValues.map((year) => {
+    const members = papers.filter((paper) => paper.year === year);
+    const months = [...new Set(members.map(month))].sort((a, b) => a - b);
+    let cursor = x + 24;
+    let right = cursor;
+    for (const value of months) {
+      const group = members.filter((paper) => month(paper) === value);
+      const entries = group.sort((a, b) =>
+        venueValues.indexOf(publicationVenue(a.venue)) - venueValues.indexOf(publicationVenue(b.venue)) || compare(a, b));
+      const span = Math.max(0, entries.length - 1) * 58;
+      entries.forEach((paper, index) => {
+        const stationX = cursor + index * 58;
+        stationXs.set(paper.id, stationX);
+        right = Math.max(right, stationX + labelWidth(stationName(paper)) + 12);
+      });
+      cursor += span + 44;
+    }
+    const width = Math.max(96, cursor - x + 12, right - x + 22);
+    const item = { year, x, width, count: members.length };
     x += width;
     return item;
   });
+  const labelXs = new Map<string, number>();
+  const labelsBelow = new Set<string>();
+  for (const paper of papers) {
+    const stationX = stationXs.get(paper.id)!;
+    const route = papers.filter((other) => other.cluster === paper.cluster)
+      .sort((a, b) => stationXs.get(a.id)! - stationXs.get(b.id)!);
+    const index = route.findIndex((other) => other.id === paper.id);
+    const previous = route[index - 1], next = route[index + 1];
+    const row = (item: Paper) => venueValues.indexOf(publicationVenue(item.venue));
+    const leavesUp = next && row(next) < row(paper);
+    const valley = previous && next && row(previous) < row(paper) && leavesUp;
+    if (valley) labelsBelow.add(paper.id);
+    const year = years.find((column) => column.year === paper.year)!;
+    labelXs.set(paper.id, Math.max(year.x + 10,
+      leavesUp && !valley ? stationX - labelWidth(stationName(paper)) - 5 : stationX - 7));
+  }
   const stations = new Map<string, Station>();
   let y = top;
   const venues = venueValues.map((venue) => {
+    const members = papers.filter((paper) => publicationVenue(paper.venue) === venue);
     const cells = years.map((year) => {
-      const entries = papers
-        .filter(
-          (p) => publicationVenue(p.venue) === venue && p.year === year.year,
-        )
-        .sort((a, b) => a.shortTitle.localeCompare(b.shortTitle));
-      const rows: Paper[][] = [[]];
-      let used = 0;
-      for (const paper of entries) {
-        const width = labelWidth(paper.shortTitle, 14) + 22;
-        if (used && used + width > year.width - 44) {
-          rows.push([]);
-          used = 0;
-        }
-        rows[rows.length - 1].push(paper);
-        used += width;
+      const entries = members.filter((paper) => paper.year === year.year);
+      const methods = [...new Set(entries.map((paper) => paper.cluster))]
+        .sort((a, b) => methodOrder.indexOf(a) - methodOrder.indexOf(b));
+      const tierStarts: number[][] = [[], []];
+      const tiers = new Map<string, number>();
+      // Later labels occupy the upper tier; valley labels sit below the track.
+      for (const paper of [...entries].sort((a, b) => labelXs.get(b.id)! - labelXs.get(a.id)!)) {
+        const left = labelXs.get(paper.id)!;
+        const right = left + labelWidth(stationName(paper)) + 12;
+        const starts = tierStarts[labelsBelow.has(paper.id) ? 1 : 0];
+        let tier = starts.findIndex((start) => right + 10 <= start);
+        if (tier < 0) tier = starts.length;
+        starts[tier] = left;
+        tiers.set(paper.id, tier);
       }
-      return { year, rows };
+      const aboveHeight = tierStarts[0].length * 27;
+      const belowHeight = tierStarts[1].length * 27;
+      const trackHeight = 31 + Math.max(0, methods.length - 1) * 12;
+      return { entries, methods, tiers, aboveHeight, trackHeight,
+        height: aboveHeight + trackHeight + belowHeight };
     });
-    const tierCount = Math.max(1, ...cells.map((c) => c.rows.length));
-    const methodOrder = SCHOOLS.map((s) => s.id);
-    const rowMethods = (row: Paper[]) =>
-      [...new Set(row.map((p) => p.cluster))].sort(
-        (a, b) => methodOrder.indexOf(a) - methodOrder.indexOf(b),
-      );
-    const methodSpread =
-      Math.max(
-        0,
-        ...cells.flatMap((c) =>
-          c.rows.map((row) => rowMethods(row).length - 1),
-        ),
-      ) * 12;
-    const tierHeight = 56 + methodSpread;
-    const height = tierCount * tierHeight + 2;
-    for (const { year, rows } of cells)
-      rows.forEach((row, tier) => {
-        const total = row.reduce(
-          (sum, p) => sum + labelWidth(p.shortTitle, 14) + 22,
-          0,
-        );
-        let cursor = year.x + 22 + Math.max(0, (year.width - 44 - total) / 2);
-        for (const paper of row) {
-          const width = labelWidth(paper.shortTitle, 14) + 12;
-          stations.set(paper.id, {
-            paperId: paper.id,
-            lineId: paper.cluster,
-            x: cursor + 7,
-            y:
-              y +
-              tier * tierHeight +
-              44 +
-              rowMethods(row).indexOf(paper.cluster) * 12,
-            label: {
-              x: cursor,
-              y: y + tier * tierHeight + 7,
-              width,
-              height: 23,
-            },
-          });
-          cursor += width + 10;
-        }
-      });
-    const item = {
-      venue,
-      label: venue,
-      y,
-      height,
-      count: papers.filter((p) => publicationVenue(p.venue) === venue).length,
-    };
+    const height = Math.max(58, ...cells.map((cell) => cell.height));
+    for (const cell of cells) {
+      const base = y + (height - cell.height) / 2;
+      for (const paper of cell.entries) {
+        stations.set(paper.id, {
+          paperId: paper.id,
+          lineId: paper.cluster,
+          x: stationXs.get(paper.id)!,
+          y: base + cell.aboveHeight + 19 + cell.methods.indexOf(paper.cluster) * 12,
+          label: {
+            x: labelXs.get(paper.id)!,
+            y: base + 4 + (labelsBelow.has(paper.id) ? cell.aboveHeight + cell.trackHeight : 0) + cell.tiers.get(paper.id)! * 27,
+            width: labelWidth(stationName(paper)) + 12,
+            height: 23,
+          },
+        });
+      }
+    }
+    const item = { venue, label: venue, y, height, count: members.length };
     y += height;
     return item;
   });
@@ -399,29 +403,9 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
   const occupied: Segment[] = [];
   const lines = schools
     .map((school, schoolIndex): PublicationLine => {
-      // Within a year the order is spatial, not a publication sequence. Enter
-      // each column from its closer end to avoid repeated full-height returns.
-      const ordered: Paper[] = [];
-      for (const year of yearValues) {
-        const members = papers
-          .filter((p) => p.cluster === school.id && p.year === year)
-          .sort(
-            (a, b) =>
-              stations.get(a.id)!.y - stations.get(b.id)!.y ||
-              stations.get(a.id)!.x - stations.get(b.id)!.x,
-          );
-        const previous = ordered.length
-          ? stations.get(ordered[ordered.length - 1].id)!
-          : undefined;
-        if (
-          previous &&
-          members.length > 1 &&
-          length(previous, stations.get(members[members.length - 1].id)!) <
-            length(previous, stations.get(members[0].id)!)
-        )
-          members.reverse();
-        ordered.push(...members);
-      }
+      const ordered = papers
+        .filter((paper) => paper.cluster === school.id)
+        .sort((a, b) => stations.get(a.id)!.x - stations.get(b.id)!.x);
       const stops = ordered.map((p) => stations.get(p.id)!);
       const track: Point[] = [];
       stops.forEach((stop, i) => {
