@@ -2334,7 +2334,7 @@ p {
     font-size: 13px;
   }
 }
-/* One panoramic workspace; details appear only when a milestone is selected. */
+/* One map workspace; details appear only when a paper station is selected. */
 .desk {
   position: relative;
 }
@@ -2566,5 +2566,53 @@ p {
   }
   .paper-chip b {
     font-size: 9px;
+  }
+}
+
+/* Transit signage frames the map without taking space from the network. */
+.is-metro {
+  background-image: none;
+  background-color: #f4efdf;
+}
+.is-metro .masthead nav button.active {
+  transform: none;
+}
+.is-metro .command-bar {
+  box-shadow: 0 2px 0 var(--ink);
+}
+.is-metro .workspace {
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.is-metro .workspace-toolbar {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 4px 9px;
+}
+.is-metro .layout-tabs {
+  gap: 3px;
+}
+.is-metro .layout-tabs button {
+  color: #f5efdf;
+  border-radius: 2px;
+  font-weight: 700;
+  padding: 5px 10px;
+}
+.is-metro .layout-tabs button.active {
+  color: var(--ink);
+  border-color: var(--yellow);
+  box-shadow: none;
+}
+.is-metro .workspace-count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+@media (max-width: 760px) {
+  .is-metro .layout-tabs button {
+    padding: 4px 7px;
+  }
+  .is-metro .workspace-count {
+    font-size: 10px;
+    letter-spacing: 0;
   }
 }
