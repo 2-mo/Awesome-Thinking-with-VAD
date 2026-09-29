@@ -8,6 +8,8 @@ export interface Paper {
   title: string;
   year: number;
   venue: string;
+  // Hidden ordering only: conference main-session month, or arXiv v1 month.
+  timeline?: { month: number; basis: "conference" | "preprint"; source: Source };
   scope: "core";
   cluster: string;
   tasks: string[];

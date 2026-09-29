@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "validate": "node scripts/catalog.mjs",
     "generate": "node scripts/generate-catalog.mjs",
-    "test": "node --test",
+    "test": "node --experimental-strip-types --test",
     "check": "npm run validate && node scripts/generate-catalog.mjs --check && npm test && tsc -b",
     "build": "npm run validate && npm run generate && tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1"

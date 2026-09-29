@@ -52,6 +52,8 @@ const corruptions = [
   ['missing core verification sources', data => { data.papers[0].sources = []; }, /verification source/],
   ['missing evidence note', data => { data.relations[0].evidence.note = ''; }, /non-empty string/],
   ['invalid year', data => { data.papers[0].year = 3000; }, /publication year/],
+  ['invalid hidden timeline month', data => { data.papers[0].timeline = { month: 13, basis: 'conference', source: data.papers[0].sources[0] }; }, /timeline.month.*1 to 12/],
+  ['unsourced hidden timeline month', data => { data.papers[0].timeline = { month: 6, basis: 'conference' }; }, /timeline.source.*URL and evidence/],
   ['invalid calendar date', data => { data.updatedAt = '2026-02-30'; }, /valid YYYY-MM-DD/],
   ['missing required summary', data => { delete data.papers[0].summary; }, /summary/],
   ['missing innovation mechanism', data => { delete data.papers[0].mechanism; }, /mechanism.*non-empty string/],
