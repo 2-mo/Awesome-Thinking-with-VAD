@@ -13,6 +13,8 @@
 
 ## 🗞️ 最新更新
 
+- **2026-09-29** — 研究地图新版上线：以来源核验的精选目录为基础，包含 17 篇核心论文、6 个数据集和 3 条阅读路线。
+
 - **2026-02-06** — 更新了 AAAI 论文列表。
 - **2026-02-06** — 更新了 ICLR 论文列表。
 - **2026-02-06** — 刷新了 Interactive Atlas 时间轴页面（[查看研究图谱](https://2-mo.github.io/Awesome-Thinking-with-VAD/)）。
@@ -25,6 +27,8 @@
   - [🗞️ 最新更新](#-最新更新)
   - [📖 目录](#-目录)
   - [🌟 概述](#-概述)
+  - [🗺️ 研究地图](#-研究地图)
+  - [💻 本地运行](#-本地运行)
   - [📚 会议概览](#-会议概览)
   - [📰 期刊概览](#-期刊概览)
   - [🧪 基准与数据集](#-基准与数据集)
@@ -44,6 +48,8 @@
 视频异常检测正在从简单的帧级告警转向能够**推理、解释与表达**异常原因的系统。本仓库聚焦于利用**LLMs**与**VLMs**实现更深层异常理解的方法。
 
 **内容包括：**
+
+- 🗺️ 按创新思路组织、紧凑同屏呈现研究方向、论文依据、数据集与阅读路线的交互式研究地图
 - 📚 按会议与年份整理的论文合集
 - 📊 按 LLM 适配程度分类的数据集（可解释标注 vs. 传统标签）
 - 🔗 推理型 VAD 资源的快速入口
@@ -52,9 +58,40 @@
 
 ---
 
+## 🗺️ 研究地图
+
+[打开交互式研究地图](https://2-mo.github.io/Awesome-Thinking-with-VAD/) · [阅读精选目录](catalog.md) · [查看源数据](data/catalog.json)
+
+当前精选目录包含 **5 个研究方向的 17 篇核心论文、6 个数据集和 3 条阅读路线**。地图紧凑同屏呈现，通过分页浏览更多条目。路线围绕创新思路与研究问题组织；数据集用于补充评测背景，不作为阅读路线的组织主线。
+
+目录仅收录视频异常检测与理解相关工作。创新思路路线图由编辑整理，不代表论文间的继承关系。
+
+[data/catalog.json](data/catalog.json) 是交互式地图与自动生成的 [catalog.md](catalog.md) 的单一数据源，精选条目记录核验来源与日期。既有[会议笔记](venues/)、[期刊笔记](journals/)、[数据集笔记](dataset.md)与 [LLM/VAD 笔记](llm4vad.md) 作为额外历史资料保留，**尚未全部复核**；出现在历史笔记中不等于被纳入本次核验目录。
+
+## 💻 本地运行
+
+开发环境使用 Node.js 24：
+
+```sh
+npm ci
+npm run dev
+```
+
+`npm test` 运行自动测试，`npm run check` 执行数据校验与类型检查，`npm run build` 重新生成目录和生产站点，`npm run preview` 预览生产构建。需要主动更新依赖时使用 `npm install`。
+
+Vite 生产输出已提交至 [docs/](docs/)。在 `main` 上无需安装 Node 依赖即可直接启动静态站点：
+
+```sh
+python3 -m http.server 8000 --directory docs
+```
+
+打开 `http://localhost:8000/`。完整开发流程见 [DEVELOPMENT.md](DEVELOPMENT.md)，数据维护与来源要求见 [CONTRIBUTING.md](CONTRIBUTING.md)。请修改源数据或应用代码后重新生成，不要手工修改 `catalog.md` 或 `docs/`。
+
+---
+
 ## 📚 会议概览
 
-`venues/` 目录下汇总了 2023-2026 年各会议的论文笔记，快速入口如下：
+`venues/` 保留了 2023–2026 年各会议的历史论文笔记，尚未全部复核，快速入口如下：
 
 - [CVPR](venues/cvpr.md) — Computer Vision and Pattern Recognition
 - [ICCV](venues/iccv.md) — International Conference on Computer Vision
@@ -70,7 +107,7 @@
 
 ## 📰 期刊概览
 
-详见 [journals/README.md](journals/README.md)，包括：
+历史期刊笔记详见 [journals/README.md](journals/README.md)，这些条目尚未全部复核，包括：
 
 - [TPAMI](journals/tpami.md) — IEEE Transactions on Pattern Analysis and Machine Intelligence
 - [TIP](journals/tip.md) — IEEE Transactions on Image Processing
@@ -83,7 +120,7 @@
 
 ## 🧪 基准与数据集
 
-我们在 **[dataset.md](dataset.md)** 中维护了完整的 VAD 数据集清单，按以下维度整理：
+研究地图提供 6 个精选数据集的任务、标注与评测协议说明。覆盖范围更广的历史 **[dataset.md](dataset.md)** 仍保留，尚未全面复核，按以下维度整理：
 
 - 🤖 **LLM/VLM 友好型数据集** — 多模态与可解释标注
   - 视频语言标注（UCA, VAD-Instruct50k, UCCD）
@@ -99,7 +136,7 @@
 - 🚗 **领域专用** — 驾驶、交通与特定场景
   - Honda HDD, ROADWork, MSAD
 
-👉 **[查看完整数据集列表 →](dataset.md)**
+👉 **[查看历史数据集笔记 →](dataset.md)**
 
 ---
 
@@ -120,26 +157,9 @@
 
 ## 🤝 贡献
 
-欢迎贡献！你可以：
+添加或修正地图条目前，请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。编辑 [data/catalog.json](data/catalog.json)，补充一手来源、证据说明、核验日期和明确的局限，确保条目直接关联视频异常理解。
 
-- 提交 PR：添加论文、数据集或资源
-- 提交 Issue：反馈问题或提出建议
-- 分享与“推理型 VAD”相关的工作
-
-**建议：**
-- 遵循既有论文条目格式
-- 尽量附上论文、代码与项目页链接
-- 添加简短亮点描述
-- 归类到对应年份与会议分区
-- 若不确定分类，可先提 Issue 讨论
-
-**条目模板：**
-```text
-- 标题 — 会议, 年份
-- 链接：论文 | 代码 | 项目页
-- 任务/设置：...
-- 亮点：...
-```
+运行 `npm run build` 和 `npm run check`，在 PR 中同时提交生成的 `catalog.md` 与 `docs/`；CI 会检查生成结果是否与源数据一致。修正历史笔记时，请编辑对应 Markdown 文件并说明核验范围。欢迎通过 Issue 提交勘误、来源证据和新增建议。
 
 ---
 

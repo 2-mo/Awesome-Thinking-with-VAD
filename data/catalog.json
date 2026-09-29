@@ -1,0 +1,1038 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-29",
+  "clusters": [
+    {
+      "id": "alignment",
+      "name": "语义对齐与融合",
+      "description": "创新抓手：字幕特征融合、视觉语言对齐和运动语言监督，为异常建立可解释的语义表征。",
+      "question": "如何把外观、运动与语言转化为异常相关的表征？",
+      "color": "#badff5",
+      "position": {
+        "x": 210,
+        "y": 260
+      }
+    },
+    {
+      "id": "explanation",
+      "name": "语言判据与提示优化",
+      "description": "创新抓手：字幕到判断的语言中介、正常规则归纳与引导问题优化，将异常标准显式化。",
+      "question": "有了语义表征，怎样构造场景适用的异常判据？",
+      "color": "#ffc3b5",
+      "position": {
+        "x": 550,
+        "y": 180
+      }
+    },
+    {
+      "id": "understanding",
+      "name": "时序分层与记忆",
+      "description": "创新抓手：多粒度指令、事件边界建模、历史分数记忆，以及语义层级下的边界评估。",
+      "question": "判据应作用于哪一段时间，又需要保留多少历史？",
+      "color": "#d9cef1",
+      "position": {
+        "x": 790,
+        "y": 620
+      }
+    },
+    {
+      "id": "evidence",
+      "name": "主动观察与工具决策",
+      "description": "创新抓手：场景规划、工具调用、补充采样与交互策略学习，让异常证据获取随当前疑点调整。",
+      "question": "当前证据不足时，怎样决定下一次观察或工具调用？",
+      "color": "#ffdf70",
+      "position": {
+        "x": 380,
+        "y": 620
+      }
+    },
+    {
+      "id": "reasoning",
+      "name": "结构化推理与验证",
+      "description": "创新抓手：因果问题分解、对象关系编码、反思修正与关键事实评估，让异常解释可以被检查。",
+      "question": "怎样组织推理，并检验结论是否抓住关键事实？",
+      "color": "#c5e2c1",
+      "position": {
+        "x": 910,
+        "y": 260
+      }
+    }
+  ],
+  "papers": [
+    {
+      "id": "tevad",
+      "shortTitle": "TEVAD",
+      "title": "TEVAD: Improved Video Anomaly Detection With Captions",
+      "year": 2023,
+      "venue": "CVPR Workshops",
+      "scope": "core",
+      "cluster": "alignment",
+      "tasks": [
+        "异常检测"
+      ],
+      "summary": "融合视频特征与字幕语义，补充纯视觉检测缺少的事件信息。",
+      "takeaway": "先理解语言如何进入检测器，再讨论更复杂的推理。",
+      "limitation": "阅读关注：字幕中的错误会怎样影响异常分数？",
+      "links": {
+        "paper": "https://openaccess.thecvf.com/content/CVPR2023W/O-DRUM/papers/Chen_TEVAD_Improved_Video_Anomaly_Detection_With_Captions_CVPRW_2023_paper.pdf"
+      },
+      "sources": [
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2023W/O-DRUM/papers/Chen_TEVAD_Improved_Video_Anomaly_Detection_With_Captions_CVPRW_2023_paper.pdf",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [],
+      "mechanism": "字幕语义特征融合"
+    },
+    {
+      "id": "vadclip",
+      "shortTitle": "VadCLIP",
+      "title": "VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection",
+      "year": 2024,
+      "venue": "AAAI",
+      "scope": "core",
+      "cluster": "alignment",
+      "tasks": [
+        "异常检测",
+        "异常定位"
+      ],
+      "summary": "利用冻结 CLIP 的视觉语言关联，通过双分支完成粗粒度和细粒度异常检测。",
+      "takeaway": "语义对齐让检测分数能够关联异常类别。",
+      "limitation": "阅读关注：类别语义对齐与开放式异常解释仍有距离。",
+      "links": {
+        "paper": "https://arxiv.org/abs/2308.11681",
+        "code": "https://github.com/nwpu-zxr/VadCLIP"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2308.11681",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        },
+        {
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/view/28423",
+          "note": "AAAI 官方出版页确认 2024 年，并明确报告 UCF-Crime、XD-Violence。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ],
+      "mechanism": "视觉语言双分支对齐"
+    },
+    {
+      "id": "lavad",
+      "shortTitle": "LAVAD",
+      "title": "Harnessing Large Language Models for Training-free Video Anomaly Detection",
+      "year": 2024,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "explanation",
+      "tasks": [
+        "异常检测",
+        "异常定位"
+      ],
+      "summary": "先描述帧内容，再由语言模型聚合时序信息并估计异常分数。",
+      "takeaway": "把预训练模型组合成无需目标数据训练的异常检测流程。",
+      "limitation": "阅读关注：描述噪声及文本压缩会丢失哪些视觉细节？",
+      "links": {
+        "paper": "https://arxiv.org/abs/2404.01014",
+        "code": "https://github.com/lucazanella/lavad",
+        "project": "https://lucazanella.github.io/lavad/"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2404.01014",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        },
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Zanella_Harnessing_Large_Language_Models_for_Training-free_Video_Anomaly_Detection_CVPR_2024_paper.pdf",
+          "note": "CVF 正式论文确认 CVPR 2024；摘要明确两个评测数据集。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ],
+      "mechanism": "字幕聚合语言评分"
+    },
+    {
+      "id": "anomalyruler",
+      "shortTitle": "AnomalyRuler",
+      "title": "Follow the Rules: Reasoning for Video Anomaly Detection with Large Language Models",
+      "year": 2024,
+      "venue": "ECCV",
+      "scope": "core",
+      "cluster": "explanation",
+      "tasks": [
+        "异常检测",
+        "异常推理"
+      ],
+      "summary": "从少量正常样本归纳场景规则，再依据规则判断测试视频中的异常。",
+      "takeaway": "正常性可以写成可检查、可调整的语言规则。",
+      "limitation": "阅读关注：少量正常参考是否覆盖场景中的合理变化？",
+      "links": {
+        "paper": "https://arxiv.org/abs/2407.10299",
+        "code": "https://github.com/Yuchen413/AnomalyRuler"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2407.10299",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        },
+        {
+          "url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/10568.pdf",
+          "note": "ECCV 官方论文确认正式标题与 2024 年。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [],
+      "mechanism": "正常规则归纳演绎"
+    },
+    {
+      "id": "vera",
+      "shortTitle": "VERA",
+      "title": "VERA: Explainable Video Anomaly Detection via Verbalized Learning of Vision-Language Models",
+      "year": 2025,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "explanation",
+      "tasks": [
+        "异常检测",
+        "异常解释"
+      ],
+      "summary": "用视频级弱标签优化自然语言引导问题，让冻结 VLM 分解并判断异常模式。",
+      "takeaway": "不更新模型权重，也可以学习任务专属的推理提示。",
+      "limitation": "阅读关注：语言问题的适应性与跨场景迁移需要分开验证。",
+      "links": {
+        "paper": "https://arxiv.org/abs/2412.01095"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2412.01095",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        },
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Ye_VERA_Explainable_Video_Anomaly_Detection_via_Verbalized_Learning_of_Vision-Language_CVPR_2025_paper.pdf",
+          "note": "CVF 正式论文确认 CVPR 2025 与 verbalized learning 方法。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [],
+      "mechanism": "语言反馈优化问题"
+    },
+    {
+      "id": "ex-vad",
+      "shortTitle": "Ex-VAD",
+      "title": "Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models",
+      "year": 2025,
+      "venue": "ICML",
+      "scope": "core",
+      "cluster": "alignment",
+      "tasks": [
+        "异常检测",
+        "异常解释"
+      ],
+      "summary": "由帧字幕生成视频级异常解释，再结合视觉特征与标签增强对齐进行细粒度检测。",
+      "takeaway": "解释文本既是输出，也能参与检测表征学习。",
+      "limitation": "阅读关注：更好的分类结果是否同时意味着更忠实的解释？",
+      "links": {
+        "paper": "https://proceedings.mlr.press/v267/huang25ad.html"
+      },
+      "sources": [
+        {
+          "url": "https://proceedings.mlr.press/v267/huang25ad.html",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ],
+      "mechanism": "解释融合与标签对齐"
+    },
+    {
+      "id": "cuva",
+      "shortTitle": "CUVA",
+      "title": "Uncovering What, Why and How: A Comprehensive Benchmark for Causation Understanding of Video Anomaly",
+      "year": 2024,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常解释",
+        "异常推理",
+        "视频问答"
+      ],
+      "summary": "用事件、原因和后果标注，将视频异常理解拓展到因果解释及评估。",
+      "takeaway": "读 VAU 时，应把“发生什么”和“为什么发生”分开检查。",
+      "limitation": "阅读关注：可见事件证据能支持多强的因果结论？",
+      "links": {
+        "paper": "https://arxiv.org/abs/2405.00181",
+        "code": "https://github.com/fesvhtr/CUVA"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2405.00181",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "cuva-dataset"
+      ],
+      "mechanism": "事件因果任务分解"
+    },
+    {
+      "id": "hawk",
+      "shortTitle": "HAWK",
+      "title": "Hawk: Learning to Understand Open-World Video Anomalies",
+      "year": 2024,
+      "venue": "NeurIPS",
+      "scope": "core",
+      "cluster": "alignment",
+      "tasks": [
+        "异常解释",
+        "视频问答"
+      ],
+      "summary": "显式引入运动信息，并用异常视频描述与问答数据训练开放场景理解能力。",
+      "takeaway": "异常理解不仅需要外观，也需要动作变化与交互。",
+      "limitation": "阅读关注：开放场景能力如何随数据来源和问题类型变化？",
+      "links": {
+        "paper": "https://arxiv.org/abs/2405.16886",
+        "code": "https://github.com/jqtangust/hawk"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2405.16886",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        },
+        {
+          "url": "https://github.com/jqtangust/hawk/blob/main/README.md",
+          "note": "作者官方仓库确认 NeurIPS 2024 与数据发布入口。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "hawk-dataset"
+      ],
+      "mechanism": "运动语言监督对齐"
+    },
+    {
+      "id": "holmes-vau",
+      "shortTitle": "Holmes-VAU",
+      "title": "Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity",
+      "year": 2025,
+      "venue": "CVPR",
+      "scope": "core",
+      "cluster": "understanding",
+      "tasks": [
+        "异常检测",
+        "异常解释",
+        "视频问答"
+      ],
+      "summary": "构建多粒度异常指令数据，并用异常聚焦采样连接片段、事件和整段视频的理解。",
+      "takeaway": "长视频 VAU 要同时处理采样与多粒度语义。",
+      "limitation": "阅读关注：聚焦异常的采样是否保留充分的前因后果？",
+      "links": {
+        "paper": "https://arxiv.org/abs/2412.06171",
+        "code": "https://github.com/pipixin321/HolmesVAU"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2412.06171",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        },
+        {
+          "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.pdf",
+          "note": "CVF 正式论文确认 CVPR 2025；第 3 节介绍 HIVAU-70k。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "hivau-70k"
+      ],
+      "mechanism": "多粒度指令与采样"
+    },
+    {
+      "id": "eventvad",
+      "shortTitle": "EventVAD",
+      "title": "EventVAD: Training-Free Event-Aware Video Anomaly Detection",
+      "year": 2025,
+      "venue": "ACM MM",
+      "scope": "core",
+      "cluster": "understanding",
+      "tasks": [
+        "异常检测",
+        "异常定位",
+        "异常推理"
+      ],
+      "summary": "利用动态时空图寻找事件边界，再通过层级提示完成事件级异常推理。",
+      "takeaway": "先确定事件单元，能让长视频推理减少无关上下文。",
+      "limitation": "阅读关注：边界划分错误如何影响后续异常判断？",
+      "links": {
+        "paper": "https://arxiv.org/abs/2504.13092",
+        "code": "https://github.com/YihuaJerry/EventVAD"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2504.13092",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ],
+      "mechanism": "时空图划分事件边界"
+    },
+    {
+      "id": "panda",
+      "shortTitle": "PANDA",
+      "title": "PANDA: Towards Generalist Video Anomaly Detection via Agentic AI Engineer",
+      "year": 2025,
+      "venue": "NeurIPS",
+      "scope": "core",
+      "cluster": "evidence",
+      "tasks": [
+        "异常检测",
+        "异常推理"
+      ],
+      "summary": "把场景规划、工具反思与经验记忆组合为通用异常检测智能体。",
+      "takeaway": "检测流程本身可以成为按场景调整的决策过程。",
+      "limitation": "阅读关注：工具调用、记忆和检测质量之间的成本收益。",
+      "links": {
+        "paper": "https://arxiv.org/abs/2509.26386",
+        "project": "https://github.com/showlab/PANDA"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2509.26386",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        },
+        {
+          "url": "https://github.com/showlab/PANDA",
+          "note": "作者仓库确认 NeurIPS 2025；核验时仅有说明与资源，故不标为代码。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [],
+      "mechanism": "场景规划与工具反思"
+    },
+    {
+      "id": "monitor",
+      "shortTitle": "MoniTor",
+      "title": "MoniTor: Exploiting Large Language Models with Instruction for Online Video Anomaly Detection",
+      "year": 2025,
+      "venue": "NeurIPS",
+      "scope": "core",
+      "cluster": "understanding",
+      "tasks": [
+        "异常检测",
+        "异常定位"
+      ],
+      "summary": "使用流式输入、历史预测记忆和分数队列，在不训练的条件下持续判断异常。",
+      "takeaway": "在线异常理解必须明确当前可见的信息范围。",
+      "limitation": "阅读关注：在线约束、延迟与历史错误累积的影响。",
+      "links": {
+        "paper": "https://arxiv.org/abs/2510.21449"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2510.21449",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "ucf-crime",
+        "xd-violence"
+      ],
+      "mechanism": "流式记忆与分数队列"
+    },
+    {
+      "id": "vader",
+      "shortTitle": "VADER",
+      "title": "VADER: Towards Causal Video Anomaly Understanding with Relation-Aware Large Language Models",
+      "year": 2026,
+      "venue": "WACV",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常解释",
+        "异常推理",
+        "视频问答"
+      ],
+      "summary": "融合上下文采样与对象关系特征，支持异常描述、解释和因果问答。",
+      "takeaway": "将对象交互显式接入模型，连接可见关系与语言解释。",
+      "limitation": "阅读关注：关系特征提供的是因果证据，还是相关性线索？",
+      "links": {
+        "paper": "https://arxiv.org/abs/2511.07299"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2511.07299",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        },
+        {
+          "url": "https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf",
+          "note": "作者托管论文的实验设置明确使用 HIVAU-70k、HAWK、CUVA。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "hivau-70k",
+        "hawk-dataset",
+        "cuva-dataset"
+      ],
+      "mechanism": "对象关系编码推理"
+    },
+    {
+      "id": "srvau-r1",
+      "shortTitle": "SRVAU-R1",
+      "title": "SRVAU-R1: Enhancing Video Anomaly Understanding via Reflection-Aware Learning",
+      "year": 2026,
+      "venue": "arXiv",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常定位",
+        "异常推理"
+      ],
+      "summary": "构建初始推理、反思和修正推理的监督序列，再结合监督与强化微调。",
+      "takeaway": "把自我修正纳入学习目标，而不只要求更长的推理文本。",
+      "limitation": "阅读关注：反思是否真的纠正了视觉证据不足的判断？",
+      "links": {
+        "paper": "https://arxiv.org/abs/2602.01004"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2602.01004",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [],
+      "mechanism": "反思修正序列训练"
+    },
+    {
+      "id": "anom-pi",
+      "shortTitle": "Anom-π",
+      "title": "Learning to Watch: Active Video Anomaly Understanding via Interleaved Policy Optimization",
+      "year": 2026,
+      "venue": "arXiv",
+      "scope": "core",
+      "cluster": "evidence",
+      "tasks": [
+        "异常推理",
+        "异常解释"
+      ],
+      "summary": "将推理与时间回溯、区间扩展、细粒度采样交替执行，学习主动获取证据的策略。",
+      "takeaway": "“下一步观察什么”也可以成为 VAU 的学习对象。",
+      "limitation": "阅读关注：证据收益、任务成功和交互成本是否被共同衡量？",
+      "links": {
+        "paper": "https://arxiv.org/abs/2607.00622"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2607.00622",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [],
+      "mechanism": "交替推理与观察策略"
+    },
+    {
+      "id": "finevau",
+      "shortTitle": "FineVAU",
+      "title": "FineVAU: A Novel Human-Aligned Benchmark for Fine-Grained Video Anomaly Understanding",
+      "year": 2026,
+      "venue": "AAAI",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常解释"
+      ],
+      "summary": "围绕事件、参与者与位置构建细粒度标注，并用 FVScore 检查关键视觉信息。",
+      "takeaway": "流畅的描述不等于抓住异常；评估需要追问关键事实。",
+      "limitation": "阅读关注：自动扩展标注的质量及其与人类判断的一致性。",
+      "links": {
+        "paper": "https://arxiv.org/abs/2601.17258",
+        "project": "https://finevau.github.io/"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2601.17258",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [
+        "finew3"
+      ],
+      "mechanism": "关键视觉事实评估"
+    },
+    {
+      "id": "valu",
+      "shortTitle": "VALU",
+      "title": "VALU: A Benchmark for Video Anomaly Temporal Localization and Understanding at Multiple Semantic Levels",
+      "year": 2026,
+      "venue": "ACL",
+      "scope": "core",
+      "cluster": "understanding",
+      "tasks": [
+        "异常定位",
+        "异常解释"
+      ],
+      "summary": "用多个语义层级定义异常边界，联合考查定位、时间 grounding 与细节辨别。",
+      "takeaway": "异常的起止时间取决于所采用的语义范围。",
+      "limitation": "阅读关注：不同标注边界定义是否让结果失去可比性？",
+      "links": {
+        "paper": "https://aclanthology.org/2026.acl-long.56/"
+      },
+      "sources": [
+        {
+          "url": "https://aclanthology.org/2026.acl-long.56/",
+          "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        }
+      ],
+      "verifiedAt": "2026-09-29",
+      "datasetIds": [],
+      "mechanism": "语义分层边界评估"
+    }
+  ],
+  "datasets": [
+    {
+      "id": "ucf-crime",
+      "name": "UCF-Crime",
+      "description": "真实监控长视频异常检测基准，也是多项语言异常理解工作的视觉来源。",
+      "tasks": [
+        "异常检测",
+        "异常定位"
+      ],
+      "modalities": [
+        "视频"
+      ],
+      "annotations": [
+        "视频级异常标签",
+        "测试时序标注"
+      ],
+      "protocol": "采用官方训练／测试划分；弱监督训练与帧级定位评估须区分。",
+      "links": {
+        "website": "https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/",
+        "paper": "https://arxiv.org/abs/1801.04264"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/1801.04264",
+          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+        }
+      ]
+    },
+    {
+      "id": "xd-violence",
+      "name": "XD-Violence",
+      "description": "包含音视频与多场景暴力事件的弱监督检测基准。",
+      "tasks": [
+        "异常检测",
+        "异常定位"
+      ],
+      "modalities": [
+        "视频",
+        "音频"
+      ],
+      "annotations": [
+        "视频级多标签",
+        "测试时序标注"
+      ],
+      "protocol": "报告所用模态与官方划分；不可将音视频方法和纯视觉方法混为同一设置。",
+      "links": {
+        "website": "https://roc-ng.github.io/XD-Violence/"
+      },
+      "sources": [
+        {
+          "url": "https://roc-ng.github.io/XD-Violence/",
+          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+        }
+      ]
+    },
+    {
+      "id": "cuva-dataset",
+      "name": "CUVA",
+      "description": "以异常事件的内容、原因与后果为核心的因果理解基准。",
+      "tasks": [
+        "异常解释",
+        "异常推理",
+        "视频问答"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "异常类别与时间边界",
+        "事件描述",
+        "原因解释",
+        "后果描述"
+      ],
+      "protocol": "按原论文任务与 MMEval 协议评估；定位、描述和因果解释分别报告。",
+      "links": {
+        "website": "https://github.com/fesvhtr/CUVA",
+        "paper": "https://arxiv.org/abs/2405.00181"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2405.00181",
+          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+        }
+      ]
+    },
+    {
+      "id": "hivau-70k",
+      "name": "HIVAU-70k",
+      "description": "Holmes-VAU 提出的片段、事件和视频三级异常指令数据。",
+      "tasks": [
+        "异常检测",
+        "异常解释",
+        "视频问答"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "片段级字幕",
+        "事件级判断、描述与分析",
+        "视频级总结"
+      ],
+      "protocol": "区分时间粒度与任务类型；数据构建包含模型生成与人工复核。",
+      "links": {
+        "website": "https://github.com/pipixin321/HolmesVAU",
+        "paper": "https://arxiv.org/abs/2412.06171"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2412.06171",
+          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+        }
+      ]
+    },
+    {
+      "id": "hawk-dataset",
+      "name": "HAWK",
+      "description": "面向开放场景异常视频描述与交互问答的数据资源。",
+      "tasks": [
+        "异常解释",
+        "视频问答"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "异常视频语言描述",
+        "异常相关问答"
+      ],
+      "protocol": "遵循作者数据划分，分别检查描述生成与问答表现。",
+      "links": {
+        "website": "https://github.com/jqtangust/hawk",
+        "paper": "https://arxiv.org/abs/2405.16886"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2405.16886",
+          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+        }
+      ]
+    },
+    {
+      "id": "finew3",
+      "name": "FineW3 / FineVAU",
+      "description": "围绕 What、Who、Where 补充细粒度视觉事实的异常理解数据与评估。",
+      "tasks": [
+        "异常解释"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "异常事件",
+        "参与实体",
+        "位置"
+      ],
+      "protocol": "使用 FVScore 检查关键视觉元素，结合人类一致性分析；不能只比较语言流畅度。",
+      "links": {
+        "website": "https://finevau.github.io/",
+        "paper": "https://arxiv.org/abs/2601.17258"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2601.17258",
+          "note": "已核验一手数据论文或作者发布页；说明任务、标注与评估范围。"
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "id": "vadclip-ucf-crime",
+      "source": "vadclip",
+      "target": "ucf-crime",
+      "type": "uses",
+      "evidence": {
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/28423",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "vadclip-xd-violence",
+      "source": "vadclip",
+      "target": "xd-violence",
+      "type": "uses",
+      "evidence": {
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/28423",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "lavad-ucf-crime",
+      "source": "lavad",
+      "target": "ucf-crime",
+      "type": "uses",
+      "evidence": {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Zanella_Harnessing_Large_Language_Models_for_Training-free_Video_Anomaly_Detection_CVPR_2024_paper.pdf",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "lavad-xd-violence",
+      "source": "lavad",
+      "target": "xd-violence",
+      "type": "uses",
+      "evidence": {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Zanella_Harnessing_Large_Language_Models_for_Training-free_Video_Anomaly_Detection_CVPR_2024_paper.pdf",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "ex-vad-ucf-crime",
+      "source": "ex-vad",
+      "target": "ucf-crime",
+      "type": "uses",
+      "evidence": {
+        "url": "https://proceedings.mlr.press/v267/huang25ad.html",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "ex-vad-xd-violence",
+      "source": "ex-vad",
+      "target": "xd-violence",
+      "type": "uses",
+      "evidence": {
+        "url": "https://proceedings.mlr.press/v267/huang25ad.html",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "cuva-cuva-dataset",
+      "source": "cuva",
+      "target": "cuva-dataset",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2405.00181",
+        "note": "原文提出并发布此数据资源。"
+      }
+    },
+    {
+      "id": "hawk-hawk-dataset",
+      "source": "hawk",
+      "target": "hawk-dataset",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2405.16886",
+        "note": "原文提出并发布此数据资源。"
+      }
+    },
+    {
+      "id": "holmes-vau-hivau-70k",
+      "source": "holmes-vau",
+      "target": "hivau-70k",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.pdf",
+        "note": "原文提出并发布此数据资源。"
+      }
+    },
+    {
+      "id": "eventvad-ucf-crime",
+      "source": "eventvad",
+      "target": "ucf-crime",
+      "type": "uses",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2504.13092",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "eventvad-xd-violence",
+      "source": "eventvad",
+      "target": "xd-violence",
+      "type": "uses",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2504.13092",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "monitor-ucf-crime",
+      "source": "monitor",
+      "target": "ucf-crime",
+      "type": "uses",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2510.21449",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "monitor-xd-violence",
+      "source": "monitor",
+      "target": "xd-violence",
+      "type": "uses",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2510.21449",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "vader-hivau-70k",
+      "source": "vader",
+      "target": "hivau-70k",
+      "type": "uses",
+      "evidence": {
+        "url": "https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "vader-hawk-dataset",
+      "source": "vader",
+      "target": "hawk-dataset",
+      "type": "uses",
+      "evidence": {
+        "url": "https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "vader-cuva-dataset",
+      "source": "vader",
+      "target": "cuva-dataset",
+      "type": "uses",
+      "evidence": {
+        "url": "https://www.cs.nthu.edu.tw/~lai/pdf/publications/2025/VADER_Towards_Causal_Video_Anomaly_Understanding_with_Relation-Aware_Large_Language_Models.pdf",
+        "note": "一手来源明确报告使用该数据集；不表示方法继承。"
+      }
+    },
+    {
+      "id": "finevau-finew3",
+      "source": "finevau",
+      "target": "finew3",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2601.17258",
+        "note": "原文提出并发布此数据资源。"
+      }
+    }
+  ],
+  "guides": [
+    {
+      "id": "from-detection",
+      "title": "从语义表征到异常判据",
+      "description": "问题：语言如何参与异常判断？依次比较表征对齐、运动监督、语言中介、规则归纳与提示优化。",
+      "steps": [
+        {
+          "paperId": "vadclip",
+          "note": "创新：视觉语言双分支对齐。先问异常类别语义如何改变检测表征。"
+        },
+        {
+          "paperId": "hawk",
+          "note": "创新：运动信息与语言监督。再问仅有静态外观会遗漏什么。"
+        },
+        {
+          "paperId": "lavad",
+          "note": "创新：字幕、时序聚合与语言评分。观察语义如何转化为异常判断。"
+        },
+        {
+          "paperId": "anomalyruler",
+          "note": "创新：从正常参考归纳规则。把通用判断改成有场景依据的判据。"
+        },
+        {
+          "paperId": "vera",
+          "note": "创新：用弱标签优化引导问题。检查显式判据是否可以被数据改进。"
+        }
+      ]
+    },
+    {
+      "id": "long-active",
+      "title": "从时间组织到主动观察",
+      "description": "问题：有限上下文里怎样保留并补充有效证据？比较时间分层、事件划分、在线记忆与观察策略。",
+      "steps": [
+        {
+          "paperId": "holmes-vau",
+          "note": "创新：多粒度指令与异常聚焦采样。先确定片段、事件和视频如何组织。"
+        },
+        {
+          "paperId": "eventvad",
+          "note": "创新：动态时空图与事件边界。研究依据事件调整时间单元的方式。"
+        },
+        {
+          "paperId": "monitor",
+          "note": "创新：历史预测与分数队列。加入在线约束，检查哪些信息可被保留。"
+        },
+        {
+          "paperId": "panda",
+          "note": "创新：场景规划、工具反思与经验记忆。研究如何根据疑点改变处理流程。"
+        },
+        {
+          "paperId": "anom-pi",
+          "note": "创新：交替推理和时间操作的策略学习。把下一次观察纳入优化目标。"
+        }
+      ]
+    },
+    {
+      "id": "understand-anomaly",
+      "title": "从结构化解释到可检验结论",
+      "description": "问题：怎样区分合理叙述与有依据的理解？连接问题分解、关系建模、反思修正和事实／边界评估。",
+      "steps": [
+        {
+          "paperId": "cuva",
+          "note": "创新：事件、原因与后果的任务分解及评估。先明确解释到底要回答什么。"
+        },
+        {
+          "paperId": "vader",
+          "note": "创新：对象关系编码与上下文采样。检查交互证据怎样进入解释。"
+        },
+        {
+          "paperId": "srvau-r1",
+          "note": "创新：初始推理、反思与修正的训练序列。检验纠错是否改变最终判断。"
+        },
+        {
+          "paperId": "finevau",
+          "note": "创新：关键视觉事实分解与 FVScore。判断回答是否抓住事件、实体和位置。"
+        },
+        {
+          "paperId": "valu",
+          "note": "创新：语义层级下的异常边界及评估协议。检验定位是否覆盖完整事件语义。"
+        }
+      ]
+    }
+  ]
+}
