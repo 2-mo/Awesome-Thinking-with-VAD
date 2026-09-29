@@ -41,7 +41,8 @@ const SCHOOLS = [
   { id: "evidence", label: "主动观察与工具决策", color: "#b38216" },
   { id: "reasoning", label: "结构化推理与验证", color: "#438778" },
 ];
-const VENUES = [
+// Preserve the familiar order only as a deterministic tie-breaker.
+const VENUE_TIE_ORDER = [
   "AAAI",
   "CVPR",
   "ICCV",
@@ -194,6 +195,9 @@ function route(
     segments(path).every(({ a, b }) => b.x >= a.x);
   const clear = (path: Point[]) =>
     forward(path) &&
+    // Move right immediately when leaving a station, so a route arriving
+    // vertically cannot double back along the same segment at a peak/valley.
+    (!same(path[0], start) || path[1]?.x > start.x) &&
     segments(path).every(
       ({ a, b }) => !obstacles.some((box) => crosses(a, b, box)),
     );
@@ -284,17 +288,26 @@ function route(
 }
 
 export function createPublicationLayout(papers: Paper[]): PublicationLayout {
+  // Equal-cost route candidates must not depend on catalog input order.
+  papers = [...papers].sort((a, b) => a.id.localeCompare(b.id));
   const yearValues = [...new Set(papers.map((p) => p.year))].sort(
     (a, b) => a - b,
   );
+  const venueCounts = new Map<string, number>();
+  for (const paper of papers) {
+    const venue = publicationVenue(paper.venue);
+    venueCounts.set(venue, (venueCounts.get(venue) ?? 0) + 1);
+  }
   const venueValues = [
-    ...VENUES.filter((v) =>
-      papers.some((p) => publicationVenue(p.venue) === v),
-    ),
-    ...[...new Set(papers.map((p) => publicationVenue(p.venue)))]
-      .filter((v) => !VENUES.includes(v))
+    ...VENUE_TIE_ORDER.filter((venue) => venueCounts.has(venue)),
+    ...[...venueCounts.keys()]
+      .filter((venue) => !VENUE_TIE_ORDER.includes(venue))
       .sort(),
-  ];
+  ].sort((a, b) =>
+    // Rank the full catalog's conference rows by volume; preprints stay last.
+    Number(a === "arXiv") - Number(b === "arXiv") ||
+    venueCounts.get(b)! - venueCounts.get(a)!,
+  );
   const margin = 140,
     top = 99;
   const methodOrder = SCHOOLS.map((school) => school.id);
@@ -317,6 +330,11 @@ export function createPublicationLayout(papers: Paper[]): PublicationLayout {
       const group = members.filter((paper) => month(paper) === value);
       const entries = group.sort((a, b) =>
         venueValues.indexOf(publicationVenue(a.venue)) - venueValues.indexOf(publicationVenue(b.venue)) || compare(a, b));
+      // Leave room for left-facing labels at the year edge. Clamping those
+      // labels to the edge would otherwise block a route climbing to a new row.
+      cursor = Math.max(cursor, ...entries.map((paper, index) =>
+        x + labelWidth(stationName(paper)) + 15 - index * 58,
+      ));
       const span = Math.max(0, entries.length - 1) * 58;
       entries.forEach((paper, index) => {
         const stationX = cursor + index * 58;
