@@ -1,350 +1,211 @@
-# Awesome LLM4VAD
+# 视频异常理解 · 论文年表
 
-A curated list of papers and resources on Large Language Models for Video Anomaly Detection (VAD).
+[研究地图](https://2-mo.github.io/Awesome-Thinking-with-VAD/) · [按创新思路阅读](catalog.md) · [按会议查找](venues/README.md)
 
+更新：2026-09-30 · 51 篇论文 · 5 个方法方向。
 
-## Contents
+聚焦视频异常解释、推理、时序定位与理解评估，以及直接支撑这些目标的语义表征方法。会议与年份采用已核验的正式发表信息；未确认录用的论文保留 arXiv。
 
-- [Overview](#overview)
-- [Motivation: Why Does VAD Need "Thinking"?](#motivation-why-does-vad-need-thinking)
-- [Papers by Year](#papers-by-year)
-  - [2026](#2026)
-  - [2025](#2025)
-  - [2024](#2024)
-- [Metrics & Evaluation](#metrics--evaluation)
-- [Related Awesome Lists](#related-awesome-lists)
+> 自动生成：编辑 `data/catalog.json` 后运行 `npm run generate`。完整摘要、阅读关注与核验来源见 [catalog.md](catalog.md)。
 
----
+[2026](#year-2026) · [2025](#year-2025) · [2024](#year-2024) · [2023](#year-2023)
 
-## Overview
+<a id="year-2026"></a>
 
-This list collects representative works that leverage LLMs or vision-language models for video anomaly detection, explanation, and understanding. Entries are grouped by year with links to paper and code, plus a preview figure when available.
+## 2026
 
----
+<a id="year-2026-aaai"></a>
 
-## Motivation: Why Does VAD Need "Thinking"?
+### AAAI
 
-The core idea is that "thinking" isn't exclusive to anomaly scenarios, but its necessity is amplified in VAD for several reasons:
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **CueBench / Cue-R1**<br>[CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World](<https://ojs.aaai.org/index.php/AAAI/article/view/38209>) | 上下文异常分类体系与分层奖励 | [代码](<https://github.com/Mia-YatingYu/Cue-R1>) |
+| **FineVAU**<br>[FineVAU: A Novel Human-Aligned Benchmark for Fine-Grained Video Anomaly Understanding](<https://arxiv.org/abs/2601.17258>) | 关键视觉事实评估 | [项目](<https://finevau.github.io/>) |
+| **HeadHunt-VAD**<br>[HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection](<https://arxiv.org/abs/2512.17601>) | 稳定异常敏感注意力头探测 | [代码](<https://github.com/CebCai/HeadHunt-VAD>) |
+| **TargetVAU**<br>[TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos](<https://ojs.aaai.org/index.php/AAAI/article/view/38378>) | 个体时空交互图与指令推理 | — |
+| **VAGU & GtS**<br>[VAGU & GtS: LLM-Based Benchmark and Framework for Joint Video Anomaly Grounding and Understanding](<https://ojs.aaai.org/index.php/AAAI/article/view/42412>) | 先全局粗定位再局部细查 | [核验](<https://arxiv.org/abs/2507.21507>) |
 
-- **Context-dependency (Complexity)**: Anomalies are often long-term events (e.g., fights, accidents) that require understanding causality and scene context.
-- **Ambiguity (Fuzziness)**: Local actions or scenes can be easily confused with anomalies (e.g., running vs. fleeing, gathering vs. rioting). Disambiguation requires longer-term and multi-modal cues.
-- **Long-tail Distribution (Sparsity)**: Anomalies are rare and unpredictable. Single observations are prone to misses, demanding evidence accumulation and hypothesis testing over time.
+<a id="year-2026-acl"></a>
 
-#### Why is this "thinking" process critical for anomalies but less so for normal scenarios?
+### ACL
 
-- **Normal patterns are perception-driven**: Normal behaviors are frequent and regular, making them easy to learn with pattern matching.
-- **Anomalies are inherently "uncertain"**: They are sparse and few-shot, lacking strong prior statistical support. Relying solely on fast perception leads to biases, which must be compensated by slower, more deliberate reasoning.
-- **Anomalies carry higher risks**: Misjudgments can have severe consequences (e.g., missing a security threat). This necessitates a more robust decision-making process.
-- **Anomalies break conventions**: They manifest as complex contextual dependencies, semantic ambiguities, and long-tail distributions—all of which are what "thinking" excels at handling.
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **VALU**<br>[VALU: A Benchmark for Video Anomaly Temporal Localization and Understanding at Multiple Semantic Levels](<https://aclanthology.org/2026.acl-long.56/>) | 语义分层边界评估 | — |
 
-In short, we need **reasoning**, not just post-hoc explanation.
+<a id="year-2026-cvpr"></a>
 
-### Curiosity-driven Learning
+### CVPR
 
-- **Humans monitor learning progress in curiosity-driven exploration** (Nature Communications 2021) [[paper](https://www.nature.com/articles/s41467-021-26196-w)]
-- **Curiosity-driven Exploration by Self-supervised Prediction** (ICML 2017) [[paper](https://proceedings.mlr.press/v70/pathak17a/pathak17a.pdf)]
-- **Computational mechanisms of curiosity and goal-directed exploration** (Neuroscience 2019) [[paper](https://elifesciences.org/articles/41703)]
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **Alert-CLIP**<br>[Alert-CLIP: Abnormality-aware Latent-Enhanced Representation Tuning of CLIP for Video Anomaly Detection](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html>) | 区域语义多层对齐 | — |
+| **LAS-VAD**<br>[Weakly Supervised Video Anomaly Detection with Anomaly-Connected Components and Intention Reasoning](<https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html>) | 语义连通与意图感知 | — |
+| **LAVIDA**<br>[No Need For Real Anomaly: MLLM Empowered Zero-Shot Video Anomaly Detection](<https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html>) | 伪异常与反向注意力 | [项目](<https://github.com/VitaminCreed/LAVIDA>) · [核验](<https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.pdf>) |
+| **STCH**<br>[Streaming Video Crime Anticipation with Spatio-Temporal Causal Reasoning](<https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Streaming_Video_Crime_Anticipation_with_Spatio-Temporal_Causal_Reasoning_CVPR_2026_paper.html>) | 流式时空因果超图 | [核验](<https://cvpr.thecvf.com/virtual/2026/poster/39800>) |
 
----
+<a id="year-2026-eccv"></a>
 
-## Papers by Year
+### ECCV
 
-### 2026
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **CLUE-VAD**<br>[CLUE-VAD: Structured Semantic Clues for Understanding Explainable Events in Video Anomaly Detection](<https://eccv.ecva.net/virtual/2026/poster/4744>) | 结构化语义线索与类别感知归因 | [核验](<https://media.eventhosts.cc/Conferences/ECCV2026/pdfs/7292.pdf>) |
+| **O-VAD**<br>[O-VAD: Industrial Video Anomaly Detection through Object-Centric Tracking and Reasoning](<https://arxiv.org/abs/2607.18142>) | 对象状态轨迹与时序推理 | [代码](<https://github.com/o-vad/O-VAD>) · [核验](<https://eccv.ecva.net/virtual/2026/poster/4659>) |
 
-#### ICML 2026
+<a id="year-2026-iclr"></a>
 
-##### Linguistic Relative Policy Optimization for Video Anomaly Reasoning
-[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/64285)
-> Enhances the video anomaly reasoning and explanation capabilities of Multimodal Large Language Models through linguistic relative policy optimization.
+### ICLR
 
-##### Learning to Watch: Active Video Anomaly Understanding via Interleaved Policy Optimization
-[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/60569)
-> Focuses on video anomaly understanding (VAU) by actively selecting key evidence frames to improve both anomaly judgment and interpretation capabilities.
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **LaGoVAD**<br>[Language-guided Open-world Video Anomaly Detection under Weak Supervision](<https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html>) | 自然语言条件化异常定义 | [代码](<https://github.com/Kamino666/LaGoVAD-PreVAD>) |
+| **SteerVAD**<br>[Steering and Rectifying Latent Representation Manifolds in Frozen Multi-modal LLMs for Video Anomaly Detection](<https://arxiv.org/abs/2602.24021>) | 潜在异常专家头与上下文表示校正 | [核验](<https://iclr.cc/virtual/2026/papers.html>) |
 
-##### Towards Trustworthy Video Anomaly Understanding: A Class-Guided Chain-of-Evaluation Metric and An Anomaly-focused Meta-Benchmark
-[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/66013)
-> Constructs evaluation metrics and meta-benchmarks for video anomaly understanding to measure the trustworthiness and reasoning performance of large models.
+<a id="year-2026-icml"></a>
 
-##### TD-VAD: Breaking Visual Dependence in Video Anomaly Detection with Text-Driven Learning
-[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/65928)
-> Leverages text-driven learning to reduce dependence on visual anomaly samples, enhancing the generalization capabilities of video anomaly detection across diverse scenarios.
+### ICML
 
-##### PRISM: Training-Free Video Anomaly Detection via Intrinsic Statistical Modeling
-[![ICML](https://img.shields.io/badge/ICML-2026-FF6B6B)](https://ICML.cc/virtual/2026/poster/66758)
-> Proposes a training-free video anomaly detection approach using intrinsic statistical modeling, capable of identifying open-world anomalies without relying on explicit video training.
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **Anom-π**<br>[Learning to Watch: Active Video Anomaly Understanding via Interleaved Policy Optimization](<https://arxiv.org/abs/2607.00622>) | 交替推理与观察策略 | [核验](<https://icml.cc/Downloads/2026>) |
+| **CG-CoE**<br>[Towards Trustworthy Video Anomaly Understanding: A Class-Guided Chain-of-Evaluation Metric and An Anomaly-focused Meta-Benchmark](<https://icml.cc/virtual/2026/poster/66013>) | 类别引导评价链与元评测 | [核验](<https://openreview.net/forum?id=7waVdY1WmW>) |
+| **LRPO**<br>[Linguistic Relative Policy Optimization for Video Anomaly Reasoning](<https://arxiv.org/abs/2607.00654>) | 组相对语言经验优化 | [核验](<https://icml.cc/virtual/2026/poster/64285>) |
+| **TD-VAD**<br>[TD-VAD: Breaking Visual Dependence in Video Anomaly Detection with Text-Driven Learning](<https://arxiv.org/abs/2608.11820>) | 文本时序监督与事件演化注意力 | [核验](<https://icml.cc/virtual/2026/poster/65928>) |
 
-#### CVPR 2026
+<a id="year-2026-ijcai"></a>
 
-##### No Need For Real Anomaly: MLLM Empowered Zero-Shot Video Anomaly Detection
-[![CVPR](https://img.shields.io/badge/CVPR-2026-1E90FF)](https://arxiv.org/pdf/2602.19248)
-[![Code](https://img.shields.io/github/stars/VitaminCreed/LAVIDA?style=social&label=Code&logo=github)](https://github.com/VitaminCreed/LAVIDA)
-> Proposes LAVIDA, which trains purely on pseudo anomalies and leverages the semantic understanding capabilities of Multimodal Large Language Models (MLLMs) to achieve zero-shot video anomaly detection.
+### IJCAI
 
-##### Streaming Video Crime Anticipation with Spatio-Temporal Causal Reasoning
-[![CVPR](https://img.shields.io/badge/CVPR-2026-1E90FF)](https://cvpr.thecvf.com/virtual/2026/poster/39800)
-> Constructs the STCRC dataset and integrates VLMs with explicit spatio-temporal causal reasoning structures to enhance crime anticipation in streaming videos.
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **MemoVAD**<br>[MemoVAD: Resource-Efficient Video Anomaly Detection via Dynamic Semantic Memory in Edge Computing Scenarios](<https://www.ijcai.org/proceedings/2026/618>) | 不确定性门控与动态语义记忆 | — |
 
-#### ICLR 2026
+<a id="year-2026-arxiv"></a>
 
-##### Steering and Rectifying Latent representation manifolds in Frozen Multi-modal LLMs for Video Anomaly Detection
-[![ICLR](https://img.shields.io/badge/ICLR-2026-4B0082)](https://openreview.net/forum?id=ol78tbpqyu)
-> Explores steering latent representation manifolds within frozen Multimodal Large Language Models (MLLMs) specifically tailored for video anomaly detection tasks.
+### arXiv · 预印本
 
-##### Language-guided Open-world Video Anomaly Detection under Weak Supervision
-[![ICLR](https://img.shields.io/badge/ICLR-2026-4B0082)](https://openreview.net/forum?id=70lFIQG5OB)
-> Proposes a language-guided approach to tackle open-world video anomaly detection under weak supervision, pushing boundaries for detecting unseen anomalies using text semantics.
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **AgenticVAU**<br>[AgenticVAU: Multi-Agent Explore-Verify Reasoning for Video Anomaly Understanding](<https://arxiv.org/abs/2608.03779>) | 多智能体探索验证与证据记忆 | — |
+| **AnomalyCraft-700K**<br>[AnomalyCraft-700K: Component-Level Controllable and Verifiable Synthetic Anomalies for Fine-Grained Video Anomaly Understanding](<https://arxiv.org/abs/2609.06978>) | 语义组件控制生成与逐项验证 | [项目](<https://github.com/Eagen-l/AnomalyCraft>) |
+| **Probe-VAD**<br>[Probe-VAD: Ordinal Likelihood Probing for Training-Free Video Anomaly Detection](<https://arxiv.org/abs/2609.17211>) | 序数语言探测与一致性评分 | [代码](<https://github.com/yvestine/Probe-VAD>) |
+| **SRVAU-R1**<br>[SRVAU-R1: Enhancing Video Anomaly Understanding via Reflection-Aware Learning](<https://arxiv.org/abs/2602.01004>) | 反思修正序列训练 | — |
+| **TAU-Bench**<br>[TAU-Bench: From Anomaly Instance Tracking to Fine-Grained Video Anomaly Understanding](<https://arxiv.org/abs/2608.05699>) | 实例轨迹与层级语义联合评估 | [项目](<https://yarkupa.github.io/tau-bench.github.io/>) |
+| **Vad-R1-Plus**<br>[Advancing Adaptive Multi-Stage Video Anomaly Reasoning: A Benchmark Dataset and Method](<https://arxiv.org/abs/2601.10165>) | 感知认知行动链与异常感知优化 | [项目](<https://github.com/wbfwonderful/Vad-R1-Plus>) |
 
-#### AAAI 2026
+<a id="year-2025"></a>
 
-##### CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World
-[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](https://ojs.aaai.org/index.php/AAAI/article/view/38209)
-[![Code](https://img.shields.io/badge/Code-GitHub-black?logo=github)](https://github.com/Mia-YatingYu/Cue-R1)
-> Introduces CueBench for context-aware video anomalies and trains the Cue-R1 model via reinforcement learning for deeper anomaly reasoning.
+## 2025
 
-##### HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection
-[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](https://arxiv.org/abs/2512.17601)
-> Proposes a tuning-free video anomaly detection framework by hunting and selecting robust, anomaly-sensitive heads directly within pre-trained MLLMs.
+<a id="year-2025-acm-mm"></a>
 
-##### FineVAU: A Novel Human-Aligned Benchmark for Fine-Grained Video Anomaly Understanding
-[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](https://ojs.aaai.org/index.php/AAAI/article/view/37790)
-> Proposes a human-aligned FV-Score to evaluate Large Vision-Language Models (LVLMs) in their fine-grained understanding of anomalies across events, entities, and locations.
+### ACM MM
 
-##### TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos
-[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](https://doi.org/10.1609/aaai.v40i16.38378)
-[![Code](https://img.shields.io/badge/Code-GitHub-black?logo=github)](https://github.com/nwpu-zxr/)
-> Focuses on target behavior understanding via reasoning. It constructs spatiotemporal interaction graphs and fuses multimodal features to identify individual anomalies.
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **EventVAD**<br>[EventVAD: Training-Free Event-Aware Video Anomaly Detection](<https://arxiv.org/abs/2504.13092>) | 时空图划分事件边界 | [代码](<https://github.com/YihuaJerry/EventVAD>) |
+| **HoloTrace**<br>[HoloTrace: LLM-based Bidirectional Causal Knowledge Graph for Edge-Cloud Video Anomaly Detection](<https://doi.org/10.1145/3746027.3755185>) | 双向因果知识图与边云更新 | [代码](<https://github.com/kongyanye/HoloTrace-MM25>) |
 
----
+<a id="year-2025-cvpr"></a>
 
-### 2025
+### CVPR
 
-#### NeurIPS 2025
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **Anomize**<br>[Anomize: Better Open Vocabulary Video Anomaly Detection](<https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html>) | 多源语义与标签关系 | — |
+| **Holmes-VAU**<br>[Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity](<https://arxiv.org/abs/2412.06171>) | 多粒度指令与采样 | [代码](<https://github.com/pipixin321/HolmesVAU>) · [核验](<https://openaccess.thecvf.com/content/CVPR2025/papers/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.pdf>) |
+| **VERA**<br>[VERA: Explainable Video Anomaly Detection via Verbalized Learning of Vision-Language Models](<https://arxiv.org/abs/2412.01095>) | 语言反馈优化问题 | [核验](<https://openaccess.thecvf.com/content/CVPR2025/papers/Ye_VERA_Explainable_Video_Anomaly_Detection_via_Verbalized_Learning_of_Vision-Language_CVPR_2025_paper.pdf>) |
 
-##### PANDA: Towards Generalist Video Anomaly Detection via Detective-like Agent
-[![NeurIPS](https://img.shields.io/badge/NeurIPS-2025-2DB55D)](https://neurips.cc/virtual/2025/poster/115891)
-> Proposes a detective-like agent paradigm for generalist VAD, achieving cross-scene and cross-category generalization through tool use and multi-step reasoning.
+<a id="year-2025-iccv"></a>
 
----
+### ICCV
 
-##### MoniTor: Exploiting Large Language Models with Instruction for Online Video Anomaly Detection
-[![NeurIPS](https://img.shields.io/badge/NeurIPS-2025-2DB55D)](https://neurips.cc/virtual/2025/poster/119803)
-> Leverages LLMs with instruction-driven mechanisms for online VAD, enhancing response speed and accuracy in real-time scenarios through streaming inference.
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **VA-GPT**<br>[Aligning Effective Tokens with Video Anomaly in Large Language Models](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>) | 时空有效词元对齐 | [核验](<https://openaccess.thecvf.com/content/ICCV2025/papers/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.pdf>) |
 
----
+<a id="year-2025-icml"></a>
 
+### ICML
 
-#### ICML 2025
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **Ex-VAD**<br>[Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models](<https://proceedings.mlr.press/v267/huang25ad.html>) | 解释融合与标签对齐 | — |
 
-##### Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models
-[![ICML](https://img.shields.io/badge/ICML-2025-FF6B6B)](https://openreview.net/forum?id=xAhUoyb5eU)
-[![Paper](https://img.shields.io/badge/Paper-PDF-blue)](https://raw.githubusercontent.com/mlresearch/v267/main/assets/huang25ad/huang25ad.pdf)
-> Provides fine-grained explanations for anomalies using the semantic understanding capabilities of VLMs, enhancing model transparency.
+<a id="year-2025-neurips"></a>
 
----
+### NeurIPS
 
-#### ICCV 2025
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **A2Seek / A2Seek-R1** · Datasets and Benchmarks<br>[A2Seek: Towards Reasoning-Centric Benchmark for Aerial Anomaly Understanding](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html>) | 图式推理与主动区域观察 | [项目](<https://2-mo.github.io/A2Seek/>) |
+| **MoniTor**<br>[MoniTor: Exploiting Large Language Models with Instruction for Online Video Anomaly Detection](<https://arxiv.org/abs/2510.21449>) | 流式记忆与分数队列 | — |
+| **PANDA**<br>[PANDA: Towards Generalist Video Anomaly Detection via Agentic AI Engineer](<https://arxiv.org/abs/2509.26386>) | 场景规划与工具反思 | [项目](<https://github.com/showlab/PANDA>) |
+| **URF-ZS-HVAA**<br>[A Unified Reasoning Framework for Holistic Zero-Shot Video Anomaly Analysis](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/2aa95cf3b6aefa84d6b001928b107b4e-Abstract-Conference.html>) | 任务内细化与跨任务推理链 | [代码](<https://github.com/Rathgrith/URF-ZS-HVAA>) · [核验](<https://rathgrith.github.io/Unified_Frame_VAA/>) |
+| **VAD-DPO**<br>[Do LVLMs Truly Understand Video Anomalies? Revealing Hallucination via Co-Occurrence Patterns](<https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html>) | 反例偏好优化抑制共现捷径 | — |
+| **Vad-R1**<br>[Vad-R1: Towards Video Anomaly Reasoning via Perception-to-Cognition Chain-of-Thought](<https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html>) | 感知认知推理链与自验证奖励 | [代码](<https://github.com/wbfwonderful/Vad-R1>) |
+| **VADTree**<br>[VADTree: Explainable Training-Free Video Anomaly Detection via Hierarchical Granularity-Aware Tree](<https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html>) | 事件边界驱动的层次粒度树 | [代码](<https://github.com/wenlongli10/VADTree>) |
 
-##### Aligning Effective Tokens with Video Anomaly in Large Language Models
-[![ICCV](https://img.shields.io/badge/ICCV-2025-00CED1)](https://arxiv.org/pdf/2508.06350)
-> Maps VAD to a token alignment problem in LLMs, enabling multi-modal, large-model-driven video anomaly understanding.
+<a id="year-2025-arxiv"></a>
 
----
+### arXiv · 预印本
 
-##### Beyond Pixel Uncertainty: Bounding the OoD Objects in Road Scenes
-[![ICCV](https://img.shields.io/badge/ICCV-2025-00CED1)](https://www.cs.cmu.edu/~roadwork/)
-> Moves beyond pixel-level uncertainty to locate out-of-distribution objects in road scenes with precise bounding boxes, crucial for autonomous driving.
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **Flashback**<br>[Flashback: Memory-Driven Zero-shot, Real-time Video Anomaly Detection](<https://arxiv.org/abs/2505.15205>) | 离线语义记忆与在线匹配 | [核验](<https://arxiv.org/html/2505.15205v2>) |
+| **SlowFastVAD**<br>[SlowFastVAD: Video Anomaly Detection via Integrating Simple Detector and RAG-Enhanced Vision-Language Model](<https://arxiv.org/abs/2504.10320>) | 快检测门控与检索增强慢推理 | — |
+| **VAU-R1**<br>[VAU-R1: Advancing Video Anomaly Understanding via Reinforcement Fine-Tuning](<https://arxiv.org/abs/2505.23504>) | 多任务奖励与强化微调 | [代码](<https://github.com/GVCLab/VAU-R1>) |
 
----
+<a id="year-2024"></a>
 
-#### ACM MM 2025
+## 2024
 
-##### EventVAD: Training-Free Event-Aware Video Anomaly Detection
-[![ACM MM](https://img.shields.io/badge/ACM_MM-2025-FF69B4)](https://arxiv.org/abs/2504.13092)
-[![Code](https://img.shields.io/github/stars/YihuaJerry/EventVAD?style=social&label=Code&logo=github)](https://github.com/YihuaJerry/EventVAD)
-> A training-free, event-aware VAD method based on Video-LLaMA2 that uses zero-shot event understanding for cross-scene anomaly discrimination.
-![EventVAD preview](./assets/eventvad-acmmm25.png)
+<a id="year-2024-aaai"></a>
 
----
+### AAAI
 
-##### SAGE: A Visual Language Model for Anomaly Detection via Fact Enhancement and Entropy-aware Alignment
-[![ACM MM](https://img.shields.io/badge/ACM_MM-2025-FF69B4)]()
-> A VLM for anomaly detection that uses fact enhancement and entropy-aware alignment to improve perception of anomalous details.
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **VadCLIP**<br>[VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection](<https://arxiv.org/abs/2308.11681>) | 视觉语言双分支对齐 | [代码](<https://github.com/nwpu-zxr/VadCLIP>) · [核验](<https://ojs.aaai.org/index.php/AAAI/article/view/28423>) |
 
----
+<a id="year-2024-cvpr"></a>
 
-#### CVPR 2025
+### CVPR
 
-##### VERA: Explainable Video Anomaly Detection via Verbalized Learning of Vision-Language Models
-[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](https://openaccess.thecvf.com/content/CVPR2025/papers/Ye_VERA_Explainable_Video_Anomaly_Detection_via_Verbalized_Learning_of_Vision-Language_CVPR_2025_paper.pdf)
-[![Code](https://img.shields.io/github/stars/vera-framework/VERA?style=social&label=Code&logo=github)](https://github.com/vera-framework/VERA)
-> Transforms anomaly judgment into a "verbal reasoning" task, enabling the model to provide readable explanations and multi-modal evidence.
-![VERA preview](./assets/2025-cvpr-vera.png)
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **CUVA**<br>[Uncovering What, Why and How: A Comprehensive Benchmark for Causation Understanding of Video Anomaly](<https://arxiv.org/abs/2405.00181>) | 事件因果任务分解 | [代码](<https://github.com/fesvhtr/CUVA>) |
+| **LAVAD**<br>[Harnessing Large Language Models for Training-free Video Anomaly Detection](<https://arxiv.org/abs/2404.01014>) | 字幕聚合语言评分 | [代码](<https://github.com/lucazanella/lavad>) · [项目](<https://lucazanella.github.io/lavad/>) · [核验](<https://openaccess.thecvf.com/content/CVPR2024/papers/Zanella_Harnessing_Large_Language_Models_for_Training-free_Video_Anomaly_Detection_CVPR_2024_paper.pdf>) |
+| **OVVAD**<br>[Open-Vocabulary Video Anomaly Detection](<https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html>) | 语言知识与异常合成 | [核验](<https://openaccess.thecvf.com/content/CVPR2024/papers/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.pdf>) |
+| **TPWNG**<br>[Text Prompt with Normality Guidance for Weakly Supervised Video Anomaly Detection](<https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html>) | 正常引导伪标签学习 | [核验](<https://arxiv.org/abs/2404.08531>) |
+| **UCA**<br>[Towards Surveillance Video-and-Language Understanding: New Dataset, Baselines, and Challenges](<https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html>) | 事件句子与时间对齐 | [项目](<https://xuange923.github.io/Surveillance-Video-Understanding>) |
 
----
+<a id="year-2024-eccv"></a>
 
-##### Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity
-[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](https://openaccess.thecvf.com/content/CVPR2025/papers/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.pdf)
-[![Code](https://img.shields.io/github/stars/pipixin321/HolmesVAU?style=social&label=Code&logo=github)](https://github.com/pipixin321/HolmesVAU)
-> A framework for long-term video understanding at any granularity, covering event, segment, and frame-level anomalies with linguistic descriptions.
-![Holmes-VAU preview](./assets/2025-cvpr-holmes-vau.png)
+### ECCV
 
----
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **AnomalyRuler**<br>[Follow the Rules: Reasoning for Video Anomaly Detection with Large Language Models](<https://arxiv.org/abs/2407.10299>) | 正常规则归纳演绎 | [代码](<https://github.com/Yuchen413/AnomalyRuler>) · [核验](<https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/10568.pdf>) |
 
-#### arXiv 2025 (Preprints)
+<a id="year-2024-neurips"></a>
 
-##### AVadCLIP: Audio-Visual Collaboration for Robust Video Anomaly Detection
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> Extends VadCLIP to audio-visual collaboration, using audio cues to improve robustness in complex scenes.
+### NeurIPS
 
----
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **HAWK**<br>[Hawk: Learning to Understand Open-World Video Anomalies](<https://arxiv.org/abs/2405.16886>) | 运动语言监督对齐 | [代码](<https://github.com/jqtangust/hawk>) · [核验](<https://github.com/jqtangust/hawk/blob/main/README.md>) |
 
-##### AssistPDA: An Online Video Surveillance Assistant for Video Anomaly Prediction
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> An online video surveillance assistant that uses large models for anomaly prediction and real-time feedback to aid human operators.
+<a id="year-2023"></a>
 
----
+## 2023
 
-##### SlowFastVAD: Video Anomaly Detection via Integrating Simple Detector and RAG-Enhanced Vision-Language Model
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> Combines a SlowFast detector with a RAG-enhanced VLM to improve anomaly understanding and localization.
+<a id="year-2023-cvpr"></a>
 
----
+### CVPR
 
-##### Vad-R1: Towards Video Anomaly Reasoning via Perception-to-Cognition Chain-of-Thought
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> A perception-to-cognition Chain-of-Thought framework that enables end-to-end reasoning from visual perception to anomaly judgment.
-
----
-
-##### Flashback: Memory-Driven Zero-shot, Real-time Video Anomaly Detection
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> A memory-driven, zero-shot, real-time VAD method that uses a dynamic memory bank for rapid response without training.
-
----
-
-##### Simplifying Traffic Anomaly Detection with Video Foundation Models
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> Simplifies traffic anomaly detection using the transfer learning capabilities of pre-trained video foundation models.
-
----
-
-##### NexViTAD: Few-shot Unsupervised Cross-Domain Defect Detection via Vision Foundation Models and Multi-Task Learning
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> A few-shot, unsupervised, cross-domain defect detection method for industrial anomaly scenarios.
-
----
-
-##### AnomalyMoE: Towards a Language-free Generalist Model for Unified Visual Anomaly Detection
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> A language-free Mixture-of-Experts (MoE) model for unified visual anomaly detection with cross-domain generalization.
-
----
-
-##### Unlocking Vision-Language Models for Video Anomaly Detection via Fine-Grained Prompting
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> Unlocks the potential of VLMs for VAD by designing task-specific, fine-grained prompt templates.
-
----
-
-##### VAU-R1: Advancing Video Anomaly Understanding via Reinforcement Fine-Tuning
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> Uses reinforcement learning fine-tuning to guide a model toward better anomaly discrimination strategies.
-
----
-
-##### Language-guided Open-world Video Anomaly Detection
-[![arXiv](https://img.shields.io/badge/arXiv-2025-b31b1b?logo=arxiv)]()
-> A language-guided method for detecting unseen anomaly categories in an open-world setting via natural language descriptions.
-
----
-
-### 2024
-
-#### AAAI 2024
-
-##### VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection
-[![AAAI](https://img.shields.io/badge/AAAI-2024-1F77B4)](https://ojs.aaai.org/index.php/AAAI/article/view/28423)
-[![arXiv](https://img.shields.io/badge/arXiv-2308.11681-b31b1b?logo=arxiv)](https://arxiv.org/abs/2308.11681)
-[![Code](https://img.shields.io/github/stars/nwpu-zxr/VadCLIP?style=social&label=Code&logo=github)](https://github.com/nwpu-zxr/VadCLIP)
-> Adapts vision-language models like CLIP for weakly supervised VAD, achieving efficient anomaly discrimination with limited annotations.
-![VadCLIP preview](./assets/2024-aaai-vadclip.png)
-
----
-
-#### CVPR 2024
-
-##### Harnessing Large Language Models for Training-free Video Anomaly Detection (LAVAD)
-[![CVPR](https://img.shields.io/badge/CVPR-2024-1E90FF)](https://openaccess.thecvf.com/content/CVPR2024/papers/Zanella_Harnessing_Large_Language_Models_for_Training-free_Video_Anomaly_Detection_CVPR_2024_paper.pdf)
-[![Code](https://img.shields.io/github/stars/lucazanella/lavad?style=social&label=Code&logo=github)](https://github.com/lucazanella/lavad)
-> Directly uses the semantic knowledge of large models for scene understanding via prompting, enabling rapid deployment without fine-tuning.
-![Training-free VAD preview](./assets/2024-cvpr-training-free-vad.png)
-
----
-
-##### Text Prompt with Normality Guidance for Weakly Supervised Video Anomaly Detection
-[![CVPR](https://img.shields.io/badge/CVPR-2024-1E90FF)](https://arxiv.org/abs/2404.08531)
-> Uses text descriptions of normal behavior as a weak supervisory signal, maintaining localization accuracy without frame-level labels.
-
----
-
-#### ECCV 2024
-
-##### Follow the Rules: Reasoning for Video Anomaly Detection with Large Language Models (AnomalyRuler)
-[![ECCV](https://img.shields.io/badge/ECCV-2024-0B84FE)](https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/10568.pdf)
-[![Code](https://img.shields.io/github/stars/Yuchen413/AnomalyRuler?style=social&label=Code&logo=github)](https://github.com/Yuchen413/AnomalyRuler)
-> Employs a two-stage reasoning mechanism (induction and deduction) for LLMs to infer normality rules and then detect anomalies.
-![AnomalyRuler preview](./assets/2024-eccv-anomalyruler.png)
-
----
-
-#### ICCV 2024
-
-##### Video Anomaly Detection and Explanation via Large Language Models
-[![arXiv](https://img.shields.io/badge/arXiv-2401.05702-b31b1b?logo=arxiv)](https://arxiv.org/pdf/2401.05702v1)
-> Couples VAD with LLM-generated explanations to provide interpretable, textual reasons for model decisions.
-![LLM VAD + Explanation preview](./assets/2024-arxiv-vad-llm-explanation.png)
-
----
-
-#### NeurIPS 2024
-
-##### HAWK: Learning to Understand Open-World Video Anomalies
-[![NeurIPS](https://img.shields.io/badge/NeurIPS-2024-2DB55D)](https://proceedings.neurips.cc/paper_files/paper/2024/file/fca83589e85cb061631b7ebc5db5d6bd-Paper-Conference.pdf)
-[![arXiv](https://img.shields.io/badge/arXiv-2405.16886-b31b1b?logo=arxiv)](https://arxiv.org/pdf/2405.16886)
-[![Code](https://img.shields.io/github/stars/jqtangust/hawk?style=social&label=Code&logo=github)](https://github.com/jqtangust/hawk)
-> Leverages VLMs to understand open-world video anomalies, enhancing perception of dynamic events by incorporating motion modalities.
-![HAWK preview](./assets/2024-neurips-hawk.png)
-
----
-
-##### MDVAD: Towards Multi-Domain Learning for Generalizable Video Anomaly Detection
-[![NeurIPS](https://img.shields.io/badge/NeurIPS-2024-2DB55D)](https://proceedings.neurips.cc/paper_files/paper/2024/file/59eb2d8ce0e4830f80780f7f78c67dec-Paper-Conference.pdf)
-> Proposes a multi-domain VAD task and benchmark to explore cross-domain generalization.
-
----
-
-#### ACM MM 2024
-
-##### Weakly Supervised Video Anomaly Detection and Localization with Spatio-Temporal Prompts
-[![ACM MM](https://img.shields.io/badge/ACM_MM-2024-FF69B4)](https://arxiv.org/pdf/2408.05905)
-> Uses spatio-temporal prompts with CLIP for weakly supervised VAD, improving fine-grained localization by adapting to different anomaly scales.
-
----
-
-## Metrics & Evaluation
-
-- Coming soon: common tasks, metrics, and evaluation protocols.
-
----
-
-## Related Awesome Lists
-
-- Coming soon.
-
-
-
-
-
-
-
-
+| 论文 | 创新抓手 | 资源 |
+| --- | --- | --- |
+| **EVAL**<br>[EVAL: Explainable Video Anomaly Localization](<https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html>) | 对象运动属性解释 | — |

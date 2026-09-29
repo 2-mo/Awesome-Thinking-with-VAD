@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { readCatalog, validateCatalog } from '../scripts/catalog.mjs';
-import { renderCatalog } from '../scripts/generate-catalog.mjs';
+import { renderCatalog, renderLiterature, renderVenueIndex } from '../scripts/generate-catalog.mjs';
 
 function fixture() {
   const source = { url: 'https://example.org/paper', note: 'Primary paper describes the method and evaluation.' };
@@ -108,6 +108,18 @@ test('generator CLI rejects missing or stale output without writing and rejects 
   const generated = await readFile(outputPath, 'utf8');
   assert.match(generated, /A core paper/);
 
+  const literaturePath = join(dir, 'llm4vad.md');
+  const literature = await readFile(literaturePath, 'utf8');
+  await writeFile(literaturePath, `${literature}\nStale literature index\n`);
+  assert.equal(run('--check').status, 1);
+  assert.match(await readFile(literaturePath, 'utf8'), /Stale literature index/);
+  await writeFile(literaturePath, literature);
+  const venuePath = join(dir, 'venues', 'README.md');
+  await rm(venuePath);
+  assert.equal(run('--check').status, 1);
+  await assert.rejects(readFile(venuePath), { code: 'ENOENT' });
+  assert.equal(run().status, 0);
+
   const stale = `${generated}\nHand-edited content\n`;
   await writeFile(outputPath, stale);
   assert.equal(run('--check').status, 1);
@@ -120,4 +132,20 @@ test('generator CLI rejects missing or stale output without writing and rejects 
   assert.equal(rejected.status, 1);
   assert.match(rejected.stderr, /absolute HTTP/);
   assert.equal(await readFile(outputPath, 'utf8'), stale);
+});
+
+test('generated literature and venue indexes share the catalog and preserve publication status', () => {
+  const data = fixture();
+  data.papers[0].venue = 'NeurIPS Datasets and Benchmarks';
+  data.papers[1].venue = 'arXiv';
+  data.papers[1].year = 2025;
+  const literature = renderLiterature(data);
+  assert.match(literature, /2 篇论文/);
+  assert.ok(literature.indexOf('## 2025') < literature.indexOf('## 2024'));
+  assert.match(literature, /### arXiv · 预印本/);
+  assert.match(literature, /Datasets and Benchmarks/);
+  assert.match(literature, /A core paper/);
+  assert.match(literature, /Another core paper/);
+  assert.doesNotMatch(literature, /\]\(\)/);
+  assert.match(renderVenueIndex(data), /\| NeurIPS \| 1 \| \[2024\]\(\.\.\/llm4vad.md#year-2024-neurips\)/);
 });
