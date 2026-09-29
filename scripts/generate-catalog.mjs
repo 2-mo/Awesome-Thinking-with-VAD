@@ -72,7 +72,9 @@ export function renderCatalog(catalog) {
   ];
   const paperLines = paper => {
     const refs = Object.entries(paper.links).map(([key, url]) => link(key, url)).join(' · ');
-    return [`### ${escape(paper.title)}`, '', `**${paper.year} · ${escape(paper.venue)}** · ${refs}`, '', `**创新抓手：${escape(paper.mechanism)}**`, '', escape(paper.summary), '', `- 核心启示：${escape(paper.takeaway)}`, `- 局限：${escape(paper.limitation)}`, `- 核验：${paper.verifiedAt}；${paper.sources.map((source, i) => link(`来源 ${i + 1}`, source.url)).join(' · ')}`, ''];
+    return [`### ${escape(paper.title)}`, '', `**${paper.year} · ${escape(paper.venue)}** · ${refs}`, '', `**创新抓手：${escape(paper.mechanism)}**`, '', escape(paper.summary), '', ...(paper.secondaryMethods ?? []).flatMap(method => [
+      `- 兼属方法：${escape(catalog.clusters.find(cluster => cluster.id === method.cluster)?.name ?? method.cluster)}；${link('归类依据', method.evidence.url)} — ${escape(method.evidence.note)}`,
+    ]), `- 核心启示：${escape(paper.takeaway)}`, `- 局限：${escape(paper.limitation)}`, `- 核验：${paper.verifiedAt}；${paper.sources.map((source, i) => link(`来源 ${i + 1}`, source.url)).join(' · ')}`, ''];
   };
   for (const cluster of catalog.clusters) {
     const papers = catalog.papers.filter(paper => paper.scope === 'core' && paper.cluster === cluster.id);

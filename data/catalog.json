@@ -1313,7 +1313,16 @@
           "url": "https://2026.ijcai.org/at-a-glance2/",
           "note": "Main technical program: 18–21 August 2026."
         }
-      }
+      },
+      "secondaryMethods": [
+        {
+          "cluster": "understanding",
+          "evidence": {
+            "url": "https://www.ijcai.org/proceedings/2026/618",
+            "note": "编辑归类：不确定性门控决定云端 VLM 调用，动态语义记忆缓存已验证原型；兼属主动决策与时序记忆。"
+          }
+        }
+      ]
     },
     {
       "id": "a2seek",
@@ -1352,7 +1361,16 @@
           "url": "https://neurips.cc/Conferences/2025",
           "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
         }
-      }
+      },
+      "secondaryMethods": [
+        {
+          "cluster": "reasoning",
+          "evidence": {
+            "url": "https://2-mo.github.io/A2Seek/",
+            "note": "编辑归类：A2Seek-R1 结合区域 seeking、图式思维监督及 A-GRPO；兼属主动观察与结构化推理。"
+          }
+        }
+      ]
     },
     {
       "id": "agenticvau",
@@ -1805,7 +1823,16 @@
           "url": "https://icml.cc/Conferences/2026/index.html",
           "note": "Main conference: 7–9 July 2026."
         }
-      }
+      },
+      "secondaryMethods": [
+        {
+          "cluster": "understanding",
+          "evidence": {
+            "url": "https://arxiv.org/abs/2608.11820",
+            "note": "编辑归类：冻结 CLIP 实现文本视觉对齐，事件演化因果注意力建模长短期时序依赖；兼属语义对齐与时序建模。"
+          }
+        }
+      ]
     },
     {
       "id": "urf-zs-hvaa",

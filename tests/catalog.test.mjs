@@ -39,6 +39,10 @@ const corruptions = [
   ['invalid image provenance URL', data => { data.datasets[0].thumbnail.sourceUrl = 'file:///image.png'; }, /thumbnail.sourceUrl.*absolute HTTP/],
   ['missing dataset publication year', data => { delete data.datasets[0].year; }, /datasets.*year.*publication year/],
   ['missing dataset venue', data => { delete data.datasets[0].venue; }, /datasets.*venue.*non-empty/],
+  ['malformed secondary methods', data => { data.papers[0].secondaryMethods = {}; }, /secondaryMethods.*array/],
+  ['unknown secondary method', data => { data.papers[0].secondaryMethods = [{ cluster: 'missing', evidence: data.papers[0].sources[0] }]; }, /secondaryMethods.*unknown cluster/],
+  ['duplicate method membership', data => { data.papers[0].secondaryMethods = [{ cluster: 'reasoning', evidence: data.papers[0].sources[0] }]; }, /duplicate method membership/],
+  ['unsourced method membership', data => { data.clusters.push({ ...data.clusters[0], id: 'memory' }); data.papers[0].secondaryMethods = [{ cluster: 'memory' }]; }, /secondaryMethods.*evidence/],
   ['non-core scope', data => { data.papers[0].scope = 'external'; }, /scope.*must be core/],
   ['unsupported relationship type', data => { data.relations[0].type = 'similar'; }, /unknown relation type/],
   ['duplicate entity IDs', data => { data.papers[1].id = data.papers[0].id; }, /duplicate id/],
@@ -148,4 +152,14 @@ test('generated literature and venue indexes share the catalog and preserve publ
   assert.match(literature, /Another core paper/);
   assert.doesNotMatch(literature, /\]\(\)/);
   assert.match(renderVenueIndex(data), /\| NeurIPS \| 1 \| \[2024\]\(\.\.\/llm4vad.md#year-2024-neurips\)/);
+});
+
+test('additional method memberships preserve their classification evidence in the catalog', () => {
+  const data = fixture();
+  data.clusters.push({ ...data.clusters[0], id: 'memory', name: 'Memory' });
+  data.papers[0].secondaryMethods = [{ cluster: 'memory', evidence: { url: 'https://example.org/memory', note: 'Semantic memory is a core mechanism.' } }];
+  assert.deepEqual(validateCatalog(data), []);
+  assert.match(renderCatalog(data), /兼属方法.*Memory/);
+  assert.match(renderCatalog(data), /https:\/\/example.org\/memory/);
+  assert.match(renderCatalog(data), /Semantic memory is a core mechanism/);
 });

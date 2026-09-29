@@ -12,6 +12,8 @@ export interface Paper {
   timeline?: { month: number; basis: "conference" | "preprint"; source: Source };
   scope: "core";
   cluster: string;
+  // Additional method memberships are editorial classifications with evidence.
+  secondaryMethods?: { cluster: string; evidence: Source }[];
   tasks: string[];
   summary: string;
   mechanism: string;

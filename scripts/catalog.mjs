@@ -86,6 +86,20 @@ export function validateCatalog(catalog) {
     }
     if (paper.scope !== 'core') fail(`${path}.scope`, 'must be core');
     if (!clusterIds.has(paper.cluster)) fail(`${path}.cluster`, `unknown cluster ${paper.cluster}`);
+    if (paper.secondaryMethods !== undefined) {
+      if (!Array.isArray(paper.secondaryMethods)) fail(`${path}.secondaryMethods`, 'must be an array');
+      else {
+        const seen = new Set([paper.cluster]);
+        paper.secondaryMethods.forEach((method, index) => {
+          const at = `${path}.secondaryMethods[${index}]`;
+          if (!object(method)) return fail(at, 'must include cluster and evidence');
+          if (!clusterIds.has(method.cluster)) fail(`${at}.cluster`, `unknown cluster ${method.cluster}`);
+          if (seen.has(method.cluster)) fail(`${at}.cluster`, 'duplicate method membership');
+          seen.add(method.cluster);
+          source(method.evidence, `${at}.evidence`);
+        });
+      }
+    }
     strings(paper.tasks, `${path}.tasks`);
     links(paper.links, `${path}.links`, 'paper', ['paper', 'code', 'project']);
     sources(paper.sources, `${path}.sources`);

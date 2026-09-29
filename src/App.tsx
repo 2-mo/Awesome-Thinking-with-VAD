@@ -25,7 +25,7 @@ import type { Catalog, Dataset, Paper } from "./types";
 import ResearchMap from "./components/ResearchMap";
 import DatasetGallery, { datasetImageUrl } from "./components/DatasetGallery";
 import stripUrl from "./assets/idea-strip.png";
-import { publicationVenue } from "./publication";
+import { paperMethods, publicationVenue } from "./publication";
 
 const catalog = rawCatalog as Catalog;
 const REPO = "https://github.com/2-mo/Awesome-Thinking-with-VAD";
@@ -200,7 +200,7 @@ export default function App() {
         const text =
           `${p.shortTitle} ${p.title} ${p.summary} ${p.mechanism} ${p.takeaway} ${p.venue} ${p.tasks.join(" ")}`.toLowerCase();
         return (
-          (cluster === "all" || p.cluster === cluster) &&
+          (cluster === "all" || paperMethods(p).includes(cluster)) &&
           (year === "all" || String(p.year) === year) &&
           (venue === "all" || publicationVenue(p.venue) === venue) &&
           (task === "all" || p.tasks.includes(task)) &&
@@ -368,12 +368,13 @@ export default function App() {
   const currentGuide = catalog.guides[guidePage];
 
   function PaperInspector({ paper }: { paper: Paper }) {
+    const sources = [...paper.sources, ...(paper.secondaryMethods ?? []).map((method) => method.evidence)];
     const related = catalog.papers.filter(
-      (p) => p.cluster === paper.cluster && p.id !== paper.id,
+      (p) => p.id !== paper.id && paperMethods(p).some((id) => paperMethods(paper).includes(id)),
     );
     const pageCount =
       detailTab === "sources"
-        ? Math.ceil(paper.sources.length / 2)
+        ? Math.ceil(sources.length / 2)
         : detailTab === "evidence"
           ? selectionRelations.length
           : detailTab === "question"
@@ -397,7 +398,7 @@ export default function App() {
           style={{ background: selectedCluster?.color }}
         >
           <div className="paper-id-top">
-            <span>{selectedCluster?.name}</span>
+            <span>{paperMethods(paper).map((id) => catalog.clusters.find((item) => item.id === id)?.name).join(" × ")}</span>
             <b>{paper.year}</b>
           </div>
           <h2>{paper.shortTitle}</h2>
@@ -507,7 +508,7 @@ export default function App() {
           {detailTab === "sources" && (
             <>
               <p className="small-notice">核验日期 {paper.verifiedAt}</p>
-              {paper.sources
+              {sources
                 .slice(detailPage * 2, detailPage * 2 + 2)
                 .map((s, i) => (
                   <div className="source-note" key={s.url + i}>
