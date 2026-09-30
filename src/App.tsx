@@ -198,7 +198,7 @@ export default function App() {
     () =>
       catalog.papers.filter((p) => {
         const text =
-          `${p.shortTitle} ${p.title} ${p.summary} ${p.mechanism} ${p.takeaway} ${p.venue} ${p.tasks.join(" ")}`.toLowerCase();
+          `${p.shortTitle} ${p.title} ${p.summary} ${p.mechanism} ${p.takeaway} ${p.venue} ${p.tasks.join(" ")} ${(p.tags ?? []).join(" ")} ${Object.values(p.comparison ?? {}).flatMap(f => f.values).join(" ")}`.toLowerCase();
         return (
           (cluster === "all" || paperMethods(p).includes(cluster)) &&
           (year === "all" || String(p.year) === year) &&
@@ -432,7 +432,7 @@ export default function App() {
               <div className="detail-block">
                 <h3>
                   <Lightbulb size={14} />
-                  创新抓手
+                  创新
                 </h3>
                 <strong className="mechanism-label">{paper.mechanism}</strong>
                 <p>{paper.summary}</p>
@@ -441,6 +441,15 @@ export default function App() {
                 <h3>为什么值得读</h3>
                 <p>{paper.takeaway}</p>
               </div>
+              {paper.comparison && (
+                <div className="detail-block">
+                  <h3>比较维度</h3>
+                  {Object.entries({ outputs: "输出／评测对象", training: "训练与适配", inference: "运行设置", futureFrames: "未来帧访问", evaluation: "验证方式" }).map(([key, label]) => {
+                    const fact = paper.comparison?.[key as keyof NonNullable<Paper["comparison"]>];
+                    return <p key={key}><strong>{label}：</strong>{fact ? <a href={fact.evidence.url} title={fact.evidence.note} target="_blank" rel="noreferrer">{fact.values.join("；")}</a> : "待核验"}</p>;
+                  })}
+                </div>
+              )}
               <div className="task-tags">
                 {paper.tasks.map((t) => (
                   <button key={t} onClick={() => setTask(t)}>
@@ -600,7 +609,7 @@ export default function App() {
             <X size={18} />
           </button>
         </div>
-        <a
+        {dataset.thumbnail && <a
           className="dataset-detail-image"
           href={dataset.thumbnail.sourceUrl}
           target="_blank"
@@ -614,7 +623,7 @@ export default function App() {
             {dataset.thumbnail.credit}
             <ArrowUpRight size={12} />
           </span>
-        </a>
+        </a>}
         <div className="paper-id dataset-id">
           <span className="overline">
             {dataset.venue} · {dataset.year}
@@ -847,7 +856,7 @@ export default function App() {
             <span>数据</span>
           </button>
           <a
-            href={`${REPO}/blob/main/catalog.md`}
+            href={`${REPO}/blob/main/literature/catalog.md`}
             target="_blank"
             rel="noreferrer"
           >
@@ -891,7 +900,7 @@ export default function App() {
                   ? `${visiblePapers.length} / ${catalog.papers.length} 篇论文`
                   : `${visiblePapers.length} 篇可见`
                 : view === "guides"
-                  ? "3 条编辑路线"
+                  ? `${catalog.guides.length} 条编辑路线`
                   : `${catalog.datasets.length} 个数据资源`}
             </span>
           </div>

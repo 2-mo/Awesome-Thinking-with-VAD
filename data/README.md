@@ -1,6 +1,6 @@
 # 视频异常理解：数据维护
 
-`catalog.json` 是网页、[创新目录](../catalog.md)、[论文年表](../llm4vad.md)与[发表索引](../venues/README.md)的共同数据源，类型定义见 `src/types.ts`。当前数量与更新时间由生成的年表展示。
+`catalog.json` 是网页、[创新目录](../literature/catalog.md)、[论文年表](../llm4vad.md)、[发表索引](../literature/venues.md)、[方法比较](../literature/comparison.md)、[数据集与评测](../literature/benchmarks.md)、[阅读路线](../literature/reading-guide.md)和[引用导出](../literature/citations.md)的共同数据源，类型定义见 `src/types.ts`。当前数量与更新时间由生成的年表展示。
 
 ## 收录范围
 
@@ -10,8 +10,16 @@
 - `year` 采用正式发表年；预印本使用首次提交年。NeurIPS Datasets and Benchmarks 在数据中保留准确分轨，展示时合并为 NeurIPS。
 - 同一工作的预印本、会议版和扩展版先核对版本关系，避免重复统计。新增扩展贡献不能倒写进原会议论文的摘要。
 - `sources` 记录一手 URL 与其支持的具体事实；`verifiedAt` 记录本次核验日期。代码仓库仍仅有 README 或写明即将发布时用 `links.project`，不标为已发布代码。
-- `mechanism` 用不超过 24 字概括创新抓手；`summary` 概括贡献，`takeaway` 与 `limitation` 是编辑阅读提示，不冒充复现实验结论。
+- `mechanism` 用不超过 24 字概括创新；`summary` 概括贡献，`takeaway` 与 `limitation` 是编辑阅读提示，不冒充复现实验结论。
 - `datasetIds` 仅列来源明确支持、且已存在于目录的数据集。空数组表示本轮未建立关联。
+
+## 任务与比较维度
+
+`tasks` 只使用：异常检测、异常定位、空间定位、异常解释、异常推理、异常预判、视频问答、基准评测。方法、训练与场景标签放入可选 `tags`，参与搜索但不混入任务筛选。
+
+可选 `comparison` 分为 `outputs`（输出／评测对象）、`training`（训练与适配）、`inference`（运行设置）、`futureFrames`（未来帧访问）、`evaluation`（验证方式）。每项格式为 `{ values: ["内容"], evidence: { url, note } }`，须有针对该维度的一手依据。未核验就省略该项，生成表显示“待核验”。基准论文可记录其评测对象，不假装它是统一输出模型；冻结主模型不等于全流程无需训练，流式标签不自动证明严格无未来帧访问。
+
+`limitation` 暂保留兼容字段名，统一展示为“阅读关注”，不冒充实验确认的缺陷。
 
 ## 五条方法线路
 
@@ -31,15 +39,21 @@
 
 ## 数据集与关系
 
-数据集以九宫格展览展示。`thumbnail` 需要本地 `/datasets/` 路径、替代文本、原图来源和作者署名；使用作者项目或论文原图，不生成研究示例。新增图像遵循 [图片来源记录](../public/datasets/README.md)。
+数据集可先登记文字记录，再补图片。可选 `thumbnail` 一旦提供，就需要本地 `/datasets/` 路径、替代文本、原图来源和作者署名；使用作者项目或论文原图，不生成研究示例。新增图像遵循 [图片来源记录](../public/datasets/README.md)。
 
 关系 `source → target` 只使用 `uses`、`introduces`、`extends`，每条均需明确来源。`extends` 只用于有证据的方法继承，不能以主题相似替代。关系保留在详情中，不决定主地图走线。
 
 ## 更新流程
 
 1. 核对主来源、发表状态和已有版本，补齐论文记录与来源说明。
-2. 运行 `npm run build`，同步生成三个 Markdown 索引与 `docs/` 静态网页。
+2. 运行 `npm run build`，同步生成七个 Markdown 索引及 `literature/references.bib`与 `docs/` 静态网页。
 3. 运行 `npm run check`，检查数据引用、生成文件一致性、地图几何与 TypeScript。
 4. 在开发分支提交，检查通过后合并 main。`research/` 保存检索记录，不作为另一份运行时数据。
 
 结构校验不能代替学术事实核验，也不保证外部链接永久有效。
+
+## 引用元数据
+
+每篇的 `citation` 必须包含 `key`、`type`、`version`、`title`、完整有序 `authors`、引用 `year`、`url`、`sources` 与 `verifiedAt`。正式版本（`published`）提供 `publication`；arXiv 预印本（`preprint`）使用 `misc` 与 `arxivId`。`doi` 仅填写已核验标识符，不填写 URL；没有证据就省略，不从题名推测 DOI。卷、期、页码分别为可选 `volume`、`number`、`pages`。
+
+官方 BibTeX 优先决定引用年份；网页上线日期不一定等于会议年份。不要混合不同版本的作者、年份、DOI 和论文集。`literature/citations.md` 与 `literature/references.bib` 由同一记录生成，保留来源；生成器保护缩写大小写，并转义 BibTeX 特殊字符与常见姓名重音。

@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 
 export const catalogPath = fileURLToPath(new URL('../data/catalog.json', import.meta.url));
 export const readCatalog = async () => JSON.parse(await readFile(catalogPath, 'utf8'));
+export const taskVocabulary = ['异常检测', '异常定位', '空间定位', '异常解释', '异常推理', '异常预判', '视频问答', '基准评测'];
+export const comparisonFields = { outputs: '输出／评测对象', training: '训练与适配', inference: '运行设置', futureFrames: '未来帧访问', evaluation: '验证方式' };
 
 /** Validate editorial structure and references; this intentionally does not make network requests. */
 export function validateCatalog(catalog) {
@@ -66,6 +68,7 @@ export function validateCatalog(catalog) {
   const paperById = new Map(papers.map(item => [item.id, item]));
   const datasetIds = new Set(datasets.map(item => item.id));
   const entityIds = new Set([...paperById.keys(), ...datasetIds]);
+  const citationKeys = new Set();
   clusters.forEach((cluster, i) => {
     const path = `clusters[${i}]`;
     for (const key of ['name', 'description', 'question', 'color']) text(cluster[key], `${path}.${key}`);
@@ -101,6 +104,48 @@ export function validateCatalog(catalog) {
       }
     }
     strings(paper.tasks, `${path}.tasks`);
+    const c = paper.citation;
+    if (!object(c)) fail(`${path}.citation`, 'must contain verified citation metadata');
+    else {
+      const at = `${path}.citation`;
+      for (const key of ['key', 'title']) text(c[key], `${at}.${key}`);
+      if (typeof c.key !== 'string' || !/^[a-zA-Z][a-zA-Z0-9:_-]*$/.test(c.key)) fail(`${at}.key`, 'must be a safe BibTeX key');
+      if (citationKeys.has(c.key)) fail(`${at}.key`, 'duplicate citation key');
+      citationKeys.add(c.key);
+      strings(c.authors, `${at}.authors`);
+      if (!['article', 'inproceedings', 'misc'].includes(c.type)) fail(`${at}.type`, 'unsupported BibTeX type');
+      if (!['published', 'preprint'].includes(c.version)) fail(`${at}.version`, 'must be published or preprint');
+      if (!Number.isInteger(c.year) || c.year < 1900 || c.year > new Date().getUTCFullYear() + 1) fail(`${at}.year`, 'must be a plausible citation year');
+      if (c.version === 'published') {
+        text(c.publication, `${at}.publication`);
+        if (c.type === 'misc' || c.arxivId || (typeof c.doi === 'string' && c.doi.toLowerCase().startsWith('10.48550/arxiv.'))) fail(at, 'published citations cannot use preprint identifiers or type');
+        if (paper.venue === 'arXiv' || c.year !== paper.year) fail(at, 'published citation must match catalog publication status and year');
+      }
+      if (c.version === 'preprint') {
+        if (c.type !== 'misc' || c.publication) fail(at, 'preprints must use misc without a publication venue');
+        if (!/^\d{4}\.\d{4,5}(v\d+)?$/.test(c.arxivId ?? '')) fail(`${at}.arxivId`, 'must identify the cited arXiv preprint');
+        if (typeof c.doi === 'string' && (typeof c.arxivId !== 'string' || c.doi.toLowerCase() !== `10.48550/arxiv.${c.arxivId.replace(/v\d+$/, '')}`.toLowerCase())) fail(`${at}.doi`, 'must identify the same preprint, not a published version');
+      }
+      if (c.doi !== undefined && (typeof c.doi !== 'string' || !/^10\.\d{4,9}\/\S+$/.test(c.doi))) fail(`${at}.doi`, 'must be a DOI identifier, not a URL');
+      for (const key of ['volume', 'number', 'pages']) if (c[key] !== undefined) text(c[key], `${at}.${key}`);
+      url(c.url, `${at}.url`);
+      sources(c.sources, `${at}.sources`);
+      date(c.verifiedAt, `${at}.verifiedAt`);
+    }
+    if (Array.isArray(paper.tasks)) paper.tasks.forEach(task => {
+      if (!taskVocabulary.includes(task)) fail(`${path}.tasks`, `unknown task ${task}; use the controlled vocabulary and move method/context labels to tags`);
+    });
+    if (paper.tags !== undefined) strings(paper.tags, `${path}.tags`, false);
+    if (paper.comparison !== undefined) {
+      if (!object(paper.comparison)) fail(`${path}.comparison`, 'must be an object');
+      else for (const [key, fact] of Object.entries(paper.comparison)) {
+        const at = `${path}.comparison.${key}`;
+        if (!Object.hasOwn(comparisonFields, key)) fail(at, 'unknown comparison field');
+        if (!object(fact)) { fail(at, 'must include values and evidence'); continue; }
+        strings(fact.values, `${at}.values`);
+        source(fact.evidence, `${at}.evidence`);
+      }
+    }
     links(paper.links, `${path}.links`, 'paper', ['paper', 'code', 'project']);
     sources(paper.sources, `${path}.sources`);
     date(paper.verifiedAt, `${path}.verifiedAt`);
@@ -114,8 +159,8 @@ export function validateCatalog(catalog) {
     for (const key of ['name', 'description', 'protocol']) text(dataset[key], `${path}.${key}`);
     if (!Number.isInteger(dataset.year) || dataset.year < 1900 || dataset.year > new Date().getUTCFullYear() + 1) fail(`${path}.year`, 'must be a plausible publication year');
     text(dataset.venue, `${path}.venue`);
-    if (!object(dataset.thumbnail)) fail(`${path}.thumbnail`, 'must include local artwork and provenance');
-    else {
+    if (dataset.thumbnail !== undefined && !object(dataset.thumbnail)) fail(`${path}.thumbnail`, 'must include local artwork and provenance');
+    else if (dataset.thumbnail !== undefined) {
       const thumbnail = dataset.thumbnail;
       if (typeof thumbnail.src !== 'string' || !/^\/datasets\/[A-Za-z0-9][A-Za-z0-9_./-]*$/.test(thumbnail.src) || thumbnail.src.includes('..') || thumbnail.src.endsWith('/') || thumbnail.src.includes('//')) fail(`${path}.thumbnail.src`, 'must be a local /datasets/ path without traversal');
       text(thumbnail.alt, `${path}.thumbnail.alt`);

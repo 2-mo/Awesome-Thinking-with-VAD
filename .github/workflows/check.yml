@@ -21,9 +21,9 @@ jobs:
       - run: npm run build
       - name: Verify committed generated files
         run: |
-          git diff --exit-code -- docs catalog.md llm4vad.md venues/README.md
-          if [ -n "$(git status --porcelain -- docs catalog.md llm4vad.md venues/README.md)" ]; then
+          git diff --exit-code -- docs literature llm4vad.md
+          if [ -n "$(git status --porcelain -- docs literature llm4vad.md)" ]; then
             echo "Generated files differ from the committed catalog or site. Run npm run build and commit all output."
-            git status --short -- docs catalog.md llm4vad.md venues/README.md
+            git status --short -- docs literature llm4vad.md
             exit 1
           fi

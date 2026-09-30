@@ -1,70 +1,51 @@
 # Awesome Thinking with VAD
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 English | [简体中文](README.zh-CN.md)
 
-Research on **video anomaly understanding**: explaining abnormal events, grounding them in time and space, reasoning over evidence, and evaluating whether an explanation is faithful to the video. The collection also includes directly relevant language-guided representations and detection methods.
+A curated reading collection on **video anomaly understanding**: what happened, why it is abnormal, where the evidence is, and how to evaluate the explanation. It also covers directly relevant language-guided representations and detection methods.
 
-[**Research map**](https://2-mo.github.io/Awesome-Thinking-with-VAD/) · [**Papers by year**](llm4vad.md) · [**Papers by method**](catalog.md) · [**Venue index**](venues/README.md)
+## Start reading
+
+Detailed reading notes are available on GitHub in Chinese.
+
+| I want to… | Read |
+| --- | --- |
+| Find recent papers | [Papers by year](llm4vad.md) |
+| Understand a method's contribution | [Papers by method](literature/catalog.md) |
+| Choose baselines | [Method comparison](literature/comparison.md): outputs, training, runtime and evaluation |
+| Choose a dataset or evaluation protocol | [Datasets and evaluation](literature/benchmarks.md) |
+| Learn the field in a guided order | [Four reading routes](literature/reading-guide.md) |
+| Find a conference paper | [Venue index](literature/venues.md) |
+| Cite a paper | [Authors, DOI and BibTeX](literature/citations.md) · [Download bibliography](https://raw.githubusercontent.com/2-mo/Awesome-Thinking-with-VAD/main/literature/references.bib) |
+| Read background surveys | [Surveys and research notes](research/README.md) |
+
+[**Browse the research map →**](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
 
 ## Latest update
 
-**2026-09-30** — Added 19 source-checked papers, bringing the selected catalog to **51 papers**, with 9 dataset exhibits and 3 reading guides. Additions cover missing NeurIPS 2025 work, AAAI/ICLR/CVPR/ICML/ECCV 2026 publications, and recent VAU preprints. See the [addition and version notes](research/literature-update-2026-09.md).
+**2026-09-30** — Added ReactVAU, Pistachio and VANE-Bench, and grouped reading indexes and historical notes into dedicated folders. The collection contains **54 papers, 16 dataset records and 4 reading routes**. See the [changelog](CHANGELOG.md) for additions, corrections and version handling.
 
-The year-based reading document now comes from the same data as the website. Empty links, duplicate versions, incorrect publication groupings, and unrelated entries from the old LLM/VAD list have been removed.
+## Scope and evidence
 
-## Read the collection
+We select research on video anomaly explanation, reasoning, localization and evaluation, plus semantic representations that directly support these tasks. WACV and workshop papers, generic video understanding and static-image defect detection are outside the current core scope.
 
-| Entry point | Contents |
-| --- | --- |
-| [Interactive map](https://2-mo.github.io/Awesome-Thinking-with-VAD/) | Paper stations on five colored method routes; searchable publication metadata and sources |
-| [llm4vad.md](llm4vad.md) | Compact tables by year and conference, including separately labeled preprints |
-| [catalog.md](catalog.md) | Contributions, reading questions, limitations and primary sources by method family |
-| [Venue index](venues/README.md) | Current publication counts and links to year/conference sections |
-| [Data contract](data/README.md) | Scope, source requirements, publication status and version handling |
+- Formal publication metadata takes precedence over preprint metadata. Unconfirmed acceptance remains labeled arXiv; related versions are checked before counting a new paper.
+- Each paper includes primary sources and a verification date. Reading questions are editorial prompts, not independently reproduced limitations.
+- Comparison cells link to their evidence. Frozen backbones, prompt optimization and trained auxiliary modules are distinguished; missing facts mean **unverified**, not unsupported capability.
+- Dataset registration does not imply public download availability. Protocols and verified paper associations are recorded independently of illustration availability.
 
-The map keeps **time on the horizontal axis and arranges stations by method topology**. Conference names travel with paper labels rather than defining rows. The layout places methods with shared papers next to each other, aligns stations into straight runs with compact circular corners, and routes around labels with penalties for bends and crossings. Shared papers use separate line platforms joined by a short neutral connector, with one paper label; ordinary crossings remain unconnected. Months establish an internal order; Q1–Q4 appear beneath years from 2025 onward. Filtering preserves the full-catalog geometry. NeurIPS and its Datasets and Benchmarks track share one display category while retaining exact metadata in each record.
+The [historical conference notes](archive/venues/), [journal notes](archive/journals/README.md) and [broader dataset notes](archive/dataset.md) cover a wider scope and have not all been reverified. Use the indexes above for the current selection; historical material now lives in [archive/](archive/README.md).
 
-The five families are semantic alignment and fusion; language-based criteria and prompt optimization; temporal hierarchy and memory; active observation and tool use; and structured reasoning and verification. Dataset exhibits use original author/paper figures with attribution.
+## Contribute a paper or correction
 
-## Scope and sources
-
-[data/catalog.json](data/catalog.json) is the single source for the website and all three generated reading indexes. Each paper records the evidence supporting its title, venue, contribution and verification date. Formal publication metadata takes precedence over the initial preprint date; unconfirmed papers remain **arXiv**. An extended version is not counted twice merely because it has a new title.
-
-The selected catalog excludes WACV and workshop papers, generic video understanding, and static-image defect detection. Detection-only methods are included selectively when they directly support anomaly semantics. Author performance claims are not presented as independent reproductions. A project placeholder is distinguished from released code.
-
-The [older conference notes](venues/), [journal notes](journals/README.md) and [broader dataset notes](dataset.md) remain historical references with a wider scope; they have not all been reverified. Use the generated indexes above for the current curated selection.
-
-## Run locally
-
-Development uses Node.js 24:
-
-```sh
-npm ci
-npm run dev
-```
-
-`npm run build` validates the data, regenerates `catalog.md`, `llm4vad.md` and `venues/README.md`, and builds the static website. `npm run check` checks data, generated documents, tests and TypeScript.
-
-The production site is committed in [docs/](docs/), so `main` can run without a Node build:
-
-```sh
-python3 -m http.server 8000 --directory docs
-```
-
-Open `http://localhost:8000/`. See [DEVELOPMENT.md](DEVELOPMENT.md) for maintenance details.
-
-## Contribute
-
-Edit the [source catalog](data/catalog.json), cite primary sources and follow [CONTRIBUTING.md](CONTRIBUTING.md). Include generated documents and `docs/` with the source change. CI rejects stale generated output. Work on a development branch and merge after the required checks pass.
-
-Corrections to titles, publication status, version relationships and missing relevant papers are welcome.
+[Recommend a paper](https://github.com/2-mo/Awesome-Thinking-with-VAD/issues/new?template=paper.yml) or [report a correction](https://github.com/2-mo/Awesome-Thinking-with-VAD/issues/new?template=correction.yml). Share the paper link and a brief reason for inclusion, or point out the fact to correct. The maintainer handles verification and repository updates.
 
 ## Contact and credits
 
 - Email: **mo1031@live.com**
 - WeChat: **tiumo-** (please mention VAD)
 
-Paper and dataset copyrights belong to their authors and publishers. This repository is an academic research collection; figures retain their source attribution.
+Original repository code and documentation are licensed under [MIT](LICENSE). Papers, datasets and source figures remain under their respective authors' and publishers' terms; image attribution is retained.

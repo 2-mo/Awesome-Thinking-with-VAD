@@ -5,7 +5,7 @@
     {
       "id": "alignment",
       "name": "语义对齐与融合",
-      "description": "创新抓手：字幕特征融合、视觉语言对齐和运动语言监督，为异常建立可解释的语义表征。",
+      "description": "创新：字幕特征融合、视觉语言对齐和运动语言监督，为异常建立可解释的语义表征。",
       "question": "如何把外观、运动与语言转化为异常相关的表征？",
       "color": "#badff5",
       "position": {
@@ -16,7 +16,7 @@
     {
       "id": "explanation",
       "name": "语言判据与提示优化",
-      "description": "创新抓手：字幕到判断的语言中介、正常规则归纳与引导问题优化，将异常标准显式化。",
+      "description": "创新：字幕到判断的语言中介、正常规则归纳与引导问题优化，将异常标准显式化。",
       "question": "有了语义表征，怎样构造场景适用的异常判据？",
       "color": "#ffc3b5",
       "position": {
@@ -27,7 +27,7 @@
     {
       "id": "understanding",
       "name": "时序分层与记忆",
-      "description": "创新抓手：多粒度指令、事件边界建模、历史分数记忆，以及语义层级下的边界评估。",
+      "description": "创新：多粒度指令、事件边界建模、历史分数记忆，以及语义层级下的边界评估。",
       "question": "判据应作用于哪一段时间，又需要保留多少历史？",
       "color": "#d9cef1",
       "position": {
@@ -38,7 +38,7 @@
     {
       "id": "evidence",
       "name": "主动观察与工具决策",
-      "description": "创新抓手：场景规划、工具调用、补充采样与交互策略学习，让异常证据获取随当前疑点调整。",
+      "description": "创新：场景规划、工具调用、补充采样与交互策略学习，让异常证据获取随当前疑点调整。",
       "question": "当前证据不足时，怎样决定下一次观察或工具调用？",
       "color": "#ffdf70",
       "position": {
@@ -49,7 +49,7 @@
     {
       "id": "reasoning",
       "name": "结构化推理与验证",
-      "description": "创新抓手：因果问题分解、对象关系编码、反思修正与关键事实评估，让异常解释可以被检查。",
+      "description": "创新：因果问题分解、对象关系编码、反思修正与关键事实评估，让异常解释可以被检查。",
       "question": "怎样组织推理，并检验结论是否抓住关键事实？",
       "color": "#c5e2c1",
       "position": {
@@ -101,6 +101,46 @@
           "url": "https://aaai.org/conference/aaai/aaai-24/",
           "note": "Conference: 20–27 February 2024."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "粗细粒度异常检测"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2308.11681",
+            "note": "基于既有核验记录：利用冻结 CLIP 的视觉语言关联，通过双分支完成粗粒度和细粒度异常检测。 本字段摘录：粗细粒度异常检测。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "vadclip2024",
+        "type": "article",
+        "version": "published",
+        "title": "VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection",
+        "authors": [
+          "Wu, Peng",
+          "Zhou, Xuerong",
+          "Pang, Guansong",
+          "Zhou, Lingru",
+          "Yan, Qingsen",
+          "Wang, Peng",
+          "Zhang, Yanning"
+        ],
+        "year": 2024,
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/28423",
+        "sources": [
+          {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/28423",
+            "note": "AAAI 正式页面 Authors、DOI 与 How to Cite：逐项核对作者顺序、卷期、页码和出版年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "volume": "38",
+        "number": "6",
+        "pages": "6074-6082",
+        "doi": "10.1609/aaai.v38i6.28423"
       }
     },
     {
@@ -146,6 +186,55 @@
           "url": "https://cvpr.thecvf.com/Conferences/2024",
           "note": "Main conference: 19–21 June 2024."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常分数"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2404.01014",
+            "note": "基于既有核验记录：先描述帧内容，再由语言模型聚合时序信息并估计异常分数。 本字段摘录：异常分数。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "无需目标任务训练"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2404.01014",
+            "note": "基于既有核验记录：先描述帧内容，再由语言模型聚合时序信息并估计异常分数。 本字段摘录：无需目标任务训练。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "lavad2024",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Harnessing Large Language Models for Training-free Video Anomaly Detection",
+        "authors": [
+          "Zanella, Luca",
+          "Menapace, Willi",
+          "Mancini, Massimiliano",
+          "Wang, Yiming",
+          "Ricci, Elisa"
+        ],
+        "year": 2024,
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Zanella_Harnessing_Large_Language_Models_for_Training-free_Video_Anomaly_Detection_CVPR_2024_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Zanella_Harnessing_Large_Language_Models_for_Training-free_Video_Anomaly_Detection_CVPR_2024_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://api.crossref.org/works/10.1109/CVPR52733.2024.01753",
+            "note": "出版社登记的 Crossref DOI 元数据，与正式论文题名、作者顺序、年份及页码对应。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "18527-18536",
+        "doi": "10.1109/cvpr52733.2024.01753"
       }
     },
     {
@@ -187,6 +276,41 @@
           "url": "https://eccv.ecva.net/Conferences/2024/Registration",
           "note": "Main conference: 1–4 October 2024; September workshops do not determine this ordering."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常判断"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2407.10299",
+            "note": "基于既有核验记录：从少量正常样本归纳场景规则，再依据规则判断测试视频中的异常。 本字段摘录：异常判断。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "anomalyruler2024",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Follow the Rules: Reasoning for Video Anomaly Detection with Large Language Models",
+        "authors": [
+          "Yang, Yuchen",
+          "Lee, Kwonjoon",
+          "Dariush, Behzad",
+          "Cao, Yinzhi",
+          "Lo, Shao-Yuan"
+        ],
+        "year": 2024,
+        "url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/10568_ECCV_2024_paper.php",
+        "sources": [
+          {
+            "url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/10568_ECCV_2024_paper.php",
+            "note": "ECVA 正式论文页列出作者顺序并链接 Springer 章节 DOI。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Computer Vision – ECCV 2024",
+        "doi": "10.1007/978-3-031-73004-7_18"
       }
     },
     {
@@ -205,7 +329,8 @@
       "takeaway": "不更新模型权重，也可以学习任务专属的推理提示。",
       "limitation": "阅读关注：语言问题的适应性与跨场景迁移需要分开验证。",
       "links": {
-        "paper": "https://arxiv.org/abs/2412.01095"
+        "paper": "https://arxiv.org/abs/2412.01095",
+        "code": "https://github.com/vera-framework/VERA"
       },
       "sources": [
         {
@@ -215,9 +340,13 @@
         {
           "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Ye_VERA_Explainable_Video_Anomaly_Detection_via_Verbalized_Learning_of_Vision-Language_CVPR_2025_paper.pdf",
           "note": "CVF 正式论文确认 CVPR 2025 与 verbalized learning 方法。"
+        },
+        {
+          "url": "https://github.com/vera-framework/VERA",
+          "note": "2026-09-30 核对作者仓库，包含 training.py、Inference 与 AUC/AP 计算代码，不是仅有 README 的占位项目。"
         }
       ],
-      "verifiedAt": "2026-09-29",
+      "verifiedAt": "2026-09-30",
       "datasetIds": [],
       "mechanism": "语言反馈优化问题",
       "timeline": {
@@ -227,6 +356,65 @@
           "url": "https://cvpr.thecvf.com/Conferences/2025/News/MediaRegistration",
           "note": "Conference: 11–15 June 2025."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常判断",
+            "语言解释"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2412.01095",
+            "note": "基于既有核验记录：用视频级弱标签优化自然语言引导问题，让冻结 VLM 分解并判断异常模式。 本字段摘录：异常判断；语言解释。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "弱标签驱动的语言提示优化",
+            "冻结 VLM"
+          ],
+          "evidence": {
+            "url": "https://github.com/vera-framework/VERA",
+            "note": "作者仓库提供基于弱标签选择引导问题的训练流程；不等同于整个系统无适配。"
+          }
+        },
+        "evaluation": {
+          "values": [
+            "UCF-Crime：AUC",
+            "XD-Violence：AUC／AP"
+          ],
+          "evidence": {
+            "url": "https://github.com/vera-framework/VERA",
+            "note": "作者仓库列出 compute_auc.py、compute_auc_XD_Violence.py 和 compute_AP_XD_Violence.py；这里仅登记检测评测。"
+          }
+        }
+      },
+      "citation": {
+        "key": "vera2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "VERA: Explainable Video Anomaly Detection via Verbalized Learning of Vision-Language Models",
+        "authors": [
+          "Ye, Muchao",
+          "Liu, Weiyang",
+          "He, Pan"
+        ],
+        "year": 2025,
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Ye_VERA_Explainable_Video_Anomaly_Detection_via_Verbalized_Learning_of_Vision-Language_CVPR_2025_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Ye_VERA_Explainable_Video_Anomaly_Detection_via_Verbalized_Learning_of_Vision-Language_CVPR_2025_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://api.crossref.org/works/10.1109/CVPR52734.2025.00811",
+            "note": "出版社登记的 Crossref DOI 元数据，与正式论文题名、作者顺序、年份及页码对应。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "8679-8688",
+        "doi": "10.1109/cvpr52734.2025.00811"
       }
     },
     {
@@ -266,6 +454,43 @@
           "url": "https://media.icml.cc/Conferences/ICML2025/ICML2025_Fact_Sheet.pdf",
           "note": "Conference: 13–20 July 2025."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常解释",
+            "细粒度检测"
+          ],
+          "evidence": {
+            "url": "https://proceedings.mlr.press/v267/huang25ad.html",
+            "note": "基于既有核验记录：由帧字幕生成视频级异常解释，再结合视觉特征与标签增强对齐进行细粒度检测。 本字段摘录：异常解释；细粒度检测。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "ex-vad2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models",
+        "authors": [
+          "Chao Huang",
+          "Yushu Shi",
+          "Jie Wen",
+          "Wei Wang",
+          "Yong Xu",
+          "Xiaochun Cao"
+        ],
+        "year": 2025,
+        "url": "https://proceedings.mlr.press/v267/huang25ad.html",
+        "sources": [
+          {
+            "url": "https://proceedings.mlr.press/v267/huang25ad.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "International Conference on Machine Learning",
+        "pages": "25750-25761"
       }
     },
     {
@@ -306,6 +531,71 @@
           "url": "https://cvpr.thecvf.com/Conferences/2024",
           "note": "Main conference: 19–21 June 2024."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "事件描述",
+            "原因与后果解释（评测）"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2405.00181",
+            "note": "基于既有核验记录：用事件、原因和后果标注，将视频异常理解拓展到因果解释及评估。 本字段摘录：事件描述；原因与后果解释（评测）。其余设置未据此推断。"
+          }
+        },
+        "evaluation": {
+          "values": [
+            "描述／原因／后果分别评估",
+            "MMEval"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2405.00181",
+            "note": "基于既有核验记录：用事件、原因和后果标注，将视频异常理解拓展到因果解释及评估。 本字段摘录：描述／原因／后果分别评估；MMEval。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "cuva2024",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Uncovering What Why and How: A Comprehensive Benchmark for Causation Understanding of Video Anomaly",
+        "authors": [
+          "Du, Hang",
+          "Zhang, Sicheng",
+          "Xie, Binzhu",
+          "Nan, Guoshun",
+          "Zhang, Jiayang",
+          "Xu, Junrui",
+          "Liu, Hangyu",
+          "Leng, Sicong",
+          "Liu, Jiangming",
+          "Fan, Hehe",
+          "Huang, Dajiu",
+          "Feng, Jing",
+          "Chen, Linli",
+          "Zhang, Can",
+          "Li, Xuhuan",
+          "Zhang, Hao",
+          "Chen, Jianhang",
+          "Cui, Qimei",
+          "Tao, Xiaofeng"
+        ],
+        "year": 2024,
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Du_Uncovering_What_Why_and_How_A_Comprehensive_Benchmark_for_Causation_CVPR_2024_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Du_Uncovering_What_Why_and_How_A_Comprehensive_Benchmark_for_Causation_CVPR_2024_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://api.crossref.org/works/10.1109/CVPR52733.2024.01778",
+            "note": "出版社登记的 Crossref DOI 元数据，与正式论文题名、作者顺序、年份及页码对应。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "18793-18803",
+        "doi": "10.1109/cvpr52733.2024.01778"
       }
     },
     {
@@ -349,6 +639,62 @@
           "url": "https://media.neurips.cc/Conferences/NeurIPS2024/NeurIPS2024-Fact_Sheet.pdf",
           "note": "Conference: 10–15 December 2024."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常描述",
+            "问答"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2405.16886",
+            "note": "基于既有核验记录：显式引入运动信息，并用异常视频描述与问答数据训练开放场景理解能力。 本字段摘录：异常描述；问答。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "异常描述与问答监督训练"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2405.16886",
+            "note": "基于既有核验记录：显式引入运动信息，并用异常视频描述与问答数据训练开放场景理解能力。 本字段摘录：异常描述与问答监督训练。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "hawk2024",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "HAWK: Learning to Understand Open-World Video Anomalies",
+        "authors": [
+          "Tang, Jiaqi",
+          "Lu, Hao",
+          "Wu, Ruizheng",
+          "Xu, Xiaogang",
+          "Ma, Ke",
+          "Fang, Cheng",
+          "Guo, Bin",
+          "Lu, Jiangbo",
+          "Chen, Qifeng",
+          "Chen, Ying-Cong"
+        ],
+        "year": 2024,
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/fca83589e85cb061631b7ebc5db5d6bd-Abstract-Conference.html",
+        "sources": [
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/fca83589e85cb061631b7ebc5db5d6bd-Abstract-Conference.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/23451-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Advances in Neural Information Processing Systems",
+        "doi": "10.52202/079017-4435",
+        "volume": "37",
+        "pages": "139751-139785"
       }
     },
     {
@@ -393,6 +739,50 @@
           "url": "https://cvpr.thecvf.com/Conferences/2025/News/MediaRegistration",
           "note": "Conference: 11–15 June 2025."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "片段／事件／视频级理解"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2412.06171",
+            "note": "基于既有核验记录：构建多粒度异常指令数据，并用异常聚焦采样连接片段、事件和整段视频的理解。 本字段摘录：片段／事件／视频级理解。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "holmes-vau2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity",
+        "authors": [
+          "Zhang, Huaxin",
+          "Xu, Xiaohao",
+          "Wang, Xiang",
+          "Zuo, Jialong",
+          "Huang, Xiaonan",
+          "Gao, Changxin",
+          "Zhang, Shanjun",
+          "Yu, Li",
+          "Sang, Nong"
+        ],
+        "year": 2025,
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://api.crossref.org/works/10.1109/CVPR52734.2025.01292",
+            "note": "出版社登记的 Crossref DOI 元数据，与正式论文题名、作者顺序、年份及页码对应。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "13843-13853",
+        "doi": "10.1109/cvpr52734.2025.01292"
       }
     },
     {
@@ -434,6 +824,61 @@
           "url": "https://acmmm2025.org/",
           "note": "Conference: 27–31 October 2025."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "事件边界",
+            "事件级异常推理"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2504.13092",
+            "note": "基于既有核验记录：利用动态时空图寻找事件边界，再通过层级提示完成事件级异常推理。 本字段摘录：事件边界；事件级异常推理。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "无需目标任务训练"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2504.13092",
+            "note": "基于既有核验记录：利用动态时空图寻找事件边界，再通过层级提示完成事件级异常推理。 本字段摘录：无需目标任务训练。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "eventvad2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "EventVAD: Training-Free Event-Aware Video Anomaly Detection",
+        "authors": [
+          "Shao, Yihua",
+          "He, Haojin",
+          "Li, Sijie",
+          "Chen, Siyu",
+          "Long, Xinwei",
+          "Zeng, Fanhu",
+          "Fan, Yuxuan",
+          "Zhang, Muyang",
+          "Yan, Ziyang",
+          "Ma, Ao",
+          "Wang, Xiaochen",
+          "Tang, Hao",
+          "Wang, Yan",
+          "Li, Shuyan"
+        ],
+        "year": 2025,
+        "url": "https://doi.org/10.1145/3746027.3754500",
+        "sources": [
+          {
+            "url": "https://api.crossref.org/works/10.1145/3746027.3754500",
+            "note": "出版社登记至 Crossref 的 DOI 元数据：核对题名、作者、出版年、论文集与页码。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the 33rd ACM International Conference on Multimedia",
+        "doi": "10.1145/3746027.3754500",
+        "pages": "2586-2595"
       }
     },
     {
@@ -475,6 +920,45 @@
           "url": "https://neurips.cc/Conferences/2025",
           "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常检测决策"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2509.26386",
+            "note": "基于既有核验记录：把场景规划、工具反思与经验记忆组合为通用异常检测智能体。 本字段摘录：异常检测决策。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "panda2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "PANDA: Towards Generalist Video Anomaly Detection via Agentic AI Engineer",
+        "authors": [
+          "Yang, Zhiwei",
+          "Gao, Chen",
+          "Shou, Mike Zheng"
+        ],
+        "year": 2025,
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/77e97aea16dbbfe473e70ad12ca733e7-Abstract-Conference.html",
+        "sources": [
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/77e97aea16dbbfe473e70ad12ca733e7-Abstract-Conference.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/27668-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Advances in Neural Information Processing Systems",
+        "doi": "10.52202/085713-2788",
+        "volume": "38",
+        "pages": "83182-83211"
       }
     },
     {
@@ -514,6 +998,65 @@
           "url": "https://neurips.cc/Conferences/2025",
           "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "在线异常分数"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2510.21449",
+            "note": "基于既有核验记录：使用流式输入、历史预测记忆和分数队列，在不训练的条件下持续判断异常。 本字段摘录：在线异常分数。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "无需目标任务训练"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2510.21449",
+            "note": "基于既有核验记录：使用流式输入、历史预测记忆和分数队列，在不训练的条件下持续判断异常。 本字段摘录：无需目标任务训练。其余设置未据此推断。"
+          }
+        },
+        "inference": {
+          "values": [
+            "流式／在线"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2510.21449",
+            "note": "基于既有核验记录：使用流式输入、历史预测记忆和分数队列，在不训练的条件下持续判断异常。 本字段摘录：流式／在线。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "monitor2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "MoniTor: Exploiting Large Language Models with Instruction for Online Video Anomaly Detection",
+        "authors": [
+          "Yang, Shengtian",
+          "Feng, Yue",
+          "Liu, Yingshi",
+          "Zhang, Jingrou",
+          "Qin, Jie"
+        ],
+        "year": 2025,
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/333e67fc4728f147d31608db3ca78e09-Abstract-Conference.html",
+        "sources": [
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/333e67fc4728f147d31608db3ca78e09-Abstract-Conference.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/32458-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Advances in Neural Information Processing Systems",
+        "doi": "10.52202/085713-1204",
+        "volume": "38",
+        "pages": "35851-35871"
       }
     },
     {
@@ -550,6 +1093,50 @@
           "url": "https://arxiv.org/abs/2602.01004",
           "note": "SRVAU-R1 v1 submitted 1 February 2026; conference status remains unconfirmed."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "初始推理",
+            "反思与修正"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2602.01004",
+            "note": "基于既有核验记录：构建初始推理、反思和修正推理的监督序列，再结合监督与强化微调。 本字段摘录：初始推理；反思与修正。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "监督微调",
+            "强化微调"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2602.01004",
+            "note": "基于既有核验记录：构建初始推理、反思和修正推理的监督序列，再结合监督与强化微调。 本字段摘录：监督微调；强化微调。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "srvau-r12026",
+        "type": "misc",
+        "version": "preprint",
+        "title": "SRVAU-R1: Enhancing Video Anomaly Understanding via Reflection-Aware Learning",
+        "authors": [
+          "Zhao, Zihao",
+          "Cao, Shengting",
+          "Ye, Muchao"
+        ],
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2602.01004",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2602.01004",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2602.01004",
+        "doi": "10.48550/arXiv.2602.01004"
       }
     },
     {
@@ -590,6 +1177,39 @@
           "url": "https://icml.cc/Conferences/2026/index.html",
           "note": "Main conference: 7–9 July 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常推理",
+            "观察策略"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2607.00622",
+            "note": "基于既有核验记录：将推理与时间回溯、区间扩展、细粒度采样交替执行，学习主动获取证据的策略。 本字段摘录：异常推理；观察策略。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "anom-pi2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Learning to Watch: Active Video Anomaly Understanding via Interleaved Policy Optimization",
+        "authors": [
+          "Mengjingcheng Mo",
+          "Jiaxu Leng",
+          "Xinbo Gao"
+        ],
+        "year": 2026,
+        "url": "https://icml.cc/virtual/2026/poster/60569",
+        "sources": [
+          {
+            "url": "https://icml.cc/virtual/2026/poster/60569",
+            "note": "官方会议页面 JSON-LD 列出该论文题名、完整作者顺序及 ICML 2026 身份；未核验页码或 DOI，故不补造。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the International Conference on Machine Learning"
       }
     },
     {
@@ -628,6 +1248,54 @@
           "url": "https://aaai.org/wp-content/uploads/2026/01/AAAI-26_Overview-with-BLTW_1.14.pdf",
           "note": "Main conference: 22–25 January 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "事件／实体／位置事实（评测）"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2601.17258",
+            "note": "基于既有核验记录：围绕事件、参与者与位置构建细粒度标注，并用 FVScore 检查关键视觉信息。 本字段摘录：事件／实体／位置事实（评测）。其余设置未据此推断。"
+          }
+        },
+        "evaluation": {
+          "values": [
+            "关键视觉事实",
+            "FVScore",
+            "人类一致性"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2601.17258",
+            "note": "基于既有核验记录：围绕事件、参与者与位置构建细粒度标注，并用 FVScore 检查关键视觉信息。 本字段摘录：关键视觉事实；FVScore；人类一致性。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "finevau2026",
+        "type": "article",
+        "version": "published",
+        "title": "FineVAU: A Novel Human-Aligned Benchmark for Fine-Grained Video Anomaly Understanding",
+        "authors": [
+          "Pereira, Joao Alexandre Cardeira",
+          "Lopes, Vasco",
+          "Neves, João C.",
+          "Semedo, David"
+        ],
+        "year": 2026,
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/37790",
+        "sources": [
+          {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/37790",
+            "note": "AAAI 正式页面 Authors、DOI 与 How to Cite：逐项核对作者顺序、卷期、页码和出版年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "volume": "40",
+        "number": "10",
+        "pages": "8403-8411",
+        "doi": "10.1609/aaai.v40i10.37790"
       }
     },
     {
@@ -640,7 +1308,8 @@
       "cluster": "understanding",
       "tasks": [
         "异常定位",
-        "异常解释"
+        "异常解释",
+        "基准评测"
       ],
       "summary": "用多个语义层级定义异常边界，联合考查定位、时间 grounding 与细节辨别。",
       "takeaway": "异常的起止时间取决于所采用的语义范围。",
@@ -655,7 +1324,9 @@
         }
       ],
       "verifiedAt": "2026-09-29",
-      "datasetIds": [],
+      "datasetIds": [
+        "valu-data"
+      ],
       "mechanism": "语义分层边界评估",
       "timeline": {
         "month": 7,
@@ -664,6 +1335,59 @@
           "url": "https://2026.aclweb.org/assets/Sponsorship%20brochure%20for%20ACL%202026%20Conferences%20-%202026-04-23.pdf",
           "note": "Conference: 2–7 July 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "时序边界",
+            "异常细节（评测）"
+          ],
+          "evidence": {
+            "url": "https://aclanthology.org/2026.acl-long.56/",
+            "note": "基于既有核验记录：用多个语义层级定义异常边界，联合考查定位、时间 grounding 与细节辨别。 本字段摘录：时序边界；异常细节（评测）。其余设置未据此推断。"
+          }
+        },
+        "evaluation": {
+          "values": [
+            "时间 grounding",
+            "异常定位",
+            "细节辨别"
+          ],
+          "evidence": {
+            "url": "https://aclanthology.org/2026.acl-long.56/",
+            "note": "基于既有核验记录：用多个语义层级定义异常边界，联合考查定位、时间 grounding 与细节辨别。 本字段摘录：时间 grounding；异常定位；细节辨别。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "valu2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "VALU: A Benchmark for Video Anomaly Temporal Localization and Understanding at Multiple Semantic Levels",
+        "authors": [
+          "Yixiao He",
+          "Menghao Zhang",
+          "Haifeng Sun",
+          "Jing Wang",
+          "Kangheng Lin",
+          "Jinghan Wang",
+          "Chenye Xu",
+          "Pengfei Ren",
+          "Qi Qi",
+          "Jingyu Wang"
+        ],
+        "year": 2026,
+        "url": "https://aclanthology.org/2026.acl-long.56/",
+        "sources": [
+          {
+            "url": "https://aclanthology.org/2026.acl-long.56/",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "doi": "10.18653/v1/2026.acl-long.56",
+        "pages": "1252-1296"
       }
     },
     {
@@ -701,6 +1425,45 @@
           "url": "https://cvpr.thecvf.com/Conferences/2023",
           "note": "Main conference: 20–22 June 2023."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "局部异常",
+            "对象运动属性解释"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html",
+            "note": "基于既有核验记录：以对象类别、运动方向和速度等可读属性建立位置相关的正常模式，解释局部异常。 本字段摘录：局部异常；对象运动属性解释。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "eval2023",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "EVAL: Explainable Video Anomaly Localization",
+        "authors": [
+          "Singh, Ashish",
+          "Jones, Michael J.",
+          "Learned-Miller, Erik G."
+        ],
+        "year": 2023,
+        "url": "https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://www.merl.com/publications/TR2023-071",
+            "note": "作者所在 MERL 的正式发表页面与 BibTeX 明确给出该 DOI；作者顺序与 CVF 页面一致。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "18717-18726",
+        "doi": "10.1109/CVPR52729.2023.01795"
       }
     },
     {
@@ -743,6 +1506,49 @@
           "url": "https://cvpr.thecvf.com/Conferences/2024",
           "note": "Main conference: 19–21 June 2024."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常检测",
+            "开放词汇类别"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html",
+            "note": "基于既有核验记录：将开放词汇检测分解为类别无关检测与类别识别，用语言知识和合成未知异常支持未见类别。 本字段摘录：异常检测；开放词汇类别。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "ovvad2024",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Open-Vocabulary Video Anomaly Detection",
+        "authors": [
+          "Wu, Peng",
+          "Zhou, Xuerong",
+          "Pang, Guansong",
+          "Sun, Yujia",
+          "Liu, Jing",
+          "Wang, Peng",
+          "Zhang, Yanning"
+        ],
+        "year": 2024,
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://api.crossref.org/works/10.1109/CVPR52733.2024.01732",
+            "note": "出版社登记的 Crossref DOI 元数据，与正式论文题名、作者顺序、年份及页码对应。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "18297-18307",
+        "doi": "10.1109/cvpr52733.2024.01732"
       }
     },
     {
@@ -786,6 +1592,44 @@
           "url": "https://cvpr.thecvf.com/Conferences/2024",
           "note": "Main conference: 19–21 June 2024."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "帧级异常检测"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html",
+            "note": "基于既有核验记录：将事件描述与视频帧对齐，结合正常性视觉提示生成帧级伪标签，再进行时序自训练。 本字段摘录：帧级异常检测。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "tpwng2024",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Text Prompt with Normality Guidance for Weakly Supervised Video Anomaly Detection",
+        "authors": [
+          "Yang, Zhiwei",
+          "Liu, Jing",
+          "Wu, Peng"
+        ],
+        "year": 2024,
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://api.crossref.org/works/10.1109/CVPR52733.2024.01788",
+            "note": "出版社登记的 Crossref DOI 元数据，与正式论文题名、作者顺序、年份及页码对应。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "18899-18908",
+        "doi": "10.1109/cvpr52733.2024.01788"
       }
     },
     {
@@ -831,6 +1675,49 @@
           "url": "https://cvpr.thecvf.com/Conferences/2024",
           "note": "Main conference: 19–21 June 2024."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "事件描述",
+            "句子时间边界（标注与评测）"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
+            "note": "基于既有核验记录：为 UCF-Crime 添加句子级事件描述与时间标注，建立监控视频定位、描述等语言理解任务基线。 本字段摘录：事件描述；句子时间边界（标注与评测）。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "uca-paper2024",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Towards Surveillance Video-and-Language Understanding: New Dataset Baselines and Challenges",
+        "authors": [
+          "Yuan, Tongtong",
+          "Zhang, Xuange",
+          "Liu, Kun",
+          "Liu, Bo",
+          "Chen, Chen",
+          "Jin, Jian",
+          "Jiao, Zhenzhen"
+        ],
+        "year": 2024,
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://api.crossref.org/works?query.title=Towards+Surveillance+Video-and-Language+Understanding%3A+New+Dataset%2C+Baselines%2C+and+Challenges&rows=3",
+            "note": "出版社 Crossref 检索结果中，题名、年份与作者名单对应的 DOI 记录；排除相似题名候选。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "22052-22061",
+        "doi": "10.1109/cvpr52733.2024.02082"
       }
     },
     {
@@ -869,6 +1756,49 @@
           "url": "https://cvpr.thecvf.com/Conferences/2025/News/MediaRegistration",
           "note": "Conference: 11–15 June 2025."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常检测",
+            "未见类别识别"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html",
+            "note": "基于既有核验记录：结合多层视觉信息与匹配文本，并利用标签关系编码新类别，改善未见异常的检测和语义分类。 本字段摘录：异常检测；未见类别识别。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "anomize2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Anomize: Better Open Vocabulary Video Anomaly Detection",
+        "authors": [
+          "Li, Fei",
+          "Liu, Wenxuan",
+          "Chen, Jingjing",
+          "Zhang, Ruixu",
+          "Wang, Yuran",
+          "Zhong, Xian",
+          "Wang, Zheng"
+        ],
+        "year": 2025,
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://api.crossref.org/works?query.title=Anomize%3A+Better+Open+Vocabulary+Video+Anomaly+Detection&rows=3",
+            "note": "出版社 Crossref 检索结果中，题名、年份与作者名单对应的 DOI 记录；排除相似题名候选。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "29203-29212",
+        "doi": "10.1109/cvpr52734.2025.02719"
       }
     },
     {
@@ -913,6 +1843,51 @@
           "url": "https://iccv.thecvf.com/Conferences/2025/Dates",
           "note": "Main conference: 21–23 October 2025."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常总结",
+            "时间定位"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html",
+            "note": "基于既有核验记录：通过空间有效词元选择与时间有效词元生成，减少冗余视觉信息，支持异常总结和时间定位。 本字段摘录：异常总结；时间定位。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "va-gpt2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Aligning Effective Tokens with Video Anomaly in Large Language Models",
+        "authors": [
+          "Chen, Yingxian",
+          "Liu, Jiahui",
+          "Fan, Ruidi",
+          "Li, Yanwei",
+          "Chang, Chirui",
+          "Zhao, Shizhen",
+          "Fok, Wilton W. T.",
+          "Qi, Xiaojuan",
+          "Wu, Yik-Chung"
+        ],
+        "year": 2025,
+        "url": "https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://api.crossref.org/works?query.title=Aligning+Effective+Tokens+with+Video+Anomaly+in+Large+Language+Models&rows=3",
+            "note": "出版社 Crossref 检索结果中，题名、年份与作者名单对应的 DOI 记录；排除相似题名候选。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF International Conference on Computer Vision",
+        "pages": "22695-22706",
+        "doi": "10.1109/iccv51701.2025.02107"
       }
     },
     {
@@ -948,6 +1923,46 @@
           "url": "https://cvpr.thecvf.com/Conferences/2026/TentativeSchedule",
           "note": "Main conference in June 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常检测"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html",
+            "note": "基于既有核验记录：通过视频与标签、区域与文本、区域与语义的多层对齐，增强视觉语言表征对正常和异常的区分能力。 本字段摘录：异常检测。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "alert-clip2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Alert-CLIP: Abnormality-aware Latent-Enhanced Representation Tuning of CLIP for Video Anomaly Detection",
+        "authors": [
+          "Zhu, Yiyan",
+          "Zhang, Menghao",
+          "Sun, Haifeng",
+          "Ren, Pengfei",
+          "Chu, Xianao",
+          "Xu, Chenye",
+          "Tan, Hong",
+          "Wang, Jinghan",
+          "Qi, Qi",
+          "Wang, Jingyu"
+        ],
+        "year": 2026,
+        "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "35545-35554"
       }
     },
     {
@@ -996,6 +2011,51 @@
           "url": "https://cvpr.thecvf.com/Conferences/2026/TentativeSchedule",
           "note": "Main conference in June 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "帧级／像素级异常检测"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html",
+            "note": "基于既有核验记录：仅用伪异常训练，结合多模态大模型语义理解与反向注意力词元压缩，实现零样本帧级和像素级异常检测。 本字段摘录：帧级／像素级异常检测。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "伪异常训练",
+            "真实异常零样本"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html",
+            "note": "基于既有核验记录：仅用伪异常训练，结合多模态大模型语义理解与反向注意力词元压缩，实现零样本帧级和像素级异常检测。 本字段摘录：伪异常训练；真实异常零样本。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "lavida2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "No Need For Real Anomaly: MLLM Empowered Zero-Shot Video Anomaly Detection",
+        "authors": [
+          "Dai, Zunkai",
+          "Li, Ke",
+          "Liu, Jiajia",
+          "Yang, Jie",
+          "Qiao, Yuanyuan"
+        ],
+        "year": 2026,
+        "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "35648-35658"
       }
     },
     {
@@ -1035,6 +2095,38 @@
           "url": "https://cvpr.thecvf.com/Conferences/2026/TentativeSchedule",
           "note": "Main conference in June 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常检测"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html",
+            "note": "基于既有核验记录：将视频帧组织为语义相连的成分，并结合行为意图与异常属性信息，区分外观相似的正常和异常行为。 本字段摘录：异常检测。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "las-vad2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Weakly Supervised Video Anomaly Detection with Anomaly-Connected Components and Intention Reasoning",
+        "authors": [
+          "Wang, Yu",
+          "Zhao, Shengjie"
+        ],
+        "year": 2026,
+        "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "28545-28556"
       }
     },
     {
@@ -1047,8 +2139,7 @@
       "cluster": "reasoning",
       "tasks": [
         "异常推理",
-        "异常解释",
-        "强化学习"
+        "异常解释"
       ],
       "summary": "把视频异常推理独立为任务，构建从感知到认知的结构化推理链及 Vad-Reasoning 数据，并以带自验证的 AVA-GRPO 训练模型。",
       "mechanism": "感知认知推理链与自验证奖励",
@@ -1075,6 +2166,62 @@
           "url": "https://neurips.cc/Conferences/2025",
           "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
         }
+      },
+      "tags": [
+        "强化学习"
+      ],
+      "comparison": {
+        "outputs": {
+          "values": [
+            "结构化推理",
+            "异常判断"
+          ],
+          "evidence": {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+            "note": "基于既有核验记录：把视频异常推理独立为任务，构建从感知到认知的结构化推理链及 Vad-Reasoning 数据，并以带自验证的 AVA-GRPO 训练模型。 本字段摘录：结构化推理；异常判断。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "强化学习（AVA-GRPO）"
+          ],
+          "evidence": {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+            "note": "基于既有核验记录：把视频异常推理独立为任务，构建从感知到认知的结构化推理链及 Vad-Reasoning 数据，并以带自验证的 AVA-GRPO 训练模型。 本字段摘录：强化学习（AVA-GRPO）。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "vad-r12025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Vad-R1: Towards Video Anomaly Reasoning via Perception-to-Cognition Chain-of-Thought",
+        "authors": [
+          "Huang, Chao",
+          "Wang, Benfeng",
+          "Wang, Wei",
+          "Wen, Jie",
+          "Liu, Chengliang",
+          "Shen, Li",
+          "Cao, Xiaochun"
+        ],
+        "year": 2025,
+        "url": "https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+        "sources": [
+          {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://papers.nips.cc/paper_files/paper/27612-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Advances in Neural Information Processing Systems",
+        "doi": "10.52202/085713-3952",
+        "volume": "38",
+        "pages": "118486-118518"
       }
     },
     {
@@ -1087,8 +2234,7 @@
       "cluster": "understanding",
       "tasks": [
         "异常检测",
-        "异常解释",
-        "多粒度时序"
+        "异常解释"
       ],
       "summary": "由通用事件边界构建层次粒度树，在粗细事件节点上分别调用 VLM 感知与 LLM 推理，再融合跨粒度异常分数。",
       "mechanism": "事件边界驱动的层次粒度树",
@@ -1120,6 +2266,59 @@
           "url": "https://neurips.cc/Conferences/2025",
           "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
         }
+      },
+      "tags": [
+        "多粒度时序"
+      ],
+      "comparison": {
+        "outputs": {
+          "values": [
+            "跨粒度异常分数"
+          ],
+          "evidence": {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html",
+            "note": "基于既有核验记录：由通用事件边界构建层次粒度树，在粗细事件节点上分别调用 VLM 感知与 LLM 推理，再融合跨粒度异常分数。 本字段摘录：跨粒度异常分数。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "无需目标任务训练"
+          ],
+          "evidence": {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html",
+            "note": "基于既有核验记录：由通用事件边界构建层次粒度树，在粗细事件节点上分别调用 VLM 感知与 LLM 推理，再融合跨粒度异常分数。 本字段摘录：无需目标任务训练。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "vadtree2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "VADTree: Explainable Training-Free Video Anomaly Detection via Hierarchical Granularity-Aware Tree",
+        "authors": [
+          "Li, Wenlong",
+          "Xu, Yifei",
+          "Rao, Yuan",
+          "Wang, Zhenhua",
+          "Deng, Shuiguang"
+        ],
+        "year": 2025,
+        "url": "https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html",
+        "sources": [
+          {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/da19d18dfc5434bf419ce9c113f1865f-Abstract-Conference.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://papers.nips.cc/paper_files/paper/32247-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Advances in Neural Information Processing Systems",
+        "doi": "10.52202/085713-4959",
+        "volume": "38",
+        "pages": "148372-148404"
       }
     },
     {
@@ -1131,10 +2330,11 @@
       "scope": "core",
       "cluster": "reasoning",
       "tasks": [
-        "上下文异常理解",
+        "异常检测",
+        "异常推理",
         "异常定位",
         "异常预判",
-        "基准评估"
+        "基准评测"
       ],
       "summary": "以条件性与绝对异常为核心组织场景、属性和事件层级，统一评估识别、定位、检测与预判，并训练具有分层可验证奖励的 Cue-R1。",
       "mechanism": "上下文异常分类体系与分层奖励",
@@ -1151,7 +2351,9 @@
         }
       ],
       "verifiedAt": "2026-09-29",
-      "datasetIds": [],
+      "datasetIds": [
+        "cuebench-data"
+      ],
       "timeline": {
         "month": 1,
         "basis": "conference",
@@ -1159,6 +2361,69 @@
           "url": "https://aaai.org/wp-content/uploads/2026/01/AAAI-26_Overview-with-BLTW_1.14.pdf",
           "note": "Main conference: 22–25 January 2026."
         }
+      },
+      "tags": [
+        "上下文异常理解"
+      ],
+      "comparison": {
+        "outputs": {
+          "values": [
+            "识别／定位／检测／预判（评测）"
+          ],
+          "evidence": {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+            "note": "基于既有核验记录：以条件性与绝对异常为核心组织场景、属性和事件层级，统一评估识别、定位、检测与预判，并训练具有分层可验证奖励的 Cue-R1。 本字段摘录：识别／定位／检测／预判（评测）。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "强化微调（Cue-R1）"
+          ],
+          "evidence": {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+            "note": "基于既有核验记录：以条件性与绝对异常为核心组织场景、属性和事件层级，统一评估识别、定位、检测与预判，并训练具有分层可验证奖励的 Cue-R1。 本字段摘录：强化微调（Cue-R1）。其余设置未据此推断。"
+          }
+        },
+        "evaluation": {
+          "values": [
+            "识别／时序定位／检测／预判分任务评估"
+          ],
+          "evidence": {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+            "note": "基于既有核验记录：以条件性与绝对异常为核心组织场景、属性和事件层级，统一评估识别、定位、检测与预判，并训练具有分层可验证奖励的 Cue-R1。 本字段摘录：识别／时序定位／检测／预判分任务评估。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "cuebench2026",
+        "type": "article",
+        "version": "published",
+        "title": "CueBench: Advancing Unified Understanding of Context-Aware Video Anomalies in Real-World",
+        "authors": [
+          "Yu, Yating",
+          "Cao, Congqi",
+          "Wang, Zhaoying",
+          "Meng, Weihua",
+          "Li, Jie",
+          "Li, Yuxin",
+          "Wei, Zihao",
+          "Shen, Zhongpei",
+          "Zhang, Jiajun"
+        ],
+        "year": 2026,
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+        "sources": [
+          {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+            "note": "AAAI 正式页面 Authors、DOI 与 How to Cite：逐项核对作者顺序、卷期、页码和出版年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "volume": "40",
+        "number": "14",
+        "pages": "12187-12195",
+        "doi": "10.1609/aaai.v40i14.38209"
       }
     },
     {
@@ -1170,9 +2435,8 @@
       "scope": "core",
       "cluster": "reasoning",
       "tasks": [
-        "个体异常理解",
-        "异常解释",
-        "关系推理"
+        "异常推理",
+        "异常解释"
       ],
       "summary": "结合全局和人体中心视觉特征，用异常引导采样与时空交互图刻画个体关系，再以指令微调语言模型识别异常个体并解释行为。",
       "mechanism": "个体时空交互图与指令推理",
@@ -1198,6 +2462,59 @@
           "url": "https://aaai.org/wp-content/uploads/2026/01/AAAI-26_Overview-with-BLTW_1.14.pdf",
           "note": "Main conference: 22–25 January 2026."
         }
+      },
+      "tags": [
+        "个体异常理解",
+        "关系推理"
+      ],
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常个体",
+            "行为解释"
+          ],
+          "evidence": {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38378",
+            "note": "基于既有核验记录：结合全局和人体中心视觉特征，用异常引导采样与时空交互图刻画个体关系，再以指令微调语言模型识别异常个体并解释行为。 本字段摘录：异常个体；行为解释。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "指令微调"
+          ],
+          "evidence": {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38378",
+            "note": "基于既有核验记录：结合全局和人体中心视觉特征，用异常引导采样与时空交互图刻画个体关系，再以指令微调语言模型识别异常个体并解释行为。 本字段摘录：指令微调。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "targetvau2026",
+        "type": "article",
+        "version": "published",
+        "title": "TargetVAU: Multimodal Anomaly-Aware Reasoning for Target Behavior Understanding in Videos",
+        "authors": [
+          "Zhou, Lingru",
+          "Wu, Peng",
+          "Zhang, Manqing",
+          "Wang, Qingsheng",
+          "Pang, Guansong",
+          "Wang, Peng"
+        ],
+        "year": 2026,
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38378",
+        "sources": [
+          {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38378",
+            "note": "AAAI 正式页面 Authors、DOI 与 How to Cite：逐项核对作者顺序、卷期、页码和出版年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "volume": "40",
+        "number": "16",
+        "pages": "13710-13718",
+        "doi": "10.1609/aaai.v40i16.38378"
       }
     },
     {
@@ -1210,8 +2527,7 @@
       "cluster": "reasoning",
       "tasks": [
         "异常检测",
-        "因果推理",
-        "边云协同"
+        "异常推理"
       ],
       "summary": "用 LLM 构建并更新双向因果知识图，边缘侧结合隐马尔可夫模型进行事件推理与边界判断，云端依据关键帧更新事件关系。",
       "mechanism": "双向因果知识图与边云更新",
@@ -1236,6 +2552,57 @@
           "url": "https://acmmm2025.org/",
           "note": "Conference: 27–31 October 2025."
         }
+      },
+      "tags": [
+        "因果推理",
+        "边云协同"
+      ],
+      "comparison": {
+        "outputs": {
+          "values": [
+            "事件推理",
+            "边界判断"
+          ],
+          "evidence": {
+            "url": "https://doi.org/10.1145/3746027.3755185",
+            "note": "基于既有核验记录：用 LLM 构建并更新双向因果知识图，边缘侧结合隐马尔可夫模型进行事件推理与边界判断，云端依据关键帧更新事件关系。 本字段摘录：事件推理；边界判断。其余设置未据此推断。"
+          }
+        },
+        "inference": {
+          "values": [
+            "边云协同"
+          ],
+          "evidence": {
+            "url": "https://doi.org/10.1145/3746027.3755185",
+            "note": "基于既有核验记录：用 LLM 构建并更新双向因果知识图，边缘侧结合隐马尔可夫模型进行事件推理与边界判断，云端依据关键帧更新事件关系。 本字段摘录：边云协同。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "holotrace2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "HoloTrace: LLM-based Bidirectional Causal Knowledge Graph for Edge-Cloud Video Anomaly Detection",
+        "authors": [
+          "Wang, Hanling",
+          "Li, Qing",
+          "Chen, Li",
+          "Kang, Haidong",
+          "Ma, Fei",
+          "Jiang, Yong"
+        ],
+        "year": 2025,
+        "url": "https://doi.org/10.1145/3746027.3755185",
+        "sources": [
+          {
+            "url": "https://api.crossref.org/works/10.1145/3746027.3755185",
+            "note": "出版社登记至 Crossref 的 DOI 元数据：核对题名、作者、出版年、论文集与页码。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the 33rd ACM International Conference on Multimedia",
+        "doi": "10.1145/3746027.3755185",
+        "pages": "6510-6519"
       }
     },
     {
@@ -1247,8 +2614,7 @@
       "scope": "core",
       "cluster": "explanation",
       "tasks": [
-        "开放世界异常检测",
-        "语言条件判据"
+        "异常检测"
       ],
       "summary": "把用户给定的自然语言异常定义作为推理输入，结合动态视频合成与负样本对比学习训练模型，并建设带异常定义的 PreVAD 数据。",
       "mechanism": "自然语言条件化异常定义",
@@ -1273,6 +2639,59 @@
           "url": "https://iclr.cc/Conferences/2026/Dates",
           "note": "Main conference: 23–25 April 2026."
         }
+      },
+      "tags": [
+        "开放世界异常检测",
+        "语言条件判据"
+      ],
+      "comparison": {
+        "outputs": {
+          "values": [
+            "语言条件化异常检测"
+          ],
+          "evidence": {
+            "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html",
+            "note": "基于既有核验记录：把用户给定的自然语言异常定义作为推理输入，结合动态视频合成与负样本对比学习训练模型，并建设带异常定义的 PreVAD 数据。 本字段摘录：语言条件化异常检测。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "合成视频与对比学习"
+          ],
+          "evidence": {
+            "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html",
+            "note": "基于既有核验记录：把用户给定的自然语言异常定义作为推理输入，结合动态视频合成与负样本对比学习训练模型，并建设带异常定义的 PreVAD 数据。 本字段摘录：合成视频与对比学习。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "lagovad2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Language-guided Open-world Video Anomaly Detection under Weak Supervision",
+        "authors": [
+          "Liu, Zihao",
+          "Wu, Xiaoyu",
+          "Wu, Jianqin",
+          "Wang, Xuxu",
+          "Yang, Linlin"
+        ],
+        "year": 2026,
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html",
+        "sources": [
+          {
+            "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://proceedings.iclr.cc/paper_files/paper/6851-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "International Conference on Learning Representations",
+        "volume": "2026",
+        "pages": "153197-153224"
       }
     },
     {
@@ -1284,9 +2703,7 @@
       "scope": "core",
       "cluster": "evidence",
       "tasks": [
-        "流式异常检测",
-        "选择性模型调用",
-        "语义记忆"
+        "异常检测"
       ],
       "summary": "边缘轻量检测器维护因果时序上下文，仅对高不确定且语义新颖的片段查询云端 VLM，并缓存验证后的语义原型用于后续检索。",
       "mechanism": "不确定性门控与动态语义记忆",
@@ -1322,7 +2739,60 @@
             "note": "编辑归类：不确定性门控决定云端 VLM 调用，动态语义记忆缓存已验证原型；兼属主动决策与时序记忆。"
           }
         }
-      ]
+      ],
+      "tags": [
+        "流式异常检测",
+        "选择性模型调用",
+        "语义记忆"
+      ],
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常检测决策"
+          ],
+          "evidence": {
+            "url": "https://www.ijcai.org/proceedings/2026/618",
+            "note": "基于既有核验记录：边缘轻量检测器维护因果时序上下文，仅对高不确定且语义新颖的片段查询云端 VLM，并缓存验证后的语义原型用于后续检索。 本字段摘录：异常检测决策。其余设置未据此推断。"
+          }
+        },
+        "inference": {
+          "values": [
+            "边云协同",
+            "选择性云端调用"
+          ],
+          "evidence": {
+            "url": "https://www.ijcai.org/proceedings/2026/618",
+            "note": "基于既有核验记录：边缘轻量检测器维护因果时序上下文，仅对高不确定且语义新颖的片段查询云端 VLM，并缓存验证后的语义原型用于后续检索。 本字段摘录：边云协同；选择性云端调用。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "memovad2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "MemoVAD: Resource-Efficient Video Anomaly Detection via Dynamic Semantic Memory in Edge Computing Scenarios",
+        "authors": [
+          "Guo Li",
+          "Jiandian Zeng",
+          "Yang Li",
+          "Zihao Peng",
+          "Ke Chen",
+          "Tian Wang"
+        ],
+        "year": 2026,
+        "url": "https://www.ijcai.org/proceedings/2026/618",
+        "sources": [
+          {
+            "url": "https://www.ijcai.org/proceedings/2026/618",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Thirty-Fifth International Joint Conference on Artificial Intelligence",
+        "doi": "10.24963/ijcai.2026/618",
+        "volume": "7",
+        "pages": "5549-5557"
+      }
     },
     {
       "id": "a2seek",
@@ -1333,10 +2803,10 @@
       "scope": "core",
       "cluster": "evidence",
       "tasks": [
-        "航拍异常理解",
+        "异常推理",
         "空间定位",
         "异常解释",
-        "基准评估"
+        "基准评测"
       ],
       "summary": "构建含事件类别、时间戳、区域框和语言解释的真实航拍异常基准，以图式推理监督、A-GRPO 与区域 seeking 机制训练 A2Seek-R1。",
       "mechanism": "图式推理与主动区域观察",
@@ -1353,7 +2823,9 @@
         }
       ],
       "verifiedAt": "2026-09-29",
-      "datasetIds": [],
+      "datasetIds": [
+        "a2seek-data"
+      ],
       "timeline": {
         "month": 12,
         "basis": "conference",
@@ -1370,7 +2842,67 @@
             "note": "编辑归类：A2Seek-R1 结合区域 seeking、图式思维监督及 A-GRPO；兼属主动观察与结构化推理。"
           }
         }
-      ]
+      ],
+      "tags": [
+        "航拍异常理解"
+      ],
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常判断",
+            "区域定位",
+            "语言解释"
+          ],
+          "evidence": {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+            "note": "基于既有核验记录：构建含事件类别、时间戳、区域框和语言解释的真实航拍异常基准，以图式推理监督、A-GRPO 与区域 seeking 机制训练 A2Seek-R1。 本字段摘录：异常判断；区域定位；语言解释。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "推理监督",
+            "强化学习（A-GRPO）"
+          ],
+          "evidence": {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+            "note": "基于既有核验记录：构建含事件类别、时间戳、区域框和语言解释的真实航拍异常基准，以图式推理监督、A-GRPO 与区域 seeking 机制训练 A2Seek-R1。 本字段摘录：推理监督；强化学习（A-GRPO）。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "a2seek2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "A2Seek: Towards Reasoning-Centric Benchmark for Aerial Anomaly Understanding",
+        "authors": [
+          "Mo, Mengjingcheng",
+          "Tong, Xinyang",
+          "Tan, Mingpi",
+          "Leng, Jiaxu",
+          "Zheng, JianKang",
+          "Liu, Yiran",
+          "Chen, Haosheng",
+          "Gan, Ji",
+          "Li, Weisheng",
+          "Gao, Xinbo"
+        ],
+        "year": 2025,
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+        "sources": [
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/33312-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Advances in Neural Information Processing Systems",
+        "doi": "10.52202/085713-5057",
+        "volume": "38"
+      }
     },
     {
       "id": "agenticvau",
@@ -1407,6 +2939,46 @@
           "url": "https://arxiv.org/abs/2608.03779",
           "note": "arXiv v1 submitted 2026-08-04."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常定位",
+            "证据推理"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2608.03779",
+            "note": "基于既有核验记录：用规则构建、搜索规划、视频观察和最终决策四类智能体，交替探索疑点与局部验证，并通过共享证据记忆协调判断。 本字段摘录：异常定位；证据推理。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "agenticvau2026",
+        "type": "misc",
+        "version": "preprint",
+        "title": "AgenticVAU: Multi-Agent Explore-Verify Reasoning for Video Anomaly Understanding",
+        "authors": [
+          "Duan, Yuxiang",
+          "Li, Huining",
+          "Li, Ao",
+          "Feng, Shuai",
+          "Kong, Lanju",
+          "Liu, Ning",
+          "Zhang, Jian",
+          "Sheng, Xingdong",
+          "Du, Yuntao"
+        ],
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2608.03779",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2608.03779",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2608.03779",
+        "doi": "10.48550/arXiv.2608.03779"
       }
     },
     {
@@ -1420,7 +2992,8 @@
       "tasks": [
         "异常定位",
         "异常解释",
-        "异常推理"
+        "异常推理",
+        "基准评测"
       ],
       "summary": "把异常实例轨迹、像素掩码与实例、事件、场景三级描述绑定，联合评估跟踪和细粒度理解是否指向同一异常对象。",
       "takeaway": "合理的异常描述仍可能对应错误对象，理解评估需要实例级视觉依据。",
@@ -1440,7 +3013,9 @@
         }
       ],
       "verifiedAt": "2026-09-30",
-      "datasetIds": [],
+      "datasetIds": [
+        "tau-bench-data"
+      ],
       "mechanism": "实例轨迹与层级语义联合评估",
       "timeline": {
         "month": 8,
@@ -1449,6 +3024,57 @@
           "url": "https://arxiv.org/abs/2608.05699",
           "note": "arXiv v1 submitted 2026-08-06."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "实例轨迹／掩码",
+            "分层描述（评测）"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2608.05699",
+            "note": "基于既有核验记录：把异常实例轨迹、像素掩码与实例、事件、场景三级描述绑定，联合评估跟踪和细粒度理解是否指向同一异常对象。 本字段摘录：实例轨迹／掩码；分层描述（评测）。其余设置未据此推断。"
+          }
+        },
+        "evaluation": {
+          "values": [
+            "实例跟踪与分层语义联合评测"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2608.05699",
+            "note": "基于既有核验记录：把异常实例轨迹、像素掩码与实例、事件、场景三级描述绑定，联合评估跟踪和细粒度理解是否指向同一异常对象。 本字段摘录：实例跟踪与分层语义联合评测。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "tau-bench2026",
+        "type": "misc",
+        "version": "preprint",
+        "title": "TAU-Bench: From Anomaly Instance Tracking to Fine-Grained Video Anomaly Understanding",
+        "authors": [
+          "Yang, Kepeng",
+          "Liu, Dongxuan",
+          "Gao, Rongxin",
+          "Su, Zixin",
+          "Wu, Rui",
+          "Xie, Shuzhao",
+          "Li, Chenxin",
+          "Pan, Panwang",
+          "Huang, Yuzhi",
+          "Huang, Yue",
+          "Jiang, Jingyan"
+        ],
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2608.05699",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2608.05699",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2608.05699",
+        "doi": "10.48550/arXiv.2608.05699"
       }
     },
     {
@@ -1491,6 +3117,42 @@
           "url": "https://arxiv.org/abs/2609.06978",
           "note": "arXiv v1 submitted 2026-09-07."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "合成异常视频",
+            "组件级语义标注"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2609.06978",
+            "note": "基于既有核验记录：以细粒度语义组件控制异常视频生成，逐组件校正文图不一致，并构造类别相关的困难正常样本，支持多任务异常理解。 本字段摘录：合成异常视频；组件级语义标注。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "anomalycraft2026",
+        "type": "misc",
+        "version": "preprint",
+        "title": "AnomalyCraft-700K: Component-Level Controllable and Verifiable Synthetic Anomalies for Fine-Grained Video Anomaly Understanding",
+        "authors": [
+          "Long, Yuzhou",
+          "Zhang, Haodong",
+          "Yang, Yunpeng",
+          "Wu, Peng",
+          "Pang, Guansong"
+        ],
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2609.06978",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2609.06978",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2609.06978",
+        "doi": "10.48550/arXiv.2609.06978"
       }
     },
     {
@@ -1532,6 +3194,54 @@
           "url": "https://arxiv.org/abs/2601.10165",
           "note": "arXiv v1 submitted 2026-01-15."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "多阶段推理",
+            "风险判断"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2601.10165",
+            "note": "基于既有核验记录：用感知、认知与行动三级思维链组织异常推理，并以异常感知的组相对策略优化训练支持不同推理深度和风险判断的模型。 本字段摘录：多阶段推理；风险判断。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "强化学习"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2601.10165",
+            "note": "基于既有核验记录：用感知、认知与行动三级思维链组织异常推理，并以异常感知的组相对策略优化训练支持不同推理深度和风险判断的模型。 本字段摘录：强化学习。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "vad-r1-plus2026",
+        "type": "misc",
+        "version": "preprint",
+        "title": "Advancing Adaptive Multi-Stage Video Anomaly Reasoning: A Benchmark Dataset and Method",
+        "authors": [
+          "Huang, Chao",
+          "Wang, Benfeng",
+          "Wang, Wei",
+          "Wen, Jie",
+          "Shen, Li",
+          "Ren, Wenqi",
+          "Xu, Yong",
+          "Cao, Xiaochun"
+        ],
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2601.10165",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2601.10165",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2601.10165",
+        "doi": "10.48550/arXiv.2601.10165"
       }
     },
     {
@@ -1545,7 +3255,8 @@
       "tasks": [
         "异常定位",
         "异常解释",
-        "视频问答"
+        "视频问答",
+        "基准评测"
       ],
       "summary": "先通过文本引导粗定位异常区间，再细查异常语义与时间边界，并构建 VAGU 和 JeAUG 联合评价定位与理解。",
       "takeaway": "异常解释与时间边界应联合评估，局部细查可连接两种能力。",
@@ -1568,7 +3279,9 @@
         }
       ],
       "verifiedAt": "2026-09-30",
-      "datasetIds": [],
+      "datasetIds": [
+        "vagu-data"
+      ],
       "mechanism": "先全局粗定位再局部细查",
       "timeline": {
         "month": 1,
@@ -1577,6 +3290,67 @@
           "url": "https://aaai.org/wp-content/uploads/2026/01/AAAI-26_Overview-with-BLTW_1.14.pdf",
           "note": "Main conference: 22–25 January 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常时间段",
+            "解释",
+            "问答"
+          ],
+          "evidence": {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/42412",
+            "note": "基于既有核验记录：先通过文本引导粗定位异常区间，再细查异常语义与时间边界，并构建 VAGU 和 JeAUG 联合评价定位与理解。 本字段摘录：异常时间段；解释；问答。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "无需目标任务训练（AAAI 原版）"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2507.21507",
+            "note": "原稿摘要明确 GtS 为 training-free；不包含 2026-08 扩展稿的 SFT/RL。"
+          }
+        },
+        "evaluation": {
+          "values": [
+            "JeAUG 联合定位与理解",
+            "选择问答"
+          ],
+          "evidence": {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/42412",
+            "note": "基于既有核验记录：先通过文本引导粗定位异常区间，再细查异常语义与时间边界，并构建 VAGU 和 JeAUG 联合评价定位与理解。 本字段摘录：JeAUG 联合定位与理解；选择问答。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "vagu-gts2026",
+        "type": "article",
+        "version": "published",
+        "title": "VAGU & GtS: LLM-Based Benchmark and Framework for Joint Video Anomaly Grounding and Understanding",
+        "authors": [
+          "Gao, Shibo",
+          "Yang, Peipei",
+          "Liu, Yangyang",
+          "Chen, Yi",
+          "Zhu, Han",
+          "Zhang, Xu-Yao",
+          "Huang, Linlin"
+        ],
+        "year": 2026,
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/42412",
+        "sources": [
+          {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/42412",
+            "note": "AAAI 正式页面 Authors、DOI 与 How to Cite：逐项核对作者顺序、卷期、页码和出版年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "volume": "40",
+        "number": "6",
+        "pages": "4167-4175",
+        "doi": "10.1609/aaai.v40i6.42412"
       }
     },
     {
@@ -1619,6 +3393,52 @@
           "url": "https://arxiv.org/abs/2505.23504",
           "note": "arXiv v1 submitted 2025-05-29."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "选择问答",
+            "推理依据",
+            "时间边界",
+            "描述"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2505.23504",
+            "note": "基于既有核验记录：通过任务专属奖励进行强化微调，并构建包含选择问答、推理依据、时间边界和描述的 VAU-Bench。 本字段摘录：选择问答；推理依据；时间边界；描述。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "强化微调"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2505.23504",
+            "note": "基于既有核验记录：通过任务专属奖励进行强化微调，并构建包含选择问答、推理依据、时间边界和描述的 VAU-Bench。 本字段摘录：强化微调。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "vau-r12025",
+        "type": "misc",
+        "version": "preprint",
+        "title": "VAU-R1: Advancing Video Anomaly Understanding via Reinforcement Fine-Tuning",
+        "authors": [
+          "Zhu, Liyun",
+          "Chen, Qixiang",
+          "Shen, Xi",
+          "Cun, Xiaodong"
+        ],
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2505.23504",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2505.23504",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2505.23504",
+        "doi": "10.48550/arXiv.2505.23504"
       }
     },
     {
@@ -1655,6 +3475,53 @@
           "url": "https://arxiv.org/abs/2504.10320",
           "note": "arXiv v1 submitted 2025-04-14."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常判断"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2504.10320",
+            "note": "基于既有核验记录：快速检测器先给出异常置信度，仅将模糊片段交给检索增强 VLM，利用正常参考与推断异常模式组成知识库辅助判断。 本字段摘录：异常判断。其余设置未据此推断。"
+          }
+        },
+        "inference": {
+          "values": [
+            "快速检测门控",
+            "检索增强慢推理"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2504.10320",
+            "note": "基于既有核验记录：快速检测器先给出异常置信度，仅将模糊片段交给检索增强 VLM，利用正常参考与推断异常模式组成知识库辅助判断。 本字段摘录：快速检测门控；检索增强慢推理。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "slowfastvad2025",
+        "type": "misc",
+        "version": "preprint",
+        "title": "SlowFastVAD: Video Anomaly Detection via Integrating Simple Detector and RAG-Enhanced Vision-Language Model",
+        "authors": [
+          "Ding, Zongcan",
+          "Zhang, Haodong",
+          "Wu, Peng",
+          "Pang, Guansong",
+          "Yang, Zhiwei",
+          "Wang, Peng",
+          "Zhang, Yanning"
+        ],
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2504.10320",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2504.10320",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2504.10320",
+        "doi": "10.48550/arXiv.2504.10320"
       }
     },
     {
@@ -1698,6 +3565,51 @@
           "url": "https://arxiv.org/abs/2505.15205",
           "note": "arXiv v1 submitted 2025-05-21."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常判断",
+            "检索文本依据"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2505.15205",
+            "note": "基于既有核验记录：离线用语言模型构建正常与异常字幕记忆，在线将视频片段与文本记忆匹配，以检索结果给出异常判断与文本依据。 本字段摘录：异常判断；检索文本依据。其余设置未据此推断。"
+          }
+        },
+        "inference": {
+          "values": [
+            "离线构建记忆",
+            "在线匹配"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2505.15205",
+            "note": "基于既有核验记录：离线用语言模型构建正常与异常字幕记忆，在线将视频片段与文本记忆匹配，以检索结果给出异常判断与文本依据。 本字段摘录：离线构建记忆；在线匹配。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "flashback2025",
+        "type": "misc",
+        "version": "preprint",
+        "title": "Flashback: Memory-Driven Zero-shot, Real-time Video Anomaly Detection",
+        "authors": [
+          "Lee, Hyogun",
+          "Kim, Haksub",
+          "Kim, Ig-Jae",
+          "Choi, Yonghun"
+        ],
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2505.15205",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2505.15205",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2505.15205",
+        "doi": "10.48550/arXiv.2505.15205"
       }
     },
     {
@@ -1741,6 +3653,52 @@
           "url": "https://icml.cc/Conferences/2026/index.html",
           "note": "Main conference: 7–9 July 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常推理"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2607.00654",
+            "note": "基于既有核验记录：从多条推理轨迹的组内语义优势归纳通用与场景经验，以语言先验注入上下文而不更新模型参数。 本字段摘录：异常推理。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "语言经验优化",
+            "不更新模型参数"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2607.00654",
+            "note": "基于既有核验记录：从多条推理轨迹的组内语义优势归纳通用与场景经验，以语言先验注入上下文而不更新模型参数。 本字段摘录：语言经验优化；不更新模型参数。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "lrpo2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Linguistic Relative Policy Optimization for Video Anomaly Reasoning",
+        "authors": [
+          "Jiaxu Leng",
+          "Jiankang Zheng",
+          "Mengjingcheng Mo",
+          "Zhanjie Wu",
+          "Haosheng Chen",
+          "Ji Gan",
+          "Xinbo Gao"
+        ],
+        "year": 2026,
+        "url": "https://icml.cc/virtual/2026/poster/64285",
+        "sources": [
+          {
+            "url": "https://icml.cc/virtual/2026/poster/64285",
+            "note": "官方会议页面 JSON-LD 列出该论文题名、完整作者顺序及 ICML 2026 身份；未核验页码或 DOI，故不补造。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the International Conference on Machine Learning"
       }
     },
     {
@@ -1752,7 +3710,7 @@
       "scope": "core",
       "cluster": "reasoning",
       "tasks": [
-        "异常理解",
+        "异常解释",
         "基准评测"
       ],
       "summary": "以类别约束的异常事件抽取与匹配构建评价链，并用 AEA 与 CVP 子集检验指标有效性及措辞扰动鲁棒性。",
@@ -1781,6 +3739,50 @@
           "url": "https://icml.cc/Conferences/2026/index.html",
           "note": "Main conference: 7–9 July 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常语义匹配评分（评价指标）"
+          ],
+          "evidence": {
+            "url": "https://icml.cc/virtual/2026/poster/66013",
+            "note": "基于既有核验记录：以类别约束的异常事件抽取与匹配构建评价链，并用 AEA 与 CVP 子集检验指标有效性及措辞扰动鲁棒性。 本字段摘录：异常语义匹配评分（评价指标）。其余设置未据此推断。"
+          }
+        },
+        "evaluation": {
+          "values": [
+            "AEA 指标有效性",
+            "CVP 措辞扰动鲁棒性"
+          ],
+          "evidence": {
+            "url": "https://icml.cc/virtual/2026/poster/66013",
+            "note": "基于既有核验记录：以类别约束的异常事件抽取与匹配构建评价链，并用 AEA 与 CVP 子集检验指标有效性及措辞扰动鲁棒性。 本字段摘录：AEA 指标有效性；CVP 措辞扰动鲁棒性。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "cg-coe2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Towards Trustworthy Video Anomaly Understanding: A Class-Guided Chain-of-Evaluation Metric and An Anomaly-focused Meta-Benchmark",
+        "authors": [
+          "Jiaxu Leng",
+          "Zhoujie Huang",
+          "Mingpi Tan",
+          "Zhanjie Wu",
+          "Xinbo Gao"
+        ],
+        "year": 2026,
+        "url": "https://icml.cc/virtual/2026/poster/66013",
+        "sources": [
+          {
+            "url": "https://icml.cc/virtual/2026/poster/66013",
+            "note": "官方会议页面 JSON-LD 列出该论文题名、完整作者顺序及 ICML 2026 身份；未核验页码或 DOI，故不补造。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the International Conference on Machine Learning"
       }
     },
     {
@@ -1832,7 +3834,54 @@
             "note": "编辑归类：冻结 CLIP 实现文本视觉对齐，事件演化因果注意力建模长短期时序依赖；兼属语义对齐与时序建模。"
           }
         }
-      ]
+      ],
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常检测"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2608.11820",
+            "note": "基于既有核验记录：以 LLM 生成的时序事件文本训练检测器，通过事件演化因果注意力建模长短期依赖，推理时用冻结 CLIP 对齐视频。 本字段摘录：异常检测。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "文本监督训练检测器",
+            "冻结 CLIP"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2608.11820",
+            "note": "基于既有核验记录：以 LLM 生成的时序事件文本训练检测器，通过事件演化因果注意力建模长短期依赖，推理时用冻结 CLIP 对齐视频。 本字段摘录：文本监督训练检测器；冻结 CLIP。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "td-vad2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "TD-VAD: Breaking Visual Dependence in Video Anomaly Detection with Text-Driven Learning",
+        "authors": [
+          "Shuangqing Zhang",
+          "Lei-Lei Ma",
+          "Zhao Wang",
+          "Wen Dong",
+          "Xinyi Xu",
+          "Guo-Sen Xie",
+          "Caifeng Shan",
+          "Fang Zhao"
+        ],
+        "year": 2026,
+        "url": "https://icml.cc/virtual/2026/poster/65928",
+        "sources": [
+          {
+            "url": "https://icml.cc/virtual/2026/poster/65928",
+            "note": "官方会议页面 JSON-LD 列出该论文题名、完整作者顺序及 ICML 2026 身份；未核验页码或 DOI，故不补造。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the International Conference on Machine Learning"
+      }
     },
     {
       "id": "urf-zs-hvaa",
@@ -1877,6 +3926,50 @@
           "url": "https://neurips.cc/Conferences/2025",
           "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "时间检测",
+            "空间定位",
+            "文本解释"
+          ],
+          "evidence": {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/2aa95cf3b6aefa84d6b001928b107b4e-Abstract-Conference.html",
+            "note": "基于既有核验记录：任务内推理用视频上下文细化时间检测，任务间链式推理再引导冻结模型完成空间定位与文本解释。 本字段摘录：时间检测；空间定位；文本解释。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "urf-zs-hvaa2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "A Unified Reasoning Framework for Holistic Zero-Shot Video Anomaly Analysis",
+        "authors": [
+          "Lin, Dongheng",
+          "Qu, Mengxue",
+          "Han, Kunyang",
+          "Jiao, Jianbo",
+          "Jin, Xiaojie",
+          "Wei, Yunchao"
+        ],
+        "year": 2025,
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/2aa95cf3b6aefa84d6b001928b107b4e-Abstract-Conference.html",
+        "sources": [
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/2aa95cf3b6aefa84d6b001928b107b4e-Abstract-Conference.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://proceedings.neurips.cc/paper_files/paper/30813-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Advances in Neural Information Processing Systems",
+        "doi": "10.52202/085713-0996",
+        "volume": "38",
+        "pages": "29713-29744"
       }
     },
     {
@@ -1913,6 +4006,71 @@
           "url": "https://neurips.cc/Conferences/2025",
           "note": "San Diego conference: 2–7 December 2025; both NeurIPS tracks share this month."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常判断",
+            "共现偏见诊断"
+          ],
+          "evidence": {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html",
+            "note": "基于既有核验记录：诊断模型对物体与异常词语共现的捷径依赖，以视觉相似但语义相反的视频对进行偏好优化，增强场景语义判断。 本字段摘录：异常判断；共现偏见诊断。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "偏好优化（DPO）"
+          ],
+          "evidence": {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html",
+            "note": "基于既有核验记录：诊断模型对物体与异常词语共现的捷径依赖，以视觉相似但语义相反的视频对进行偏好优化，增强场景语义判断。 本字段摘录：偏好优化（DPO）。其余设置未据此推断。"
+          }
+        },
+        "evaluation": {
+          "values": [
+            "共现模式与语义反例诊断"
+          ],
+          "evidence": {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html",
+            "note": "基于既有核验记录：诊断模型对物体与异常词语共现的捷径依赖，以视觉相似但语义相反的视频对进行偏好优化，增强场景语义判断。 本字段摘录：共现模式与语义反例诊断。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "vad-dpo2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Do LVLMs Truly Understand Video Anomalies? Revealing Hallucination via Co-Occurrence Patterns",
+        "authors": [
+          "Zhang, Menghao",
+          "Wang, Huazheng",
+          "Ren, Pengfei",
+          "Lin, Kangheng",
+          "Qi, Qi",
+          "Sun, Haifeng",
+          "Zhuang, Zirui",
+          "Zhang, Lei",
+          "Liao, Jianxin",
+          "Wang, Jingyu"
+        ],
+        "year": 2025,
+        "url": "https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html",
+        "sources": [
+          {
+            "url": "https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://papers.nips.cc/paper_files/paper/27603-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Advances in Neural Information Processing Systems",
+        "doi": "10.52202/085713-3560",
+        "volume": "38",
+        "pages": "106738-106765"
       }
     },
     {
@@ -1956,6 +4114,40 @@
           "url": "https://eccv.ecva.net/virtual/2026/poster/4744",
           "note": "官方主会海报日期：2026-09-11。"
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常分数",
+            "线索归因解释"
+          ],
+          "evidence": {
+            "url": "https://eccv.ecva.net/virtual/2026/poster/4744",
+            "note": "基于既有核验记录：将片段分解为动作、环境和对象线索，用类别感知权重融合并将异常分数归因到线索及关键词，生成有依据的解释。 本字段摘录：异常分数；线索归因解释。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "clue-vad2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "CLUE-VAD: Structured Semantic Clues for Understanding Explainable Events in Video Anomaly Detection",
+        "authors": [
+          "MYOUNG-CHUL KIM",
+          "Junhee Lee",
+          "ChaeBeen Bang",
+          "MyeongAh Cho"
+        ],
+        "year": 2026,
+        "url": "https://eccv.ecva.net/virtual/2026/poster/4744",
+        "sources": [
+          {
+            "url": "https://eccv.ecva.net/virtual/2026/poster/4744",
+            "note": "官方会议页面 JSON-LD 列出该论文题名、完整作者顺序及 ECCV 2026 身份；未核验页码或 DOI，故不补造。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Computer Vision – ECCV 2026"
       }
     },
     {
@@ -1998,6 +4190,49 @@
           "url": "https://eccv.ecva.net/virtual/2026/poster/4659",
           "note": "官方主会海报日期：2026-09-11。"
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常对象与帧",
+            "过程和类型报告"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2607.18142",
+            "note": "基于既有核验记录：在工业视频中跟踪对象状态随时间的演化，再对对象轨迹推理，定位异常对象与帧并输出异常过程和类型报告。 本字段摘录：异常对象与帧；过程和类型报告。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "o-vad2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "O-VAD: Industrial Video Anomaly Detection through Object-Centric Tracking and Reasoning",
+        "authors": [
+          "Mei Yuan",
+          "Qi Long",
+          "Qifeng Wu",
+          "Zhenyang Li",
+          "Yizhou Zhao",
+          "Lei Wang",
+          "Yang Liu",
+          "Min Xu"
+        ],
+        "year": 2026,
+        "url": "https://eccv.ecva.net/virtual/2026/poster/4659",
+        "sources": [
+          {
+            "url": "https://eccv.ecva.net/virtual/2026/poster/4659",
+            "note": "官方会议页面 JSON-LD 列出该论文题名、完整作者顺序及 ECCV 2026 身份；未核验页码或 DOI，故不补造。"
+          },
+          {
+            "url": "https://api.crossref.org/works?query.title=O-VAD%3A+Industrial+Video+Anomaly+Detection+through+Object-Centric+Tracking+and+Reasoning&rows=3",
+            "note": "出版社 Crossref 检索结果中，题名、年份与作者名单对应的 DOI 记录；排除相似题名候选。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Computer Vision – ECCV 2026",
+        "doi": "10.1007/978-3-032-37032-7_16"
       }
     },
     {
@@ -2039,6 +4274,53 @@
           "url": "https://cvpr.thecvf.com/Conferences/2026/TentativeSchedule",
           "note": "Main conference in June 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "犯罪事件预判"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Streaming_Video_Crime_Anticipation_with_Spatio-Temporal_Causal_Reasoning_CVPR_2026_paper.html",
+            "note": "基于既有核验记录：构建具有递进推理任务的 STCRC 基准，并用流式时空因果超图显式组织实体动态，支撑犯罪事件预判。 本字段摘录：犯罪事件预判。其余设置未据此推断。"
+          }
+        },
+        "inference": {
+          "values": [
+            "流式预判"
+          ],
+          "evidence": {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Streaming_Video_Crime_Anticipation_with_Spatio-Temporal_Causal_Reasoning_CVPR_2026_paper.html",
+            "note": "基于既有核验记录：构建具有递进推理任务的 STCRC 基准，并用流式时空因果超图显式组织实体动态，支撑犯罪事件预判。 本字段摘录：流式预判。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "stch2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Streaming Video Crime Anticipation with Spatio-Temporal Causal Reasoning",
+        "authors": [
+          "Wang, Yusong",
+          "Gu, Zheyuan",
+          "Mao, Keyu",
+          "Shao, Minghao",
+          "Xu, Mingkun",
+          "Tiwari, Prayag",
+          "Shao, Jiawei",
+          "Zhao, Qingsong"
+        ],
+        "year": 2026,
+        "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Streaming_Video_Crime_Anticipation_with_Spatio-Temporal_Causal_Reasoning_CVPR_2026_paper.html",
+        "sources": [
+          {
+            "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Streaming_Video_Crime_Anticipation_with_Spatio-Temporal_Causal_Reasoning_CVPR_2026_paper.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "pages": "16933-16943"
       }
     },
     {
@@ -2083,6 +4365,55 @@
           "url": "https://aaai.org/wp-content/uploads/2026/01/AAAI-26_Overview-with-BLTW_1.14.pdf",
           "note": "Main conference: 22–25 January 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常评分",
+            "时序定位"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2512.17601",
+            "note": "基于既有核验记录：从冻结 MLLM 内部筛选对多种提示稳定的异常敏感注意力头，再用轻量评分器和时序定位器读取其特征。 本字段摘录：异常评分；时序定位。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "冻结 MLLM",
+            "轻量评分器校准"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2512.17601",
+            "note": "基于既有核验记录：从冻结 MLLM 内部筛选对多种提示稳定的异常敏感注意力头，再用轻量评分器和时序定位器读取其特征。 本字段摘录：冻结 MLLM；轻量评分器校准。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "headhunt-vad2026",
+        "type": "article",
+        "version": "published",
+        "title": "HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection",
+        "authors": [
+          "Cai, Zhaolin",
+          "Li, Fan",
+          "Zheng, Ziwei",
+          "Bi, Haixia",
+          "He, Lijun"
+        ],
+        "year": 2026,
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/39066",
+        "sources": [
+          {
+            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/39066",
+            "note": "AAAI 正式页面 Authors、DOI 与 How to Cite：逐项核对作者顺序、卷期、页码和出版年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "volume": "40",
+        "number": "24",
+        "pages": "19835-19843",
+        "doi": "10.1609/aaai.v40i24.39066"
       }
     },
     {
@@ -2123,6 +4454,57 @@
           "url": "https://iclr.cc/Conferences/2026/Dates",
           "note": "Main conference: 23–25 April 2026."
         }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常评分",
+            "事后解释"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2602.24021",
+            "note": "基于既有核验记录：以表示可分性筛选潜在异常专家头，训练层次元控制器按上下文缩放其表示；异常片段可交回冻结模型生成事后解释。 本字段摘录：异常评分；事后解释。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "冻结 MLLM",
+            "控制器／评分器训练"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2602.24021",
+            "note": "基于既有核验记录：以表示可分性筛选潜在异常专家头，训练层次元控制器按上下文缩放其表示；异常片段可交回冻结模型生成事后解释。 本字段摘录：冻结 MLLM；控制器／评分器训练。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "steervad2026",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "Steering and Rectifying Latent Representation Manifolds in Frozen Multi-modal LLMs for Video Anomaly Detection",
+        "authors": [
+          "Cai, Zhaolin",
+          "Li, Fan",
+          "Duan, Huiyu",
+          "He, Lijun",
+          "Zhai, Guangtao"
+        ],
+        "year": 2026,
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/634f75be78884d597c04eedeb12cc6fe-Abstract-Conference.html",
+        "sources": [
+          {
+            "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/634f75be78884d597c04eedeb12cc6fe-Abstract-Conference.html",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          },
+          {
+            "url": "https://proceedings.iclr.cc/paper_files/paper/10182-/bibtex",
+            "note": "官方 BibTeX 的引用年份；论文集网页上线日期不代替会议引用年份。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "International Conference on Learning Representations",
+        "volume": "2026",
+        "pages": "60644-60683"
       }
     },
     {
@@ -2166,6 +4548,286 @@
         "source": {
           "url": "https://arxiv.org/abs/2609.17211",
           "note": "arXiv v1 submitted 2026-09-15; Under Review."
+        }
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "连续异常分数"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2609.17211",
+            "note": "基于既有核验记录：以冻结 VLM 对有序严重程度阈值作是／否判断，通过续写似然与序数一致性约束得到连续异常分数。 本字段摘录：连续异常分数。其余设置未据此推断。"
+          }
+        },
+        "training": {
+          "values": [
+            "无需目标任务训练"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2609.17211",
+            "note": "基于既有核验记录：以冻结 VLM 对有序严重程度阈值作是／否判断，通过续写似然与序数一致性约束得到连续异常分数。 本字段摘录：无需目标任务训练。其余设置未据此推断。"
+          }
+        }
+      },
+      "citation": {
+        "key": "probe-vad2026",
+        "type": "misc",
+        "version": "preprint",
+        "title": "Probe-VAD: Ordinal Likelihood Probing for Training-Free Video Anomaly Detection",
+        "authors": [
+          "Gu, Jiawei",
+          "Zhao, Qilin",
+          "Guo, Tengkuo",
+          "Zhong, Zhiming",
+          "Zhang, Shuangqing",
+          "Lyu, Fan",
+          "Zhao, Fang",
+          "Xie, Guo-Sen",
+          "Shan, Caifeng"
+        ],
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2609.17211",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2609.17211",
+            "note": "一手页面引用元数据：核对该版本的题名、作者顺序、年份与出版信息。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2609.17211",
+        "doi": "10.48550/arXiv.2609.17211"
+      }
+    },
+    {
+      "id": "reactvau",
+      "shortTitle": "ReactVAU",
+      "title": "ReactVAU: A Slow-Fast Decoupled Framework for Streaming Video Anomaly Understanding",
+      "year": 2026,
+      "venue": "ECCV",
+      "scope": "core",
+      "cluster": "understanding",
+      "tasks": [
+        "异常检测",
+        "异常解释",
+        "异常推理"
+      ],
+      "summary": "用轻量检测连续筛查视频，以异常感知记忆保留短暂证据，仅在可疑事件触发重型模型进行语义验证与原因描述。",
+      "mechanism": "快慢解耦与异常持久记忆",
+      "takeaway": "流式理解需要同时控制证据遗忘和重型模型调用频率。",
+      "limitation": "阅读关注：分别检查触发延迟、异常漏检与记忆保真度，不能只比较离线检测分数。",
+      "links": {
+        "paper": "https://arxiv.org/abs/2609.07941"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2609.07941",
+          "note": "一手摘要核验题名、作者和研究内容；Comments 注明 Accepted to ECCV 2026；正式书目未核验，引用导出保留 arXiv 版本。"
+        }
+      ],
+      "verifiedAt": "2026-09-30",
+      "datasetIds": [],
+      "citation": {
+        "key": "reactvau2026",
+        "type": "misc",
+        "version": "preprint",
+        "title": "ReactVAU: A Slow-Fast Decoupled Framework for Streaming Video Anomaly Understanding",
+        "authors": [
+          "Chen, Chia-Hui",
+          "Yeh, Shih-Ying",
+          "Yang, Fu-En",
+          "Chen, Min-Hung",
+          "Lai, Shang-Hong"
+        ],
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2609.07941",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2609.07941",
+            "note": "一手摘要核验题名、作者和研究内容；Comments 注明 Accepted to ECCV 2026；正式书目未核验，引用导出保留 arXiv 版本。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2609.07941",
+        "doi": "10.48550/arXiv.2609.07941"
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "异常检测",
+            "语义验证",
+            "原因描述"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2609.07941",
+            "note": "用轻量检测连续筛查视频，以异常感知记忆保留短暂证据，仅在可疑事件触发重型模型进行语义验证与原因描述。"
+          }
+        },
+        "inference": {
+          "values": [
+            "连续流式检测",
+            "可疑事件触发慢速推理"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2609.07941",
+            "note": "摘要明确 Fast Detection Module 连续过滤，Slow Reasoning Module 仅在可疑事件唤醒。"
+          }
+        }
+      },
+      "tags": [
+        "流式理解",
+        "条件触发"
+      ]
+    },
+    {
+      "id": "pistachio",
+      "shortTitle": "Pistachio",
+      "title": "Pistachio: Towards Synthetic, Balanced, and Long-Form Video Anomaly Benchmarks",
+      "year": 2026,
+      "venue": "ECCV",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常检测",
+        "异常解释",
+        "异常推理",
+        "基准评测"
+      ],
+      "summary": "通过可控场景、异常类型和时序叙事生成视频，构建检测与理解基准，包含事件级、视频级语义及多异常事件。",
+      "mechanism": "可控生成与多事件评测",
+      "takeaway": "可控合成可补充长尾事件与语义标注覆盖。",
+      "limitation": "阅读关注：合成视频表现需要与真实场景泛化、生成伪影和标注可靠性分开分析。",
+      "links": {
+        "paper": "https://arxiv.org/abs/2511.19474",
+        "project": "https://pistachio-video.github.io"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2511.19474",
+          "note": "一手摘要核验题名、作者和研究内容；Comments 注明 Accepted to ECCV 2026；正式书目未核验，引用导出保留 arXiv 版本。"
+        },
+        {
+          "url": "https://arxiv.org/html/2511.19474v6",
+          "note": "第 3 节区分 Pistachio-VAD 与 Pistachio-VAU；事件级、视频级描述与多异常视频由正文确认。"
+        }
+      ],
+      "verifiedAt": "2026-09-30",
+      "datasetIds": [
+        "pistachio-data"
+      ],
+      "citation": {
+        "key": "pistachio2025",
+        "type": "misc",
+        "version": "preprint",
+        "title": "Pistachio: Towards Synthetic, Balanced, and Long-Form Video Anomaly Benchmarks",
+        "authors": [
+          "Li, Jie",
+          "Cai, Hongyi",
+          "Dong, Mingkang",
+          "Pu, Muxin",
+          "You, Shan",
+          "Wang, Fei",
+          "Huang, Tao"
+        ],
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2511.19474",
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2511.19474",
+            "note": "一手摘要核验题名、作者和研究内容；Comments 注明 Accepted to ECCV 2026；正式书目未核验，引用导出保留 arXiv 版本。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "arxivId": "2511.19474",
+        "doi": "10.48550/arXiv.2511.19474"
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "评测检测与异常描述",
+            "多事件理解"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2511.19474",
+            "note": "通过可控场景、异常类型和时序叙事生成视频，构建检测与理解基准，包含事件级、视频级语义及多异常事件。"
+          }
+        }
+      }
+    },
+    {
+      "id": "vane-bench",
+      "shortTitle": "VANE-Bench",
+      "title": "VANE-Bench: Video Anomaly Evaluation Benchmark for Conversational LMMs",
+      "year": 2025,
+      "venue": "NAACL Findings",
+      "scope": "core",
+      "cluster": "reasoning",
+      "tasks": [
+        "异常检测",
+        "异常定位",
+        "视频问答",
+        "基准评测"
+      ],
+      "summary": "以视频问答评测模型对异常的检测和定位，同时覆盖五类合成视频不一致性与真实世界异常。",
+      "mechanism": "合成与真实异常问答评测",
+      "takeaway": "问答基准能暴露视频大模型对细微异常与不一致性的识别不足。",
+      "limitation": "阅读关注：区分生成视频的物理不一致与真实监控异常，避免将两类结果解释为同一种能力。",
+      "links": {
+        "paper": "https://aclanthology.org/2025.findings-naacl.171/",
+        "project": "https://github.com/rohit901/VANE-Bench"
+      },
+      "sources": [
+        {
+          "url": "https://aclanthology.org/2025.findings-naacl.171/",
+          "note": "一手摘要核验题名、作者和研究内容；ACL Anthology 正式发表页及其 BibTeX 核验作者顺序、年份、页码和 DOI。"
+        }
+      ],
+      "verifiedAt": "2026-09-30",
+      "datasetIds": [
+        "vane-bench-data"
+      ],
+      "citation": {
+        "key": "vane-bench2025",
+        "type": "inproceedings",
+        "version": "published",
+        "title": "VANE-Bench: Video Anomaly Evaluation Benchmark for Conversational LMMs",
+        "authors": [
+          "Gani, Hanan",
+          "Bharadwaj, Rohit",
+          "Naseer, Muzammal",
+          "Khan, Fahad Shahbaz",
+          "Khan, Salman"
+        ],
+        "year": 2025,
+        "url": "https://aclanthology.org/2025.findings-naacl.171/",
+        "sources": [
+          {
+            "url": "https://aclanthology.org/2025.findings-naacl.171/",
+            "note": "一手摘要核验题名、作者和研究内容；ACL Anthology 正式发表页及其 BibTeX 核验作者顺序、年份、页码和 DOI。"
+          }
+        ],
+        "verifiedAt": "2026-09-30",
+        "publication": "Findings of the Association for Computational Linguistics: NAACL 2025",
+        "pages": "3123--3140",
+        "doi": "10.18653/v1/2025.findings-naacl.171"
+      },
+      "comparison": {
+        "outputs": {
+          "values": [
+            "评测异常检测与定位问答"
+          ],
+          "evidence": {
+            "url": "https://aclanthology.org/2025.findings-naacl.171/",
+            "note": "以视频问答评测模型对异常的检测和定位，同时覆盖五类合成视频不一致性与真实世界异常。"
+          }
+        }
+      },
+      "timeline": {
+        "month": 4,
+        "basis": "conference",
+        "source": {
+          "url": "https://aclanthology.org/2025.findings-naacl.171/",
+          "note": "ACL Anthology 正式发表元数据 Month: April, Year: 2025。"
         }
       }
     }
@@ -2354,11 +5016,11 @@
       "protocol": "遵循作者数据划分，分别检查描述生成与问答表现。",
       "links": {
         "website": "https://github.com/jqtangust/hawk",
-        "paper": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/3ef815416f775098fe9df75ac84d597a-Abstract-Conference.html"
+        "paper": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/fca83589e85cb061631b7ebc5db5d6bd-Abstract-Conference.html"
       },
       "sources": [
         {
-          "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/3ef815416f775098fe9df75ac84d597a-Abstract-Conference.html",
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/fca83589e85cb061631b7ebc5db5d6bd-Abstract-Conference.html",
           "note": "资源首发论文或作者发布页：核实任务、标注与出版信息。"
         },
         {
@@ -2549,6 +5211,240 @@
           "note": "作者发布的 Vad-Reasoning 数据文件。"
         }
       ]
+    },
+    {
+      "id": "cuebench-data",
+      "name": "CueBench",
+      "year": 2026,
+      "venue": "AAAI",
+      "description": "以场景和属性组织条件性与绝对异常，检验异常判断的上下文依赖。",
+      "tasks": [
+        "异常检测",
+        "异常定位",
+        "异常预判",
+        "基准评测"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "条件性／绝对异常类别",
+        "场景与属性层级",
+        "任务相关标注"
+      ],
+      "protocol": "分别报告识别、时序定位、检测和预判；按场景／属性分析条件性异常。当前登记依据论文，不据此宣称数据已开放下载。",
+      "links": {
+        "website": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+        "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/38209"
+      },
+      "sources": [
+        {
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+          "note": "一手论文确认数据集名称、标注和任务；未据论文存在推定资源已经开放下载。"
+        }
+      ]
+    },
+    {
+      "id": "vagu-data",
+      "name": "VAGU",
+      "year": 2026,
+      "venue": "AAAI",
+      "description": "联合视频异常时间定位与语义理解的基准。",
+      "tasks": [
+        "异常定位",
+        "异常解释",
+        "视频问答"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "异常类别",
+        "语义解释",
+        "时间边界",
+        "视频问答／选择问答"
+      ],
+      "protocol": "使用原版 VAGU 的问答与 JeAUG 联合评价，联合分数之外保留定位和理解单项结果；不混入扩展稿 VAGU-T。当前未核验数据下载状态。",
+      "links": {
+        "website": "https://ojs.aaai.org/index.php/AAAI/article/view/42412",
+        "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/42412"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2507.21507",
+          "note": "原稿摘要明确异常类别、解释、时间定位、视频问答与 JeAUG；正式发表身份见论文记录。"
+        }
+      ]
+    },
+    {
+      "id": "valu-data",
+      "name": "VALU",
+      "year": 2026,
+      "venue": "ACL",
+      "description": "以五个语义层级组织异常事件边界与文本描述。",
+      "tasks": [
+        "异常定位",
+        "异常解释",
+        "基准评测"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "五级异常语义",
+        "各语义级时间边界",
+        "细粒度文本描述"
+      ],
+      "protocol": "按语义层级分别评估 temporal grounding、anomaly localization 和 detail discrimination。论文页写明将公开基准，本次未确认下载状态。",
+      "links": {
+        "website": "https://aclanthology.org/2026.acl-long.56/",
+        "paper": "https://aclanthology.org/2026.acl-long.56/"
+      },
+      "sources": [
+        {
+          "url": "https://aclanthology.org/2026.acl-long.56/",
+          "note": "一手论文确认数据集名称、标注和任务；未据论文存在推定资源已经开放下载。"
+        }
+      ]
+    },
+    {
+      "id": "a2seek-data",
+      "name": "A2Seek",
+      "year": 2025,
+      "venue": "NeurIPS Datasets and Benchmarks",
+      "description": "面向动态航拍视角，连接异常事件、时空证据与因果解释。",
+      "tasks": [
+        "异常检测",
+        "异常定位",
+        "空间定位",
+        "异常解释"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "异常类别",
+        "帧级时间戳",
+        "区域边界框",
+        "自然语言解释"
+      ],
+      "protocol": "区分异常判断、区域定位和解释；遵循作者场景与分布外设置，不与固定监控结果直接混排。当前未核验下载状态。",
+      "links": {
+        "website": "https://2-mo.github.io/A2Seek/",
+        "paper": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html"
+      },
+      "sources": [
+        {
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+          "note": "一手论文确认数据集名称、标注和任务；未据论文存在推定资源已经开放下载。"
+        }
+      ]
+    },
+    {
+      "id": "tau-bench-data",
+      "name": "TAU-Bench",
+      "year": 2026,
+      "venue": "arXiv",
+      "description": "以异常实例轨迹绑定分层语义，评估解释是否对应正确对象。",
+      "tasks": [
+        "空间定位",
+        "异常解释",
+        "异常推理",
+        "基准评测"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "异常实例轨迹",
+        "像素级掩码",
+        "实例／事件／场景描述"
+      ],
+      "protocol": "联合检查实例跟踪和细粒度语义，不能以描述流畅度替代轨迹正确性；本次未确认数据／模型有效下载入口。",
+      "links": {
+        "website": "https://yarkupa.github.io/tau-bench.github.io/",
+        "paper": "https://arxiv.org/abs/2608.05699"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2608.05699",
+          "note": "一手论文确认数据集名称、标注和任务；未据论文存在推定资源已经开放下载。"
+        }
+      ]
+    },
+    {
+      "id": "pistachio-data",
+      "name": "Pistachio",
+      "year": 2026,
+      "venue": "ECCV",
+      "description": "包含 Pistachio-VAD 和 Pistachio-VAU 两部分的可控合成视频基准，覆盖检测与事件语义理解。",
+      "tasks": [
+        "异常检测",
+        "异常解释",
+        "异常推理",
+        "基准评测"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "帧级标注",
+        "事件级描述",
+        "视频级描述"
+      ],
+      "protocol": "分别报告 VAD 与 VAU 协议；关注合成到真实的域差异及多事件子集。数据下载未在本次逐文件验证。",
+      "links": {
+        "website": "https://pistachio-video.github.io",
+        "paper": "https://arxiv.org/abs/2511.19474"
+      },
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2511.19474",
+          "note": "一手摘要核验题名、作者和研究内容；Comments 注明 Accepted to ECCV 2026；正式书目未核验，引用导出保留 arXiv 版本。"
+        },
+        {
+          "url": "https://arxiv.org/html/2511.19474v6",
+          "note": "第 3 节区分 Pistachio-VAD 与 Pistachio-VAU；事件级、视频级描述与多异常视频由正文确认。"
+        }
+      ]
+    },
+    {
+      "id": "vane-bench-data",
+      "name": "VANE-Bench",
+      "year": 2025,
+      "venue": "NAACL Findings",
+      "description": "通过问答评测合成视频不一致性和真实视频异常，覆盖检测与定位。",
+      "tasks": [
+        "异常检测",
+        "异常定位",
+        "视频问答",
+        "基准评测"
+      ],
+      "modalities": [
+        "视频",
+        "文本"
+      ],
+      "annotations": [
+        "异常类别",
+        "异常问答"
+      ],
+      "protocol": "分别检查合成与真实视频子集；问答正确率不直接等价于逐帧检测 AUC。作者提供代码和数据入口，本次未逐文件验证下载。",
+      "links": {
+        "website": "https://github.com/rohit901/VANE-Bench",
+        "paper": "https://aclanthology.org/2025.findings-naacl.171/"
+      },
+      "sources": [
+        {
+          "url": "https://aclanthology.org/2025.findings-naacl.171/",
+          "note": "一手摘要核验题名、作者和研究内容；ACL Anthology 正式发表页及其 BibTeX 核验作者顺序、年份、页码和 DOI。"
+        }
+      ]
     }
   ],
   "relations": [
@@ -2711,6 +5607,76 @@
         "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html",
         "note": "论文明确提出该数据集；作者仓库已发布数据。"
       }
+    },
+    {
+      "id": "cuebench-introduces-cuebench-data",
+      "source": "cuebench",
+      "target": "cuebench-data",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38209",
+        "note": "一手论文确认数据集名称、标注和任务；未据论文存在推定资源已经开放下载。"
+      }
+    },
+    {
+      "id": "vagu-gts-introduces-vagu-data",
+      "source": "vagu-gts",
+      "target": "vagu-data",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2507.21507",
+        "note": "原稿摘要明确异常类别、解释、时间定位、视频问答与 JeAUG；正式发表身份见论文记录。"
+      }
+    },
+    {
+      "id": "valu-introduces-valu-data",
+      "source": "valu",
+      "target": "valu-data",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://aclanthology.org/2026.acl-long.56/",
+        "note": "一手论文确认数据集名称、标注和任务；未据论文存在推定资源已经开放下载。"
+      }
+    },
+    {
+      "id": "a2seek-introduces-a2seek-data",
+      "source": "a2seek",
+      "target": "a2seek-data",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html",
+        "note": "一手论文确认数据集名称、标注和任务；未据论文存在推定资源已经开放下载。"
+      }
+    },
+    {
+      "id": "tau-bench-introduces-tau-bench-data",
+      "source": "tau-bench",
+      "target": "tau-bench-data",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2608.05699",
+        "note": "一手论文确认数据集名称、标注和任务；未据论文存在推定资源已经开放下载。"
+      }
+    },
+    {
+      "id": "pistachio-introduces-pistachio-data",
+      "source": "pistachio",
+      "target": "pistachio-data",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://arxiv.org/abs/2511.19474",
+        "note": "一手摘要明确提出该基准，登记资源不代表已逐文件核验下载。"
+      }
+    },
+    {
+      "id": "vane-bench-introduces-vane-bench-data",
+      "source": "vane-bench",
+      "target": "vane-bench-data",
+      "type": "introduces",
+      "evidence": {
+        "url": "https://aclanthology.org/2025.findings-naacl.171/",
+        "note": "一手摘要明确提出该基准，登记资源不代表已逐文件核验下载。"
+      }
     }
   ],
   "guides": [
@@ -2788,6 +5754,29 @@
         {
           "paperId": "valu",
           "note": "创新：语义层级下的异常边界及评估协议。检验定位是否覆盖完整事件语义。"
+        }
+      ]
+    },
+    {
+      "id": "evaluate-understanding",
+      "title": "如何评估异常理解",
+      "description": "问题：怎样区分回答流畅、视觉事实正确和推理可靠？依次比较任务定义、事实评估、反例诊断与指标元评测。",
+      "steps": [
+        {
+          "paperId": "cuva",
+          "note": "任务定义：事件、原因与后果是否分别评估？定位正确能否代表解释正确？"
+        },
+        {
+          "paperId": "finevau",
+          "note": "事实评估：回答是否覆盖关键事件、参与者与位置？指标与人工判断是否一致？"
+        },
+        {
+          "paperId": "vad-dpo",
+          "note": "反例诊断：视觉相似而异常语义相反时，模型能否摆脱物体与异常词语的共现捷径？"
+        },
+        {
+          "paperId": "cg-coe",
+          "note": "指标元评测：保持事件语义但改变措辞，评分是否稳定？类别引导是否引入额外偏差？"
         }
       ]
     }

@@ -1,0 +1,23 @@
+name: Correct a fact or resource / 事实与资源纠错
+description: Report incorrect metadata, summaries, protocols or resource links.
+title: "[Correction] "
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Entry or file / 条目或文件
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Current claim and proposed correction / 原内容与建议改正
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting primary source / 一手依据
+      description: For broken links, include the failing URL and any known official replacement.
+    validations:
+      required: true

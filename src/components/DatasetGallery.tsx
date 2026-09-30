@@ -96,7 +96,7 @@ export default function DatasetGallery({
             aria-label={`${dataset.name}，${dataset.venue} ${dataset.year}，查看数据集`}
           >
             <div className="exhibit-image">
-              {!unavailable.has(dataset.id) ? (
+              {dataset.thumbnail && !unavailable.has(dataset.id) ? (
                 <img
                   src={datasetImageUrl(dataset.thumbnail.src)}
                   alt={dataset.thumbnail.alt}

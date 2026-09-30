@@ -2,10 +2,32 @@ export interface Source {
   url: string;
   note: string;
 }
+export interface ComparisonFact {
+  values: string[];
+  evidence: Source;
+}
+export interface Citation {
+  key: string;
+  type: "article" | "inproceedings" | "misc";
+  version: "published" | "preprint";
+  title: string;
+  authors: string[];
+  year: number;
+  publication?: string;
+  doi?: string;
+  arxivId?: string;
+  volume?: string;
+  number?: string;
+  pages?: string;
+  url: string;
+  sources: Source[];
+  verifiedAt: string;
+}
 export interface Paper {
   id: string;
   shortTitle: string;
   title: string;
+  citation: Citation;
   year: number;
   venue: string;
   // Hidden ordering only: conference main-session month, or arXiv v1 month.
@@ -15,6 +37,8 @@ export interface Paper {
   // Additional method memberships are editorial classifications with evidence.
   secondaryMethods?: { cluster: string; evidence: Source }[];
   tasks: string[];
+  tags?: string[];
+  comparison?: Partial<Record<"outputs" | "training" | "inference" | "futureFrames" | "evaluation", ComparisonFact>>;
   summary: string;
   mechanism: string;
   takeaway: string;
@@ -27,7 +51,7 @@ export interface Paper {
 export interface Dataset {
   year: number;
   venue: string;
-  thumbnail: { src: string; alt: string; sourceUrl: string; credit: string };
+  thumbnail?: { src: string; alt: string; sourceUrl: string; credit: string };
   id: string;
   name: string;
   description: string;

@@ -5,21 +5,22 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { readCatalog, validateCatalog } from '../scripts/catalog.mjs';
-import { renderCatalog, renderLiterature, renderVenueIndex } from '../scripts/generate-catalog.mjs';
+import { renderCatalog, renderLiterature, renderVenueIndex, renderComparison, renderBenchmarks, renderGuides, renderBibEntry, renderBibliography, renderCitations } from '../scripts/generate-catalog.mjs';
 
 function fixture() {
   const source = { url: 'https://example.org/paper', note: 'Primary paper describes the method and evaluation.' };
   const paper = {
+    citation: { key: 'coreA2024', type: 'inproceedings', version: 'published', title: 'A core paper', authors: ['Doe, Jane'], year: 2024, publication: 'Example Conference', url: source.url, sources: [source], verifiedAt: '2026-09-29' },
     id: 'core-a', shortTitle: 'Core A', title: 'A core paper', year: 2024, venue: 'Example Conference',
-    scope: 'core', cluster: 'reasoning', tasks: ['understanding'], summary: 'Grounded anomaly interpretation.',
+    scope: 'core', cluster: 'reasoning', tasks: ['异常推理'], summary: 'Grounded anomaly interpretation.',
     mechanism: '证据约束解释', takeaway: 'Evaluate grounded explanations.', limitation: 'Limited evaluation scale.',
     links: { paper: source.url }, sources: [source], verifiedAt: '2026-09-29', datasetIds: ['dataset-a'],
   };
   return {
     version: 1, updatedAt: '2026-09-29',
     clusters: [{ id: 'reasoning', name: 'Reasoning', description: 'Anomaly reasoning.', question: 'What happened?', color: '#667799', position: { x: 10, y: 20 } }],
-    papers: [paper, { ...structuredClone(paper), id: 'core-b', title: 'Another core paper' }],
-    datasets: [{ id: 'dataset-a', name: 'Dataset A', year: 2024, venue: 'Example Conference', thumbnail: { src: '/datasets/example.png', alt: 'Example dataset figure', sourceUrl: 'https://example.org/figure.png', credit: 'Dataset authors' }, description: 'A research benchmark.', tasks: ['understanding'], modalities: ['video'], annotations: ['events'], protocol: 'Use the official split.', links: { website: 'https://example.org/dataset' }, sources: [source] }],
+    papers: [paper, { ...structuredClone(paper), id: 'core-b', title: 'Another core paper', citation: { ...structuredClone(paper.citation), key: 'coreB2024' } }],
+    datasets: [{ id: 'dataset-a', name: 'Dataset A', year: 2024, venue: 'Example Conference', thumbnail: { src: '/datasets/example.png', alt: 'Example dataset figure', sourceUrl: 'https://example.org/figure.png', credit: 'Dataset authors' }, description: 'A research benchmark.', tasks: ['异常推理'], modalities: ['video'], annotations: ['events'], protocol: 'Use the official split.', links: { website: 'https://example.org/dataset' }, sources: [source] }],
     relations: [{ id: 'relation-a', source: 'core-a', target: 'dataset-a', type: 'uses', evidence: source }],
     guides: [{ id: 'guide-a', title: 'Start here', description: 'Read the core method.', steps: [{ paperId: 'core-a', note: 'Understand the evaluation.' }] }],
   };
@@ -29,7 +30,7 @@ test('valid structured fixture passes', () => assert.deepEqual(validateCatalog(f
 test('the checked-in catalog passes semantic validation', async () => assert.deepEqual(validateCatalog(await readCatalog()), []));
 
 const corruptions = [
-  ['missing dataset thumbnail', data => { delete data.datasets[0].thumbnail; }, /thumbnail.*local artwork/],
+  ['malformed dataset thumbnail', data => { data.datasets[0].thumbnail = null; }, /thumbnail.*local artwork/],
   ['remote thumbnail path', data => { data.datasets[0].thumbnail.src = 'https://example.org/image.png'; }, /thumbnail.src.*local/],
   ['thumbnail path traversal', data => { data.datasets[0].thumbnail.src = '/datasets/../image.png'; }, /thumbnail.src.*traversal/],
   ['encoded thumbnail traversal', data => { data.datasets[0].thumbnail.src = '/datasets/%2e%2e/image.png'; }, /thumbnail.src.*local/],
@@ -82,7 +83,7 @@ test('generated catalog includes grouped core research and provenance context', 
   assert.ok(markdown.indexOf('## Reasoning') < markdown.indexOf('### A core paper'));
   assert.match(markdown, /### Another core paper/);
   assert.match(markdown, /尚未全面复核/);
-  assert.match(markdown, /创新抓手：证据约束解释/);
+  assert.match(markdown, /创新：证据约束解释/);
   assert.match(markdown, /### Dataset A/);
   assert.match(markdown, /2024 · Example Conference/);
   assert.match(markdown, /https:\/\/example.org\/figure.png/);
@@ -100,7 +101,7 @@ test('generator CLI rejects missing or stale output without writing and rejects 
     await copyFile(new URL(`../scripts/${name}`, import.meta.url), join(dir, 'scripts', name));
   }
   const dataPath = join(dir, 'data', 'catalog.json');
-  const outputPath = join(dir, 'catalog.md');
+  const outputPath = join(dir, 'literature', 'catalog.md');
   await writeFile(dataPath, JSON.stringify(fixture()));
   const run = (...args) => spawnSync(process.execPath, [join(dir, 'scripts', 'generate-catalog.mjs'), ...args], { encoding: 'utf8' });
 
@@ -118,7 +119,7 @@ test('generator CLI rejects missing or stale output without writing and rejects 
   assert.equal(run('--check').status, 1);
   assert.match(await readFile(literaturePath, 'utf8'), /Stale literature index/);
   await writeFile(literaturePath, literature);
-  const venuePath = join(dir, 'venues', 'README.md');
+  const venuePath = join(dir, 'literature', 'venues.md');
   await rm(venuePath);
   assert.equal(run('--check').status, 1);
   await assert.rejects(readFile(venuePath), { code: 'ENOENT' });
@@ -143,6 +144,7 @@ test('generated literature and venue indexes share the catalog and preserve publ
   data.papers[0].venue = 'NeurIPS Datasets and Benchmarks';
   data.papers[1].venue = 'arXiv';
   data.papers[1].year = 2025;
+  data.papers[1].citation = { ...data.papers[1].citation, type: 'misc', version: 'preprint', year: 2025, arxivId: '2501.01234', publication: undefined };
   const literature = renderLiterature(data);
   assert.match(literature, /2 篇论文/);
   assert.ok(literature.indexOf('## 2025') < literature.indexOf('## 2024'));
@@ -162,4 +164,84 @@ test('additional method memberships preserve their classification evidence in th
   assert.match(renderCatalog(data), /兼属方法.*Memory/);
   assert.match(renderCatalog(data), /https:\/\/example.org\/memory/);
   assert.match(renderCatalog(data), /Semantic memory is a core mechanism/);
+});
+
+// These guard the new source contract: missing facts must not become negative claims,
+// and registering a benchmark must not depend on having publication artwork.
+test('text-only datasets remain valid and render with their protocol and sources', () => {
+  const data = fixture();
+  delete data.datasets[0].thumbnail;
+  assert.deepEqual(validateCatalog(data), []);
+  assert.match(renderCatalog(data), /Use the official split/);
+  assert.match(renderBenchmarks(data), /dataset-dataset-a/);
+  assert.match(renderBenchmarks(data), /catalog.md#paper-core-a/);
+  assert.doesNotMatch(renderCatalog(data), /图片：/);
+});
+
+test('comparison distinguishes unverified fields from evidenced claims', () => {
+  const data = fixture();
+  const paper = data.papers[0];
+  paper.comparison = { training: { values: ['冻结主模型；训练评分器'], evidence: paper.sources[0] } };
+  assert.deepEqual(validateCatalog(data), []);
+  assert.match(renderComparison(data), /待核验/);
+  assert.match(renderComparison(data), /冻结主模型；训练评分器/);
+  delete paper.comparison.training.evidence;
+  assert.match(validateCatalog(data).join('\n'), /comparison.training.evidence/);
+});
+
+test('task synonyms and method labels cannot re-enter the task filter', () => {
+  const data = fixture();
+  data.papers[0].tasks = ['基准评估', '强化学习'];
+  assert.match(validateCatalog(data).join('\n'), /unknown task 基准评估/);
+  assert.match(validateCatalog(data).join('\n'), /unknown task 强化学习/);
+});
+
+test('reading guides render linked steps and reading questions without a website', () => {
+  const markdown = renderGuides(fixture());
+  assert.match(markdown, /guide-guide-a/);
+  assert.match(markdown, /catalog.md#paper-core-a/);
+  assert.match(markdown, /Understand the evaluation/);
+  assert.doesNotMatch(renderCatalog(fixture()), /- 局限：/);
+});
+
+
+test('BibTeX escapes source text, protects titles and preserves full author order', () => {
+  const data = fixture();
+  data.papers[0].citation.title = 'VAGU & CLIP_2: 50%';
+  data.papers[0].citation.authors = ['Pereira, João', 'Doe, Jane'];
+  data.papers[0].citation.pages = '12-20';
+  const bib = renderBibEntry(data.papers[0]);
+  assert.ok(bib.includes('title = {{VAGU \\& CLIP\\_2: 50\\%}}'));
+  assert.ok(bib.includes('Pereira, Jo{\\~{a}}o and Doe, Jane'));
+  assert.match(bib, /pages = \{12--20\}/);
+  assert.equal((renderBibliography(data).match(/@inproceedings\{/g) ?? []).length, 2);
+});
+
+test('citation validation rejects unsourced exports and mixed publication versions', () => {
+  for (const [change, error] of [
+    [c => { c.sources = []; }, /verification source/],
+    [c => { c.authors = []; }, /authors.*must not be empty/],
+    [c => { c.doi = 'https:\/\/doi.org/10.1234/test'; }, /DOI identifier/],
+    [c => { c.doi = '10.48550/arXiv.2501.01234'; }, /published citations cannot/],
+    [c => { c.year = 2023; }, /publication status and year/],
+    [c => { c.doi = {}; }, /DOI identifier/],
+  ]) {
+    const data = fixture(); change(data.papers[0].citation);
+    assert.match(validateCatalog(data).join('\n'), error);
+  }
+  const duplicate = fixture(); duplicate.papers[1].citation.key = duplicate.papers[0].citation.key;
+  assert.match(validateCatalog(duplicate).join('\n'), /duplicate citation key/);
+});
+
+test('preprint fallback exports its own year and identifiers with an explicit reader note', () => {
+  const data = fixture();
+  data.papers[0].citation = { ...data.papers[0].citation, type: 'misc', version: 'preprint', year: 2023, publication: undefined, arxivId: '2301.01234', doi: '10.48550/arXiv.2301.01234' };
+  assert.deepEqual(validateCatalog(data), []);
+  const bib = renderBibEntry(data.papers[0]);
+  assert.match(bib, /year = \{2023\}/);
+  assert.match(bib, /archivePrefix = \{arXiv\}/);
+  assert.doesNotMatch(bib, /booktitle/);
+  assert.match(renderCitations(data), /正式书目信息待补/);
+  data.papers[0].citation.doi = '10.1234/published';
+  assert.match(validateCatalog(data).join('\n'), /same preprint/);
 });
