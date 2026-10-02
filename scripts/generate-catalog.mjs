@@ -82,7 +82,7 @@ export function renderFigureSources(catalog) {
       escape(p.figurePending?.note ?? '尚未取得可核验原图。'), '',
       (p.figurePending?.sources ?? p.sources).map((s, i) => link(`已查来源 ${i + 1}`, s.url)).join(' · '), '');
   }
-  return `${lines.join('\n')}\n`;
+  return `${lines.join('\n').trimEnd()}\n`;
 }
 
 export function renderVenueIndex(catalog) {

@@ -186,4 +186,3 @@ NeurIPS 2026 单篇页面返回 HTTP 403，正文提示虚拟会场尚未开放�
 NeurIPS 2026 单篇页面返回 HTTP 403，正文提示虚拟会场尚未开放；精确题名检索未找到可核验的作者预印本或项目原图。
 
 [已查来源 1](<https://neurips.cc/virtual/2026/poster/154937>) · [已查来源 2](<https://neurips.cc/Downloads/2026>)
-
