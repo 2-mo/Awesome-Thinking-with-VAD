@@ -17,6 +17,14 @@
 
 ## Papers Related to Video Anomaly Detection & Thinking/Reasoning
 
+### 2026
+
+#### ADVersa: Abductive Driving Accident Video Understanding
+[![TPAMI](https://img.shields.io/badge/TPAMI-2026-0B3D91)](https://doi.org/10.1109/TPAMI.2026.3663545)
+> Relation-aware multimodal reasoning supports accident explanations, near-crash recovery/prediction and cause-conditioned generation. TPAMI 48(6): 6980–6998. [Verified entry](../../literature/catalog.md#paper-adversa). The earlier CVPR 2024 AdVersa-SD is documented as related work, without adding a second map station.
+
+---
+
 ### 2025
 
 <!-- Add papers here -->

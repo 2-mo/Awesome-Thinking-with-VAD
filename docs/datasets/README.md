@@ -1,6 +1,6 @@
-# Dataset gallery image sources
+# Dataset reference image sources
 
-Original figures or samples from the cited author projects and papers. Local copies are used for the gallery; rights and licenses remain with their original sources. No scientific samples were generated or redrawn.
+Original figures or samples from the cited author projects and papers. Local copies preserve the earlier gallery's reference material and attribution; the current website focuses on the research route map. Rights and licenses remain with their original sources. No scientific samples were generated or redrawn.
 
 | Local file | Dataset · publication | Original source | Credit |
 | --- | --- | --- | --- |

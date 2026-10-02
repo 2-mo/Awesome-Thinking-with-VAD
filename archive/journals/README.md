@@ -2,6 +2,24 @@
 
 > 历史资料：保留较广的原始收集范围，尚未全部复核。当前精选内容见[论文年表](../../llm4vad.md)与[数据集索引](../../literature/benchmarks.md)。
 
+## 2026
+
+#### ECVA / AnomShield: Exploring What Why and How
+[![IJCV](https://img.shields.io/badge/IJCV-2026-2C3E50)](https://doi.org/10.1007/s11263-026-02983-0)
+> Extends CUVA with the ECVA causation benchmark, AnomShield model and AnomEval evaluation. Published 9 August 2026, IJCV 134(8), Article 391. [Verified entry](../../literature/catalog.md#paper-ecva-anomshield).
+
+#### ADVersa: Abductive Driving Accident Video Understanding
+[![TPAMI](https://img.shields.io/badge/TPAMI-2026-0B3D91)](https://doi.org/10.1109/TPAMI.2026.3663545)
+> Relation-aware multimodal reasoning supports accident explanations, near-crash recovery/prediction and cause-conditioned generation. TPAMI 48(6): 6980–6998. [Verified entry](../../literature/catalog.md#paper-adversa). The earlier CVPR 2024 AdVersa-SD is documented as related work, without adding a second map station.
+
+#### Deep Learning for Video Anomaly Detection: A Review
+[![TNNLS](https://img.shields.io/badge/TNNLS-2026-F39C12)](https://doi.org/10.1109/TNNLS.2025.3647892)
+> Peng Wu et al., TNNLS 37(7): 3010–3030. A survey of supervision settings, large-model approaches and open-world VAD. Included in the [background reading](../../research/README.md#背景综述), outside the method map.
+
+#### PromptVAD: Abnormal Prompt via Vision-Language Model
+[![TNNLS](https://img.shields.io/badge/TNNLS-2026-F39C12)](https://doi.org/10.1109/TNNLS.2025.3621336)
+> Combines learnable domain and category prompts with fixed category definitions for coarse- and fine-grained video anomaly detection. The catalog follows the final journal issue: TNNLS 37(3): 1018–1032 (2026). [Verified entry](../../literature/catalog.md#paper-promptvad).
+
 ## 2025
 
 Top-tier papers in 2025 revolve around reasoning-oriented and privacy-aware VAD, highlighting multilingual prompt-guided feature learning, causal consistency modeling, and low-latency anonymization that edge the field closer to real-world deployment.
@@ -25,10 +43,6 @@ Top-tier papers in 2025 revolve around reasoning-oriented and privacy-aware VAD,
 #### CRCL: Causal Representation Consistency Learning for Anomaly Detection in Surveillance Videos
 [![TIP](https://img.shields.io/badge/TIP-2025-2D8659)](https://ieeexplore.ieee.org/document/10962292)
 > Enforces causal consistency across representations to robustly flag surveillance anomalies.
-
-#### PromptVAD: Abnormal Prompt via Vision-Language Model
-[![TNNLS](https://img.shields.io/badge/TNNLS-2025-F39C12)](https://ieeexplore.ieee.org/document/11222791)
-> Leverages vision-language prompts to surface abnormal events without extensive labels.
 
 #### Privacy-Preserving Video Anomaly Detection: A Survey
 [![TNNLS](https://img.shields.io/badge/TNNLS-2025-F39C12)](https://ieeexplore.ieee.org/document/11147183)
@@ -113,5 +127,3 @@ Throughout 2023, research laid the groundwork with unsupervised traffic monitori
 #### HiEve: A Large-Scale Benchmark for Human-Centric Video Analysis in Complex Events
 [![IJCV](https://img.shields.io/badge/IJCV-2023-2C3E50)](https://link.springer.com/article/10.1007/s11263-023-01842-6)
 > Delivers the HiEve benchmark for complex, human-centric event understanding.
-
-

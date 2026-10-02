@@ -17,6 +17,14 @@
 
 ## Papers Related to Video Anomaly Detection & Thinking/Reasoning
 
+### 2026
+
+#### Deep Learning for Video Anomaly Detection: A Review
+[![TNNLS](https://img.shields.io/badge/TNNLS-2026-F39C12)](https://doi.org/10.1109/TNNLS.2025.3647892)
+> Peng Wu et al., TNNLS 37(7): 3010–3030. A survey of supervision settings, large-model approaches and open-world VAD. Included in the [background reading](../../research/README.md#背景综述), outside the method map.
+
+---
+
 ### 2025
 
 <!-- Add papers here -->

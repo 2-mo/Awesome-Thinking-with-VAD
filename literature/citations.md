@@ -2,66 +2,95 @@
 
 [论文年表](../llm4vad.md) · [更新记录](../CHANGELOG.md) · [查看完整 BibTeX](references.bib) · [下载 references.bib](https://raw.githubusercontent.com/2-mo/Awesome-Thinking-with-VAD/main/literature/references.bib)
 
-54 篇论文的作者与 BibTeX；其中 43 条引用正式发表版本，11 条引用预印本。核验日期：2026-09-30。
+83 篇论文，80 条完整引用；其中 56 条引用正式发表版本，11 条为会议已录用记录，13 条引用预印本。另有 3 篇已录用论文待补书目，暂不导出 BibTeX。核验日期：2026-10-03。
 
-复制下方单篇 BibTeX，或下载整库加入文献管理器。优先引用正式版本；尚未取得完整正式书目信息时，明确导出预印本。DOI 未核验时不填写；arXiv DOI 仅用于预印本，不代替会议／期刊 DOI。引用的是原始论文，不是本仓库。
+复制下方单篇 BibTeX，或下载整库加入文献管理器。优先引用正式版本；尚未取得完整正式书目信息时，区分已录用记录与预印本。DOI 未核验时不填写；arXiv DOI 仅用于预印本，不代替会议／期刊 DOI。引用的是原始论文，不是本仓库。
 
 | 论文 | 引用版本 | DOI |
 | --- | --- | --- |
-| [VadCLIP](#cite-vadclip) | 2024 · AAAI | [10.1609/aaai.v38i6.28423](<https://doi.org/10.1609/aaai.v38i6.28423>) |
-| [LAVAD](#cite-lavad) | 2024 · CVPR | [10.1109/cvpr52733.2024.01753](<https://doi.org/10.1109/cvpr52733.2024.01753>) |
-| [AnomalyRuler](#cite-anomalyruler) | 2024 · ECCV | [10.1007/978-3-031-73004-7\_18](<https://doi.org/10.1007/978-3-031-73004-7_18>) |
-| [VERA](#cite-vera) | 2025 · CVPR | [10.1109/cvpr52734.2025.00811](<https://doi.org/10.1109/cvpr52734.2025.00811>) |
-| [Ex-VAD](#cite-ex-vad) | 2025 · ICML | 未核验 |
-| [CUVA](#cite-cuva) | 2024 · CVPR | [10.1109/cvpr52733.2024.01778](<https://doi.org/10.1109/cvpr52733.2024.01778>) |
-| [HAWK](#cite-hawk) | 2024 · NeurIPS | [10.52202/079017-4435](<https://doi.org/10.52202/079017-4435>) |
-| [Holmes-VAU](#cite-holmes-vau) | 2025 · CVPR | [10.1109/cvpr52734.2025.01292](<https://doi.org/10.1109/cvpr52734.2025.01292>) |
-| [EventVAD](#cite-eventvad) | 2025 · ACM MM | [10.1145/3746027.3754500](<https://doi.org/10.1145/3746027.3754500>) |
-| [PANDA](#cite-panda) | 2025 · NeurIPS | [10.52202/085713-2788](<https://doi.org/10.52202/085713-2788>) |
-| [MoniTor](#cite-monitor) | 2025 · NeurIPS | [10.52202/085713-1204](<https://doi.org/10.52202/085713-1204>) |
+| [VadCLIP](#cite-vadclip) | 2024 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v38i6.28423](<https://doi.org/10.1609/aaai.v38i6.28423>) |
+| [LAVAD](#cite-lavad) | 2024 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/cvpr52733.2024.01753](<https://doi.org/10.1109/cvpr52733.2024.01753>) |
+| [AnomalyRuler](#cite-anomalyruler) | 2024 · Computer Vision – ECCV 2024 | [10.1007/978-3-031-73004-7\_18](<https://doi.org/10.1007/978-3-031-73004-7_18>) |
+| [VERA](#cite-vera) | 2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/cvpr52734.2025.00811](<https://doi.org/10.1109/cvpr52734.2025.00811>) |
+| [Ex-VAD](#cite-ex-vad) | 2025 · International Conference on Machine Learning | 未核验 |
+| [CUVA](#cite-cuva) | 2024 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/cvpr52733.2024.01778](<https://doi.org/10.1109/cvpr52733.2024.01778>) |
+| [HAWK](#cite-hawk) | 2024 · Advances in Neural Information Processing Systems | [10.52202/079017-4435](<https://doi.org/10.52202/079017-4435>) |
+| [Holmes-VAU](#cite-holmes-vau) | 2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/cvpr52734.2025.01292](<https://doi.org/10.1109/cvpr52734.2025.01292>) |
+| [EventVAD](#cite-eventvad) | 2025 · Proceedings of the 33rd ACM International Conference on Multimedia | [10.1145/3746027.3754500](<https://doi.org/10.1145/3746027.3754500>) |
+| [PANDA](#cite-panda) | 2025 · Advances in Neural Information Processing Systems | [10.52202/085713-2788](<https://doi.org/10.52202/085713-2788>) |
+| [MoniTor](#cite-monitor) | 2025 · Advances in Neural Information Processing Systems | [10.52202/085713-1204](<https://doi.org/10.52202/085713-1204>) |
 | [SRVAU-R1](#cite-srvau-r1) | 2026 · arXiv 预印本 | [10.48550/arXiv.2602.01004](<https://doi.org/10.48550/arXiv.2602.01004>) |
-| [Anom-π](#cite-anom-pi) | 2026 · ICML | 未核验 |
-| [FineVAU](#cite-finevau) | 2026 · AAAI | [10.1609/aaai.v40i10.37790](<https://doi.org/10.1609/aaai.v40i10.37790>) |
-| [VALU](#cite-valu) | 2026 · ACL | [10.18653/v1/2026.acl-long.56](<https://doi.org/10.18653/v1/2026.acl-long.56>) |
-| [EVAL](#cite-eval) | 2023 · CVPR | [10.1109/CVPR52729.2023.01795](<https://doi.org/10.1109/CVPR52729.2023.01795>) |
-| [OVVAD](#cite-ovvad) | 2024 · CVPR | [10.1109/cvpr52733.2024.01732](<https://doi.org/10.1109/cvpr52733.2024.01732>) |
-| [TPWNG](#cite-tpwng) | 2024 · CVPR | [10.1109/cvpr52733.2024.01788](<https://doi.org/10.1109/cvpr52733.2024.01788>) |
-| [UCA](#cite-uca-paper) | 2024 · CVPR | [10.1109/cvpr52733.2024.02082](<https://doi.org/10.1109/cvpr52733.2024.02082>) |
-| [Anomize](#cite-anomize) | 2025 · CVPR | [10.1109/cvpr52734.2025.02719](<https://doi.org/10.1109/cvpr52734.2025.02719>) |
-| [VA-GPT](#cite-va-gpt) | 2025 · ICCV | [10.1109/iccv51701.2025.02107](<https://doi.org/10.1109/iccv51701.2025.02107>) |
-| [Alert-CLIP](#cite-alert-clip) | 2026 · CVPR | 未核验 |
-| [LAVIDA](#cite-lavida) | 2026 · CVPR | 未核验 |
-| [LAS-VAD](#cite-las-vad) | 2026 · CVPR | 未核验 |
-| [Vad-R1](#cite-vad-r1) | 2025 · NeurIPS | [10.52202/085713-3952](<https://doi.org/10.52202/085713-3952>) |
-| [VADTree](#cite-vadtree) | 2025 · NeurIPS | [10.52202/085713-4959](<https://doi.org/10.52202/085713-4959>) |
-| [CueBench / Cue-R1](#cite-cuebench) | 2026 · AAAI | [10.1609/aaai.v40i14.38209](<https://doi.org/10.1609/aaai.v40i14.38209>) |
-| [TargetVAU](#cite-targetvau) | 2026 · AAAI | [10.1609/aaai.v40i16.38378](<https://doi.org/10.1609/aaai.v40i16.38378>) |
-| [HoloTrace](#cite-holotrace) | 2025 · ACM MM | [10.1145/3746027.3755185](<https://doi.org/10.1145/3746027.3755185>) |
-| [LaGoVAD](#cite-lagovad) | 2026 · ICLR | 未核验 |
-| [MemoVAD](#cite-memovad) | 2026 · IJCAI | [10.24963/ijcai.2026/618](<https://doi.org/10.24963/ijcai.2026/618>) |
-| [A2Seek / A2Seek-R1](#cite-a2seek) | 2025 · NeurIPS Datasets and Benchmarks | [10.52202/085713-5057](<https://doi.org/10.52202/085713-5057>) |
+| [Anom-π](#cite-anom-pi) | 2026 · Proceedings of the International Conference on Machine Learning | 未核验 |
+| [FineVAU](#cite-finevau) | 2026 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v40i10.37790](<https://doi.org/10.1609/aaai.v40i10.37790>) |
+| [VALU](#cite-valu) | 2026 · Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) | [10.18653/v1/2026.acl-long.56](<https://doi.org/10.18653/v1/2026.acl-long.56>) |
+| [EVAL](#cite-eval) | 2023 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/CVPR52729.2023.01795](<https://doi.org/10.1109/CVPR52729.2023.01795>) |
+| [OVVAD](#cite-ovvad) | 2024 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/cvpr52733.2024.01732](<https://doi.org/10.1109/cvpr52733.2024.01732>) |
+| [TPWNG](#cite-tpwng) | 2024 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/cvpr52733.2024.01788](<https://doi.org/10.1109/cvpr52733.2024.01788>) |
+| [UCA](#cite-uca-paper) | 2024 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/cvpr52733.2024.02082](<https://doi.org/10.1109/cvpr52733.2024.02082>) |
+| [Anomize](#cite-anomize) | 2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/cvpr52734.2025.02719](<https://doi.org/10.1109/cvpr52734.2025.02719>) |
+| [VA-GPT](#cite-va-gpt) | 2025 · Proceedings of the IEEE/CVF International Conference on Computer Vision | [10.1109/iccv51701.2025.02107](<https://doi.org/10.1109/iccv51701.2025.02107>) |
+| [Alert-CLIP](#cite-alert-clip) | 2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [LAVIDA](#cite-lavida) | 2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [LAS-VAD](#cite-las-vad) | 2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [Vad-R1](#cite-vad-r1) | 2025 · Advances in Neural Information Processing Systems | [10.52202/085713-3952](<https://doi.org/10.52202/085713-3952>) |
+| [VADTree](#cite-vadtree) | 2025 · Advances in Neural Information Processing Systems | [10.52202/085713-4959](<https://doi.org/10.52202/085713-4959>) |
+| [CueBench / Cue-R1](#cite-cuebench) | 2026 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v40i14.38209](<https://doi.org/10.1609/aaai.v40i14.38209>) |
+| [TargetVAU](#cite-targetvau) | 2026 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v40i16.38378](<https://doi.org/10.1609/aaai.v40i16.38378>) |
+| [HoloTrace](#cite-holotrace) | 2025 · Proceedings of the 33rd ACM International Conference on Multimedia | [10.1145/3746027.3755185](<https://doi.org/10.1145/3746027.3755185>) |
+| [LaGoVAD](#cite-lagovad) | 2026 · International Conference on Learning Representations | 未核验 |
+| [MemoVAD](#cite-memovad) | 2026 · Thirty-Fifth International Joint Conference on Artificial Intelligence | [10.24963/ijcai.2026/618](<https://doi.org/10.24963/ijcai.2026/618>) |
+| [A2Seek / A2Seek-R1](#cite-a2seek) | 2025 · Advances in Neural Information Processing Systems | [10.52202/085713-5057](<https://doi.org/10.52202/085713-5057>) |
 | [AgenticVAU](#cite-agenticvau) | 2026 · arXiv 预印本 | [10.48550/arXiv.2608.03779](<https://doi.org/10.48550/arXiv.2608.03779>) |
 | [TAU-Bench](#cite-tau-bench) | 2026 · arXiv 预印本 | [10.48550/arXiv.2608.05699](<https://doi.org/10.48550/arXiv.2608.05699>) |
 | [AnomalyCraft-700K](#cite-anomalycraft) | 2026 · arXiv 预印本 | [10.48550/arXiv.2609.06978](<https://doi.org/10.48550/arXiv.2609.06978>) |
 | [Vad-R1-Plus](#cite-vad-r1-plus) | 2026 · arXiv 预印本 | [10.48550/arXiv.2601.10165](<https://doi.org/10.48550/arXiv.2601.10165>) |
-| [VAGU & GtS](#cite-vagu-gts) | 2026 · AAAI | [10.1609/aaai.v40i6.42412](<https://doi.org/10.1609/aaai.v40i6.42412>) |
+| [VAGU & GtS](#cite-vagu-gts) | 2026 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v40i6.42412](<https://doi.org/10.1609/aaai.v40i6.42412>) |
 | [VAU-R1](#cite-vau-r1) | 2025 · arXiv 预印本 | [10.48550/arXiv.2505.23504](<https://doi.org/10.48550/arXiv.2505.23504>) |
 | [SlowFastVAD](#cite-slowfastvad) | 2025 · arXiv 预印本 | [10.48550/arXiv.2504.10320](<https://doi.org/10.48550/arXiv.2504.10320>) |
 | [Flashback](#cite-flashback) | 2025 · arXiv 预印本 | [10.48550/arXiv.2505.15205](<https://doi.org/10.48550/arXiv.2505.15205>) |
-| [LRPO](#cite-lrpo) | 2026 · ICML | 未核验 |
-| [CG-CoE](#cite-cg-coe) | 2026 · ICML | 未核验 |
-| [TD-VAD](#cite-td-vad) | 2026 · ICML | 未核验 |
-| [URF-ZS-HVAA](#cite-urf-zs-hvaa) | 2025 · NeurIPS | [10.52202/085713-0996](<https://doi.org/10.52202/085713-0996>) |
-| [VAD-DPO](#cite-vad-dpo) | 2025 · NeurIPS | [10.52202/085713-3560](<https://doi.org/10.52202/085713-3560>) |
-| [CLUE-VAD](#cite-clue-vad) | 2026 · ECCV | 未核验 |
-| [O-VAD](#cite-o-vad) | 2026 · ECCV | [10.1007/978-3-032-37032-7\_16](<https://doi.org/10.1007/978-3-032-37032-7_16>) |
-| [STCH](#cite-stch) | 2026 · CVPR | 未核验 |
-| [HeadHunt-VAD](#cite-headhunt-vad) | 2026 · AAAI | [10.1609/aaai.v40i24.39066](<https://doi.org/10.1609/aaai.v40i24.39066>) |
-| [SteerVAD](#cite-steervad) | 2026 · ICLR | 未核验 |
+| [LRPO](#cite-lrpo) | 2026 · Proceedings of the International Conference on Machine Learning | 未核验 |
+| [CG-CoE](#cite-cg-coe) | 2026 · Proceedings of the International Conference on Machine Learning | 未核验 |
+| [TD-VAD](#cite-td-vad) | 2026 · Proceedings of the International Conference on Machine Learning | 未核验 |
+| [URF-ZS-HVAA](#cite-urf-zs-hvaa) | 2025 · Advances in Neural Information Processing Systems | [10.52202/085713-0996](<https://doi.org/10.52202/085713-0996>) |
+| [VAD-DPO](#cite-vad-dpo) | 2025 · Advances in Neural Information Processing Systems | [10.52202/085713-3560](<https://doi.org/10.52202/085713-3560>) |
+| [CLUE-VAD](#cite-clue-vad) | 2026 · Computer Vision – ECCV 2026 | 未核验 |
+| [O-VAD](#cite-o-vad) | 2026 · Computer Vision – ECCV 2026 | [10.1007/978-3-032-37032-7\_16](<https://doi.org/10.1007/978-3-032-37032-7_16>) |
+| [STCH](#cite-stch) | 2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [HeadHunt-VAD](#cite-headhunt-vad) | 2026 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v40i24.39066](<https://doi.org/10.1609/aaai.v40i24.39066>) |
+| [SteerVAD](#cite-steervad) | 2026 · International Conference on Learning Representations | 未核验 |
 | [Probe-VAD](#cite-probe-vad) | 2026 · arXiv 预印本 | [10.48550/arXiv.2609.17211](<https://doi.org/10.48550/arXiv.2609.17211>) |
 | [ReactVAU](#cite-reactvau) | 2026 · arXiv 预印本 | [10.48550/arXiv.2609.07941](<https://doi.org/10.48550/arXiv.2609.07941>) |
 | [Pistachio](#cite-pistachio) | 2025 · arXiv 预印本 | [10.48550/arXiv.2511.19474](<https://doi.org/10.48550/arXiv.2511.19474>) |
-| [VANE-Bench](#cite-vane-bench) | 2025 · NAACL Findings | [10.18653/v1/2025.findings-naacl.171](<https://doi.org/10.18653/v1/2025.findings-naacl.171>) |
+| [VANE-Bench](#cite-vane-bench) | 2025 · Findings of the Association for Computational Linguistics: NAACL 2025 | [10.18653/v1/2025.findings-naacl.171](<https://doi.org/10.18653/v1/2025.findings-naacl.171>) |
+| [HiProbe-VAD](#cite-hiprobe-vad) | 2025 · Proceedings of the 33rd ACM International Conference on Multimedia | [10.1145/3746027.3755575](<https://doi.org/10.1145/3746027.3755575>) |
+| [VarCMP](#cite-varcmp) | 2025 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v39i8.32909](<https://doi.org/10.1609/aaai.v39i8.32909>) |
+| [Multilingual VAD](#cite-mpgdfl) | 2025 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2025.3590242](<https://doi.org/10.1109/tpami.2025.3590242>) |
+| [PEL](#cite-pel) | 2024 · IEEE Transactions on Image Processing | [10.1109/tip.2024.3451935](<https://doi.org/10.1109/tip.2024.3451935>) |
+| [PromptVAD](#cite-promptvad) | 2026 · IEEE Transactions on Neural Networks and Learning Systems | [10.1109/tnnls.2025.3621336](<https://doi.org/10.1109/tnnls.2025.3621336>) |
+| [ALAN / VAR](#cite-alan) | 2024 · IEEE Transactions on Image Processing | [10.1109/tip.2024.3374070](<https://doi.org/10.1109/tip.2024.3374070>) |
+| [CRCL](#cite-crcl) | 2025 · IEEE Transactions on Image Processing | [10.1109/tip.2025.3558089](<https://doi.org/10.1109/tip.2025.3558089>) |
+| [PA-VAD](#cite-pa-vad) | 2026 · Computer Vision – ECCV 2026 | 未核验 |
+| [EWAD](#cite-ewad) | 2026 · Computer Vision – ECCV 2026 | 未核验 |
+| [STEP](#cite-step-vad) | 2026 · Computer Vision – ECCV 2026 | 未核验 |
+| [TrajVAD](#cite-trajvad) | 2026 · Computer Vision – ECCV 2026 | 未核验 |
+| [PEER-VAD](#cite-peer-vad) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [Scene-Dependent VAD](#cite-scene-dependent-vad) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [S2MGraph-VAD](#cite-s2mgraph-vad) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [CAVGE](#cite-cavge) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [UPR-VAD](#cite-upr-vad) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [DEAL](#cite-deal-vad) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [VTO](#cite-vto) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [PRIME](#cite-prime-vad) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [VIBES](#cite-vibes) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [AVAR](#cite-avar) | 2026 · ACM Multimedia 2026 · 已录用 | 未核验 |
+| [COPRA](#cite-copra) | 2026 · arXiv 预印本 | 未核验 |
+| [SphereVAD](#cite-spherevad) | 2026 · arXiv 预印本 | 未核验 |
+| [TAR / TAR-Bench](#cite-tar-bench) | 2026 · NeurIPS 2026 Evaluations and Datasets · 已录用 | 未核验 |
+| [SEEK-VAU](#cite-seek-vau) | 2026 · NeurIPS · 已录用，书目待补 | 未核验 |
+| [CA-Judge](#cite-ca-judge) | 2026 · NeurIPS · 已录用，书目待补 | 未核验 |
+| [ROAD](#cite-road) | 2026 · NeurIPS · 已录用，书目待补 | 未核验 |
+| [ECVA / AnomShield](#cite-ecva-anomshield) | 2026 · International Journal of Computer Vision | [10.1007/s11263-026-02983-0](<https://doi.org/10.1007/s11263-026-02983-0>) |
+| [ADVersa](#cite-adversa) | 2026 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2026.3663545](<https://doi.org/10.1109/tpami.2026.3663545>) |
 
 <a id="cite-vadclip"></a>
 
@@ -1359,5 +1388,639 @@
   pages = {3123--3140},
   doi = {10.18653/v1/2025.findings-naacl.171},
   url = {https://aclanthology.org/2025.findings-naacl.171/}
+}
+```
+
+<a id="cite-hiprobe-vad"></a>
+
+## HiProbe-VAD
+
+**HiProbe-VAD: Video Anomaly Detection via Hidden States Probing in Tuning-Free Multimodal LLMs**
+
+作者（原顺序）：Cai, Zhaolin；Li, Fan；Zheng, Ziwei；Qin, Yanjun
+
+引用版本：2025 · Proceedings of the 33rd ACM International Conference on Multimedia。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1145/3746027.3755575>) — 出版社登记的 DOI 元数据：核验正式题名、有序作者、发表年份、卷期与页码。
+
+```bibtex
+@inproceedings{hiprobe-vad2025,
+  author = {Cai, Zhaolin and Li, Fan and Zheng, Ziwei and Qin, Yanjun},
+  title = {{HiProbe-VAD: Video Anomaly Detection via Hidden States Probing in Tuning-Free Multimodal LLMs}},
+  year = {2025},
+  booktitle = {Proceedings of the 33rd ACM International Conference on Multimedia},
+  pages = {592--601},
+  doi = {10.1145/3746027.3755575},
+  url = {https://doi.org/10.1145/3746027.3755575}
+}
+```
+
+<a id="cite-varcmp"></a>
+
+## VarCMP
+
+**VarCMP: Adapting Cross-Modal Pre-Training Models for Video Anomaly Retrieval**
+
+作者（原顺序）：Wu, Peng；Su, Wanshun；He, Xiangteng；Wang, Peng；Zhang, Yanning
+
+引用版本：2025 · Proceedings of the AAAI Conference on Artificial Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1609/aaai.v39i8.32909>) — 出版社登记的 DOI 元数据：核验正式题名、有序作者、发表年份、卷期与页码。
+
+```bibtex
+@article{varcmp2025,
+  author = {Wu, Peng and Su, Wanshun and He, Xiangteng and Wang, Peng and Zhang, Yanning},
+  title = {{VarCMP: Adapting Cross-Modal Pre-Training Models for Video Anomaly Retrieval}},
+  year = {2025},
+  journal = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume = {39},
+  number = {8},
+  pages = {8423--8431},
+  doi = {10.1609/aaai.v39i8.32909},
+  url = {https://doi.org/10.1609/aaai.v39i8.32909}
+}
+```
+
+<a id="cite-mpgdfl"></a>
+
+## Multilingual VAD
+
+**Multilingual-Prompt-Guided Directional Feature Learning for Weakly Supervised Video Anomaly Detection**
+
+作者（原顺序）：Xiao, Chizhuo；Xiao, Yang；Zhou, Joey Tianyi；Fang, Zhiwen
+
+引用版本：2025 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2025.3590242>) — 出版社登记的 DOI 元数据：核验正式题名、有序作者、发表年份、卷期与页码。
+
+```bibtex
+@article{mpgdfl2025,
+  author = {Xiao, Chizhuo and Xiao, Yang and Zhou, Joey Tianyi and Fang, Zhiwen},
+  title = {{Multilingual-Prompt-Guided Directional Feature Learning for Weakly Supervised Video Anomaly Detection}},
+  year = {2025},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {47},
+  number = {11},
+  pages = {9994--10011},
+  doi = {10.1109/tpami.2025.3590242},
+  url = {https://doi.org/10.1109/tpami.2025.3590242}
+}
+```
+
+<a id="cite-pel"></a>
+
+## PEL
+
+**Learning Prompt-Enhanced Context Features for Weakly-Supervised Video Anomaly Detection**
+
+作者（原顺序）：Pu, Yujiang；Wu, Xiaoyu；Yang, Lulu；Wang, Shengjin
+
+引用版本：2024 · IEEE Transactions on Image Processing。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tip.2024.3451935>) — 出版社登记的 DOI 元数据：核验正式题名、有序作者、发表年份、卷期与页码。
+
+```bibtex
+@article{pel2024,
+  author = {Pu, Yujiang and Wu, Xiaoyu and Yang, Lulu and Wang, Shengjin},
+  title = {{Learning Prompt-Enhanced Context Features for Weakly-Supervised Video Anomaly Detection}},
+  year = {2024},
+  journal = {IEEE Transactions on Image Processing},
+  volume = {33},
+  pages = {4923--4936},
+  doi = {10.1109/tip.2024.3451935},
+  url = {https://doi.org/10.1109/tip.2024.3451935}
+}
+```
+
+<a id="cite-promptvad"></a>
+
+## PromptVAD
+
+**PromptVAD: Abnormal Prompt via Vision-Language Model**
+
+作者（原顺序）：Li, Shuo；Liu, Fang；Jiao, Licheng；Hao, Zehua；Wang, Jiahao；Sun, Long；Li, Lingling；Liu, Xu；Chen, Puhua
+
+引用版本：2026 · IEEE Transactions on Neural Networks and Learning Systems。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tnnls.2025.3621336>) — 出版社登记的 DOI 元数据：核验正式题名、有序作者、发表年份、卷期与页码。
+
+```bibtex
+@article{promptvad2026,
+  author = {Li, Shuo and Liu, Fang and Jiao, Licheng and Hao, Zehua and Wang, Jiahao and Sun, Long and Li, Lingling and Liu, Xu and Chen, Puhua},
+  title = {{PromptVAD: Abnormal Prompt via Vision-Language Model}},
+  year = {2026},
+  journal = {IEEE Transactions on Neural Networks and Learning Systems},
+  volume = {37},
+  number = {3},
+  pages = {1018--1032},
+  doi = {10.1109/tnnls.2025.3621336},
+  url = {https://doi.org/10.1109/tnnls.2025.3621336}
+}
+```
+
+<a id="cite-alan"></a>
+
+## ALAN / VAR
+
+**Toward Video Anomaly Retrieval From Video Anomaly Detection: New Benchmarks and Model**
+
+作者（原顺序）：Wu, Peng；Liu, Jing；He, Xiangteng；Peng, Yuxin；Wang, Peng；Zhang, Yanning
+
+引用版本：2024 · IEEE Transactions on Image Processing。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tip.2024.3374070>) — 出版社登记的 DOI 元数据：核验正式题名、有序作者、发表年份、卷期与页码。
+
+```bibtex
+@article{alan2024,
+  author = {Wu, Peng and Liu, Jing and He, Xiangteng and Peng, Yuxin and Wang, Peng and Zhang, Yanning},
+  title = {{Toward Video Anomaly Retrieval From Video Anomaly Detection: New Benchmarks and Model}},
+  year = {2024},
+  journal = {IEEE Transactions on Image Processing},
+  volume = {33},
+  pages = {2213--2225},
+  doi = {10.1109/tip.2024.3374070},
+  url = {https://doi.org/10.1109/tip.2024.3374070}
+}
+```
+
+<a id="cite-crcl"></a>
+
+## CRCL
+
+**CRCL: Causal Representation Consistency Learning for Anomaly Detection in Surveillance Videos**
+
+作者（原顺序）：Liu, Yang；Wang, Hongjin；Wang, Zepu；Zhu, Xiaoguang；Liu, Jing；Sun, Peng；Tang, Rui；Du, Jianwei；Leung, Victor C. M.；Song, Liang
+
+引用版本：2025 · IEEE Transactions on Image Processing。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tip.2025.3558089>) — 出版社登记的 DOI 元数据：核验正式题名、有序作者、发表年份、卷期与页码。
+
+```bibtex
+@article{crcl2025,
+  author = {Liu, Yang and Wang, Hongjin and Wang, Zepu and Zhu, Xiaoguang and Liu, Jing and Sun, Peng and Tang, Rui and Du, Jianwei and Leung, Victor C. M. and Song, Liang},
+  title = {{CRCL: Causal Representation Consistency Learning for Anomaly Detection in Surveillance Videos}},
+  year = {2025},
+  journal = {IEEE Transactions on Image Processing},
+  volume = {34},
+  pages = {2351--2366},
+  doi = {10.1109/tip.2025.3558089},
+  url = {https://doi.org/10.1109/tip.2025.3558089}
+}
+```
+
+<a id="cite-pa-vad"></a>
+
+## PA-VAD
+
+**PA-VAD: Diffusion-Based Pseudo-Only Video Anomaly Detection via Domain-Aligned Memory Updates**
+
+作者（原顺序）：Satoshi Hashimoto；Yanan Wang；Hitoshi Nishimura；Mori Kurokawa
+
+引用版本：2026 · Computer Vision – ECCV 2026。
+
+来源：[核验依据](<https://eccv.ecva.net/virtual/2026/poster/4682>) — ECCV 2026 官方录用名单/论文页面核验题名和录用身份。
+
+```bibtex
+@inproceedings{pa-vad2026,
+  author = {Satoshi Hashimoto and Yanan Wang and Hitoshi Nishimura and Mori Kurokawa},
+  title = {{PA-VAD: Diffusion-Based Pseudo-Only Video Anomaly Detection via Domain-Aligned Memory Updates}},
+  year = {2026},
+  booktitle = {Computer Vision -- ECCV 2026},
+  url = {https://eccv.ecva.net/virtual/2026/poster/4682}
+}
+```
+
+<a id="cite-ewad"></a>
+
+## EWAD
+
+**Towards Video Anomaly Detection from Event Streams: A Baseline and Benchmark Datasets**
+
+作者（原顺序）：Peng Wu；Yuting Yan；Guansong Pang；Yujia Sun；Qingsen Yan；Peng Wang；Yanning Zhang
+
+引用版本：2026 · Computer Vision – ECCV 2026。
+
+来源：[核验依据](<https://eccv.ecva.net/virtual/2026/poster/5214>) — ECCV 2026 官方录用名单/论文页面核验题名和录用身份。
+
+```bibtex
+@inproceedings{ewad2026,
+  author = {Peng Wu and Yuting Yan and Guansong Pang and Yujia Sun and Qingsen Yan and Peng Wang and Yanning Zhang},
+  title = {{Towards Video Anomaly Detection from Event Streams: A Baseline and Benchmark Datasets}},
+  year = {2026},
+  booktitle = {Computer Vision -- ECCV 2026},
+  url = {https://eccv.ecva.net/virtual/2026/poster/5214}
+}
+```
+
+<a id="cite-step-vad"></a>
+
+## STEP
+
+**STEP: Score-Based Temporal Energy for Human Pose Video Anomaly Detection**
+
+作者（原顺序）：Jakub Micorek；Mateusz Kozinski；Horst Possegger
+
+引用版本：2026 · Computer Vision – ECCV 2026。
+
+来源：[核验依据](<https://eccv.ecva.net/virtual/2026/poster/3512>) — ECCV 2026 官方录用名单/论文页面核验题名和录用身份。
+
+```bibtex
+@inproceedings{step-vad2026,
+  author = {Jakub Micorek and Mateusz Kozinski and Horst Possegger},
+  title = {{STEP: Score-Based Temporal Energy for Human Pose Video Anomaly Detection}},
+  year = {2026},
+  booktitle = {Computer Vision -- ECCV 2026},
+  url = {https://eccv.ecva.net/virtual/2026/poster/3512}
+}
+```
+
+<a id="cite-trajvad"></a>
+
+## TrajVAD
+
+**Bounding-Box Trajectories Matter for Video Anomaly Detection**
+
+作者（原顺序）：Inpyo Song；Jangwon Lee
+
+引用版本：2026 · Computer Vision – ECCV 2026。
+
+来源：[核验依据](<https://eccv.ecva.net/virtual/2026/poster/5841>) — ECCV 2026 官方录用名单/论文页面核验题名和录用身份。
+
+```bibtex
+@inproceedings{trajvad2026,
+  author = {Inpyo Song and Jangwon Lee},
+  title = {{Bounding-Box Trajectories Matter for Video Anomaly Detection}},
+  year = {2026},
+  booktitle = {Computer Vision -- ECCV 2026},
+  url = {https://eccv.ecva.net/virtual/2026/poster/5841}
+}
+```
+
+<a id="cite-peer-vad"></a>
+
+## PEER-VAD
+
+**PEER-VAD: Prior-enhanced Event Refinement for Video Anomaly Detection**
+
+作者（原顺序）：Haocheng Yang；Mingjie Sun；Yupei Wu；Eng Lim
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp1302，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{peer-vad2026,
+  author = {Haocheng Yang and Mingjie Sun and Yupei Wu and Eng Lim},
+  title = {{PEER-VAD: Prior-enhanced Event Refinement for Video Anomaly Detection}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-scene-dependent-vad"></a>
+
+## Scene-Dependent VAD
+
+**Scene-Dependent Video Anomaly Detection via Discriminative-Contrastive Learning from Intrinsic Scene Labels**
+
+作者（原顺序）：Xichen Tan；Guang Yu；Yuanjing Luo；Chang Liu；Siqi Wang；Fang Liu；Zhiping Cai
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp3297，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{scene-dependent-vad2026,
+  author = {Xichen Tan and Guang Yu and Yuanjing Luo and Chang Liu and Siqi Wang and Fang Liu and Zhiping Cai},
+  title = {{Scene-Dependent Video Anomaly Detection via Discriminative-Contrastive Learning from Intrinsic Scene Labels}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-s2mgraph-vad"></a>
+
+## S2MGraph-VAD
+
+**S2MGraph-VAD: Scene-to-Moment Graph-Guided Training-Free Video Anomaly Detection**
+
+作者（原顺序）：Youjiang Fang；Haiyang Mei；Chuanbin Liu；Liang Zhang；Zhichao Wu；Ziqi Wei；Xin Yang
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp3685，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{s2mgraph-vad2026,
+  author = {Youjiang Fang and Haiyang Mei and Chuanbin Liu and Liang Zhang and Zhichao Wu and Ziqi Wei and Xin Yang},
+  title = {{S2MGraph-VAD: Scene-to-Moment Graph-Guided Training-Free Video Anomaly Detection}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-cavge"></a>
+
+## CAVGE
+
+**Customized Anomalous Video Generation for Incremental Learning in Weakly-Supervised Video Anomaly Detection**
+
+作者（原顺序）：Weiliang Huang；Weichao Cai；Licheng Yan；Haozhuo Zhang；Bob Zhang；Biao Xue；Chao Huang；Fei Yuan；Baoyuan Wu
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp4504，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{cavge2026,
+  author = {Weiliang Huang and Weichao Cai and Licheng Yan and Haozhuo Zhang and Bob Zhang and Biao Xue and Chao Huang and Fei Yuan and Baoyuan Wu},
+  title = {{Customized Anomalous Video Generation for Incremental Learning in Weakly-Supervised Video Anomaly Detection}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-upr-vad"></a>
+
+## UPR-VAD
+
+**UPR-VAD: Uncertainty-guided Signal Purification and Regularization for Weakly-Supervised Video Anomaly Detection**
+
+作者（原顺序）：Weiliang Huang；Weichao Cai；Bob Zhang；Chao Huang；Biao Xue；Rongxin Zhang
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp5823，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{upr-vad2026,
+  author = {Weiliang Huang and Weichao Cai and Bob Zhang and Chao Huang and Biao Xue and Rongxin Zhang},
+  title = {{UPR-VAD: Uncertainty-guided Signal Purification and Regularization for Weakly-Supervised Video Anomaly Detection}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-deal-vad"></a>
+
+## DEAL
+
+**DEAL: Deep Evidential Audio-Visual Learning for Weakly Supervised Video Anomaly Detection**
+
+作者（原顺序）：Hao Zhou；Fan Zhou；Linxuan Han；Junheng Zhong；Ge Lin
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp7135，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{deal-vad2026,
+  author = {Hao Zhou and Fan Zhou and Linxuan Han and Junheng Zhong and Ge Lin},
+  title = {{DEAL: Deep Evidential Audio-Visual Learning for Weakly Supervised Video Anomaly Detection}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-vto"></a>
+
+## VTO
+
+**VTO: Visual Tool Orchestration for Video Anomaly Detection**
+
+作者（原顺序）：Rui Wang；Yeteng Wu；Xianlin Zhang；Mengshi Qi
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp7248，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{vto2026,
+  author = {Rui Wang and Yeteng Wu and Xianlin Zhang and Mengshi Qi},
+  title = {{VTO: Visual Tool Orchestration for Video Anomaly Detection}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-prime-vad"></a>
+
+## PRIME
+
+**Rule-Guided Evolution of Hierarchical Reasoning for Explainable Video Anomaly Detection**
+
+作者（原顺序）：Kaige Li；Weimin Shi
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp8876，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{prime-vad2026,
+  author = {Kaige Li and Weimin Shi},
+  title = {{Rule-Guided Evolution of Hierarchical Reasoning for Explainable Video Anomaly Detection}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-vibes"></a>
+
+## VIBES
+
+**Zoom In, Reason Out: Efficient Far-field Anomaly Detection in Expressway Surveillance Videos via Focused VLM Reasoning Guided by Bayesian Inference**
+
+作者（原顺序）：Xiaowei Mao；Bowen Sui；Weijie Zhang；Yawen Yang；Shengnan Guo；Shilong Zhao；Jiaqi Lin；Tingrui Wu；Youfang Lin；Huaiyu Wan
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp9489，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{vibes2026,
+  author = {Xiaowei Mao and Bowen Sui and Weijie Zhang and Yawen Yang and Shengnan Guo and Shilong Zhao and Jiaqi Lin and Tingrui Wu and Youfang Lin and Huaiyu Wan},
+  title = {{Zoom In, Reason Out: Efficient Far-field Anomaly Detection in Expressway Surveillance Videos via Focused VLM Reasoning Guided by Bayesian Inference}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-avar"></a>
+
+## AVAR
+
+**Advancing Video Anomaly Retrieval via Action-Focused Temporal Reasoning and Query-Adaptive Routing**
+
+作者（原顺序）：Xinyi Wang；Fang Liu；Licheng Jiao；Hanyuan Ge；Puhua Chen
+
+引用版本：2026 · ACM Multimedia 2026 · 已录用。
+
+来源：[核验依据](<https://2026.acmmm.org/site/program-data.json>) — ACM MM 2026 官方录用名单/论文页面核验题名和录用身份。 官方日程论文编号 mfp1105，核验完整作者顺序；正式论文集信息未发布。
+
+```bibtex
+@misc{avar2026,
+  author = {Xinyi Wang and Fang Liu and Licheng Jiao and Hanyuan Ge and Puhua Chen},
+  title = {{Advancing Video Anomaly Retrieval via Action-Focused Temporal Reasoning and Query-Adaptive Routing}},
+  year = {2026},
+  note = {Accepted to ACM Multimedia 2026},
+  url = {https://2026.acmmm.org/site/program-data.json}
+}
+```
+
+<a id="cite-copra"></a>
+
+## COPRA
+
+**COPRA: Conditional Parameter Adaptation with Reinforcement Learning for Video Anomaly Detection**
+
+作者（原顺序）：Darryl Cherian Jacob；Xinyu Liu；Kai Wang；Pan He
+
+引用版本：2026 · arXiv 预印本。目录发表身份为 NeurIPS 2026；此处导出预印本，正式书目信息待补。
+
+来源：[核验依据](<https://neurips.cc/Downloads/2026>) — NeurIPS 2026 官方录用名单/论文页面核验题名和录用身份。；[核验依据](<https://neurips.cc/virtual/2026/poster/151176>) — 官方论文页面核验 NeurIPS 2026 身份；作者与引用格式采用 arXiv 预印本。；[核验依据](<https://arxiv.org/abs/2605.15325>) — 引用导出采用此预印本的题名、作者顺序和年份，会议录用身份另由官方名单确认。
+
+```bibtex
+@misc{copra2026,
+  author = {Darryl Cherian Jacob and Xinyu Liu and Kai Wang and Pan He},
+  title = {{COPRA: Conditional Parameter Adaptation with Reinforcement Learning for Video Anomaly Detection}},
+  year = {2026},
+  eprint = {2605.15325},
+  archivePrefix = {arXiv},
+  url = {https://arxiv.org/abs/2605.15325}
+}
+```
+
+<a id="cite-spherevad"></a>
+
+## SphereVAD
+
+**SphereVAD: Training-Free Video Anomaly Detection via Geodesic Inference on the Unit Hypersphere**
+
+作者（原顺序）：Chao Huang；Penfei Wei；Wei Wang；Jie Wen；Zhihua Wang；Li Shen；Wenqi Ren；Xiaochun Cao
+
+引用版本：2026 · arXiv 预印本。目录发表身份为 NeurIPS 2026；此处导出预印本，正式书目信息待补。
+
+来源：[核验依据](<https://neurips.cc/Downloads/2026>) — NeurIPS 2026 官方录用名单/论文页面核验题名和录用身份。；[核验依据](<https://neurips.cc/virtual/2026/poster/152043>) — 官方论文页面核验 NeurIPS 2026 身份；作者与引用格式采用 arXiv 预印本。；[核验依据](<https://arxiv.org/abs/2605.08003>) — 引用导出采用此预印本的题名、作者顺序和年份，会议录用身份另由官方名单确认。
+
+```bibtex
+@misc{spherevad2026,
+  author = {Chao Huang and Penfei Wei and Wei Wang and Jie Wen and Zhihua Wang and Li Shen and Wenqi Ren and Xiaochun Cao},
+  title = {{SphereVAD: Training-Free Video Anomaly Detection via Geodesic Inference on the Unit Hypersphere}},
+  year = {2026},
+  eprint = {2605.08003},
+  archivePrefix = {arXiv},
+  url = {https://arxiv.org/abs/2605.08003}
+}
+```
+
+<a id="cite-tar-bench"></a>
+
+## TAR / TAR-Bench
+
+**From Detection to Understanding — A Multi-Task Dataset for Traffic Anomaly Reasoning**
+
+作者（原顺序）：Han Zhang；Yilin Zhao；Zaid Pervaiz Bhat；Zheng Tang；Varun Praveen；Vidya Nariyambut Murali；David C. Anastasiu；Tomasz Kornuta
+
+引用版本：2026 · NeurIPS 2026 Evaluations and Datasets · 已录用。
+
+来源：[核验依据](<https://neurips.cc/virtual/2026/poster/139099>) — NeurIPS Evaluations and Datasets 2026 官方录用名单/论文页面核验题名和录用身份。；[核验依据](<https://zhengthomastang.github.io/publications/TAR>) — 作者页面提供官方会议题名、完整作者顺序与会议身份。
+
+```bibtex
+@misc{tar-bench2026,
+  author = {Han Zhang and Yilin Zhao and Zaid Pervaiz Bhat and Zheng Tang and Varun Praveen and Vidya Nariyambut Murali and David C. Anastasiu and Tomasz Kornuta},
+  title = {{From Detection to Understanding -- A Multi-Task Dataset for Traffic Anomaly Reasoning}},
+  year = {2026},
+  note = {Accepted to NeurIPS 2026 Evaluations and Datasets},
+  url = {https://neurips.cc/virtual/2026/poster/139099}
+}
+```
+
+<a id="cite-seek-vau"></a>
+
+## SEEK-VAU
+
+**SEEK-VAU: Towards Evidence-Faithful Video Anomaly Understanding via Agentic Search**
+
+状态：2026 · NeurIPS · 已录用，书目待补。官方名单已确认录用；完整作者顺序尚待核验，补齐后提供 BibTeX。
+
+来源：[核验依据](<https://neurips.cc/Downloads/2026>) — NeurIPS 2026 官方名单核验完整题名与录用身份，条目链接至 poster/152176。
+
+<a id="cite-ca-judge"></a>
+
+## CA-Judge
+
+**CA-Judge: Teach Large Models to Judge Anomalies via Comparison for Video Anomaly Detection**
+
+状态：2026 · NeurIPS · 已录用，书目待补。官方名单已确认录用；完整作者顺序尚待核验，补齐后提供 BibTeX。
+
+来源：[核验依据](<https://neurips.cc/Downloads/2026>) — NeurIPS 2026 官方名单核验完整题名与录用身份，条目链接至 poster/153516。
+
+<a id="cite-road"></a>
+
+## ROAD
+
+**ROAD: Rule-Grounded Context-Aware Open-World Driver Anomaly Detection**
+
+状态：2026 · NeurIPS · 已录用，书目待补。官方名单已确认录用；完整作者顺序尚待核验，补齐后提供 BibTeX。
+
+来源：[核验依据](<https://neurips.cc/Downloads/2026>) — NeurIPS 2026 官方名单核验完整题名与录用身份，条目链接至 poster/154937。
+
+<a id="cite-ecva-anomshield"></a>
+
+## ECVA / AnomShield
+
+**Exploring What Why and How: A Multifaceted Benchmark for Causation Understanding of Video Anomaly**
+
+作者（原顺序）：Hang Du；Guoshun Nan；Jiawen Qian；Wangchenhui Wu；Wendi Deng；Hanqing Mu；Zhenyan Chen；Ji Zhang；Min Lei；Pengxuan Mao；Jinli Ou；Xiaofeng Tao；Jun Liu
+
+引用版本：2026 · International Journal of Computer Vision。
+
+来源：[核验依据](<https://link.springer.com/article/10.1007/s11263-026-02983-0>) — IJCV 正式论文页核验发表信息、完整作者顺序，以及 ECVA、AnomShield 与 AnomEval 的共同贡献。；[核验依据](<https://api.crossref.org/works/10.1007/s11263-026-02983-0>) — 出版社存入 Crossref 的正式书目，核对完整有序作者、DOI、卷期与正式发表年；不混用预印本作者名单。
+
+```bibtex
+@article{du2026ecva,
+  author = {Hang Du and Guoshun Nan and Jiawen Qian and Wangchenhui Wu and Wendi Deng and Hanqing Mu and Zhenyan Chen and Ji Zhang and Min Lei and Pengxuan Mao and Jinli Ou and Xiaofeng Tao and Jun Liu},
+  title = {{Exploring What Why and How: A Multifaceted Benchmark for Causation Understanding of Video Anomaly}},
+  year = {2026},
+  journal = {International Journal of Computer Vision},
+  volume = {134},
+  number = {8},
+  doi = {10.1007/s11263-026-02983-0},
+  url = {https://doi.org/10.1007/s11263-026-02983-0}
+}
+```
+
+<a id="cite-adversa"></a>
+
+## ADVersa
+
+**ADVersa: Abductive Driving Accident Video Understanding**
+
+作者（原顺序）：Lei-Lei Li；Jianwu Fang；Junbin Xiao；Hongkai Yu；Chen Lv；Jianru Xue；Zhengguo Li；Tat-Seng Chua
+
+引用版本：2026 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://engagedscholarship.csuohio.edu/enece_facpub/533/>) — 作者机构论文页核验 TPAMI 2026 身份、2026-02-11 发表日期，以及关系感知的视觉语言溯因推理和事故视频生成任务。；[核验依据](<https://api.crossref.org/works/10.1109/tpami.2026.3663545>) — 出版社存入 Crossref 的正式书目，核对完整有序作者、DOI、卷期与正式发表年；不混用预印本作者名单。
+
+```bibtex
+@article{li2026adversa,
+  author = {Lei-Lei Li and Jianwu Fang and Junbin Xiao and Hongkai Yu and Chen Lv and Jianru Xue and Zhengguo Li and Tat-Seng Chua},
+  title = {{ADVersa: Abductive Driving Accident Video Understanding}},
+  year = {2026},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {48},
+  number = {6},
+  pages = {6980--6998},
+  doi = {10.1109/tpami.2026.3663545},
+  url = {https://doi.org/10.1109/tpami.2026.3663545}
 }
 ```

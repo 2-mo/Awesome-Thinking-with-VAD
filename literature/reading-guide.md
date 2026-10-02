@@ -53,6 +53,7 @@
 问题：怎样区分回答流畅、视觉事实正确和推理可靠？依次比较任务定义、事实评估、反例诊断与指标元评测。
 
 1. [CUVA](<catalog.md#paper-cuva>)：任务定义：事件、原因与后果是否分别评估？定位正确能否代表解释正确？
-2. [FineVAU](<catalog.md#paper-finevau>)：事实评估：回答是否覆盖关键事件、参与者与位置？指标与人工判断是否一致？
-3. [VAD-DPO](<catalog.md#paper-vad-dpo>)：反例诊断：视觉相似而异常语义相反时，模型能否摆脱物体与异常词语的共现捷径？
-4. [CG-CoE](<catalog.md#paper-cg-coe>)：指标元评测：保持事件语义但改变措辞，评分是否稳定？类别引导是否引入额外偏差？
+2. [ECVA / AnomShield](<catalog.md#paper-ecva-anomshield>)：因果理解扩展：对照 CUVA 与 ECVA 的事件、原因、后果和关键证据标注，区分 MMEval 与 AnomEval。
+3. [FineVAU](<catalog.md#paper-finevau>)：事实评估：回答是否覆盖关键事件、参与者与位置？指标与人工判断是否一致？
+4. [VAD-DPO](<catalog.md#paper-vad-dpo>)：反例诊断：视觉相似而异常语义相反时，模型能否摆脱物体与异常词语的共现捷径？
+5. [CG-CoE](<catalog.md#paper-cg-coe>)：指标元评测：保持事件语义但改变措辞，评分是否稳定？类别引导是否引入额外偏差？

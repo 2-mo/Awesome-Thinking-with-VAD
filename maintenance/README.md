@@ -8,7 +8,8 @@ See [development details](DEVELOPMENT.md) for the application and build. All com
 
 | Location | Purpose |
 | --- | --- |
-| `README.md`, `README.zh-CN.md`, `llm4vad.md` | Reader entry points and paper timeline |
+| `README.md`, `README.zh-CN.md` | Conference/journal lists and the research route map entry |
+| `llm4vad.md` | Generated paper lists targeted by the README year links |
 | `literature/` | Generated reading indexes and citation exports |
 | `archive/` | Historical notes and their original figures |
 | `research/` | Surveys and source verification records |
@@ -35,11 +36,11 @@ Dataset records can omit `thumbnail`. If an image is supplied, local path, alt t
 
 ## Preserve the research map
 
-Keep publication years on the horizontal axis, method topology on the vertical axis and method schools as the colored routes. Venue metadata belongs with paper labels, not in fixed rows. Datasets provide evaluation context. Use sourced main-conference or arXiv first-submission months for hidden ordering, and preserve forward-only metro geometry. WACV and workshop papers are outside the curated scope. Check versions before adding an extended or renamed paper as a separate entry.
+Keep publication years on the horizontal axis, method topology on the vertical axis and method schools as the colored routes. Venue metadata belongs with paper labels, not in fixed rows. Datasets provide evaluation context. Use sourced main-conference, journal-publication or arXiv first-submission months for hidden ordering, and preserve forward-only metro geometry. Group WACV, Findings and workshop papers under “Other papers” in the READMEs; maintain supplementary WACV and workshop notes in [other papers](../literature/other-papers.md). Record explicit main-map exclusions in `paper.mapExclusion: { note }`, retaining bibliographic records and distinguishing editorial selection from evidence about methods or quality. STEP and TrajVAD are excluded; retain EWAD and the accepted NeurIPS papers SEEK-VAU, CA-Judge and ROAD. Check versions before adding an extended or renamed paper as a separate entry.
 
-Use same-screen pagination and short labels to keep the interface compact. Preserve readable type, keyboard access and access to all content; do not clip information to hide overflow.
+Keep the website focused on the route map. Search and filters change visible stations; a native modal dialog provides paper details and associated dataset protocols. Preserve readable type, keyboard access and scrollable details. Conference/journal reading, comparison and citation exports live in the repository documents.
 
-The image-first visual references and generation prompts are recorded in [design/README.md](design/README.md). The concept image and the decorative strip at `src/assets/idea-strip.png` are generated artwork, not paper figures or evidence. Research facts must come from the catalog sources. Record provenance when replacing artwork; do not claim a particular image-model version unless the generation tool reports it.
+The image-first visual references and generation prompts are recorded in [design/README.md](design/README.md). The concept image and the unused decorative strip at `src/assets/idea-strip.png` are historical generated artwork, not paper figures or evidence; the current website only renders the vector map. Research facts must come from the catalog sources. Record provenance when replacing artwork; do not claim a particular image-model version unless the generation tool reports it.
 
 ## Validate and regenerate
 

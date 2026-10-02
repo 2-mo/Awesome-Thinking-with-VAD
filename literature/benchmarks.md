@@ -4,7 +4,7 @@
 
 [引用导出](citations.md) · [更新记录](../CHANGELOG.md)
 
-16 个数据资源记录。登记依据论文与作者来源，不以缩略图为前提，也不等同于已发布可下载数据。关联论文只包含已核验关系；没有关联不表示没有使用。
+19 个数据资源记录。登记依据论文与作者来源，不以缩略图为前提，也不等同于已发布可下载数据。关联论文只包含已核验关系；没有关联不表示没有使用。
 
 | 数据集 | 年份／发表 | 任务 | 标注 |
 | --- | --- | --- | --- |
@@ -15,7 +15,7 @@
 | [HAWK](#dataset-hawk-dataset) | 2024 · NeurIPS | 异常解释、视频问答 | 异常视频语言描述、异常相关问答 |
 | [FineW3](#dataset-finew3) | 2026 · AAAI | 异常解释 | 异常事件、参与实体、位置 |
 | [UCA](#dataset-uca) | 2024 · CVPR | 异常检测、异常定位、异常解释 | 事件级自然语言描述、句子起止时间 |
-| [ECVA](#dataset-ecva) | 2024 · arXiv | 异常解释、异常推理、视频问答 | 异常类别与时间边界、事件描述、原因解释、后果描述 |
+| [ECVA](#dataset-ecva) | 2026 · IJCV | 异常解释、异常推理、视频问答 | 异常类别与时间边界、事件描述、原因解释、后果描述、关键证据片段的重要性曲线 |
 | [Vad-Reasoning](#dataset-vad-reasoning) | 2025 · NeurIPS | 异常检测、异常推理、异常解释 | 结构化推理过程、最终异常判断、异常类型与时间边界、RL 子集视频级弱标签 |
 | [CueBench](#dataset-cuebench-data) | 2026 · AAAI | 异常检测、异常定位、异常预判、基准评测 | 条件性／绝对异常类别、场景与属性层级、任务相关标注 |
 | [VAGU](#dataset-vagu-data) | 2026 · AAAI | 异常定位、异常解释、视频问答 | 异常类别、语义解释、时间边界、视频问答／选择问答 |
@@ -24,6 +24,9 @@
 | [TAU-Bench](#dataset-tau-bench-data) | 2026 · arXiv | 空间定位、异常解释、异常推理、基准评测 | 异常实例轨迹、像素级掩码、实例／事件／场景描述 |
 | [Pistachio](#dataset-pistachio-data) | 2026 · ECCV | 异常检测、异常解释、异常推理、基准评测 | 帧级标注、事件级描述、视频级描述 |
 | [VANE-Bench](#dataset-vane-bench-data) | 2025 · NAACL Findings | 异常检测、异常定位、视频问答、基准评测 | 异常类别、异常问答 |
+| [UCFCrime-AR](#dataset-ucfcrime-ar) | 2024 · TIP | 异常检索 | 事件描述、视频—文本对应关系 |
+| [XDViolence-AR](#dataset-xdviolence-ar) | 2024 · TIP | 异常检索 | 同步音视频对应关系 |
+| [MM-AU](#dataset-mm-au) | 2024 · CVPR | 空间定位、异常解释、异常推理、异常预判、视频问答 | 事故类别、时序对齐文本描述、对象边界框、事故原因与预防建议 |
 
 <a id="dataset-ucf-crime"></a>
 
@@ -34,7 +37,7 @@
 - 模态：视频
 - 评测协议／阅读关注：采用官方训练／测试划分；弱监督训练与帧级定位评估须区分。
 - 来源入口：[作者／论文](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>) · [论文](<https://openaccess.thecvf.com/content_cvpr_2018/html/Sultani_Real-World_Anomaly_Detection_CVPR_2018_paper.html>)
-- 已关联论文：[VadCLIP](<catalog.md#paper-vadclip>) · [LAVAD](<catalog.md#paper-lavad>) · [Ex-VAD](<catalog.md#paper-ex-vad>) · [EventVAD](<catalog.md#paper-eventvad>) · [MoniTor](<catalog.md#paper-monitor>) · [OVVAD](<catalog.md#paper-ovvad>) · [TPWNG](<catalog.md#paper-tpwng>) · [UCA](<catalog.md#paper-uca-paper>) · [Anomize](<catalog.md#paper-anomize>) · [VA-GPT](<catalog.md#paper-va-gpt>) · [LAVIDA](<catalog.md#paper-lavida>) · [LAS-VAD](<catalog.md#paper-las-vad>) · [VADTree](<catalog.md#paper-vadtree>) · [MemoVAD](<catalog.md#paper-memovad>) · [Flashback](<catalog.md#paper-flashback>) · [LRPO](<catalog.md#paper-lrpo>) · [TD-VAD](<catalog.md#paper-td-vad>) · [URF-ZS-HVAA](<catalog.md#paper-urf-zs-hvaa>) · [CLUE-VAD](<catalog.md#paper-clue-vad>) · [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) · [Probe-VAD](<catalog.md#paper-probe-vad>)
+- 已关联论文：[VadCLIP](<catalog.md#paper-vadclip>) · [LAVAD](<catalog.md#paper-lavad>) · [Ex-VAD](<catalog.md#paper-ex-vad>) · [EventVAD](<catalog.md#paper-eventvad>) · [MoniTor](<catalog.md#paper-monitor>) · [OVVAD](<catalog.md#paper-ovvad>) · [TPWNG](<catalog.md#paper-tpwng>) · [UCA](<catalog.md#paper-uca-paper>) · [Anomize](<catalog.md#paper-anomize>) · [VA-GPT](<catalog.md#paper-va-gpt>) · [LAVIDA](<catalog.md#paper-lavida>) · [LAS-VAD](<catalog.md#paper-las-vad>) · [VADTree](<catalog.md#paper-vadtree>) · [MemoVAD](<catalog.md#paper-memovad>) · [Flashback](<catalog.md#paper-flashback>) · [LRPO](<catalog.md#paper-lrpo>) · [TD-VAD](<catalog.md#paper-td-vad>) · [URF-ZS-HVAA](<catalog.md#paper-urf-zs-hvaa>) · [CLUE-VAD](<catalog.md#paper-clue-vad>) · [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) · [Probe-VAD](<catalog.md#paper-probe-vad>) · [HiProbe-VAD](<catalog.md#paper-hiprobe-vad>) · [PEL](<catalog.md#paper-pel>) · [PromptVAD](<catalog.md#paper-promptvad>) · [PA-VAD](<catalog.md#paper-pa-vad>) · [S2MGraph-VAD](<catalog.md#paper-s2mgraph-vad>)
 - 核验依据：[来源](<https://openaccess.thecvf.com/content_cvpr_2018/html/Sultani_Real-World_Anomaly_Detection_CVPR_2018_paper.html>) — 资源首发论文或作者发布页：核实任务、标注与出版信息。；[来源](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>) — 作者数据发布页与使用说明。
 
 <a id="dataset-xd-violence"></a>
@@ -46,7 +49,7 @@
 - 模态：视频、音频
 - 评测协议／阅读关注：报告所用模态与官方划分；不可将音视频方法和纯视觉方法混为同一设置。
 - 来源入口：[作者／论文](<https://roc-ng.github.io/XD-Violence/>)
-- 已关联论文：[VadCLIP](<catalog.md#paper-vadclip>) · [LAVAD](<catalog.md#paper-lavad>) · [Ex-VAD](<catalog.md#paper-ex-vad>) · [EventVAD](<catalog.md#paper-eventvad>) · [MoniTor](<catalog.md#paper-monitor>) · [OVVAD](<catalog.md#paper-ovvad>) · [TPWNG](<catalog.md#paper-tpwng>) · [Anomize](<catalog.md#paper-anomize>) · [VA-GPT](<catalog.md#paper-va-gpt>) · [LAVIDA](<catalog.md#paper-lavida>) · [LAS-VAD](<catalog.md#paper-las-vad>) · [VADTree](<catalog.md#paper-vadtree>) · [MemoVAD](<catalog.md#paper-memovad>) · [Flashback](<catalog.md#paper-flashback>) · [LRPO](<catalog.md#paper-lrpo>) · [TD-VAD](<catalog.md#paper-td-vad>) · [URF-ZS-HVAA](<catalog.md#paper-urf-zs-hvaa>) · [CLUE-VAD](<catalog.md#paper-clue-vad>) · [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) · [Probe-VAD](<catalog.md#paper-probe-vad>)
+- 已关联论文：[VadCLIP](<catalog.md#paper-vadclip>) · [LAVAD](<catalog.md#paper-lavad>) · [Ex-VAD](<catalog.md#paper-ex-vad>) · [EventVAD](<catalog.md#paper-eventvad>) · [MoniTor](<catalog.md#paper-monitor>) · [OVVAD](<catalog.md#paper-ovvad>) · [TPWNG](<catalog.md#paper-tpwng>) · [Anomize](<catalog.md#paper-anomize>) · [VA-GPT](<catalog.md#paper-va-gpt>) · [LAVIDA](<catalog.md#paper-lavida>) · [LAS-VAD](<catalog.md#paper-las-vad>) · [VADTree](<catalog.md#paper-vadtree>) · [MemoVAD](<catalog.md#paper-memovad>) · [Flashback](<catalog.md#paper-flashback>) · [LRPO](<catalog.md#paper-lrpo>) · [TD-VAD](<catalog.md#paper-td-vad>) · [URF-ZS-HVAA](<catalog.md#paper-urf-zs-hvaa>) · [CLUE-VAD](<catalog.md#paper-clue-vad>) · [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) · [Probe-VAD](<catalog.md#paper-probe-vad>) · [HiProbe-VAD](<catalog.md#paper-hiprobe-vad>) · [PEL](<catalog.md#paper-pel>) · [PromptVAD](<catalog.md#paper-promptvad>) · [PA-VAD](<catalog.md#paper-pa-vad>) · [S2MGraph-VAD](<catalog.md#paper-s2mgraph-vad>) · [DEAL](<catalog.md#paper-deal-vad>)
 - 核验依据：[来源](<https://roc-ng.github.io/XD-Violence/>) — 资源首发论文或作者发布页：核实任务、标注与出版信息。；[来源](<https://roc-ng.github.io/XD-Violence/>) — 作者数据发布页与使用说明。
 
 <a id="dataset-cuva-dataset"></a>
@@ -113,13 +116,13 @@ Holmes-VAU 提出的片段、事件和视频三级异常指令数据。
 
 ## ECVA
 
-CUVA 的扩展因果理解基准，围绕异常经过、发生原因与事件后果提供人工语言标注。
+与 IJCV 2026 论文关联的 CUVA 扩展因果理解基准，围绕异常经过、发生原因与事件后果提供人工语言标注；预印本首发于 2024 年。
 
 - 模态：视频、文本
 - 评测协议／阅读关注：按作者发布版本分别评估描述、原因和后果；AnomEval 检查推理、回答一致性与幻觉，避免与 CUVA 的 MMEval 混用。
-- 来源入口：[作者／论文](<https://github.com/Dulpy/ECVA>) · [论文](<https://arxiv.org/abs/2412.07183>)
-- 已关联论文：待核验
-- 核验依据：[来源](<https://arxiv.org/abs/2412.07183>) — 一手论文：定义数据任务与标注。；[来源](<https://github.com/Dulpy/ECVA>) — 作者仓库：数据已发布，提供数据获取与评估说明。；[来源](<https://www.modelscope.cn/datasets/gouchenyi/ECVA/files>) — 作者仓库链接的数据与标注发布位置。
+- 来源入口：[作者／论文](<https://github.com/Dulpy/ECVA>) · [论文](<https://link.springer.com/article/10.1007/s11263-026-02983-0>)
+- 已关联论文：[ECVA / AnomShield](<catalog.md#paper-ecva-anomshield>)
+- 核验依据：[来源](<https://link.springer.com/article/10.1007/s11263-026-02983-0>) — IJCV 正式论文页核验发表信息、完整作者顺序，以及 ECVA、AnomShield 与 AnomEval 的共同贡献。；[来源](<https://arxiv.org/abs/2412.07183>) — 一手论文：定义数据任务与标注。；[来源](<https://github.com/Dulpy/ECVA>) — 作者仓库：数据已发布，提供数据获取与评估说明。；[来源](<https://www.modelscope.cn/datasets/gouchenyi/ECVA/files>) — 作者仓库链接的数据与标注发布位置。
 
 <a id="dataset-vad-reasoning"></a>
 
@@ -216,3 +219,39 @@ Vad-R1 提出的异常推理数据，使用感知到认知的结构化推理标�
 - 来源入口：[作者／论文](<https://github.com/rohit901/VANE-Bench>) · [论文](<https://aclanthology.org/2025.findings-naacl.171/>)
 - 已关联论文：[VANE-Bench](<catalog.md#paper-vane-bench>)
 - 核验依据：[来源](<https://aclanthology.org/2025.findings-naacl.171/>) — 一手摘要核验题名、作者和研究内容；ACL Anthology 正式发表页及其 BibTeX 核验作者顺序、年份、页码和 DOI。
+
+<a id="dataset-ucfcrime-ar"></a>
+
+## UCFCrime-AR
+
+在 UCF-Crime 基础上构建的长视频文本检索基准，为异常事件提供文本查询与配对视频。
+
+- 模态：video、text
+- 评测协议／阅读关注：按作者检索划分进行文本—视频匹配，候选对象为未裁剪视频；作者资源页提供训练与测试文本。
+- 来源入口：[作者／论文](<https://github.com/Roc-Ng/VAR>) · [论文](<https://doi.org/10.1109/TIP.2024.3374070>)
+- 已关联论文：[VarCMP](<catalog.md#paper-varcmp>) · [ALAN / VAR](<catalog.md#paper-alan>)
+- 核验依据：[来源](<https://arxiv.org/html/2307.12545v2>) — 作者论文第 III 节定义 UCFCrime-AR 文本视频检索与 XDViolence-AR 音频视频检索及数据构建。；[来源](<https://github.com/Roc-Ng/VAR>) — 作者资源页列出 UCF-Crime captions 与两个 AR 基准的特征链接。
+
+<a id="dataset-xdviolence-ar"></a>
+
+## XDViolence-AR
+
+在 XD-Violence 基础上构建的音频视频异常检索基准，以同步音频查询匹配长视频。
+
+- 模态：video、audio
+- 评测协议／阅读关注：按作者音视频检索设置评估配对检索；使用 AR 基准的划分和候选库，并与帧级检测评测分别报告。
+- 来源入口：[作者／论文](<https://github.com/Roc-Ng/VAR>) · [论文](<https://doi.org/10.1109/TIP.2024.3374070>)
+- 已关联论文：[VarCMP](<catalog.md#paper-varcmp>) · [ALAN / VAR](<catalog.md#paper-alan>)
+- 核验依据：[来源](<https://arxiv.org/html/2307.12545v2>) — 作者论文第 III 节定义 UCFCrime-AR 文本视频检索与 XDViolence-AR 音频视频检索及数据构建。；[来源](<https://github.com/Roc-Ng/VAR>) — 作者资源页列出 UCF-Crime captions 与两个 AR 基准的特征链接。
+
+<a id="dataset-mm-au"></a>
+
+## MM-AU
+
+面向驾驶事故理解的多模态基准，包含 11,727 段事故视频、对齐文本、对象框与事故原因问答；由早期 AdVersa-SD 工作发布，并用于 ADVersa 期刊研究。
+
+- 模态：视频、文本
+- 评测协议／阅读关注：分别评估对象检测、事故原因回答、近事故场景恢复与预测等任务；按对应论文任务设置比较。此处提供论文入口，未核验数据下载可用性。
+- 来源入口：[作者／论文](<https://openaccess.thecvf.com/content/CVPR2024/html/Fang_Abductive_Ego-View_Accident_Video_Understanding_for_Safe_Driving_Perception_CVPR_2024_paper.html>)
+- 已关联论文：[ADVersa](<catalog.md#paper-adversa>)
+- 核验依据：[来源](<https://openaccess.thecvf.com/content/CVPR2024/html/Fang_Abductive_Ego-View_Accident_Video_Understanding_for_Safe_Driving_Perception_CVPR_2024_paper.html>) — CVPR 2024 作者正式论文摘要核验 MM-AU 的首发年份、数据规模、标注与支持任务。；[来源](<https://engagedscholarship.csuohio.edu/enece_facpub/533/>) — 作者机构论文页核验 TPAMI 2026 身份、2026-02-11 发表日期，以及关系感知的视觉语言溯因推理和事故视频生成任务。

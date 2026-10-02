@@ -4,8 +4,9 @@ import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promi
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { readCatalog, validateCatalog } from '../scripts/catalog.mjs';
-import { renderCatalog, renderLiterature, renderVenueIndex, renderComparison, renderBenchmarks, renderGuides, renderBibEntry, renderBibliography, renderCitations } from '../scripts/generate-catalog.mjs';
+import { pathToFileURL } from 'node:url';
+import { readCatalog, validateCatalog, validatePaperFigureFiles } from '../scripts/catalog.mjs';
+import { renderCatalog, renderLiterature, renderFigureSources, renderVenueIndex, renderComparison, renderBenchmarks, renderGuides, renderBibEntry, renderBibliography, renderCitations } from '../scripts/generate-catalog.mjs';
 
 function fixture() {
   const source = { url: 'https://example.org/paper', note: 'Primary paper describes the method and evaluation.' };
@@ -19,7 +20,7 @@ function fixture() {
   return {
     version: 1, updatedAt: '2026-09-29',
     clusters: [{ id: 'reasoning', name: 'Reasoning', description: 'Anomaly reasoning.', question: 'What happened?', color: '#667799', position: { x: 10, y: 20 } }],
-    papers: [paper, { ...structuredClone(paper), id: 'core-b', title: 'Another core paper', citation: { ...structuredClone(paper.citation), key: 'coreB2024' } }],
+    papers: [paper, { ...structuredClone(paper), id: 'core-b', title: 'Another core paper', citation: { ...structuredClone(paper.citation), key: 'coreB2024', title: 'Another core paper' } }],
     datasets: [{ id: 'dataset-a', name: 'Dataset A', year: 2024, venue: 'Example Conference', thumbnail: { src: '/datasets/example.png', alt: 'Example dataset figure', sourceUrl: 'https://example.org/figure.png', credit: 'Dataset authors' }, description: 'A research benchmark.', tasks: ['异常推理'], modalities: ['video'], annotations: ['events'], protocol: 'Use the official split.', links: { website: 'https://example.org/dataset' }, sources: [source] }],
     relations: [{ id: 'relation-a', source: 'core-a', target: 'dataset-a', type: 'uses', evidence: source }],
     guides: [{ id: 'guide-a', title: 'Start here', description: 'Read the core method.', steps: [{ paperId: 'core-a', note: 'Understand the evaluation.' }] }],
@@ -29,7 +30,100 @@ function fixture() {
 test('valid structured fixture passes', () => assert.deepEqual(validateCatalog(fixture()), []));
 test('the checked-in catalog passes semantic validation', async () => assert.deepEqual(validateCatalog(await readCatalog()), []));
 
+const sampleFigure = () => ({ src: 'assets/papers/core-a.png', alt: 'Original framework', caption: 'Figure 2: framework.', sourceUrl: 'https://example.org/figure.png', sourcePageUrl: 'https://example.org/paper', credit: 'Doe et al.', verifiedAt: '2026-10-03' });
+
+test('paper figures require local paths, provenance and explicit pending status', () => {
+  const data = fixture();
+  data.papers[0].figure = sampleFigure();
+  assert.deepEqual(validateCatalog(data), []);
+  for (const src of ['https://example.org/figure.png', 'assets/papers/../image.png', 'assets/papers/%2e%2e.png', 'assets/papers/x.svg']) {
+    data.papers[0].figure.src = src;
+    assert.match(validateCatalog(data).join('\n'), /figure.src.*local/);
+  }
+  data.papers[0].figure = sampleFigure();
+  delete data.papers[0].figure.sourceUrl;
+  assert.match(validateCatalog(data).join('\n'), /figure.sourceUrl.*HTTP/);
+  data.papers[0].figure = sampleFigure();
+  data.papers[0].figurePending = { note: 'Publisher requests fail; author copy not yet located.', sources: data.papers[0].sources, verifiedAt: '2026-10-03' };
+  assert.match(validateCatalog(data).join('\n'), /cannot accompany an available figure/);
+  delete data.papers[0].figure;
+  assert.deepEqual(validateCatalog(data), []);
+});
+
+test('paper cards retain original badges, summaries, image sources and stable anchors', () => {
+  const data = fixture();
+  data.papers[0].figure = sampleFigure();
+  data.papers[0].links.code = 'https://github.com/example/core';
+  const markdown = renderLiterature(data);
+  assert.match(markdown, /id="paper-core-a"/);
+  assert.match(markdown, /#### A core paper/);
+  assert.match(markdown, /img.shields.io\/github\/stars\/example\/core/);
+  assert.match(markdown, /> Grounded anomaly interpretation/);
+  assert.match(markdown, /!\[Original framework\]\(assets\/papers\/core-a.png\)/);
+  assert.match(markdown, /https:\/\/example.org\/figure.png/);
+  assert.match(markdown, /Doe et al/);
+  assert.match(markdown, /已配原论文图片 1 \/ 2/);
+  assert.match(markdown, /配图待补/);
+  assert.match(renderFigureSources(data), /core-a.png/);
+  assert.match(renderFigureSources(data), /待补原图/);
+});
+
+test('figure files reject missing assets and HTML downloads disguised as images', async t => {
+  const root = await mkdtemp(join(tmpdir(), 'paper-figure-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const data = fixture();
+  data.papers[0].figure = sampleFigure();
+  const base = pathToFileURL(`${root}/`);
+  assert.match((await validatePaperFigureFiles(data, base)).join('\n'), /missing or unreadable/);
+  await mkdir(join(root, 'assets/papers'), { recursive: true });
+  await writeFile(join(root, data.papers[0].figure.src), '<html>Access denied</html>');
+  assert.match((await validatePaperFigureFiles(data, base)).join('\n'), /bytes do not match/);
+  assert.deepEqual(await validatePaperFigureFiles(await readCatalog()), []);
+});
+
+test('journal ordering months retain their source and reject unknown date bases', () => {
+  const data = fixture();
+  data.papers[0].timeline = { month: 8, basis: 'journal', source: data.papers[0].sources[0] };
+  assert.deepEqual(validateCatalog(data), []);
+  data.papers[0].timeline.basis = 'guessed';
+  assert.match(validateCatalog(data).join('\n'), /timeline.basis.*conference, journal or preprint/);
+});
+
+test('editorial exclusions preserve reading entries and cannot remain in explicit map routes', () => {
+  const data = fixture();
+  data.papers[0].mapExclusion = { note: 'Editorial selection for the main map.' };
+  data.clusters[0].routes = [{ paperIds: ['core-b'], evidence: data.papers[0].sources[0] }];
+  assert.deepEqual(validateCatalog(data), []);
+  assert.match(renderLiterature(data), /A core paper/);
+  assert.match(renderBibliography(data), /coreA2024/);
+  data.clusters[0].routes[0].paperIds.unshift('core-a');
+  assert.match(validateCatalog(data).join('\n'), /map-eligible papers/);
+});
+
+test('local reading routes require sourced, complete, chronological paper-node definitions', () => {
+  const valid = fixture();
+  valid.clusters[0].routes = [{ paperIds: ['core-a', 'core-b'], evidence: valid.papers[0].sources[0] }];
+  assert.deepEqual(validateCatalog(valid), []);
+  const cases = [
+    [data => { data.clusters[0].routes = {}; }, /routes.*nonempty array/],
+    [data => { data.clusters[0].routes[0].paperIds = []; }, /paperIds.*empty/],
+    [data => { data.clusters[0].routes[0].paperIds = ['missing']; }, /map-eligible papers/],
+    [data => { data.clusters[0].routes[0].paperIds = ['core-a']; }, /missing route paper core-b/],
+    [data => { data.clusters[0].routes[0].paperIds.push('core-a'); }, /repeat a paper/],
+    [data => { delete data.clusters[0].routes[0].evidence; }, /routes.*evidence/],
+    [data => { data.papers[0].timeline = { month: 12, basis: 'conference', source: data.papers[0].sources[0] }; data.papers[1].timeline = { ...data.papers[0].timeline, month: 1 }; }, /publication time/],
+    [data => { data.clusters.push({ ...data.clusters[0], id: 'other', routes: undefined }); data.papers[1].cluster = 'other'; }, /belong to the route direction/],
+  ];
+  for (const [mutate, expected] of cases) {
+    const data = structuredClone(valid);
+    mutate(data);
+    assert.match(validateCatalog(data).join('\n'), expected);
+  }
+});
+
 const corruptions = [
+  ['malformed map exclusion', data => { data.papers[0].mapExclusion = true; }, /mapExclusion.*editorial note/],
+  ['empty map exclusion note', data => { data.papers[0].mapExclusion = { note: '' }; }, /mapExclusion.note.*non-empty/],
   ['malformed dataset thumbnail', data => { data.datasets[0].thumbnail = null; }, /thumbnail.*local artwork/],
   ['remote thumbnail path', data => { data.datasets[0].thumbnail.src = 'https://example.org/image.png'; }, /thumbnail.src.*local/],
   ['thumbnail path traversal', data => { data.datasets[0].thumbnail.src = '/datasets/../image.png'; }, /thumbnail.src.*traversal/],
@@ -244,4 +338,104 @@ test('preprint fallback exports its own year and identifiers with an explicit re
   assert.match(renderCitations(data), /正式书目信息待补/);
   data.papers[0].citation.doi = '10.1234/published';
   assert.match(validateCatalog(data).join('\n'), /same preprint/);
+});
+
+test('accepted conference papers export a status note without inventing proceedings or DOI', () => {
+  const data = fixture();
+  data.papers[0].citation = { ...data.papers[0].citation, type: 'misc', version: 'accepted', publication: 'ACM Multimedia 2026', doi: undefined };
+  assert.deepEqual(validateCatalog(data), []);
+  const bib = renderBibEntry(data.papers[0]);
+  assert.match(bib, /note = \{Accepted to ACM Multimedia 2026\}/);
+  assert.doesNotMatch(bib, /booktitle|doi =/);
+  assert.match(renderCitations(data), /已录用记录/);
+  data.papers[0].citation.doi = '10.1145/1234567';
+  assert.match(validateCatalog(data).join('\n'), /accepted citations must/);
+});
+
+test('incomplete citations keep accepted papers in indexes without fabricating BibTeX', () => {
+  const data = fixture(), paper = data.papers[0];
+  paper.classification = { basis: 'title', evidence: paper.sources[0] };
+  paper.citation = { version: 'pending', title: paper.title, year: paper.year,
+    url: paper.links.paper, sources: paper.sources, verifiedAt: '2026-09-29', note: '作者待核验。' };
+  assert.deepEqual(validateCatalog(data), []);
+  assert.match(renderLiterature(data), /A core paper/);
+  assert.match(renderCatalog(data), /按题名暂定/);
+  assert.match(renderCitations(data), /cite-core-a/);
+  assert.match(renderCitations(data), /2 篇论文，1 条完整引用/);
+  assert.match(renderCitations(data), /已录用，书目待补/);
+  assert.equal(renderBibEntry(paper), '');
+  assert.doesNotMatch(renderBibliography(data), /A core paper|undefined/);
+  assert.match(renderBibliography(data), /coreB2024/);
+  paper.citation.authors = ['Unknown'];
+  assert.match(validateCatalog(data).join('\n'), /pending citations cannot/);
+  delete paper.classification.evidence;
+  assert.match(validateCatalog(data).join('\n'), /classification.evidence/);
+});
+
+test('branches reference method lines without forming cycles', () => {
+  const data = fixture();
+  data.papers[0].secondaryMethods = [{ cluster: 'branch', evidence: data.papers[0].sources[0] }];
+  data.clusters.push({ ...data.clusters[0], id: 'branch', branchOf: 'reasoning',
+    branchAt: { paperId: 'core-a', evidence: data.papers[0].sources[0] } });
+  assert.deepEqual(validateCatalog(data), []);
+  data.clusters[0].branchOf = 'branch';
+  assert.match(validateCatalog(data).join('\n'), /branch cycle/);
+  delete data.clusters[0].branchOf;
+  data.clusters[1].branchOf = 'missing';
+  assert.match(validateCatalog(data).join('\n'), /another method line/);
+});
+
+test('a branch can fork again at a later sourced paper', () => {
+  const data = fixture();
+  const evidence = data.papers[0].sources[0];
+  data.papers[0].timeline = { month: 5, basis: 'conference', source: evidence };
+  data.papers[1].timeline = { month: 11, basis: 'conference', source: evidence };
+  data.papers[0].secondaryMethods = [{ cluster: 'branch', evidence }];
+  data.papers[1].cluster = 'branch';
+  data.papers[1].secondaryMethods = [{ cluster: 'subbranch', evidence }];
+  data.clusters.push(
+    { ...data.clusters[0], id: 'branch', branchOf: 'reasoning', branchAt: { paperId: 'core-a', evidence } },
+    { ...data.clusters[0], id: 'subbranch', branchOf: 'branch', branchAt: { paperId: 'core-b', evidence } },
+  );
+  assert.deepEqual(validateCatalog(data), []);
+  data.clusters[1].branchOf = 'subbranch';
+  assert.match(validateCatalog(data).join('\n'), /branch cycle/);
+});
+
+test('a Y branch requires a sourced shared paper before the branch papers', () => {
+  const valid = fixture();
+  valid.papers[1].cluster = 'branch';
+  valid.papers[0].secondaryMethods = [{ cluster: 'branch', evidence: valid.papers[0].sources[0] }];
+  valid.clusters.push({ ...valid.clusters[0], id: 'branch', branchOf: 'reasoning',
+    branchAt: { paperId: 'core-a', evidence: valid.papers[0].sources[0] } });
+  for (const [mutate, expected] of [
+    [d => { delete d.clusters[1].branchAt; }, /real fork paper/],
+    [d => { d.clusters[1].branchAt.paperId = 'missing'; }, /real fork paper/],
+    [d => { delete d.clusters[1].branchAt.evidence; }, /branchAt.evidence/],
+    [d => { delete d.papers[0].secondaryMethods; }, /both method directions/],
+    [d => { d.papers[0].venue = 'NAACL Findings'; }, /eligible for the map/],
+    [d => { d.papers[1].cluster = 'branch'; d.papers[1].year = 2023; }, /precede its branch papers/],
+    [d => { delete d.clusters[1].branchOf; }, /requires a parent/],
+  ]) {
+    const data = structuredClone(valid); mutate(data);
+    assert.match(validateCatalog(data).join('\n'), expected);
+  }
+  assert.match(renderCatalog(valid), /分叉节点：\[Core A\]\(<#paper-core-a>\)/);
+});
+
+test('earlier supplementary papers do not constrain a map fork date', () => {
+  const data = fixture();
+  const evidence = data.papers[0].sources[0];
+  data.papers[0].secondaryMethods = [{ cluster: 'branch', evidence }];
+  data.clusters.push({ ...data.clusters[0], id: 'branch', branchOf: 'reasoning',
+    branchAt: { paperId: 'core-a', evidence } });
+  const earlier = data.papers[1];
+  earlier.cluster = 'branch';
+  earlier.year = earlier.citation.year = 2023;
+  for (const venue of ['NAACL Findings', 'CVPR Workshop', 'ECCVW']) {
+    earlier.venue = venue;
+    assert.deepEqual(validateCatalog(data), [], venue);
+  }
+  earlier.venue = 'CVPR';
+  assert.match(validateCatalog(data).join('\n'), /precede its branch papers/);
 });

@@ -17,6 +17,14 @@
 
 ## Papers Related to Video Anomaly Detection & Thinking/Reasoning
 
+### 2026
+
+#### ECVA / AnomShield: Exploring What Why and How
+[![IJCV](https://img.shields.io/badge/IJCV-2026-2C3E50)](https://doi.org/10.1007/s11263-026-02983-0)
+> Extends CUVA with the ECVA causation benchmark, AnomShield model and AnomEval evaluation. Published 9 August 2026, IJCV 134(8), Article 391. [Verified entry](../../literature/catalog.md#paper-ecva-anomshield).
+
+---
+
 ### 2025
 
 <!-- Add papers here -->
