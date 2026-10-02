@@ -1,30 +1,31 @@
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
-import type { Cluster, Paper, Relation } from "../types";
+import type { Cluster, Paper } from "../types";
 import {
   createPublicationLayout,
   labelWidth,
-  publicationLabel,
   stationName,
+  stationVenue,
+  stationVenueSize,
 } from "./publication-layout";
 import type { Point, Station } from "./publication-layout";
-import { paperMethods, publicationVenue } from "../publication";
+import { clusterName, contributionLabels, paperContribution, paperMethods } from "../publication";
+import type { ContributionKind } from "../publication";
 import { metroPath } from "./metro-path";
+import { createResearchBackdrop } from "./research-regions";
+import { createMapLegend, LEGEND_ROUTE_TOP, LEGEND_ROUTE_STEP, legendDivider } from "./map-legend";
+import { createMapRouteLabels, ROUTE_LABEL_SIZE } from "./map-route-labels";
 import "./research-map.css";
 
 interface Props {
   papers: Paper[];
   allPapers?: Paper[];
   clusters: Cluster[];
-  relations?: Relation[];
   selectedId: string | null;
   onSelect: (id: string) => void;
-  onCluster: (id: string) => void;
-  layout: "map" | "timeline";
   activeCluster: string;
   onReset: () => void;
 }
-type Box = Point & { width: number; height: number };
 const INK = "#243b3b";
 const PAPER = "#fffcf5";
 const clamp = (n: number, min: number, max: number) =>
@@ -32,16 +33,37 @@ const clamp = (n: number, min: number, max: number) =>
 const fitLabel = (text: string, size: number, available: number) =>
   labelWidth(text, size) > available ? available : undefined;
 
-function StationMarker({ station, colors, active = false, muted = false }: {
-  station: Station; colors: Map<string, string>; active?: boolean; muted?: boolean;
+function StationShape({ kind, x = 0, y = 0, radius, fill, stroke, strokeWidth, className }: {
+  kind: ContributionKind; x?: number; y?: number; radius: number;
+  fill: string; stroke?: string; strokeWidth?: number; className?: string;
+}) {
+  return kind === "method"
+    ? <circle className={className} cx={x} cy={y} r={radius} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />
+    : <rect className={className} x={x - radius} y={y - radius} width={radius * 2} height={radius * 2}
+      rx={radius * .16} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />;
+}
+
+function StationMarker({ station, colors, kind, active = false, muted = false }: {
+  station: Station; colors: Map<string, string>; kind: ContributionKind; active?: boolean; muted?: boolean;
 }) {
   const color = colors.get(station.lineId) || INK;
   const first = station.platforms[0], last = station.platforms.at(-1)!;
-  const interchange = station.platforms.length > 1;
+  const interchange = station.platforms.length > 1 && !station.fork && !station.continuation;
   const connector = `M${station.x} ${first.y}V${last.y}`;
   return (
-    <g className={interchange ? "metro-interchange" : undefined}>
-      {interchange ? (
+    <g className={station.fork ? "metro-fork" : interchange ? "metro-interchange" : undefined}>
+      {station.fork ? (
+        <g transform={`translate(${station.x} ${station.y})`}>
+          {active && <circle r="18" fill={color} opacity=".16" />}
+          <StationShape kind={kind} radius={muted ? 6 : 11} fill={PAPER} stroke={muted ? "#b1b9ae" : INK} strokeWidth={muted ? 2 : 3} />
+          {!muted && <>
+            <path d="M-5 0H5" stroke={colors.get(station.fork.parentId)} strokeWidth="2.5" strokeLinecap="round" />
+            <path d={`M0 0l5 ${[...colors.keys()].indexOf(station.fork.branchId) < [...colors.keys()].indexOf(station.fork.parentId) ? -5 : 5}`}
+              stroke={colors.get(station.fork.branchId)} strokeWidth="2.5" strokeLinecap="round" />
+            {kind === "hybrid" && <circle r="2.5" fill={INK} />}
+          </>}
+        </g>
+      ) : interchange ? (
         <>
           {active && <path d={connector} stroke={color} strokeWidth="36" strokeLinecap="round" opacity=".14" />}
           <path d={connector} stroke={PAPER} strokeWidth="22" strokeLinecap="round" />
@@ -49,23 +71,27 @@ function StationMarker({ station, colors, active = false, muted = false }: {
           <path d={connector} stroke={PAPER} strokeWidth="3" strokeLinecap="round" />
           {station.platforms.map((platform) => (
             <g key={platform.lineId}>
-              <circle cx={platform.x} cy={platform.y} r={muted ? 5 : 8}
+              <StationShape kind={kind} x={platform.x} y={platform.y} radius={muted ? 5 : 8}
                 fill={PAPER} stroke={muted ? "#b1b9ae" : INK} strokeWidth={muted ? 2 : 2.8} />
-              {!muted && <circle cx={platform.x} cy={platform.y} r={active ? 3.6 : 3}
+              {!muted && kind !== "resource" && <circle cx={platform.x} cy={platform.y} r={active ? 3.6 : 3}
                 fill={colors.get(platform.lineId) || INK} />}
             </g>
           ))}
         </>
       ) : muted ? (
-        <circle cx={station.x} cy={station.y} r="3.5" fill={PAPER} stroke="#b1b9ae" strokeWidth="1.5" />
+        <g>
+          <StationShape kind={kind} x={station.x} y={station.y} radius={3.5} fill={PAPER} stroke="#b1b9ae" strokeWidth={1.5} />
+          {kind === "hybrid" && <circle cx={station.x} cy={station.y} r="1.3" fill="#b1b9ae" />}
+        </g>
       ) : (
         <>
           <circle className="metro-station-halo" cx={station.x} cy={station.y}
             r={active ? 16 : 11} fill={color} fillOpacity={active ? .16 : 0} />
-          <circle cx={station.x} cy={station.y} r={active ? 12.5 : 11} fill={PAPER} />
-          <circle className="metro-station-dot" cx={station.x} cy={station.y}
-            r={active ? 9.5 : 8} fill={active ? color : PAPER} stroke={color} strokeWidth="3.2" />
-          <circle cx={station.x} cy={station.y} r={active ? 3 : 2.3} fill={active ? PAPER : color} />
+          <StationShape kind={kind} x={station.x} y={station.y} radius={active ? 12.5 : 11} fill={PAPER} />
+          <StationShape kind={kind} className="metro-station-dot" x={station.x} y={station.y}
+            radius={active ? 9.5 : 8} fill={active && kind !== "resource" ? color : PAPER} stroke={color} strokeWidth={3.2} />
+          {kind !== "resource" && <circle cx={station.x} cy={station.y}
+            r={kind === "hybrid" ? 3.2 : active ? 3 : 2.3} fill={active ? PAPER : color} />}
         </>
       )}
       {!muted && <rect x={station.x - 18} y={first.y - 18} width="36"
@@ -80,7 +106,6 @@ export default function ResearchMap({
   clusters,
   selectedId,
   onSelect,
-  layout,
   activeCluster,
   onReset,
 }: Props) {
@@ -100,71 +125,41 @@ export default function ResearchMap({
   const [exportFailed, setExportFailed] = useState(false);
   const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const patternId = `publication-grid-${id}`;
+  const regionsClipId = `research-regions-${id}`;
   const sourcePapers = allPapers || papers;
   const visibleIds = useMemo(() => new Set(papers.map((p) => p.id)), [papers]);
   const network = useMemo(
-    () => createPublicationLayout(sourcePapers),
-    [sourcePapers],
+    () => createPublicationLayout(sourcePapers, clusters),
+    [sourcePapers, clusters],
   );
-  const { width, height } = network;
+  const { width } = network;
+  const routeLabels = useMemo(() => createMapRouteLabels(network), [network]);
+  const legend = useMemo(() => createMapLegend(network, routeLabels), [network, routeLabels]);
+  const height = Math.max(network.plotBounds.y + network.plotBounds.height + 28, legend.y + legend.height + 24);
+  const backdrop = useMemo(() => createResearchBackdrop(network, [legend, ...routeLabels]), [network, legend, routeLabels]);
   const lineColors = new Map(network.lines.map((line) => [line.id, line.color]));
   const focusedPaper = sourcePapers.find((paper) => paper.id === (hoveredId || selectedId));
   const focusedLines = new Set(focusedPaper ? paperMethods(focusedPaper) :
     activeCluster === "all" ? [] : [activeCluster]);
-  const timeline = useMemo(() => {
-    const years = [...new Set(sourcePapers.map((p) => p.year))].sort(
-      (a, b) => a - b,
-    );
-    const units = years.map((year) =>
-      Math.max(
-        1,
-        Math.ceil(sourcePapers.filter((p) => p.year === year).length / 10),
-      ),
-    );
-    const unitWidth =
-      (width - 48 - (years.length - 1) * 16) /
-      Math.max(
-        1,
-        units.reduce((sum, n) => sum + n, 0),
-      );
-    const nodes = new Map<string, Box>();
-    let x = 24;
-    const columns = years.map((year, index) => {
-      const column = { year, x, width: unitWidth * units[index] };
-      const members = papers
-        .filter((p) => p.year === year)
-        .sort(
-          (a, b) =>
-            a.venue.localeCompare(b.venue) ||
-            a.shortTitle.localeCompare(b.shortTitle),
-        );
-      members.forEach((paper, i) =>
-        nodes.set(paper.id, {
-          x: x + 12 + (i % units[index]) * (column.width / units[index]),
-          y: 100 + Math.floor(i / units[index]) * 61,
-          width: column.width / units[index] - 24,
-          height: 49,
-        }),
-      );
-      x += column.width + 16;
-      return column;
-    });
-    return { nodes, columns };
-  }, [sourcePapers, papers, width]);
+  for (const method of [...focusedLines]) {
+    const ancestors = new Set([method]);
+    let parent = clusters.find(c => c.id === method)?.branchOf;
+    while (parent && !ancestors.has(parent)) {
+      ancestors.add(parent);
+      focusedLines.add(parent);
+      parent = clusters.find(c => c.id === parent)?.branchOf;
+    }
+  }
   const left = network.years[0]?.x ?? 190;
   const plotTop = network.plotBounds.y;
   const plotBottom = plotTop + network.plotBounds.height;
 
-  useEffect(() => {
-    setPan({ x: 0, y: 0 });
-    setZoom(1);
-  }, [layout]);
   const resetView = () => {
     setPan({ x: 0, y: 0 });
     setZoom(1);
   };
-  const changeZoom = (amount: number) =>
-    setZoom((value) => clamp(Number((value + amount).toFixed(2)), 0.7, 2.5));
+  const changeZoom = (factor: number) =>
+    setZoom((value) => clamp(Number((value * factor).toFixed(2)), 0.7, 6));
   const onPointerDown = (event: ReactPointerEvent<SVGSVGElement>) => {
     if (event.button !== 0) return;
     drag.current = {
@@ -213,7 +208,7 @@ export default function ResearchMap({
       );
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = `vau-publication-${layout}.svg`;
+      anchor.download = "vau-research-route-map.svg";
       anchor.click();
       window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     } catch {
@@ -224,19 +219,13 @@ export default function ResearchMap({
   return (
     <section
       className={`research-map metro-map publication-map${dragging ? " is-dragging" : ""}`}
-      aria-label={
-        layout === "map" ? "时间与方法拓扑研究线路图" : "论文发表时间排列"
-      }
+      aria-label="Research route map by time and method"
     >
       <svg
         ref={svgRef}
         className="research-map-canvas"
         viewBox={`0 0 ${width} ${height}`}
-        aria-label={
-          layout === "map"
-            ? `${papers.length}篇论文，横轴年份与季度，站点高度依方法拓扑排布，会议标于论文名下，多方法论文为换乘站`
-            : `${papers.length}篇论文，按发表年份排列`
-        }
+        aria-label={`${papers.length} papers by year and quarter. Circles: methods. Squares: datasets or benchmarks. Squares with dots: combined contributions. Y junctions: forks. Linked platforms: multiple research directions.`}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
@@ -246,11 +235,12 @@ export default function ResearchMap({
             '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif',
         }}
       >
-        <title>
-          视频异常理解 ·{" "}
-          {layout === "map" ? "时间 × 方法 · 拓扑线路" : "发表时间线"}
-        </title>
+        <title>Video Anomaly Understanding · Research Route Map</title>
+        <desc>Research directions are named beside their colored routes. Circles mark methods, squares mark datasets or benchmarks, and squares with dots mark combined contributions. {legend.embedded ? "The station key occupies clear space on the left." : "The station key appears below the map."}</desc>
         <defs>
+          <clipPath id={regionsClipId}>
+            <rect x={network.plotBounds.x} y={plotTop} width={network.plotBounds.width} height={network.plotBounds.height} />
+          </clipPath>
           <pattern
             id={patternId}
             width="20"
@@ -265,8 +255,19 @@ export default function ResearchMap({
           data-map-content="true"
           transform={`translate(${pan.x + width / 2} ${pan.y + height / 2}) scale(${zoom}) translate(${-width / 2} ${-height / 2})`}
         >
-          {layout === "map" ? (
-            <>
+          <>
+              <g className="research-regions" pointerEvents="none" clipPath={`url(#${regionsClipId})`}>
+                <g data-terrain="mountains" aria-hidden="true" fill="none" stroke="#c0c7b8" strokeWidth="1.1" opacity=".72"
+                  strokeLinecap="round" strokeLinejoin="round">
+                  {backdrop.mountains.map((point, index) => (
+                    <g key={index} transform={`translate(${point.x} ${point.y}) scale(${point.width / 172} ${point.height / 52})`}>
+                        <path d="M0 44l25-24 19 15L74 2l29 35 22-19 41 29" />
+                        <path d="M57 21l10 3 7-8 8 7 8-2M74 16l-5 28M115 27l8 5 9-5" />
+                        <path d="M15 50q20-8 39-1m42 1q24-5 53 1" />
+                    </g>
+                  ))}
+                </g>
+              </g>
               <rect
                 x={left}
                 y={plotTop}
@@ -274,16 +275,8 @@ export default function ResearchMap({
                 height={plotBottom - plotTop}
                 fill={`url(#${patternId})`}
               />
-              {network.years.map((year, index) => (
+              {network.years.map((year) => (
                 <g key={year.year}>
-                  <rect
-                    x={year.x}
-                    y={plotTop}
-                    width={year.width}
-                    height={plotBottom - plotTop}
-                    fill={index % 2 ? "#e9eee7" : PAPER}
-                    fillOpacity={index % 2 ? 0.2 : 0.1}
-                  />
                   <path
                     d={`M${year.x} ${plotTop - 10}V${plotBottom}`}
                     stroke="#cad3c8"
@@ -325,7 +318,7 @@ export default function ResearchMap({
                         fontSize="14"
                         fontWeight="750"
                       >
-                        {quarter.quarter === null ? "待定" : `Q${quarter.quarter}`}
+                        {quarter.quarter === null ? "TBD" : `Q${quarter.quarter}`}
                       </text>
                     </g>
                   ))}
@@ -333,24 +326,26 @@ export default function ResearchMap({
               ))}
               {network.lines.map((line) => {
                 const focus = !focusedLines.size || focusedLines.has(line.id);
-                const path = metroPath(
-                  line.track,
-                  [...network.stations.values()].flatMap(
+                const path = line.tracks.map(track => metroPath(
+                  track,
+                  [...network.junctions, ...[...network.stations.values()].flatMap(
                     (station) => station.platforms.filter((platform) => platform.lineId === line.id),
-                  ),
+                  )],
                   [...network.stations.values()].map((station) => station.label),
-                );
+                )).join(" ");
                 return (
                   <g
                     key={line.id}
                     className="publication-route"
+                    data-line={line.id}
+                    data-branch-of={line.branchOf}
                     opacity={focus ? 0.95 : 0.17}
                   >
                     <path
                       d={path}
                       fill="none"
                       stroke={PAPER}
-                      strokeWidth={focus && focusedLines.size ? 11 : 9}
+                      strokeWidth={focus && focusedLines.size ? 16 : 14}
                       strokeLinejoin="round"
                       strokeLinecap="round"
                     />
@@ -371,28 +366,37 @@ export default function ResearchMap({
                   const point = network.stations.get(paper.id);
                   return point && (
                     <g key={paper.id} pointerEvents="none">
-                      <StationMarker station={point} colors={lineColors} muted />
+                      <StationMarker station={point} colors={lineColors} kind={paperContribution(paper)} muted />
                     </g>
                   );
                 })}
-              {network.lines.map((line, index) => {
-                const x = 26 + index * ((width - 52) / network.lines.length);
+              {routeLabels.map(label => <text key={label.lineId} data-route-label={label.lineId}
+                x={label.x} y={label.y + 18} fill={label.color} fontSize={ROUTE_LABEL_SIZE} fontWeight="600"
+                opacity={!focusedLines.size || focusedLines.has(label.lineId) ? 1 : .22} pointerEvents="none">
+                {label.text}
+              </text>)}
+              <g data-map-legend="true" data-embedded={legend.embedded} transform={`translate(${legend.x} ${legend.y})`} pointerEvents="none">
+                <rect width={legend.width} height={legend.height} rx="8" fill={PAPER} />
+                {!!legend.fallbackLineIds.length && <text x="16" y="20" fill="#65726a" fontSize="14" fontWeight="750" letterSpacing="1.3">RESEARCH DIRECTIONS</text>}
+              {network.lines.filter(line => legend.fallbackLineIds.includes(line.id)).map((line, index) => {
+                const x = 16;
+                const y = LEGEND_ROUTE_TOP + index * LEGEND_ROUTE_STEP;
                 return (
-                  <g key={line.id} transform={`translate(${x} ${height - 28})`}>
+                  <g key={line.id} transform={`translate(${x} ${y})`}>
                     <path
-                      d="M0 0h30"
+                      d={line.branchOf ? "M0 5h9l10 -10h11" : "M0 0h30"}
                       stroke={line.color}
                       strokeWidth="4"
                       strokeLinecap="round"
                     />
-                    <circle
+                    {!line.branchOf && <circle
                       cx="15"
                       r="6.5"
                       fill={PAPER}
                       stroke={line.color}
                       strokeWidth="2.8"
-                    />
-                    <circle cx="15" r="2" fill={line.color} />
+                    />}
+                    {!line.branchOf && <circle cx="15" r="2" fill={line.color} />}
                     <text
                       x="41"
                       y="5"
@@ -400,85 +404,61 @@ export default function ResearchMap({
                       fontSize="18"
                       fontWeight="700"
                     >
-                      {clusters.find((cluster) => cluster.id === line.id)
-                        ?.name || line.label}
+                      {line.label}{line.branchOf && <tspan fontSize="14" fill="#65726a"> · Branch</tspan>}
                     </text>
                   </g>
                 );
               })}
-            </>
-          ) : (
-            timeline.columns.map((column) => (
-              <g key={column.year}>
-                <rect
-                  x={column.x}
-                  y="30"
-                  width={column.width}
-                  height={height - 68}
-                  rx="7"
-                  fill={PAPER}
-                  stroke="#d7dcd0"
-                />
-                <text
-                  x={column.x + 14}
-                  y="72"
-                  fill={INK}
-                  fontSize="30"
-                  fontWeight="850"
-                >
-                  {column.year}
-                </text>
-                <text
-                  x={column.x + column.width - 14}
-                  y="69"
-                  textAnchor="end"
-                  fill="#52605a"
-                  fontSize="13"
-                >
-                  {papers.filter((p) => p.year === column.year).length} 篇
-                </text>
-                <path
-                  d={`M${column.x + 14} 85h${column.width - 28}`}
-                  stroke={INK}
-                  strokeWidth="2"
-                />
+              <g data-contribution-legend="true" transform={`translate(16 ${legendDivider(legend.fallbackLineIds.length)})`}>
+                {!!legend.fallbackLineIds.length && <path d={`M0 0H${legend.width - 32}`} stroke="#d9dfd3" strokeWidth="1" />}
+                <text x="0" y="24" fill="#65726a" fontSize="14" fontWeight="750" letterSpacing="1.3">STATION TYPES</text>
+                {(["method", "resource", "hybrid"] as const).map((kind, index) => (
+                  <g key={kind} transform={`translate(${index === 1 ? 300 : 8} ${index === 2 ? 86 : 54})`}>
+                    <StationShape kind={kind} radius={8} fill={PAPER} stroke={INK} strokeWidth={2.6} />
+                    {kind !== "resource" && <circle r={kind === "hybrid" ? 3.2 : 2.3} fill={INK} />}
+                    <text x="20" y="5" fill={INK} fontSize="16" fontWeight="650">{contributionLabels[kind]}</text>
+                  </g>
+                ))}
+                <g transform="translate(300 86)">
+                  <path d="M0 -7V7" stroke={INK} strokeWidth="5" strokeLinecap="round" />
+                  <path d="M0 -7V7" stroke={PAPER} strokeWidth="2" strokeLinecap="round" />
+                  {[-7, 7].map(y => <g key={y}>
+                    <circle cy={y} r="5" fill={PAPER} stroke={INK} strokeWidth="2" />
+                    <circle cy={y} r="1.7" fill={INK} />
+                  </g>)}
+                  <text x="20" y="5" fill={INK} fontSize="16" fontWeight="650">Interchange</text>
+                </g>
               </g>
-            ))
-          )}
+              </g>
+            </>
           {papers.map((paper) => {
-            const station =
-              layout === "map" ? network.stations.get(paper.id) : undefined;
-            const box = station ? station.label : timeline.nodes.get(paper.id);
-            if (!box) return null;
+            const station = network.stations.get(paper.id);
+            if (!station) return null;
+            const box = station.label;
             const selected = selectedId === paper.id;
+            const publicationDetails = `${paper.title}, ${paper.venue}, ${paper.year}`;
             const active = selected || hoveredId === paper.id;
             const line = network.lines.find(
               (item) => item.id === paper.cluster,
             );
             const color = line?.color || INK;
-            const label = publicationLabel(paper);
-            const fontSize = station ? 20 : 16;
-            const interchange = (station?.lineIds.length ?? 0) > 1;
-            const name = station ? stationName(paper) : paper.shortTitle;
-            const tx = station ? box.x + box.width / 2 : box.x + 13;
-            const available = box.width - (station ? 10 : 26);
-            const labelY = station ? box.y + 21 : box.y + 18;
-            const leader = station
-              ? box.y + box.height < station.y ? station.platforms[0] : station.platforms.at(-1)!
-              : null;
-            const anchor = station
-              ? {
-                  x: clamp(station.x, box.x, box.x + box.width),
-                  y: clamp(station.y, box.y, box.y + box.height),
-                }
-              : null;
+            const fontSize = 20;
+            const interchange = station.lineIds.length > 1 && !station.fork && !station.continuation;
+            const name = stationName(paper);
+            const kind = paperContribution(paper);
+            const tx = box.x + box.width / 2;
+            const available = box.width - 10;
+            const labelY = box.y + 21;
             return (
               <g
                 key={paper.id}
                 role="button"
                 tabIndex={0}
-                aria-label={`${paper.title}，${paper.venue}，${paper.year}，${paperMethods(paper).map((id) => clusters.find((cluster) => cluster.id === id)?.name || id).join("、")}${interchange ? "，换乘站" : ""}，查看详情`}
+                aria-label={`${publicationDetails}, ${contributionLabels[kind]}, ${paperMethods(paper).map((id) => { const cluster = clusters.find((item) => item.id === id); return cluster ? clusterName(cluster) : id; }).join(", ")}${station.fork ? ", fork" : interchange ? ", interchange" : ""}. View paper details.`}
                 aria-pressed={selected}
+                data-paper={paper.id}
+                data-contribution={kind}
+                data-fork={station.fork?.branchId}
                 className={`metro-station${selected ? " is-selected" : ""}`}
                 onMouseEnter={() => setHoveredId(paper.id)}
                 onMouseLeave={() => setHoveredId(null)}
@@ -494,14 +474,7 @@ export default function ResearchMap({
                   }
                 }}
               >
-                <title>{`${paper.title} — ${paper.venue}, ${paper.year}${interchange ? " · 换乘站" : ""}`}</title>
-                {station && leader && anchor && (
-                  <path
-                    d={`M${leader.x} ${leader.y}L${anchor.x} ${anchor.y}`}
-                    stroke={interchange ? INK : color}
-                    strokeWidth="1.4"
-                  />
-                )}
+                <title>{`${publicationDetails} — ${contributionLabels[kind]}${station.fork ? " · Fork" : interchange ? " · Interchange" : ""}`}</title>
                 <rect
                   className="metro-station-label"
                   x={box.x}
@@ -513,22 +486,11 @@ export default function ResearchMap({
                   stroke={selected ? color : PAPER}
                   strokeWidth={selected ? 1.5 : 3}
                 />
-                {station ? (
-                  <StationMarker station={station} colors={lineColors} active={active} />
-                ) : (
-                  <rect
-                    x={box.x}
-                    y={box.y + 7}
-                    width="4"
-                    height={box.height - 14}
-                    rx="2"
-                    fill={color}
-                  />
-                )}
+                <StationMarker station={station} colors={lineColors} kind={kind} active={active} />
                 <text
                   x={tx}
                   y={labelY}
-                  textAnchor={station ? "middle" : "start"}
+                  textAnchor="middle"
                   fill={INK}
                   fontSize={fontSize}
                   fontWeight="750"
@@ -539,15 +501,15 @@ export default function ResearchMap({
                 </text>
                 <text
                     x={tx}
-                    y={box.y + (station ? 41 : 35)}
-                    textAnchor={station ? "middle" : "start"}
+                    y={box.y + 41}
+                    textAnchor="middle"
                     fill="#52605a"
-                    fontSize={station ? 14 : 12.5}
+                    fontSize={stationVenueSize(!!station.fork)}
                     fontWeight="650"
-                    textLength={fitLabel(station ? publicationVenue(paper.venue) : label, station ? 14 : 12.5, available)}
+                    textLength={fitLabel(stationVenue(paper, !!station.fork), stationVenueSize(!!station.fork), available)}
                     lengthAdjust="spacingAndGlyphs"
                   >
-                    {station ? publicationVenue(paper.venue) : label}
+                    {stationVenue(paper, !!station.fork)}
                   </text>
               </g>
             );
@@ -556,20 +518,20 @@ export default function ResearchMap({
       </svg>
       {papers.length === 0 && (
         <div className="metro-empty">
-          <strong>暂无匹配论文</strong>
+          <strong>No matching papers</strong>
           <button type="button" onClick={onReset}>
-            清除筛选 ↗
+            Clear filters ↗
           </button>
         </div>
       )}
       <div className="metro-map-bottom">
-        <span className="metro-map-count">{papers.length} 篇论文</span>
-        <div className="metro-controls" aria-label="地图视图控制">
+        <span className="metro-map-count">{papers.length} papers</span>
+        <div className="metro-controls" aria-label="Map controls">
           <button
             type="button"
-            onClick={() => changeZoom(-0.2)}
+            onClick={() => changeZoom(1 / 1.25)}
             disabled={zoom <= 0.7}
-            aria-label="缩小"
+            aria-label="Zoom out"
           >
             −
           </button>
@@ -577,16 +539,16 @@ export default function ResearchMap({
             type="button"
             className="metro-zoom"
             onClick={resetView}
-            aria-label="复位到完整地图"
-            title="复位视角"
+            aria-label="Reset to the full map"
+            title="Reset view"
           >
             {Math.round(zoom * 100)}%
           </button>
           <button
             type="button"
-            onClick={() => changeZoom(0.2)}
-            disabled={zoom >= 2.5}
-            aria-label="放大"
+            onClick={() => changeZoom(1.25)}
+            disabled={zoom >= 6}
+            aria-label="Zoom in"
           >
             +
           </button>
@@ -594,9 +556,9 @@ export default function ResearchMap({
             type="button"
             className="metro-export"
             onClick={exportSvg}
-            title="导出完整地图 SVG"
+            title="Export the full map as SVG"
           >
-            {exportFailed ? "重试 SVG" : "SVG ↗"}
+            {exportFailed ? "Retry SVG" : "SVG ↗"}
           </button>
         </div>
       </div>

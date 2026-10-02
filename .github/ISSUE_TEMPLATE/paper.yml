@@ -1,0 +1,29 @@
+name: Recommend a paper / 推荐论文
+description: Suggest directly relevant video anomaly understanding research.
+title: "[Paper] "
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Paper title / 论文题名
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Primary sources and publication status / 一手来源与发表状态
+      description: Link the paper and official proceedings or author page. Separate confirmed publication from submission.
+    validations:
+      required: true
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Relevance and contribution / 收录理由与创新
+      description: Explain how it supports video anomaly explanation, reasoning, localization or evaluation.
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Related versions and resources / 相关版本与资源
+      description: Mention existing entries, extensions, code or data. Distinguish released resources from placeholders.
