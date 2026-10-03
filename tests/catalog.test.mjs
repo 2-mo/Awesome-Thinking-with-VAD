@@ -60,11 +60,14 @@ test('paper cards retain original badges, summaries, image sources and stable an
   assert.match(markdown, /img.shields.io\/github\/stars\/example\/core/);
   assert.match(markdown, /> Grounded anomaly interpretation/);
   assert.match(markdown, /!\[Original framework\]\(assets\/papers\/core-a.png\)/);
-  assert.match(markdown, /https:\/\/example.org\/figure.png/);
+  assert.match(markdown, /assets\/papers\/README.md#figure-core-a/);
   assert.match(markdown, /Doe et al/);
   assert.match(markdown, /已配原论文图片 1 \/ 2/);
   assert.match(markdown, /配图待补/);
   assert.match(renderFigureSources(data), /core-a.png/);
+  assert.match(renderFigureSources(data), /id="figure-core-a"/);
+  assert.match(renderFigureSources(data), /https:\/\/example.org\/figure.png/);
+  assert.match(renderFigureSources(data), /https:\/\/example.org\/paper/);
   assert.match(renderFigureSources(data), /待补原图/);
 });
 
@@ -262,7 +265,7 @@ test('additional method memberships preserve their classification evidence in th
 
 // These guard the new source contract: missing facts must not become negative claims,
 // and registering a benchmark must not depend on having publication artwork.
-test('text-only datasets remain valid and render with their protocol and sources', () => {
+test('dataset cards support optional artwork and retain protocol and source access', () => {
   const data = fixture();
   delete data.datasets[0].thumbnail;
   assert.deepEqual(validateCatalog(data), []);
@@ -270,6 +273,9 @@ test('text-only datasets remain valid and render with their protocol and sources
   assert.match(renderBenchmarks(data), /dataset-dataset-a/);
   assert.match(renderBenchmarks(data), /catalog.md#paper-core-a/);
   assert.doesNotMatch(renderCatalog(data), /图片：/);
+  data.datasets[0].thumbnail = { src: 'assets/papers/core-a.png', alt: 'Dataset annotation example', sourceUrl: 'https://example.org/figure.png', credit: 'Dataset authors' };
+  assert.deepEqual(validateCatalog(data), []);
+  assert.match(renderBenchmarks(data), /!\[Dataset annotation example\]\(\.\.\/assets\/papers\/core-a.png\)/);
 });
 
 test('comparison distinguishes unverified fields from evidenced claims', () => {
@@ -438,4 +444,64 @@ test('earlier supplementary papers do not constrain a map fork date', () => {
   }
   earlier.venue = 'CVPR';
   assert.match(validateCatalog(data).join('\n'), /precede its branch papers/);
+});
+
+test('dataset cards do not imply downloads when availability is unknown', () => {
+  const data = fixture();
+  assert.deepEqual(validateCatalog(data), []);
+  const markdown = renderBenchmarks(data);
+  assert.ok(markdown.includes(`Data-${encodeURIComponent('项目入口')}`));
+  assert.ok(!markdown.includes(`Data-${encodeURIComponent('下载')}`));
+  assert.match(markdown, /id="understanding-data"/);
+  assert.doesNotMatch(markdown, /id="detection-data"|id="retrieval-data"/);
+});
+
+test('derived datasets link to base records across groups without duplicating details', () => {
+  const data = fixture();
+  const source = data.datasets[0].sources[0];
+  const base = data.datasets[0];
+  base.tasks = ['异常检测'];
+  base.composition = { kind: 'original', note: 'Collected source videos.', evidence: source };
+  base.availability = { status: 'available', note: 'Official files released.', evidence: source, verifiedAt: '2026-10-03' };
+  data.datasets.push({ ...structuredClone(base), id: 'dataset-derived', name: 'Derived A',
+    tasks: ['异常推理'], usageNote: 'Only annotations released.',
+    composition: { kind: 'annotation', note: 'Adds reasoning annotations.', evidence: source, baseDatasetIds: [base.id] },
+    availability: { status: 'partial', note: 'Only annotations released.', evidence: source, verifiedAt: '2026-10-02' } });
+  assert.deepEqual(validateCatalog(data), []);
+  const markdown = renderBenchmarks(data);
+  assert.match(markdown, /id="detection-data"/);
+  assert.match(markdown, /id="understanding-data"/);
+  assert.match(markdown, /基础数据：\[Dataset A\]\(<#dataset-dataset-a>\)/);
+  assert.match(markdown, /Only annotations released/);
+  assert.ok(markdown.includes(`Data-${encodeURIComponent('部分开放')}`));
+  assert.match(markdown, /\[1\]\(<https:\/\/example.org/);
+  for (const id of ['dataset-a', 'dataset-derived']) assert.equal(markdown.split(`id="dataset-${id}"`).length - 1, 1);
+  for (const kind of ['resplit', 'mixed']) {
+    data.datasets[1].composition.kind = kind;
+    data.datasets[1].availability.status = 'pending';
+    assert.deepEqual(validateCatalog(data), []);
+    assert.ok(renderBenchmarks(data).includes(`Data-${encodeURIComponent('待发布')}`));
+  }
+});
+
+for (const [name, mutate, expected] of [
+  ['null composition', d => { d.composition = null; }, /composition:.*kind/],
+  ['unknown kind', d => { d.composition.kind = 'new'; }, /composition.kind/],
+  ['empty composition note', d => { d.composition.note = ''; }, /composition.note/],
+  ['missing composition evidence', d => { delete d.composition.evidence; }, /composition.evidence/],
+  ['unknown base dataset', d => { d.composition.baseDatasetIds = ['missing']; }, /baseDatasetIds: unknown dataset/],
+  ['self base dataset', d => { d.composition.baseDatasetIds = [d.id]; }, /baseDatasetIds: must not reference itself/],
+  ['non-array base datasets', d => { d.composition.baseDatasetIds = 'dataset-a'; }, /baseDatasetIds: must be an array/],
+  ['null availability', d => { d.availability = null; }, /availability:.*status/],
+  ['unknown availability', d => { d.availability.status = 'open'; }, /availability.status/],
+  ['empty availability note', d => { d.availability.note = ''; }, /availability.note/],
+  ['invalid availability source', d => { d.availability.evidence = { url: 'file:///data', note: 'Source' }; }, /availability.evidence.url/],
+  ['invalid availability date', d => { d.availability.verifiedAt = '2026-02-30'; }, /availability.verifiedAt/],
+]) test(`rejects dataset ${name}`, () => {
+  const data = fixture();
+  const d = data.datasets[0];
+  d.composition = { kind: 'mixed', note: 'Combined sources.', evidence: d.sources[0] };
+  d.availability = { status: 'unverified', note: 'Access not established.', evidence: d.sources[0], verifiedAt: '2026-10-03' };
+  mutate(d);
+  assert.match(validateCatalog(data).join('\n'), expected);
 });

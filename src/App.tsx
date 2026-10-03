@@ -19,6 +19,8 @@ const comparisonLabels = {
   outputs: "输出／评测对象", training: "训练与适配", inference: "运行设置",
   futureFrames: "未来帧访问", evaluation: "验证方式",
 };
+const datasetKindLabels = { original: "原始视频", annotation: "派生标注", resplit: "重新划分", mixed: "混合来源" };
+const datasetAvailabilityLabels = { available: "已开放", partial: "部分开放", pending: "待发布", unverified: "待核验" };
 
 export default function App() {
   const [query, setQuery] = useState(initial.get("q") || "");
@@ -159,7 +161,12 @@ function PaperEvidence({ paper }: { paper: Paper }) {
       })}</dl>
     </details>}
     {!!datasets.length && <details><summary>数据与评测资源</summary>
-      {datasets.map(d => <div key={d.id}><h4><a href={d.links.website} target="_blank" rel="noreferrer">{d.name} ↗</a></h4><p>{d.protocol}</p></div>)}
+      {datasets.map(d => <div key={d.id}>
+        <h4><a href={d.links.website} target="_blank" rel="noreferrer">{d.name} ↗</a></h4>
+        {d.composition && <p>数据性质：{datasetKindLabels[d.composition.kind]} · {d.composition.note}</p>}
+        {d.availability && <p>开放状态：<a href={d.availability.evidence.url} target="_blank" rel="noreferrer">{datasetAvailabilityLabels[d.availability.status]}</a> · {d.availability.note}</p>}
+        <p>{d.protocol}</p>
+      </div>)}
     </details>}
     <details><summary>阅读关注与来源</summary>
       <p>{paper.limitation}</p>

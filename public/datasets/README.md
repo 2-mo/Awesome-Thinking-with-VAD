@@ -1,6 +1,6 @@
 # Dataset reference image sources
 
-Original figures or samples from the cited author projects and papers. Local copies preserve the earlier gallery's reference material and attribution; the current website focuses on the research route map. Rights and licenses remain with their original sources. No scientific samples were generated or redrawn.
+Original figures or samples from the cited author projects and papers. Local copies preserve the earlier gallery's reference material and attribution; suitable dataset examples appear in the [dataset cards](../../literature/benchmarks.md). Rights and licenses remain with their original sources. No scientific samples were generated or redrawn.
 
 | Local file | Dataset · publication | Original source | Credit |
 | --- | --- | --- | --- |
@@ -14,4 +14,6 @@ Original figures or samples from the cited author projects and papers. Local cop
 | `/datasets/ecva.png` | ECVA · arXiv 2024 | [Source](https://arxiv.org/html/2412.07183v1/challenge_v7.png) | Hang Du et al. / ECVA |
 | `/datasets/vad-reasoning.png` | Vad-Reasoning · NeurIPS 2025 | [Source](https://raw.githubusercontent.com/wbfwonderful/Vad-R1/main/images/data-example.png) | Chao Huang, Benfeng Wang et al. / Vad-R1 |
 
-UCA’s author README links its figure through `https://i.postimg.cc/ZqyVxR0W/fig-visual.jpg`; the catalog records the author repository as its provenance. UCF-Crime uses the author’s method figure containing actual surveillance clips.
+UCA’s author README links its figure through `https://i.postimg.cc/ZqyVxR0W/fig-visual.jpg`; the catalog records the author repository as its provenance. The UCF-Crime method figure remains as a historical asset and is not used in the dataset cards.
+
+The dataset cards also reuse existing paper figures for CueBench, VALU, TAU-Bench, Pistachio, VANE-Bench, TAR / TAR-Bench and A2Seek. These remain in `assets/papers/`; their full provenance is recorded in the [paper figure index](../../assets/papers/README.md).

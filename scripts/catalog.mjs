@@ -286,13 +286,43 @@ export function validateCatalog(catalog) {
   datasets.forEach((dataset, i) => {
     const path = `datasets[${i}]`;
     for (const key of ['name', 'description', 'protocol']) text(dataset[key], `${path}.${key}`);
+    if (dataset.usageNote !== undefined) text(dataset.usageNote, `${path}.usageNote`);
     if (!Number.isInteger(dataset.year) || dataset.year < 1900 || dataset.year > new Date().getUTCFullYear() + 1) fail(`${path}.year`, 'must be a plausible publication year');
     text(dataset.venue, `${path}.venue`);
+    if (dataset.composition !== undefined) {
+      const c = dataset.composition;
+      const at = `${path}.composition`;
+      if (!object(c)) fail(at, 'must include kind, note and evidence');
+      else {
+        if (!['original', 'annotation', 'resplit', 'mixed'].includes(c.kind)) fail(`${at}.kind`, 'must be original, annotation, resplit or mixed');
+        text(c.note, `${at}.note`);
+        source(c.evidence, `${at}.evidence`);
+        if (c.baseDatasetIds !== undefined) {
+          strings(c.baseDatasetIds, `${at}.baseDatasetIds`, false);
+          if (Array.isArray(c.baseDatasetIds)) for (const id of c.baseDatasetIds) {
+            if (!datasetIds.has(id)) fail(`${at}.baseDatasetIds`, `unknown dataset ${id}`);
+            else if (id === dataset.id) fail(`${at}.baseDatasetIds`, 'must not reference itself');
+          }
+        }
+      }
+    }
+    if (dataset.availability !== undefined) {
+      const a = dataset.availability;
+      const at = `${path}.availability`;
+      if (!object(a)) fail(at, 'must include status, note, evidence and verifiedAt');
+      else {
+        if (!['available', 'partial', 'pending', 'unverified'].includes(a.status)) fail(`${at}.status`, 'must be available, partial, pending or unverified');
+        text(a.note, `${at}.note`);
+        source(a.evidence, `${at}.evidence`);
+        date(a.verifiedAt, `${at}.verifiedAt`);
+      }
+    }
     if (dataset.thumbnail !== undefined && !object(dataset.thumbnail)) fail(`${path}.thumbnail`, 'must include local artwork and provenance');
     else if (dataset.thumbnail !== undefined) {
       const thumbnail = dataset.thumbnail;
-      if (typeof thumbnail.src !== 'string' || !/^\/datasets\/[A-Za-z0-9][A-Za-z0-9_./-]*$/.test(thumbnail.src) || thumbnail.src.includes('..') || thumbnail.src.endsWith('/') || thumbnail.src.includes('//')) fail(`${path}.thumbnail.src`, 'must be a local /datasets/ path without traversal');
+      if (typeof thumbnail.src !== 'string' || !/^(?:\/datasets\/|assets\/papers\/)[A-Za-z0-9][A-Za-z0-9_./-]*$/.test(thumbnail.src) || thumbnail.src.includes('..') || thumbnail.src.endsWith('/') || thumbnail.src.includes('//')) fail(`${path}.thumbnail.src`, 'must be a local /datasets/ or assets/papers/ path without traversal');
       text(thumbnail.alt, `${path}.thumbnail.alt`);
+      if (thumbnail.caption !== undefined) text(thumbnail.caption, `${path}.thumbnail.caption`);
       text(thumbnail.credit, `${path}.thumbnail.credit`);
       url(thumbnail.sourceUrl, `${path}.thumbnail.sourceUrl`);
     }

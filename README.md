@@ -7,43 +7,45 @@ English | [简体中文](README.zh-CN.md)
 
 A curated reading collection on **video anomaly understanding**: what happened, why it is abnormal, where the evidence is, and how to evaluate the explanation. It also covers directly relevant language-guided representations and detection methods.
 
-[**Explore the research route map →**](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
+[![Research route map for video anomaly understanding](output/vad-research-route-map.png)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
+
+[![Interactive map](https://img.shields.io/badge/Interactive_map-468FAF?style=flat)](https://2-mo.github.io/Awesome-Thinking-with-VAD/) [![Illustrated papers](https://img.shields.io/badge/Illustrated_papers-537A7A?style=flat)](llm4vad.md) [![BibTeX](https://img.shields.io/badge/BibTeX-8064A2?style=flat)](literature/references.bib)
 
 ## Latest update
 
-**2026-10-03** — Added ECVA / AnomShield (IJCV 2026) and ADVersa (TPAMI 2026), updated ECVA metadata, and added a TNNLS survey to the reading resources. The route map connects **80 papers**; the catalog contains **83 papers and 19 dataset records**. See the [changelog](CHANGELOG.md) for details.
+**2026-10-03** — Expanded the dataset index to **28 resources**, adding detection benchmarks, TAR / TAR-Bench and Vad-Reasoning-Plus, with source-video and availability notes. The catalog contains **83 papers**, with **80 on the route map**; recent reading additions include IJCV / TPAMI work and a TNNLS survey. See the [changelog](CHANGELOG.md) for details.
 
-The [illustrated paper cards](llm4vad.md) reuse the original heading, badge and summary layout, with author figures and [image provenance](assets/papers/README.md).
+70 papers include original figures; see [image sources and pending figures](assets/papers/README.md).
 
 ## Preprints
 
-[arXiv 2026](llm4vad.md#year-2026-arxiv) · [arXiv 2025](llm4vad.md#year-2025-arxiv) · [Full venue index](literature/venues.md)
+[![arXiv 2026](https://img.shields.io/badge/arXiv-2026-b31b1b?style=flat)](llm4vad.md#year-2026-arxiv) · [![arXiv 2025](https://img.shields.io/badge/arXiv-2025-b31b1b?style=flat)](llm4vad.md#year-2025-arxiv) · [Full venue index](literature/venues.md)
 
 ## Conference papers
 
-Browse notes by conference, or follow a year link to the corresponding paper list.
+Conference names open the latest paper lists; year links browse earlier editions. Find historical notes in the [venue index](literature/venues.md).
 
-- [CVPR](archive/venues/cvpr.md) — Computer Vision and Pattern Recognition · [2026](llm4vad.md#year-2026-cvpr) · [2025](llm4vad.md#year-2025-cvpr) · [2024](llm4vad.md#year-2024-cvpr) · [2023](llm4vad.md#year-2023-cvpr)
-- [ICCV](archive/venues/iccv.md) — International Conference on Computer Vision · [2025](llm4vad.md#year-2025-iccv)
-- [ECCV](archive/venues/eccv.md) — European Conference on Computer Vision · [2026](llm4vad.md#year-2026-eccv) · [2024](llm4vad.md#year-2024-eccv)
-- [NeurIPS](archive/venues/neurips.md) — Neural Information Processing Systems · [2026](llm4vad.md#year-2026-neurips) · [2025](llm4vad.md#year-2025-neurips) · [2024](llm4vad.md#year-2024-neurips)
-- [ICML](archive/venues/icml.md) — International Conference on Machine Learning · [2026](llm4vad.md#year-2026-icml) · [2025](llm4vad.md#year-2025-icml)
-- [ICLR](archive/venues/iclr.md) — International Conference on Learning Representations · [2026](llm4vad.md#year-2026-iclr)
-- [AAAI](archive/venues/aaai.md) — AAAI Conference on Artificial Intelligence · [2026](llm4vad.md#year-2026-aaai) · [2025](llm4vad.md#year-2025-aaai) · [2024](llm4vad.md#year-2024-aaai)
-- [IJCAI](archive/venues/ijcai.md) — International Joint Conference on Artificial Intelligence · [2026](llm4vad.md#year-2026-ijcai)
-- [ACM MM](archive/venues/acmmm.md) — ACM Multimedia · [2026](llm4vad.md#year-2026-acm-mm) · [2025](llm4vad.md#year-2025-acm-mm)
-- [ACL](llm4vad.md#year-2026-acl) — Annual Meeting of the Association for Computational Linguistics · [2026](llm4vad.md#year-2026-acl)
+- [![CVPR 2026](https://img.shields.io/badge/CVPR-2026-1E90FF?style=flat)](llm4vad.md#year-2026-cvpr) — Computer Vision and Pattern Recognition · [2025](llm4vad.md#year-2025-cvpr) · [2024](llm4vad.md#year-2024-cvpr) · [2023](llm4vad.md#year-2023-cvpr)
+- [![ICCV 2025](https://img.shields.io/badge/ICCV-2025-00CED1?style=flat)](llm4vad.md#year-2025-iccv) — International Conference on Computer Vision
+- [![ECCV 2026](https://img.shields.io/badge/ECCV-2026-0B84FE?style=flat)](llm4vad.md#year-2026-eccv) — European Conference on Computer Vision · [2024](llm4vad.md#year-2024-eccv)
+- [![NeurIPS 2026](https://img.shields.io/badge/NeurIPS-2026-2DB55D?style=flat)](llm4vad.md#year-2026-neurips) — Neural Information Processing Systems · [2025](llm4vad.md#year-2025-neurips) · [2024](llm4vad.md#year-2024-neurips)
+- [![ICML 2026](https://img.shields.io/badge/ICML-2026-FF6B6B?style=flat)](llm4vad.md#year-2026-icml) — International Conference on Machine Learning · [2025](llm4vad.md#year-2025-icml)
+- [![ICLR 2026](https://img.shields.io/badge/ICLR-2026-4B0082?style=flat)](llm4vad.md#year-2026-iclr) — International Conference on Learning Representations
+- [![AAAI 2026](https://img.shields.io/badge/AAAI-2026-000080?style=flat)](llm4vad.md#year-2026-aaai) — AAAI Conference on Artificial Intelligence · [2025](llm4vad.md#year-2025-aaai) · [2024](llm4vad.md#year-2024-aaai)
+- [![IJCAI 2026](https://img.shields.io/badge/IJCAI-2026-537A7A?style=flat)](llm4vad.md#year-2026-ijcai) — International Joint Conference on Artificial Intelligence
+- [![ACM MM 2026](https://img.shields.io/badge/ACM_MM-2026-FF69B4?style=flat)](llm4vad.md#year-2026-acm-mm) — ACM Multimedia · [2025](llm4vad.md#year-2025-acm-mm)
+- [![ACL 2026](https://img.shields.io/badge/ACL-2026-537A7A?style=flat)](llm4vad.md#year-2026-acl) — Annual Meeting of the Association for Computational Linguistics
 
 ## Journal papers
 
 Browse verified papers by journal and year, with further reading in the [journal paper collection](archive/journals/README.md).
 
-- [TPAMI](llm4vad.md#year-2026-tpami) — IEEE Transactions on Pattern Analysis and Machine Intelligence · [2026](llm4vad.md#year-2026-tpami) · [2025](llm4vad.md#year-2025-tpami)
-- [TIP](llm4vad.md#year-2025-tip) — IEEE Transactions on Image Processing · [2025](llm4vad.md#year-2025-tip) · [2024](llm4vad.md#year-2024-tip)
-- [TNNLS](llm4vad.md#year-2026-tnnls) — IEEE Transactions on Neural Networks and Learning Systems · [2026](llm4vad.md#year-2026-tnnls)
-- [TCYB](archive/journals/tcyb.md) — IEEE Transactions on Cybernetics
-- [TIFS](archive/journals/tifs.md) — IEEE Transactions on Information Forensics and Security
-- [IJCV](llm4vad.md#year-2026-ijcv) — International Journal of Computer Vision · [2026](llm4vad.md#year-2026-ijcv)
+- [![TPAMI](https://img.shields.io/badge/TPAMI-537A7A?style=flat)](llm4vad.md#year-2026-tpami) — IEEE Transactions on Pattern Analysis and Machine Intelligence · [2026](llm4vad.md#year-2026-tpami) · [2025](llm4vad.md#year-2025-tpami)
+- [![TIP](https://img.shields.io/badge/TIP-537A7A?style=flat)](llm4vad.md#year-2025-tip) — IEEE Transactions on Image Processing · [2025](llm4vad.md#year-2025-tip) · [2024](llm4vad.md#year-2024-tip)
+- [![TNNLS](https://img.shields.io/badge/TNNLS-537A7A?style=flat)](llm4vad.md#year-2026-tnnls) — IEEE Transactions on Neural Networks and Learning Systems · [2026](llm4vad.md#year-2026-tnnls)
+- [![TCYB](https://img.shields.io/badge/TCYB-537A7A?style=flat)](archive/journals/tcyb.md) — IEEE Transactions on Cybernetics
+- [![TIFS](https://img.shields.io/badge/TIFS-537A7A?style=flat)](archive/journals/tifs.md) — IEEE Transactions on Information Forensics and Security
+- [![IJCV](https://img.shields.io/badge/IJCV-537A7A?style=flat)](llm4vad.md#year-2026-ijcv) — International Journal of Computer Vision · [2026](llm4vad.md#year-2026-ijcv)
 
 ## Other papers
 
@@ -55,8 +57,13 @@ Related papers from WACV, NAACL Findings and conference workshops are grouped he
 
 ## Datasets and evaluation
 
-- [Datasets and evaluation protocols](literature/benchmarks.md) — Resources, task settings and associated papers
-- [VAD dataset notes](archive/dataset.md) — Language annotations, traditional benchmarks and domain-specific datasets
+[![Datasets](https://img.shields.io/badge/Datasets-28-537A7A?style=flat)](literature/benchmarks.md) [![Detection](https://img.shields.io/badge/Detection-468FAF?style=flat)](literature/benchmarks.md#detection-data) [![Understanding](https://img.shields.io/badge/Understanding-8064A2?style=flat)](literature/benchmarks.md#understanding-data)
+
+- **Detection benchmarks**: [UCSD Ped1 / Ped2](literature/benchmarks.md#dataset-ucsd-ped1-ped2) · [Avenue](literature/benchmarks.md#dataset-cuhk-avenue) · [ShanghaiTech](literature/benchmarks.md#dataset-shanghaitech) · [UCF-Crime](literature/benchmarks.md#dataset-ucf-crime) · [XD-Violence](literature/benchmarks.md#dataset-xd-violence) · [TAD](literature/benchmarks.md#dataset-tad) · [UBnormal](literature/benchmarks.md#dataset-ubnormal) · [NWPU Campus](literature/benchmarks.md#dataset-nwpu-campus) · [MSAD](literature/benchmarks.md#dataset-msad)
+- **Language and reasoning**: [UCA](literature/benchmarks.md#dataset-uca) · [HIVAU-70k](literature/benchmarks.md#dataset-hivau-70k) · [FineW3](literature/benchmarks.md#dataset-finew3) · [CueBench](literature/benchmarks.md#dataset-cuebench-data) · [Vad-Reasoning-Plus](literature/benchmarks.md#dataset-vad-reasoning-plus) · [TAR / TAR-Bench](literature/benchmarks.md#dataset-tar-data)
+- [Full dataset cards](literature/benchmarks.md) — Summaries, annotation examples and access links; [historical dataset notes](archive/dataset.md)
+
+Cards keep essential version and access notes, with splits and related work available in expandable sections.
 
 ## Reading and citations
 

@@ -33,7 +33,7 @@ export function renderPaperCard(paper) {
   if (paper.figure) {
     const f = paper.figure;
     lines.push(`[![${escape(f.alt)}](${f.src})](${f.src})`, '',
-      `*${escape(f.caption)} ${link('原图 / PDF', f.sourceUrl)} · ${link('论文 / 作者页面', f.sourcePageUrl)} · ${escape(f.credit)}*`, '');
+      `*${escape(f.caption)} ${escape(f.credit)} · ${link('来源', `assets/papers/README.md#figure-${paper.id}`)}*`, '');
   } else lines.push(`*配图待补：尚未取得可核验的论文原图。${link('查看检索记录', `assets/papers/README.md#missing-${paper.id}`)}*`, '');
   lines.push('---', '');
   return lines;
@@ -74,7 +74,7 @@ export function renderFigureSources(catalog) {
     '[返回论文年表](../../llm4vad.md)', '', '| 论文 | 本地图 | 内容 | 原始文件 | 论文／作者页面 | 署名 | 核验日期 |', '| --- | --- | --- | --- | --- | --- | --- |'];
   for (const p of illustrated) {
     const f = p.figure;
-    lines.push(`| ${link(escape(p.shortTitle), `../../llm4vad.md#paper-${p.id}`)} | ${link('图片', f.src.replace('assets/papers/', ''))} | ${escape(f.caption)} | ${link('原图 / PDF', f.sourceUrl)} | ${link('来源页面', f.sourcePageUrl)} | ${escape(f.credit)} | ${f.verifiedAt} |`);
+    lines.push(`| <a id="figure-${p.id}"></a>${link(escape(p.shortTitle), `../../llm4vad.md#paper-${p.id}`)} | ${link('图片', f.src.replace('assets/papers/', ''))} | ${escape(f.caption)} | ${link('原图 / PDF', f.sourceUrl)} | ${link('来源页面', f.sourcePageUrl)} | ${escape(f.credit)} | ${f.verifiedAt} |`);
   }
   if (missing.length) {
     lines.push('', '## 待补原图', '', '未取得图片不等同于论文没有框架图或未公开全文。', '');
@@ -169,17 +169,49 @@ export function renderComparison(catalog) {
 }
 
 export function renderBenchmarks(catalog) {
-  const lines = ['# 视频异常理解 · 数据集与评测', '', '[论文年表](../llm4vad.md) · [方法比较](comparison.md) · [阅读路线](reading-guide.md)', '', generatedNote, '',
-    `${catalog.datasets.length} 个数据资源记录。登记依据论文与作者来源，不以缩略图为前提，也不等同于已发布可下载数据。关联论文只包含已核验关系；没有关联不表示没有使用。`, '',
-    '| 数据集 | 年份／发表 | 任务 | 标注 |', '| --- | --- | --- | --- |',
-    ...catalog.datasets.map(d => `| [${escape(d.name)}](#dataset-${d.id}) | ${d.year} · ${escape(d.venue)} | ${d.tasks.map(escape).join('、')} | ${d.annotations.map(escape).join('、')} |`), ''];
-  for (const d of catalog.datasets) {
-    const papers = catalog.papers.filter(p => p.datasetIds.includes(d.id));
-    lines.push(`<a id="dataset-${d.id}"></a>`, '', `## ${escape(d.name)}`, '', escape(d.description), '',
-      `- 模态：${d.modalities.map(escape).join('、')}`, `- 评测协议／阅读关注：${escape(d.protocol)}`,
-      `- 来源入口：${link('作者／论文', d.links.website)}${d.links.paper && d.links.paper !== d.links.website ? ` · ${link('论文', d.links.paper)}` : ''}`,
-      `- 已关联论文：${papers.map(paperRef).join(' · ') || '待核验'}`,
-      `- 核验依据：${d.sources.map(s => `${link('来源', s.url)} — ${escape(s.note)}`).join('；')}`, '');
+  const isRetrieval = d => d.tasks.includes('异常检索');
+  const isUnderstanding = d => !isRetrieval(d) && d.tasks.some(task => ['异常解释', '异常推理', '视频问答', '基准评测'].includes(task));
+  const groups = [
+    { id: 'detection-data', title: '异常检测', matches: d => !isRetrieval(d) && !isUnderstanding(d) },
+    { id: 'understanding-data', title: '理解与推理', matches: isUnderstanding },
+    { id: 'retrieval-data', title: '异常检索', matches: isRetrieval },
+  ].map(group => ({ ...group, datasets: catalog.datasets.filter(group.matches).sort((a, b) => a.year - b.year || a.name.localeCompare(b.name)) })).filter(group => group.datasets.length);
+  const lines = ['# 视频异常理解 · 数据集与评测', '', '[论文年表](../llm4vad.md) · [方法比较](comparison.md) · [阅读路线](reading-guide.md)', '',
+    `${catalog.datasets.length} 个数据集与评测资源，按任务浏览。点击徽章进入论文或作者发布页。`, '',
+    groups.map(group => link(group.title, `#${group.id}`)).join(' · '), '',
+    '<details>', '<summary>快速跳转</summary>', '',
+    ...groups.map(group => `- **${group.title}**：${group.datasets.map(d => link(escape(d.name), `#dataset-${d.id}`)).join(' · ')}`), '', '</details>', ''];
+  for (const group of groups) {
+    lines.push(`<a id="${group.id}"></a>`, '', `## ${group.title}`, '');
+    for (const d of group.datasets) {
+      const papers = catalog.papers.filter(p => p.datasetIds.includes(d.id));
+      const venue = displayVenue(d.venue);
+      const paperUrl = d.links.paper ?? d.links.website;
+      const publication = /^(TPAMI|TIP|TNNLS|TCYB|TIFS|IJCV)$/.test(venue)
+        ? `${link(`![${escape(venue)}](https://img.shields.io/badge/${badgePart(venue)}-537A7A?style=flat)`, paperUrl)} · ${d.year}`
+        : badge(venue, d.year, venueColors[venue] ?? '537A7A', paperUrl);
+      const a = d.availability;
+      const resource = {
+        available: ['下载', '537A7A'], partial: ['部分开放', 'A87938'], pending: ['待发布', '8A8A8A'], unverified: ['项目入口', '537A7A'],
+      }[a?.status ?? 'unverified'];
+      lines.push(`<a id="dataset-${d.id}"></a>`, '', `### ${escape(d.name)}`, '',
+        `${publication} ${badge('Data', resource[0], resource[1], a?.evidence.url ?? d.links.website)}`, '',
+        `> ${escape(d.description)}`, '',
+        `**标注** · ${d.annotations.map(escape).join(' · ')}`, '');
+      if (d.usageNote) lines.push(`**使用说明** · ${escape(d.usageNote)}`, '');
+      if (d.thumbnail) {
+        const f = d.thumbnail;
+        const src = f.src.startsWith('/datasets/') ? `../public${f.src}` : `../${f.src}`;
+        lines.push(`[![${escape(f.alt)}](${src})](${src})`, '',
+          `*${f.caption ? `${escape(f.caption)} ` : ''}${escape(f.credit)} · ${link('图片来源', f.sourceUrl)}*`, '');
+      }
+      lines.push('<details>', '<summary>划分与相关工作</summary>', '', escape(d.protocol), '');
+      if (a?.note) lines.push(`获取：${escape(a.note)}`, '');
+      if (d.composition?.baseDatasetIds?.length) lines.push(`基础数据：${d.composition.baseDatasetIds.map(id => link(escape(catalog.datasets.find(base => base.id === id).name), `#dataset-${id}`)).join(' · ')}`, '');
+      if (papers.length) lines.push(`相关工作：${papers.map(paperRef).join(' · ')}`, '');
+      const sources = [...new Set(d.sources.map(s => s.url))];
+      lines.push(`来源：${sources.map((url, i) => link(String(i + 1), url)).join(' · ')}`, '', '</details>', '', '---', '');
+    }
   }
   return `${lines.join('\n').trimEnd()}\n`;
 }

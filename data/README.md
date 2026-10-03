@@ -55,7 +55,14 @@ WACV、Findings、workshop 及编辑移出主图的论文保留在文献索引�
 
 论文可用 `contribution: { kind, evidence: { url, note } }` 标注贡献类型：`resource` 表示以数据集、benchmark 或评测协议为主，`hybrid` 表示同时提出方法与数据／基准；省略时按方法显示。此标注依据论文实际贡献，与研究线路、发表分轨分别维护，不能由 `datasetIds` 非空、使用了某个数据集或题名含 Bench 自动推断。基准中用于比较的常规基线不单独算作方法贡献。线路图以圆形、空心方形、方框内圆点分别表示三类，详情保留判定来源。
 
-数据集可先登记文字记录，再补图片。可选 `thumbnail` 一旦提供，就需要本地 `/datasets/` 路径、替代文本、原图来源和作者署名；使用作者项目或论文原图，不生成研究示例。新增图像遵循 [图片来源记录](../public/datasets/README.md)。
+数据集的性质与开放情况可分别记录，旧条目允许暂时省略；未确认开放时，卡片只提供“项目入口”：
+
+- `composition: { kind, note, evidence, baseDatasetIds? }`：`kind` 为 `original`（原始数据）、`annotation`（扩展标注）、`resplit`（重新划分）或 `mixed`（混合数据）。`note` 说明组成与新增内容，`evidence: { url, note }` 提供依据；可选 `baseDatasetIds` 只引用目录内其他数据集，不得引用自身。
+- `availability: { status, note, evidence, verifiedAt }`：`status` 为 `available`（已开放）、`partial`（部分开放）、`pending`（待发布）或 `unverified`（待核验）。说明具体可用资源与限制，附作者来源及有效 `YYYY-MM-DD` 核验日期；论文发表或项目页面存在不自动等于数据已开放。
+
+生成的数据集索引沿用论文卡片的标题、徽章、摘要和原图结构，按异常检测、理解与推理、异常检索分组。正文只展示简介、精简标注、可用原图与必要的 `usageNote`；该可选短句用于说明实际影响获取或复现的限制。协议、基础数据、相关论文与来源入口收在折叠区，完整核验记录仍维护在 JSON 中。期刊徽章只显示刊名，年份另列。
+
+数据集可先登记文字记录，再补图片。可选 `thumbnail` 一旦提供，就需要本地 `/datasets/` 或已有 `assets/papers/` 路径、替代文本、原图来源和作者署名；使用作者的数据样例、标注示意或基准概览，避免纯方法框架图。卡片使用 `../public/datasets/` 或 `../assets/papers/` 相对路径，兼容 GitHub Markdown；可选 `caption` 简短说明图意。新增图像遵循 [图片来源记录](../public/datasets/README.md)。
 
 关系 `source → target` 只使用 `uses`、`introduces`、`extends`，每条均需明确来源。`extends` 只用于有证据的方法继承，不能以主题相似替代。关系保留在详情中，不决定主地图走线。
 
@@ -72,7 +79,7 @@ WACV、Findings、workshop 及编辑移出主图的论文保留在文献索引�
 
 `llm4vad.md` 复用旧版“标题 → 会议／代码徽章 → 摘要 → 论文配图”的逐篇卡片结构，并保留年份、会议和单篇锚点。新增或修改内容应维护 `catalog.json`，不要只改生成后的 Markdown。
 
-可选 `figure` 记录 `src`、`alt`、`caption`、`sourceUrl`、`sourcePageUrl`、`credit`、`verifiedAt`；图片统一存放在根目录 `assets/papers/`，使用作者原图或原论文 PDF 图区渲染，配图版本与正式发表身份分别记录。点击图可查看本地大图；来源清单由同一记录生成至 `assets/papers/README.md`。图片不纳入仓库文字和代码许可，版权归原作者／出版方。
+可选 `figure` 记录 `src`、`alt`、`caption`、`sourceUrl`、`sourcePageUrl`、`credit`、`verifiedAt`；图片统一存放在根目录 `assets/papers/`，使用作者原图或原论文 PDF 图区渲染，配图版本与正式发表身份分别记录。点击图可查看本地大图；图下只显示简短图注、署名与一个“来源”入口，链接至 `assets/papers/README.md#figure-<paper-id>` 的对应行。来源清单由同一记录生成，保留完整原图／PDF、作者页面、图注及核验日期。图片不纳入仓库文字和代码许可，版权归原作者／出版方。
 
 没有取得可靠原图时保留论文，用 `figurePending: { note, sources, verifiedAt }` 记录具体障碍与已查来源；不能同时填写 `figure`。不以生成图或其他论文插图填空。`npm run validate` 检查图片路径、来源字段、本地文件与实际文件格式；更新图片时还须人工核对论文、图号和裁切完整性。
 

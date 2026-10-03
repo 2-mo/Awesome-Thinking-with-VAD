@@ -7,43 +7,45 @@
 
 聚焦**视频异常理解**：异常发生了什么、为什么异常、证据在哪里，以及如何验证解释与视频相符。兼顾直接支撑这些目标的语言引导表征与异常检测方法。
 
-[**打开研究线路图 →**](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
+[![视频异常理解研究线路图](output/vad-research-route-map.png)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
+
+[![交互地图](https://img.shields.io/badge/%E4%BA%A4%E4%BA%92%E5%9C%B0%E5%9B%BE-468FAF?style=flat)](https://2-mo.github.io/Awesome-Thinking-with-VAD/) [![图文论文](https://img.shields.io/badge/%E5%9B%BE%E6%96%87%E8%AE%BA%E6%96%87-537A7A?style=flat)](llm4vad.md) [![BibTeX](https://img.shields.io/badge/BibTeX-8064A2?style=flat)](literature/references.bib)
 
 ## 最新更新
 
-**2026-10-03** — 补入 ECVA / AnomShield（IJCV 2026）与 ADVersa（TPAMI 2026），更新 ECVA 数据记录，并增加 TNNLS 综述阅读入口。线路图现有 **80 篇论文**，目录包含 **83 篇论文、19 个数据资源记录**。详情见[更新记录](CHANGELOG.md)。
+**2026-10-03** — 数据资源扩展至 **28 项**，补齐基础检测基准、TAR／TAR-Bench 与 Vad-Reasoning-Plus，并标注来源视频及开放状态。论文目录包含 **83 篇论文**，线路图连接 **80 篇**；近期补入 IJCV／TPAMI 工作与 TNNLS 综述。详情见[更新记录](CHANGELOG.md)。
 
-[图文论文卡片](llm4vad.md) 沿用原有标题、会议徽章与摘要排版，补入作者原图及[图片来源记录](assets/papers/README.md)。
+其中 70 篇配有论文原图，详见[图片来源与待补记录](assets/papers/README.md)。
 
 ## 预印本
 
-[arXiv 2026](llm4vad.md#year-2026-arxiv) · [arXiv 2025](llm4vad.md#year-2025-arxiv) · [完整发表索引](literature/venues.md)
+[![arXiv 2026](https://img.shields.io/badge/arXiv-2026-b31b1b?style=flat)](llm4vad.md#year-2026-arxiv) · [![arXiv 2025](https://img.shields.io/badge/arXiv-2025-b31b1b?style=flat)](llm4vad.md#year-2025-arxiv) · [完整发表索引](literature/venues.md)
 
 ## 会议论文
 
-按会议浏览论文笔记，年份链接直达对应论文列表。
+会议名称进入最新年份的论文列表，也可按年份浏览；历史笔记见[发表索引](literature/venues.md)。
 
-- [CVPR](archive/venues/cvpr.md) — Computer Vision and Pattern Recognition · [2026](llm4vad.md#year-2026-cvpr) · [2025](llm4vad.md#year-2025-cvpr) · [2024](llm4vad.md#year-2024-cvpr) · [2023](llm4vad.md#year-2023-cvpr)
-- [ICCV](archive/venues/iccv.md) — International Conference on Computer Vision · [2025](llm4vad.md#year-2025-iccv)
-- [ECCV](archive/venues/eccv.md) — European Conference on Computer Vision · [2026](llm4vad.md#year-2026-eccv) · [2024](llm4vad.md#year-2024-eccv)
-- [NeurIPS](archive/venues/neurips.md) — Neural Information Processing Systems · [2026](llm4vad.md#year-2026-neurips) · [2025](llm4vad.md#year-2025-neurips) · [2024](llm4vad.md#year-2024-neurips)
-- [ICML](archive/venues/icml.md) — International Conference on Machine Learning · [2026](llm4vad.md#year-2026-icml) · [2025](llm4vad.md#year-2025-icml)
-- [ICLR](archive/venues/iclr.md) — International Conference on Learning Representations · [2026](llm4vad.md#year-2026-iclr)
-- [AAAI](archive/venues/aaai.md) — AAAI Conference on Artificial Intelligence · [2026](llm4vad.md#year-2026-aaai) · [2025](llm4vad.md#year-2025-aaai) · [2024](llm4vad.md#year-2024-aaai)
-- [IJCAI](archive/venues/ijcai.md) — International Joint Conference on Artificial Intelligence · [2026](llm4vad.md#year-2026-ijcai)
-- [ACM MM](archive/venues/acmmm.md) — ACM Multimedia · [2026](llm4vad.md#year-2026-acm-mm) · [2025](llm4vad.md#year-2025-acm-mm)
-- [ACL](llm4vad.md#year-2026-acl) — Annual Meeting of the Association for Computational Linguistics · [2026](llm4vad.md#year-2026-acl)
+- [![CVPR 2026](https://img.shields.io/badge/CVPR-2026-1E90FF?style=flat)](llm4vad.md#year-2026-cvpr) — Computer Vision and Pattern Recognition · [2025](llm4vad.md#year-2025-cvpr) · [2024](llm4vad.md#year-2024-cvpr) · [2023](llm4vad.md#year-2023-cvpr)
+- [![ICCV 2025](https://img.shields.io/badge/ICCV-2025-00CED1?style=flat)](llm4vad.md#year-2025-iccv) — International Conference on Computer Vision
+- [![ECCV 2026](https://img.shields.io/badge/ECCV-2026-0B84FE?style=flat)](llm4vad.md#year-2026-eccv) — European Conference on Computer Vision · [2024](llm4vad.md#year-2024-eccv)
+- [![NeurIPS 2026](https://img.shields.io/badge/NeurIPS-2026-2DB55D?style=flat)](llm4vad.md#year-2026-neurips) — Neural Information Processing Systems · [2025](llm4vad.md#year-2025-neurips) · [2024](llm4vad.md#year-2024-neurips)
+- [![ICML 2026](https://img.shields.io/badge/ICML-2026-FF6B6B?style=flat)](llm4vad.md#year-2026-icml) — International Conference on Machine Learning · [2025](llm4vad.md#year-2025-icml)
+- [![ICLR 2026](https://img.shields.io/badge/ICLR-2026-4B0082?style=flat)](llm4vad.md#year-2026-iclr) — International Conference on Learning Representations
+- [![AAAI 2026](https://img.shields.io/badge/AAAI-2026-000080?style=flat)](llm4vad.md#year-2026-aaai) — AAAI Conference on Artificial Intelligence · [2025](llm4vad.md#year-2025-aaai) · [2024](llm4vad.md#year-2024-aaai)
+- [![IJCAI 2026](https://img.shields.io/badge/IJCAI-2026-537A7A?style=flat)](llm4vad.md#year-2026-ijcai) — International Joint Conference on Artificial Intelligence
+- [![ACM MM 2026](https://img.shields.io/badge/ACM_MM-2026-FF69B4?style=flat)](llm4vad.md#year-2026-acm-mm) — ACM Multimedia · [2025](llm4vad.md#year-2025-acm-mm)
+- [![ACL 2026](https://img.shields.io/badge/ACL-2026-537A7A?style=flat)](llm4vad.md#year-2026-acl) — Annual Meeting of the Association for Computational Linguistics
 
 ## 期刊论文
 
 按期刊和年份浏览已核验论文，更多阅读材料见[期刊论文汇总](archive/journals/README.md)。
 
-- [TPAMI](llm4vad.md#year-2026-tpami) — IEEE Transactions on Pattern Analysis and Machine Intelligence · [2026](llm4vad.md#year-2026-tpami) · [2025](llm4vad.md#year-2025-tpami)
-- [TIP](llm4vad.md#year-2025-tip) — IEEE Transactions on Image Processing · [2025](llm4vad.md#year-2025-tip) · [2024](llm4vad.md#year-2024-tip)
-- [TNNLS](llm4vad.md#year-2026-tnnls) — IEEE Transactions on Neural Networks and Learning Systems · [2026](llm4vad.md#year-2026-tnnls)
-- [TCYB](archive/journals/tcyb.md) — IEEE Transactions on Cybernetics
-- [TIFS](archive/journals/tifs.md) — IEEE Transactions on Information Forensics and Security
-- [IJCV](llm4vad.md#year-2026-ijcv) — International Journal of Computer Vision · [2026](llm4vad.md#year-2026-ijcv)
+- [![TPAMI](https://img.shields.io/badge/TPAMI-537A7A?style=flat)](llm4vad.md#year-2026-tpami) — IEEE Transactions on Pattern Analysis and Machine Intelligence · [2026](llm4vad.md#year-2026-tpami) · [2025](llm4vad.md#year-2025-tpami)
+- [![TIP](https://img.shields.io/badge/TIP-537A7A?style=flat)](llm4vad.md#year-2025-tip) — IEEE Transactions on Image Processing · [2025](llm4vad.md#year-2025-tip) · [2024](llm4vad.md#year-2024-tip)
+- [![TNNLS](https://img.shields.io/badge/TNNLS-537A7A?style=flat)](llm4vad.md#year-2026-tnnls) — IEEE Transactions on Neural Networks and Learning Systems · [2026](llm4vad.md#year-2026-tnnls)
+- [![TCYB](https://img.shields.io/badge/TCYB-537A7A?style=flat)](archive/journals/tcyb.md) — IEEE Transactions on Cybernetics
+- [![TIFS](https://img.shields.io/badge/TIFS-537A7A?style=flat)](archive/journals/tifs.md) — IEEE Transactions on Information Forensics and Security
+- [![IJCV](https://img.shields.io/badge/IJCV-537A7A?style=flat)](llm4vad.md#year-2026-ijcv) — International Journal of Computer Vision · [2026](llm4vad.md#year-2026-ijcv)
 
 ## 其他论文
 
@@ -55,8 +57,13 @@ WACV、NAACL Findings 及各会议 workshop 的相关论文统一归入此类。
 
 ## 数据集与评测
 
-- [数据集与评测协议](literature/benchmarks.md) — 数据资源、任务设置与论文关联
-- [VAD 数据集笔记](archive/dataset.md) — 语言标注、传统基准与领域数据集
+[![数据资源](https://img.shields.io/badge/%E6%95%B0%E6%8D%AE%E8%B5%84%E6%BA%90-28-537A7A?style=flat)](literature/benchmarks.md) [![异常检测](https://img.shields.io/badge/%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B-468FAF?style=flat)](literature/benchmarks.md#detection-data) [![理解与推理](https://img.shields.io/badge/%E7%90%86%E8%A7%A3%E4%B8%8E%E6%8E%A8%E7%90%86-8064A2?style=flat)](literature/benchmarks.md#understanding-data)
+
+- **基础检测**：[UCSD Ped1／Ped2](literature/benchmarks.md#dataset-ucsd-ped1-ped2) · [Avenue](literature/benchmarks.md#dataset-cuhk-avenue) · [ShanghaiTech](literature/benchmarks.md#dataset-shanghaitech) · [UCF-Crime](literature/benchmarks.md#dataset-ucf-crime) · [XD-Violence](literature/benchmarks.md#dataset-xd-violence) · [TAD](literature/benchmarks.md#dataset-tad) · [UBnormal](literature/benchmarks.md#dataset-ubnormal) · [NWPU Campus](literature/benchmarks.md#dataset-nwpu-campus) · [MSAD](literature/benchmarks.md#dataset-msad)
+- **语言与推理**：[UCA](literature/benchmarks.md#dataset-uca) · [HIVAU-70k](literature/benchmarks.md#dataset-hivau-70k) · [FineW3](literature/benchmarks.md#dataset-finew3) · [CueBench](literature/benchmarks.md#dataset-cuebench-data) · [Vad-Reasoning-Plus](literature/benchmarks.md#dataset-vad-reasoning-plus) · [TAR／TAR-Bench](literature/benchmarks.md#dataset-tar-data)
+- [完整数据集卡片](literature/benchmarks.md) — 简介、标注示例与获取入口；[历史数据集笔记](archive/dataset.md)
+
+各卡片保留必要的版本与获取说明，划分和相关工作可按需展开。
 
 ## 阅读与引用
 

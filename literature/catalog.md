@@ -1347,47 +1347,46 @@
 
 **2018 · CVPR** · [来源入口](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>)
 
-真实监控长视频异常检测基准，也是多项语言异常理解工作的视觉来源。
+真实监控长视频异常检测基准，提供视频级训练标签与测试时序标注，也是多项异常描述和推理数据的视觉来源。
 
 - 评估协议：采用官方训练／测试划分；弱监督训练与帧级定位评估须区分。
-- 图片：[UCF-Crime 官方方法示意图，包含监控视频片段](<https://www.crcv.ucf.edu/projects/real-world/method.png>)；署名：Waqas Sultani, Chen Chen, Mubarak Shah
-- 核验：[来源 1](<https://openaccess.thecvf.com/content_cvpr_2018/html/Sultani_Real-World_Anomaly_Detection_CVPR_2018_paper.html>) · [来源 2](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>)
+- 核验：[来源 1](<https://openaccess.thecvf.com/content_cvpr_2018/html/Sultani_Real-World_Anomaly_Detection_CVPR_2018_paper.html>) · [来源 2](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>) · [来源 3](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>) · [来源 4](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>)
 
 ### XD-Violence
 
 **2020 · ECCV** · [来源入口](<https://roc-ng.github.io/XD-Violence/>)
 
-包含音视频与多场景暴力事件的弱监督检测基准。
+结合视频与音频的多场景暴力检测基准，以视频级多标签训练，并通过测试时序标注评估异常定位。
 
 - 评估协议：报告所用模态与官方划分；不可将音视频方法和纯视觉方法混为同一设置。
 - 图片：[XD-Violence 作者发布的多场景视频样例拼图](<https://roc-ng.github.io/XD-Violence/images/samples.png>)；署名：Peng Wu et al. / XD-Violence
-- 核验：[来源 1](<https://roc-ng.github.io/XD-Violence/>) · [来源 2](<https://roc-ng.github.io/XD-Violence/>)
+- 核验：[来源 1](<https://roc-ng.github.io/XD-Violence/>) · [来源 2](<https://roc-ng.github.io/XD-Violence/>) · [来源 3](<https://roc-ng.github.io/XD-Violence/>) · [来源 4](<https://roc-ng.github.io/XD-Violence/>)
 
 ### CUVA
 
 **2024 · CVPR** · [来源入口](<https://github.com/fesvhtr/CUVA>)
 
-以异常事件的内容、原因与后果为核心的因果理解基准。
+围绕异常事件的经过、原因与后果构建因果理解任务，以人工语言标注连接事件定位、描述和解释。
 
 - 评估协议：按原论文任务与 MMEval 协议评估；定位、描述和因果解释分别报告。
 - 图片：[CUVA 论文中的异常视频及因果标注示例](<https://arxiv.org/html/2405.00181v3/dataset_4.png>)；署名：Hang Du et al. / CUVA
-- 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Du_Uncovering_What_Why_and_How_A_Comprehensive_Benchmark_for_Causation_CVPR_2024_paper.html>) · [来源 2](<https://github.com/fesvhtr/CUVA>)
+- 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Du_Uncovering_What_Why_and_How_A_Comprehensive_Benchmark_for_Causation_CVPR_2024_paper.html>) · [来源 2](<https://github.com/fesvhtr/CUVA>) · [来源 3](<https://github.com/fesvhtr/CUVA>) · [来源 4](<https://arxiv.org/html/2405.00181v3#S3.SS2>)
 
 ### HIVAU-70k
 
 **2025 · CVPR** · [来源入口](<https://github.com/pipixin321/HolmesVAU>)
 
-Holmes-VAU 提出的片段、事件和视频三级异常指令数据。
+在 UCF-Crime 与 XD-Violence 上构建片段、事件、视频三级异常指令，覆盖局部描述、事件分析和全局总结。
 
 - 评估协议：区分时间粒度与任务类型；数据构建包含模型生成与人工复核。
 - 图片：[HIVAU-70k 片段、事件和视频三级异常理解示例](<https://raw.githubusercontent.com/pipixin321/HolmesVAU/master/assets/teaser.png>)；署名：Huaxin Zhang et al. / Holmes-VAU
-- 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.html>) · [来源 2](<https://github.com/pipixin321/HolmesVAU>)
+- 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.html>) · [来源 2](<https://github.com/pipixin321/HolmesVAU>) · [来源 3](<https://github.com/pipixin321/HolmesVAU/tree/master/HIVAU-70k>)
 
 ### HAWK
 
 **2024 · NeurIPS** · [来源入口](<https://github.com/jqtangust/hawk>)
 
-面向开放场景异常视频描述与交互问答的数据资源。
+面向开放场景的视频异常理解资源，提供异常视频语言描述与相关问答，支持描述生成和交互式理解。
 
 - 评估协议：遵循作者数据划分，分别检查描述生成与问答表现。
 - 图片：[Hawk 作者发布的开放场景异常理解与问答示例](<https://raw.githubusercontent.com/jqtangust/hawk/main/figs/motivation1.png>)；署名：Jiaqi Tang et al. / Hawk
@@ -1397,56 +1396,57 @@ Holmes-VAU 提出的片段、事件和视频三级异常指令数据。
 
 **2026 · AAAI** · [来源入口](<https://finevau.github.io/>)
 
-围绕 What、Who、Where 补充细粒度视觉事实的异常理解数据与评估。
+围绕 What、Who、Where 增强异常事件、参与实体和位置事实，用于评估异常描述是否与关键视觉证据一致。
 
-- 评估协议：使用 FVScore 检查关键视觉元素，结合人类一致性分析；不能只比较语言流畅度。
+- 评估协议：使用 FVScore 检查关键视觉元素，结合人类一致性分析；不能只比较语言流畅度。原论文描述基于 UCA 的 1,544 段视频；当前公开文件另含 ECVA 来源记录，复现时须记录发布版本，不能将当前行数直接当作论文视频数。
 - 图片：[FineVAU 论文中的细粒度异常描述和视觉要素对照](<https://arxiv.org/html/2601.17258v2/figs/Teaser.png>)；署名：João Pereira et al. / FineVAU
-- 核验：[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/download/37790/41752>) · [来源 2](<https://finevau.github.io/>)
+- 核验：[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/download/37790/41752>) · [来源 2](<https://finevau.github.io/>) · [来源 3](<https://arxiv.org/html/2601.17258v2>) · [来源 4](<https://huggingface.co/datasets/joao-cardeira/FineW3>)
 
 ### UCA
 
 **2024 · CVPR** · [来源入口](<https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet>)
 
-在 UCF-Crime 监控视频上增加细粒度事件语句和时间边界，连接异常检测、语言定位与密集描述。
+为 UCF-Crime 中的 1,854 段视频补充事件语句与时间边界，支持语言时序定位、视频描述和密集描述。
 
 - 评估协议：使用作者训练、验证、测试划分；分别报告语言时序定位、视频描述、密集描述与多模态异常检测。
 - 图片：[UCA 官方仓库展示的细粒度事件语句与对应时间段](<https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet>)；署名：Tongtong Yuan et al. / UCA
-- 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html>) · [来源 2](<https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet>)
+- 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html>) · [来源 2](<https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet>) · [来源 3](<https://github.com/jia-wang-11/Surveillance-Video-Understanding-dataSet>)
 
 ### ECVA
 
 **2026 · IJCV** · [来源入口](<https://github.com/Dulpy/ECVA>)
 
-与 IJCV 2026 论文关联的 CUVA 扩展因果理解基准，围绕异常经过、发生原因与事件后果提供人工语言标注；预印本首发于 2024 年。
+扩展 CUVA 的异常因果理解体系，以事件描述、原因、后果和关键证据重要性曲线支持更细致的解释评估。
 
 - 评估协议：按作者发布版本分别评估描述、原因和后果；AnomEval 检查推理、回答一致性与幻觉，避免与 CUVA 的 MMEval 混用。
 - 图片：[ECVA 论文中异常因果理解的挑战与视频样例](<https://arxiv.org/html/2412.07183v1/challenge_v7.png>)；署名：Hang Du et al. / ECVA
-- 核验：[来源 1](<https://link.springer.com/article/10.1007/s11263-026-02983-0>) · [来源 2](<https://arxiv.org/abs/2412.07183>) · [来源 3](<https://github.com/Dulpy/ECVA>) · [来源 4](<https://www.modelscope.cn/datasets/gouchenyi/ECVA/files>)
+- 核验：[来源 1](<https://link.springer.com/article/10.1007/s11263-026-02983-0>) · [来源 2](<https://arxiv.org/abs/2412.07183>) · [来源 3](<https://github.com/Dulpy/ECVA>) · [来源 4](<https://www.modelscope.cn/datasets/gouchenyi/ECVA/files>) · [来源 5](<https://arxiv.org/html/2412.07183v1#S3.SS2>) · [来源 6](<https://github.com/Dulpy/ECVA>)
 
 ### Vad-Reasoning
 
 **2025 · NeurIPS** · [来源入口](<https://github.com/wbfwonderful/Vad-R1>)
 
-Vad-R1 提出的异常推理数据，使用感知到认知的结构化推理标注，并区分监督微调和强化学习子集。
+为既有异常视频增加从感知到认知的结构化推理，分别提供用于监督微调的推理文本与强化学习的弱标签。
 
 - 评估协议：分别使用 Vad-Reasoning-SFT 的训练／测试划分与 Vad-Reasoning-RL；SFT 含推理文本，RL 仅有视频级弱标签。
 - 图片：[Vad-Reasoning 官方仓库中的视频、推理过程与最终答案标注示例](<https://raw.githubusercontent.com/wbfwonderful/Vad-R1/main/images/data-example.png>)；署名：Chao Huang, Benfeng Wang et al. / Vad-R1
-- 核验：[来源 1](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html>) · [来源 2](<https://github.com/wbfwonderful/Vad-R1>) · [来源 3](<https://huggingface.co/datasets/wbfwonderful/Vad-R1>)
+- 核验：[来源 1](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/abccc325c84dedf23dbe8de3f686c733-Abstract-Conference.html>) · [来源 2](<https://github.com/wbfwonderful/Vad-R1>) · [来源 3](<https://huggingface.co/datasets/wbfwonderful/Vad-R1>) · [来源 4](<https://github.com/wbfwonderful/Vad-R1>) · [来源 5](<https://github.com/wbfwonderful/Vad-R1>)
 
 ### CueBench
 
-**2026 · AAAI** · [来源入口](<https://ojs.aaai.org/index.php/AAAI/article/view/38209>)
+**2026 · AAAI** · [来源入口](<https://huggingface.co/datasets/CueBench/CueBench>)
 
-以场景和属性组织条件性与绝对异常，检验异常判断的上下文依赖。
+以场景与属性组织条件性和绝对异常，检验同一行为在不同上下文中的正常性，并覆盖识别、定位、检测与预判。
 
-- 评估协议：分别报告识别、时序定位、检测和预判；按场景／属性分析条件性异常。当前登记依据论文，不据此宣称数据已开放下载。
-- 核验：[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/view/38209>)
+- 评估协议：分别报告识别、时序定位、检测和预判；按场景／属性分析条件性异常。官方 Hugging Face 已提供训练、测试、推理标注与视频文件。
+- 图片：[CueBench 统一上下文异常评测框架及任务示例](<https://arxiv.org/html/2511.00613v1/evaluation_fig.png>)；署名：Yu, Yating et al. / CueBench
+- 核验：[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/view/38209>) · [来源 2](<https://huggingface.co/datasets/CueBench/CueBench>) · [来源 3](<https://huggingface.co/datasets/CueBench/CueBench/tree/main>)
 
 ### VAGU
 
 **2026 · AAAI** · [来源入口](<https://ojs.aaai.org/index.php/AAAI/article/view/42412>)
 
-联合视频异常时间定位与语义理解的基准。
+联合视频异常时间定位与语义理解，提供异常问答、解释和时间边界，用于检验模型能否同时定位并说明异常。
 
 - 评估协议：使用原版 VAGU 的问答与 JeAUG 联合评价，联合分数之外保留定位和理解单项结果；不混入扩展稿 VAGU-T。当前未核验数据下载状态。
 - 核验：[来源 1](<https://arxiv.org/abs/2507.21507>)
@@ -1455,70 +1455,157 @@ Vad-R1 提出的异常推理数据，使用感知到认知的结构化推理标�
 
 **2026 · ACL** · [来源入口](<https://aclanthology.org/2026.acl-long.56/>)
 
-以五个语义层级组织异常事件边界与文本描述。
+以五个语义层级组织异常事件的时间边界与细粒度文本，支持时序定位、异常定位及描述细节辨析。
 
 - 评估协议：按语义层级分别评估 temporal grounding、anomaly localization 和 detail discrimination。论文页写明将公开基准，本次未确认下载状态。
+- 图片：[VALU：多层级异常标注示例原论文图](<https://aclanthology.org/2026.acl-long.56.pdf>)；署名：Yixiao He et al. / VALU
 - 核验：[来源 1](<https://aclanthology.org/2026.acl-long.56/>)
 
 ### A2Seek
 
 **2025 · NeurIPS Datasets and Benchmarks** · [来源入口](<https://2-mo.github.io/A2Seek/>)
 
-面向动态航拍视角，连接异常事件、时空证据与因果解释。
+面向动态航拍视角，将异常类别、帧级时间戳和区域框与自然语言解释关联，支持时空证据定位与因果理解。
 
 - 评估协议：区分异常判断、区域定位和解释；遵循作者场景与分布外设置，不与固定监控结果直接混排。当前未核验下载状态。
+- 图片：[A2Seek / A2Seek-R1：航拍异常理解基准的任务、场景与标注概览。](<https://2-mo.github.io/A2Seek/static/images/carousel1.png>)；署名：Mo, Mengjingcheng et al. / A2Seek / A2Seek-R1
 - 核验：[来源 1](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html>)
 
 ### TAU-Bench
 
 **2026 · arXiv** · [来源入口](<https://yarkupa.github.io/tau-bench.github.io/>)
 
-以异常实例轨迹绑定分层语义，评估解释是否对应正确对象。
+将异常实例轨迹和像素掩码与实例、事件、场景三级语义绑定，评估模型能否跟踪正确对象并解释其异常。
 
 - 评估协议：联合检查实例跟踪和细粒度语义，不能以描述流畅度替代轨迹正确性；本次未确认数据／模型有效下载入口。
+- 图片：[TAU-Bench：图 1：关联异常实例轨迹与细粒度语义理解的基准概览。](<https://yarkupa.github.io/tau-bench.github.io/assets/overview.png>)；署名：Yang, Kepeng et al. / TAU-Bench
 - 核验：[来源 1](<https://arxiv.org/abs/2608.05699>)
 
 ### Pistachio
 
 **2026 · ECCV** · [来源入口](<https://pistachio-video.github.io>)
 
-包含 Pistachio-VAD 和 Pistachio-VAU 两部分的可控合成视频基准，覆盖检测与事件语义理解。
+面向检测与理解的可控合成视频基准，分为 Pistachio-VAD 和 Pistachio-VAU，提供帧级标签及事件、视频级描述。
 
 - 评估协议：分别报告 VAD 与 VAU 协议；关注合成到真实的域差异及多事件子集。数据下载未在本次逐文件验证。
+- 图片：[Pistachio：图 2：从场景和故事线生成异常视频及事件摘要。](<https://arxiv.org/html/2511.19474v6/3.png>)；署名：Li, Jie et al. / Pistachio
 - 核验：[来源 1](<https://arxiv.org/abs/2511.19474>) · [来源 2](<https://arxiv.org/html/2511.19474v6>)
 
 ### VANE-Bench
 
 **2025 · NAACL Findings** · [来源入口](<https://github.com/rohit901/VANE-Bench>)
 
-通过问答评测合成视频不一致性和真实视频异常，覆盖检测与定位。
+通过异常问答评测合成视频的不一致性与真实视频异常，将不同视频来源纳入检测和定位任务。
 
 - 评估协议：分别检查合成与真实视频子集；问答正确率不直接等价于逐帧检测 AUC。作者提供代码和数据入口，本次未逐文件验证下载。
+- 图片：[VANE-Bench：VANE-Bench 的视频异常评测与问答构建流程。](<https://github.com/rohit901/VANE-Bench/raw/main/assets/Main_VANE-Bench%20Flow_v7.png?raw=true>)；署名：Gani, Hanan et al. / VANE-Bench
 - 核验：[来源 1](<https://aclanthology.org/2025.findings-naacl.171/>)
 
 ### UCFCrime-AR
 
 **2024 · TIP** · [来源入口](<https://github.com/Roc-Ng/VAR>)
 
-在 UCF-Crime 基础上构建的长视频文本检索基准，为异常事件提供文本查询与配对视频。
+在 UCF-Crime 长视频上增加事件文本与视频配对，支持以自然语言查询检索未裁剪的异常视频。
 
 - 评估协议：按作者检索划分进行文本—视频匹配，候选对象为未裁剪视频；作者资源页提供训练与测试文本。
-- 核验：[来源 1](<https://arxiv.org/html/2307.12545v2>) · [来源 2](<https://github.com/Roc-Ng/VAR>)
+- 核验：[来源 1](<https://arxiv.org/html/2307.12545v2>) · [来源 2](<https://github.com/Roc-Ng/VAR>) · [来源 3](<https://github.com/Roc-Ng/VAR>) · [来源 4](<https://github.com/Roc-Ng/VAR>)
 
 ### XDViolence-AR
 
 **2024 · TIP** · [来源入口](<https://github.com/Roc-Ng/VAR>)
 
-在 XD-Violence 基础上构建的音频视频异常检索基准，以同步音频查询匹配长视频。
+将 XD-Violence 的同步音视频组织为异常检索基准，以音频作为查询，从长视频候选库中寻找匹配内容。
 
 - 评估协议：按作者音视频检索设置评估配对检索；使用 AR 基准的划分和候选库，并与帧级检测评测分别报告。
-- 核验：[来源 1](<https://arxiv.org/html/2307.12545v2>) · [来源 2](<https://github.com/Roc-Ng/VAR>)
+- 核验：[来源 1](<https://arxiv.org/html/2307.12545v2>) · [来源 2](<https://github.com/Roc-Ng/VAR>) · [来源 3](<https://github.com/Roc-Ng/VAR>) · [来源 4](<https://github.com/Roc-Ng/VAR>)
 
 ### MM-AU
 
 **2024 · CVPR** · [来源入口](<https://openaccess.thecvf.com/content/CVPR2024/html/Fang_Abductive_Ego-View_Accident_Video_Understanding_for_Safe_Driving_Perception_CVPR_2024_paper.html>)
 
-面向驾驶事故理解的多模态基准，包含 11,727 段事故视频、对齐文本、对象框与事故原因问答；由早期 AdVersa-SD 工作发布，并用于 ADVersa 期刊研究。
+面向驾驶事故理解的多模态基准，包含 11,727 段事故视频及对齐文本、对象框和事故原因问答。
 
 - 评估协议：分别评估对象检测、事故原因回答、近事故场景恢复与预测等任务；按对应论文任务设置比较。此处提供论文入口，未核验数据下载可用性。
 - 核验：[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Fang_Abductive_Ego-View_Accident_Video_Understanding_for_Safe_Driving_Perception_CVPR_2024_paper.html>) · [来源 2](<https://engagedscholarship.csuohio.edu/enece_facpub/533/>)
+
+### TAR / TAR-Bench
+
+**2026 · NeurIPS Evaluations and Datasets** · [来源入口](<https://huggingface.co/datasets/nvidia/PhysicalAI-Traffic-Anomaly-Reasoning>)
+
+交通异常多任务推理资源，TAR 提供 44,040 条训练伪标注，TAR-Bench 以 960 条人工标注组成官方测试。
+
+- 评估协议：训练部分为 3,670 段视频的 44,040 条伪标注；官方测试为 80 段视频的 960 条人工标注。测试问题公开、答案隐藏，需通过官方评测服务评估；视频从原始来源单独获取。
+- 图片：[Figure 1: TAR 与 TAR-Bench 交通异常多任务标注示意（作者预印本）](<https://arxiv.org/html/2608.10317v3/TAR-teaser-2a-.png>)；署名：Han Zhang et al. / TAR / TAR-Bench
+- 核验：[来源 1](<https://arxiv.org/abs/2608.10317>) · [来源 2](<https://huggingface.co/datasets/nvidia/PhysicalAI-Traffic-Anomaly-Reasoning>) · [来源 3](<https://huggingface.co/datasets/nvidia/PhysicalAI-Traffic-Anomaly-Reasoning#source-videos>)
+
+### Vad-Reasoning-Plus
+
+**2026 · arXiv** · [来源入口](<https://github.com/wbfwonderful/Vad-R1-Plus>)
+
+扩展 Vad-Reasoning，以感知、认知、行动三级开放式问答和推理链，连接异常理解、风险判断与行动建议。
+
+- 评估协议：按论文的训练与测试划分评估分层回答和推理；区分完整推理监督的 SFT 子集与弱监督 RL 子集。作者尚未在所链接仓库发布数据文件，暂不能按已开放资源使用。
+- 核验：[来源 1](<https://arxiv.org/html/2601.10165v1>) · [来源 2](<https://github.com/wbfwonderful/Vad-R1-Plus>)
+
+### UCSD Ped1 / Ped2
+
+**2010 · CVPR** · [来源入口](<http://www.svcl.ucsd.edu/projects/anomaly/dataset.htm>)
+
+两处固定摄像机人行道基准，异常自然发生；Ped1 包含明显透视变化，Ped2 的行人运动大致平行于成像平面。
+
+- 评估协议：分别按 Ped1 的 34／36 和 Ped2 的 16／12 训练／测试片段评估；正常训练。帧级与像素级结果分开报告，Ped1 原始像素协议仅覆盖 10 个测试片段，不能与全部 36 段或后续补标版本混报。
+- 核验：[来源 1](<http://www.svcl.ucsd.edu/projects/anomaly/dataset.htm>) · [来源 2](<http://www.svcl.ucsd.edu/projects/anomaly/>)
+
+### ShanghaiTech Campus
+
+**2017 · ICCV** · [来源入口](<https://svip-lab.github.io/dataset/campus_dataset.html>)
+
+覆盖 13 个校园场景的异常检测基准，包含复杂光照与视角，以及追逐、打斗等突发运动异常。
+
+- 评估协议：采用官方正常训练／异常测试协议；多场景共用模型。后续弱监督重划分与 ShanghaiTech-sd 应另行注明，不能与原始协议混报。
+- 核验：[来源 1](<https://svip-lab.github.io/dataset/campus_dataset.html>) · [来源 2](<https://openaccess.thecvf.com/content_ICCV_2017/papers/Luo_A_Revisit_of_ICCV_2017_paper.pdf>)
+
+### TAD (Traffic Anomaly Dataset)
+
+**2021 · TIP** · [来源入口](<https://github.com/ktr-hubrt/WSAL>)
+
+包含 500 段交通视频的弱监督异常检测基准，正常与异常各 250 段，覆盖 7 类交通异常。
+
+- 评估协议：原论文采用 400 训练／100 测试划分，二者均含正常与异常视频；弱监督训练与测试帧级评估分开。须核实所用分割文件及标注版本，不能仅凭公开抽帧包认定复现了论文协议。
+- 核验：[来源 1](<https://github.com/ktr-hubrt/WSAL>) · [来源 2](<https://arxiv.org/pdf/2008.08944>)
+
+### UBnormal
+
+**2022 · CVPR** · [来源入口](<https://github.com/lilygeorgescu/UBnormal>)
+
+以多个虚拟场景构建合成异常视频，训练时提供异常像素标注，并用不相交的训练、测试异常类别检验开放集泛化。
+
+- 评估协议：遵守官方划分及训练／测试异常类别不相交的开放集设置。原始任务允许使用训练异常及像素标注；仅正常训练的变体应单列，不与监督开放集设置混报。
+- 核验：[来源 1](<https://github.com/lilygeorgescu/UBnormal>)
+
+### MSAD
+
+**2024 · NeurIPS Datasets and Benchmarks** · [来源入口](<https://msad-dataset.github.io/>)
+
+720 段 RGB 视频覆盖 14 类真实监控场景，包含人体与非人体异常及天气、光照变化，用于评估多场景检测。
+
+- 评估协议：区分官方两种协议：仅正常训练为 360 正常训练，120 正常＋240 异常测试；弱监督为 360 正常＋120 异常训练，120 正常＋120 异常测试，训练仅用视频级标签。
+- 核验：[来源 1](<https://msad-dataset.github.io/>)
+
+### NWPU Campus
+
+**2023 · CVPR** · [来源入口](<https://campusvad.github.io/>)
+
+547 段校园视频覆盖 43 场景与 28 类异常，突出同一行为随场景改变正常性的情况，同时支持异常检测与预判。
+
+- 评估协议：采用官方 305 正常训练／242 测试视频划分；场景依赖异常的正常性需结合所在场景判断。异常检测与预判应分别报告任务与评价协议。
+- 核验：[来源 1](<https://campusvad.github.io/>) · [来源 2](<https://campusvaa.github.io/>)
+
+### CUHK Avenue
+
+**2013 · ICCV** · [来源入口](<https://www.cse.cuhk.edu.hk/leojia/projects/detectabnormal/dataset.html>)
+
+固定校园通道的经典异常检测基准，包含 16 段训练、21 段测试视频及异常空间矩形标注，用于检测与定位。
+
+- 评估协议：采用官方 16／21 训练／测试划分；训练以正常情况为主，作者提示少量离群样本、稀有正常模式及测试轻微抖动。帧级与空间定位评价分开，并说明所用空间标注版本。
+- 核验：[来源 1](<https://www.cse.cuhk.edu.hk/leojia/projects/detectabnormal/dataset.html>)

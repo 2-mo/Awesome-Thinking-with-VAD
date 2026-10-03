@@ -33,7 +33,7 @@
 
 [![CueBench 统一上下文异常评测框架及任务示例](assets/papers/cuebench.png)](assets/papers/cuebench.png)
 
-*CueBench 的统一评测框架与上下文异常任务示例（原文 Figure 3）。 [原图 / PDF](<https://arxiv.org/html/2511.00613v1/evaluation_fig.png>) · [论文 / 作者页面](<https://arxiv.org/html/2511.00613v1>) · Yu, Yating et al. / CueBench*
+*CueBench 的统一评测框架与上下文异常任务示例（原文 Figure 3）。 Yu, Yating et al. / CueBench · [来源](<assets/papers/README.md#figure-cuebench>)*
 
 ---
 
@@ -52,7 +52,7 @@
 
 [![FineVAU 原论文两阶段细粒度标注流程](assets/papers/finevau.png)](assets/papers/finevau.png)
 
-*FineVAU：关键视觉事实评估。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2601.17258v2/figs/Annotation_Pipeline.png>) · [论文 / 作者页面](<https://arxiv.org/html/2601.17258>) · Pereira, Joao Alexandre Cardeira et al. / FineVAU*
+*FineVAU：关键视觉事实评估。原文 Figure 2。 Pereira, Joao Alexandre Cardeira et al. / FineVAU · [来源](<assets/papers/README.md#figure-finevau>)*
 
 ---
 
@@ -71,7 +71,7 @@
 
 [![HeadHunt-VAD：图 3：离线识别异常敏感注意力头并用于在线检测。](assets/papers/headhunt-vad.png)](assets/papers/headhunt-vad.png)
 
-*图 3：离线识别异常敏感注意力头并用于在线检测。 [原图 / PDF](<https://arxiv.org/html/2512.17601v2/headhuntfinalcmr.png>) · [论文 / 作者页面](<https://arxiv.org/html/2512.17601>) · Cai, Zhaolin et al. / HeadHunt-VAD*
+*图 3：离线识别异常敏感注意力头并用于在线检测。 Cai, Zhaolin et al. / HeadHunt-VAD · [来源](<assets/papers/README.md#figure-headhunt-vad>)*
 
 ---
 
@@ -89,7 +89,7 @@
 
 [![TargetVAU：个体时空交互图与指令推理原论文图](assets/papers/targetvau.png)](assets/papers/targetvau.png)
 
-*TargetVAU：个体时空交互图与指令推理（原文 Figure 2）。 [原图 / PDF](<https://manqing-zhang.github.io/publications/AAAI26.pdf>) · [论文 / 作者页面](<https://ojs.aaai.org/index.php/AAAI/article/view/38378>) · Zhou, Lingru et al. / TargetVAU*
+*TargetVAU：个体时空交互图与指令推理（原文 Figure 2）。 Zhou, Lingru et al. / TargetVAU · [来源](<assets/papers/README.md#figure-targetvau>)*
 
 ---
 
@@ -107,7 +107,7 @@
 
 [![VAGU & GtS：图 4：通过文本引导先定位主事件，再进行细粒度异常理解。](assets/papers/vagu-gts.png)](assets/papers/vagu-gts.png)
 
-*图 4：通过文本引导先定位主事件，再进行细粒度异常理解。 [原图 / PDF](<https://arxiv.org/html/2507.21507v1/model.png>) · [论文 / 作者页面](<https://arxiv.org/html/2507.21507>) · Gao, Shibo et al. / VAGU & GtS*
+*图 4：通过文本引导先定位主事件，再进行细粒度异常理解。 Gao, Shibo et al. / VAGU & GtS · [来源](<assets/papers/README.md#figure-vagu-gts>)*
 
 ---
 
@@ -130,7 +130,7 @@
 
 [![VALU：多层级异常标注示例原论文图](assets/papers/valu.png)](assets/papers/valu.png)
 
-*多层级异常标注示例（原文 Figure 2）。 [原图 / PDF](<https://aclanthology.org/2026.acl-long.56.pdf>) · [论文 / 作者页面](<https://aclanthology.org/2026.acl-long.56/>) · Yixiao He et al. / VALU*
+*多层级异常标注示例（原文 Figure 2）。 Yixiao He et al. / VALU · [来源](<assets/papers/README.md#figure-valu>)*
 
 ---
 
@@ -284,7 +284,7 @@
 
 [![VIBES 贝叶斯异常提议与聚焦视觉语言推理框架（作者仓库）](assets/papers/vibes.png)](assets/papers/vibes.png)
 
-*VIBES 贝叶斯异常提议与聚焦视觉语言推理框架（作者仓库） [原图 / PDF](<https://raw.githubusercontent.com/maoxiaowei97/VIBES/main/assets/fig/Model.png>) · [论文 / 作者页面](<https://github.com/maoxiaowei97/VIBES>) · Xiaowei Mao et al. / VIBES*
+*VIBES 贝叶斯异常提议与聚焦视觉语言推理框架（作者仓库） Xiaowei Mao et al. / VIBES · [来源](<assets/papers/README.md#figure-vibes>)*
 
 ---
 
@@ -303,7 +303,7 @@
 
 [![VTO 视觉工具编排与过程监督强化学习框架（作者仓库）](assets/papers/vto.png)](assets/papers/vto.png)
 
-*VTO 视觉工具编排与过程监督强化学习框架（作者仓库） [原图 / PDF](<https://raw.githubusercontent.com/MICLAB-BUPT/VTO/main/assets/vto_framework.png>) · [论文 / 作者页面](<https://github.com/MICLAB-BUPT/VTO>) · Rui Wang et al. / VTO*
+*VTO 视觉工具编排与过程监督强化学习框架（作者仓库） Rui Wang et al. / VTO · [来源](<assets/papers/README.md#figure-vto>)*
 
 ---
 
@@ -326,7 +326,7 @@
 
 [![Alert-CLIP：区域语义多层对齐原论文图](assets/papers/alert-clip.png)](assets/papers/alert-clip.png)
 
-*Alert-CLIP：区域语义多层对齐（原文 Figure 3）。 [原图 / PDF](<https://openaccess.thecvf.com/content/CVPR2026/papers/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html>) · Zhu, Yiyan et al. / Alert-CLIP*
+*Alert-CLIP：区域语义多层对齐（原文 Figure 3）。 Zhu, Yiyan et al. / Alert-CLIP · [来源](<assets/papers/README.md#figure-alert-clip>)*
 
 ---
 
@@ -344,7 +344,7 @@
 
 [![LAS-VAD：语义连通与意图感知原论文图](assets/papers/las-vad.png)](assets/papers/las-vad.png)
 
-*LAS-VAD：语义连通与意图感知（原文 Figure 1）。 [原图 / PDF](<https://openaccess.thecvf.com/content/CVPR2026/papers/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Weakly_Supervised_Video_Anomaly_Detection_with_Anomaly-Connected_Components_and_Intention_CVPR_2026_paper.html>) · Wang, Yu et al. / LAS-VAD*
+*LAS-VAD：语义连通与意图感知（原文 Figure 1）。 Wang, Yu et al. / LAS-VAD · [来源](<assets/papers/README.md#figure-las-vad>)*
 
 ---
 
@@ -363,7 +363,7 @@
 
 [![LAVIDA：伪异常与反向注意力原论文图](assets/papers/lavida.png)](assets/papers/lavida.png)
 
-*LAVIDA：伪异常与反向注意力（原文 Figure 2）。 [原图 / PDF](<https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html>) · Dai, Zunkai et al. / LAVIDA*
+*LAVIDA：伪异常与反向注意力（原文 Figure 2）。 Dai, Zunkai et al. / LAVIDA · [来源](<assets/papers/README.md#figure-lavida>)*
 
 ---
 
@@ -381,7 +381,7 @@
 
 [![STCH：图 3：时空因果超图、记忆库与流式犯罪预测训练流程。](assets/papers/stch.png)](assets/papers/stch.png)
 
-*图 3：时空因果超图、记忆库与流式犯罪预测训练流程。 [原图 / PDF](<https://openaccess.thecvf.com/content/CVPR2026/papers/Wang_Streaming_Video_Crime_Anticipation_with_Spatio-Temporal_Causal_Reasoning_CVPR_2026_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Streaming_Video_Crime_Anticipation_with_Spatio-Temporal_Causal_Reasoning_CVPR_2026_paper.html>) · Wang, Yusong et al. / STCH*
+*图 3：时空因果超图、记忆库与流式犯罪预测训练流程。 Wang, Yusong et al. / STCH · [来源](<assets/papers/README.md#figure-stch>)*
 
 ---
 
@@ -404,7 +404,7 @@
 
 [![CLUE-VAD：图 2：Witness、Detective 和 Reporter 模块将语义线索用于检测与解释。](assets/papers/clue-vad.png)](assets/papers/clue-vad.png)
 
-*图 2：Witness、Detective 和 Reporter 模块将语义线索用于检测与解释。 [原图 / PDF](<https://media.eventhosts.cc/Conferences/ECCV2026/pdfs/7292.pdf>) · [论文 / 作者页面](<https://eccv.ecva.net/virtual/2026/poster/4744>) · MYOUNG-CHUL KIM et al. / CLUE-VAD*
+*图 2：Witness、Detective 和 Reporter 模块将语义线索用于检测与解释。 MYOUNG-CHUL KIM et al. / CLUE-VAD · [来源](<assets/papers/README.md#figure-clue-vad>)*
 
 ---
 
@@ -423,7 +423,7 @@
 
 [![Figure 2: EWAD 事件流视频异常检测流程（作者预印本）](assets/papers/ewad.png)](assets/papers/ewad.png)
 
-*Figure 2: EWAD 事件流视频异常检测流程（作者预印本） [原图 / PDF](<https://arxiv.org/html/2603.24991v2/pipeline4.png>) · [论文 / 作者页面](<https://arxiv.org/html/2603.24991v2>) · Peng Wu et al. / EWAD*
+*Figure 2: EWAD 事件流视频异常检测流程（作者预印本） Peng Wu et al. / EWAD · [来源](<assets/papers/README.md#figure-ewad>)*
 
 ---
 
@@ -442,7 +442,7 @@
 
 [![O-VAD：图 2：对象发现、状态跟踪与多步推理相结合的检测流程。](assets/papers/o-vad.png)](assets/papers/o-vad.png)
 
-*图 2：对象发现、状态跟踪与多步推理相结合的检测流程。 [原图 / PDF](<https://raw.githubusercontent.com/o-vad/O-VAD/main/assets/framework.png>) · [论文 / 作者页面](<https://github.com/o-vad/O-VAD>) · Mei Yuan et al. / O-VAD*
+*图 2：对象发现、状态跟踪与多步推理相结合的检测流程。 Mei Yuan et al. / O-VAD · [来源](<assets/papers/README.md#figure-o-vad>)*
 
 ---
 
@@ -460,7 +460,7 @@
 
 [![Figure 3: PA-VAD 伪异常视频生成与域对齐记忆框架（作者预印本）](assets/papers/pa-vad.jpg)](assets/papers/pa-vad.jpg)
 
-*Figure 3: PA-VAD 伪异常视频生成与域对齐记忆框架（作者预印本） [原图 / PDF](<https://arxiv.org/html/2512.06845v2/img/img3.jpg>) · [论文 / 作者页面](<https://arxiv.org/html/2512.06845v2>) · Satoshi Hashimoto et al. / PA-VAD*
+*Figure 3: PA-VAD 伪异常视频生成与域对齐记忆框架（作者预印本） Satoshi Hashimoto et al. / PA-VAD · [来源](<assets/papers/README.md#figure-pa-vad>)*
 
 ---
 
@@ -479,7 +479,7 @@
 
 [![Pistachio：图 2：从场景和故事线生成异常视频及事件摘要。](assets/papers/pistachio.png)](assets/papers/pistachio.png)
 
-*图 2：从场景和故事线生成异常视频及事件摘要。 [原图 / PDF](<https://arxiv.org/html/2511.19474v6/3.png>) · [论文 / 作者页面](<https://arxiv.org/html/2511.19474>) · Li, Jie et al. / Pistachio*
+*图 2：从场景和故事线生成异常视频及事件摘要。 Li, Jie et al. / Pistachio · [来源](<assets/papers/README.md#figure-pistachio>)*
 
 ---
 
@@ -497,7 +497,7 @@
 
 [![ReactVAU：图 2：快速检测、异常持久记忆与慢速推理模块。](assets/papers/reactvau.png)](assets/papers/reactvau.png)
 
-*图 2：快速检测、异常持久记忆与慢速推理模块。 [原图 / PDF](<https://arxiv.org/html/2609.07941v2/reactvau.png>) · [论文 / 作者页面](<https://arxiv.org/html/2609.07941>) · Chen, Chia-Hui et al. / ReactVAU*
+*图 2：快速检测、异常持久记忆与慢速推理模块。 Chen, Chia-Hui et al. / ReactVAU · [来源](<assets/papers/README.md#figure-reactvau>)*
 
 ---
 
@@ -515,7 +515,7 @@
 
 [![Fig. 1：STEP 人体姿态时序能量异常检测流程（作者预印本，第 2 页）。](assets/papers/step-vad.png)](assets/papers/step-vad.png)
 
-*Fig. 1：STEP 人体姿态时序能量异常检测流程（作者预印本，第 2 页）。 [原图 / PDF](<https://arxiv.org/pdf/2608.19987v1>) · [论文 / 作者页面](<https://arxiv.org/abs/2608.19987v1>) · Jakub Micorek et al. / STEP*
+*Fig. 1：STEP 人体姿态时序能量异常检测流程（作者预印本，第 2 页）。 Jakub Micorek et al. / STEP · [来源](<assets/papers/README.md#figure-step-vad>)*
 
 ---
 
@@ -534,7 +534,7 @@
 
 [![Figure 2: TrajVAD 轨迹与姿态分支异常检测框架（作者预印本）](assets/papers/trajvad.png)](assets/papers/trajvad.png)
 
-*Figure 2: TrajVAD 轨迹与姿态分支异常检测框架（作者预印本） [原图 / PDF](<https://arxiv.org/html/2605.21957v2/figure2_architecture.png>) · [论文 / 作者页面](<https://arxiv.org/html/2605.21957v2>) · Inpyo Song et al. / TrajVAD*
+*Figure 2: TrajVAD 轨迹与姿态分支异常检测框架（作者预印本） Inpyo Song et al. / TrajVAD · [来源](<assets/papers/README.md#figure-trajvad>)*
 
 ---
 
@@ -558,7 +558,7 @@
 
 [![LaGoVAD：图 2：语言异常定义分支、动态视频合成与负样本对比学习。](assets/papers/lagovad.png)](assets/papers/lagovad.png)
 
-*图 2：语言异常定义分支、动态视频合成与负样本对比学习。 [原图 / PDF](<https://proceedings.iclr.cc/paper_files/paper/2026/file/f88bec15cc4cb56b432ee040bb63f94f-Paper-Conference.pdf>) · [论文 / 作者页面](<https://proceedings.iclr.cc/paper_files/paper/2026/hash/f88bec15cc4cb56b432ee040bb63f94f-Abstract-Conference.html>) · Liu, Zihao et al. / LaGoVAD*
+*图 2：语言异常定义分支、动态视频合成与负样本对比学习。 Liu, Zihao et al. / LaGoVAD · [来源](<assets/papers/README.md#figure-lagovad>)*
 
 ---
 
@@ -576,7 +576,7 @@
 
 [![SteerVAD：图 3：选择潜在异常专家并校正特征以完成异常检测。](assets/papers/steervad.png)](assets/papers/steervad.png)
 
-*图 3：选择潜在异常专家并校正特征以完成异常检测。 [原图 / PDF](<https://arxiv.org/html/2602.24021v1/framework4.png>) · [论文 / 作者页面](<https://arxiv.org/html/2602.24021>) · Cai, Zhaolin et al. / SteerVAD*
+*图 3：选择潜在异常专家并校正特征以完成异常检测。 Cai, Zhaolin et al. / SteerVAD · [来源](<assets/papers/README.md#figure-steervad>)*
 
 ---
 
@@ -599,7 +599,7 @@
 
 [![Anom-π 原论文框架图](assets/papers/anom-pi.png)](assets/papers/anom-pi.png)
 
-*Anom-π：交替推理与观察策略。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2607.00622v1/fig2.png>) · [论文 / 作者页面](<https://arxiv.org/html/2607.00622>) · Mengjingcheng Mo et al. / Anom-π*
+*Anom-π：交替推理与观察策略。原文 Figure 2。 Mengjingcheng Mo et al. / Anom-π · [来源](<assets/papers/README.md#figure-anom-pi>)*
 
 ---
 
@@ -617,7 +617,7 @@
 
 [![CG-CoE：图 1：抽取异常事件并依据类别容忍边界进行组合匹配与评分。](assets/papers/cg-coe.png)](assets/papers/cg-coe.png)
 
-*图 1：抽取异常事件并依据类别容忍边界进行组合匹配与评分。 [原图 / PDF](<https://raw.githubusercontent.com/mlresearch/v306/main/assets/leng26a/leng26a.pdf>) · [论文 / 作者页面](<https://proceedings.mlr.press/v306/leng26a.html>) · Jiaxu Leng et al. / CG-CoE*
+*图 1：抽取异常事件并依据类别容忍边界进行组合匹配与评分。 Jiaxu Leng et al. / CG-CoE · [来源](<assets/papers/README.md#figure-cg-coe>)*
 
 ---
 
@@ -635,7 +635,7 @@
 
 [![LRPO：图 2：学习者与优化器通过语言交互优化异常判断经验。](assets/papers/lrpo.png)](assets/papers/lrpo.png)
 
-*图 2：学习者与优化器通过语言交互优化异常判断经验。 [原图 / PDF](<https://arxiv.org/html/2607.00654v1/pipeline.png>) · [论文 / 作者页面](<https://arxiv.org/html/2607.00654>) · Jiaxu Leng et al. / LRPO*
+*图 2：学习者与优化器通过语言交互优化异常判断经验。 Jiaxu Leng et al. / LRPO · [来源](<assets/papers/README.md#figure-lrpo>)*
 
 ---
 
@@ -653,7 +653,7 @@
 
 [![TD-VAD：图 2：利用语言模型生成描述并训练异常检测器的流程。](assets/papers/td-vad.png)](assets/papers/td-vad.png)
 
-*图 2：利用语言模型生成描述并训练异常检测器的流程。 [原图 / PDF](<https://arxiv.org/html/2608.11820v1/framework7.png>) · [论文 / 作者页面](<https://arxiv.org/html/2608.11820>) · Shuangqing Zhang et al. / TD-VAD*
+*图 2：利用语言模型生成描述并训练异常检测器的流程。 Shuangqing Zhang et al. / TD-VAD · [来源](<assets/papers/README.md#figure-td-vad>)*
 
 ---
 
@@ -676,7 +676,7 @@
 
 [![MemoVAD：图 2：MemoVAD 的边缘检测、不确定性门控、动态语义记忆与云端验证。](assets/papers/memovad.png)](assets/papers/memovad.png)
 
-*图 2：MemoVAD 的边缘检测、不确定性门控、动态语义记忆与云端验证。 [原图 / PDF](<https://www.ijcai.org/proceedings/2026/0618.pdf>) · [论文 / 作者页面](<https://www.ijcai.org/proceedings/2026/618>) · Guo Li et al. / MemoVAD*
+*图 2：MemoVAD 的边缘检测、不确定性门控、动态语义记忆与云端验证。 Guo Li et al. / MemoVAD · [来源](<assets/papers/README.md#figure-memovad>)*
 
 ---
 
@@ -700,7 +700,7 @@
 
 [![Fig. 5: AnomShield 关键帧选择与视频异常因果理解架构（作者预印本）](assets/papers/ecva-anomshield.png)](assets/papers/ecva-anomshield.png)
 
-*Fig. 5: AnomShield 关键帧选择与视频异常因果理解架构（作者预印本） [原图 / PDF](<https://arxiv.org/html/2412.07183v1/architecture_v7.png>) · [论文 / 作者页面](<https://arxiv.org/html/2412.07183v1>) · Hang Du et al. / ECVA / AnomShield*
+*Fig. 5: AnomShield 关键帧选择与视频异常因果理解架构（作者预印本） Hang Du et al. / ECVA / AnomShield · [来源](<assets/papers/README.md#figure-ecva-anomshield>)*
 
 ---
 
@@ -741,7 +741,7 @@
 
 [![Figure 2: COPRA 实例条件参数生成与强化学习框架（作者预印本）](assets/papers/copra.jpg)](assets/papers/copra.jpg)
 
-*Figure 2: COPRA 实例条件参数生成与强化学习框架（作者预印本） [原图 / PDF](<https://arxiv.org/html/2605.15325v1/assets/main_pg_figure.jpg>) · [论文 / 作者页面](<https://arxiv.org/html/2605.15325v1>) · Darryl Cherian Jacob et al. / COPRA*
+*Figure 2: COPRA 实例条件参数生成与强化学习框架（作者预印本） Darryl Cherian Jacob et al. / COPRA · [来源](<assets/papers/README.md#figure-copra>)*
 
 ---
 
@@ -795,7 +795,7 @@
 
 [![Figure 2: SphereVAD 单位超球面测地推理流程（作者预印本）](assets/papers/spherevad.png)](assets/papers/spherevad.png)
 
-*Figure 2: SphereVAD 单位超球面测地推理流程（作者预印本） [原图 / PDF](<https://arxiv.org/html/2605.08003v1/pipeline.png>) · [论文 / 作者页面](<https://arxiv.org/html/2605.08003v1>) · Chao Huang et al. / SphereVAD*
+*Figure 2: SphereVAD 单位超球面测地推理流程（作者预印本） Chao Huang et al. / SphereVAD · [来源](<assets/papers/README.md#figure-spherevad>)*
 
 ---
 
@@ -813,7 +813,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![Figure 1: TAR 与 TAR-Bench 交通异常多任务标注示意（作者预印本）](assets/papers/tar-bench.png)](assets/papers/tar-bench.png)
 
-*Figure 1: TAR 与 TAR-Bench 交通异常多任务标注示意（作者预印本） [原图 / PDF](<https://arxiv.org/html/2608.10317v3/TAR-teaser-2a-.png>) · [论文 / 作者页面](<https://arxiv.org/html/2608.10317v3>) · Han Zhang et al. / TAR / TAR-Bench*
+*Figure 1: TAR 与 TAR-Bench 交通异常多任务标注示意（作者预印本） Han Zhang et al. / TAR / TAR-Bench · [来源](<assets/papers/README.md#figure-tar-bench>)*
 
 ---
 
@@ -857,7 +857,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![ADVersa 物体中心与关系中心事故视频扩散及文本推理框架](assets/papers/adversa.png)](assets/papers/adversa.png)
 
-*ADVersa 事故视频扩散与文本推理框架（作者主页所示 TPAMI 2026 版本） [原图 / PDF](<https://doc-doc.github.io/cv/assets/images/research/arxiv/ADVersa.png>) · [论文 / 作者页面](<https://doc-doc.github.io/cv/>) · Lei-Lei Li et al. / ADVersa*
+*ADVersa 事故视频扩散与文本推理框架（作者主页所示 TPAMI 2026 版本） Lei-Lei Li et al. / ADVersa · [来源](<assets/papers/README.md#figure-adversa>)*
 
 ---
 
@@ -880,7 +880,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![AgenticVAU：图 2：多智能体通过探索、观察、证据记忆与验证形成异常判断。](assets/papers/agenticvau.png)](assets/papers/agenticvau.png)
 
-*图 2：多智能体通过探索、观察、证据记忆与验证形成异常判断。 [原图 / PDF](<https://arxiv.org/html/2608.03779v1/method.png>) · [论文 / 作者页面](<https://arxiv.org/html/2608.03779>) · Duan, Yuxiang et al. / AgenticVAU*
+*图 2：多智能体通过探索、观察、证据记忆与验证形成异常判断。 Duan, Yuxiang et al. / AgenticVAU · [来源](<assets/papers/README.md#figure-agenticvau>)*
 
 ---
 
@@ -899,7 +899,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![AnomalyCraft-700K：图 2：AnomalyCraft 视频异常数据生成流程。](assets/papers/anomalycraft.png)](assets/papers/anomalycraft.png)
 
-*图 2：AnomalyCraft 视频异常数据生成流程。 [原图 / PDF](<https://arxiv.org/html/2609.06978v1/Figure2_Draft.png>) · [论文 / 作者页面](<https://arxiv.org/html/2609.06978>) · Long, Yuzhou et al. / AnomalyCraft-700K*
+*图 2：AnomalyCraft 视频异常数据生成流程。 Long, Yuzhou et al. / AnomalyCraft-700K · [来源](<assets/papers/README.md#figure-anomalycraft>)*
 
 ---
 
@@ -918,7 +918,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![Probe-VAD：图 2：利用有序严重程度阈值探测视觉语言模型并汇总异常分数。](assets/papers/probe-vad.png)](assets/papers/probe-vad.png)
 
-*图 2：利用有序严重程度阈值探测视觉语言模型并汇总异常分数。 [原图 / PDF](<https://arxiv.org/html/2609.17211v1/ProbeVAD_flowchart.png>) · [论文 / 作者页面](<https://arxiv.org/html/2609.17211>) · Gu, Jiawei et al. / Probe-VAD*
+*图 2：利用有序严重程度阈值探测视觉语言模型并汇总异常分数。 Gu, Jiawei et al. / Probe-VAD · [来源](<assets/papers/README.md#figure-probe-vad>)*
 
 ---
 
@@ -936,7 +936,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![SRVAU-R1 原论文框架图](assets/papers/srvau-r1.png)](assets/papers/srvau-r1.png)
 
-*SRVAU-R1：反思修正序列训练。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2602.01004v1/figure2.png>) · [论文 / 作者页面](<https://arxiv.org/html/2602.01004>) · Zhao, Zihao et al. / SRVAU-R1*
+*SRVAU-R1：反思修正序列训练。原文 Figure 2。 Zhao, Zihao et al. / SRVAU-R1 · [来源](<assets/papers/README.md#figure-srvau-r1>)*
 
 ---
 
@@ -955,7 +955,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![TAU-Bench：图 1：关联异常实例轨迹与细粒度语义理解的基准概览。](assets/papers/tau-bench.png)](assets/papers/tau-bench.png)
 
-*图 1：关联异常实例轨迹与细粒度语义理解的基准概览。 [原图 / PDF](<https://yarkupa.github.io/tau-bench.github.io/assets/overview.png>) · [论文 / 作者页面](<https://yarkupa.github.io/tau-bench.github.io/>) · Yang, Kepeng et al. / TAU-Bench*
+*图 1：关联异常实例轨迹与细粒度语义理解的基准概览。 Yang, Kepeng et al. / TAU-Bench · [来源](<assets/papers/README.md#figure-tau-bench>)*
 
 ---
 
@@ -974,7 +974,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![Vad-R1-Plus：图 2：结构化思维链与自适应混合推理机制。](assets/papers/vad-r1-plus.png)](assets/papers/vad-r1-plus.png)
 
-*图 2：结构化思维链与自适应混合推理机制。 [原图 / PDF](<https://arxiv.org/html/2601.10165v1/plus-fig-cot.png>) · [论文 / 作者页面](<https://arxiv.org/html/2601.10165>) · Huang, Chao et al. / Vad-R1-Plus*
+*图 2：结构化思维链与自适应混合推理机制。 Huang, Chao et al. / Vad-R1-Plus · [来源](<assets/papers/README.md#figure-vad-r1-plus>)*
 
 ---
 
@@ -1001,7 +1001,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![VarCMP：图 1：统一层级跨模态对齐与异常偏置加权的视频异常检索框架。](assets/papers/varcmp.png)](assets/papers/varcmp.png)
 
-*图 1：统一层级跨模态对齐与异常偏置加权的视频异常检索框架。 [原图 / PDF](<https://ojs.aaai.org/index.php/AAAI/article/download/32909/35064>) · [论文 / 作者页面](<https://ojs.aaai.org/index.php/AAAI/article/view/32909>) · Wu, Peng et al. / VarCMP*
+*图 1：统一层级跨模态对齐与异常偏置加权的视频异常检索框架。 Wu, Peng et al. / VarCMP · [来源](<assets/papers/README.md#figure-varcmp>)*
 
 ---
 
@@ -1025,7 +1025,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![EventVAD 原论文框架图](assets/papers/eventvad.png)](assets/papers/eventvad.png)
 
-*EventVAD：时空图划分事件边界。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2504.13092v3/pipeline.png>) · [论文 / 作者页面](<https://arxiv.org/html/2504.13092>) · Shao, Yihua et al. / EventVAD*
+*EventVAD：时空图划分事件边界。原文 Figure 2。 Shao, Yihua et al. / EventVAD · [来源](<assets/papers/README.md#figure-eventvad>)*
 
 ---
 
@@ -1043,7 +1043,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![HiProbe-VAD：图 5：离线隐藏状态探测和评分器训练，以及在线评分与定位。](assets/papers/hiprobe-vad.png)](assets/papers/hiprobe-vad.png)
 
-*图 5：离线隐藏状态探测和评分器训练，以及在线评分与定位。 [原图 / PDF](<https://arxiv.org/html/2507.17394v1/framework.png>) · [论文 / 作者页面](<https://arxiv.org/html/2507.17394>) · Cai, Zhaolin et al. / HiProbe-VAD*
+*图 5：离线隐藏状态探测和评分器训练，以及在线评分与定位。 Cai, Zhaolin et al. / HiProbe-VAD · [来源](<assets/papers/README.md#figure-hiprobe-vad>)*
 
 ---
 
@@ -1062,7 +1062,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![HoloTrace：边云协同的双向因果知识图异常检测系统。](assets/papers/holotrace.png)](assets/papers/holotrace.png)
 
-*边云协同的双向因果知识图异常检测系统。 [原图 / PDF](<https://raw.githubusercontent.com/kongyanye/HoloTrace-MM25/main/assets/system_overview.png>) · [论文 / 作者页面](<https://github.com/kongyanye/HoloTrace-MM25>) · Wang, Hanling et al. / HoloTrace*
+*边云协同的双向因果知识图异常检测系统。 Wang, Hanling et al. / HoloTrace · [来源](<assets/papers/README.md#figure-holotrace>)*
 
 ---
 
@@ -1085,7 +1085,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![Anomize：多源语义与标签关系原论文图](assets/papers/anomize.png)](assets/papers/anomize.png)
 
-*Anomize：多源语义与标签关系（原文 Figure 3）。 [原图 / PDF](<https://openaccess.thecvf.com/content/CVPR2025/papers/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html>) · Li, Fei et al. / Anomize*
+*Anomize：多源语义与标签关系（原文 Figure 3）。 Li, Fei et al. / Anomize · [来源](<assets/papers/README.md#figure-anomize>)*
 
 ---
 
@@ -1104,7 +1104,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![Holmes-VAU 原论文框架图](assets/papers/holmes-vau.png)](assets/papers/holmes-vau.png)
 
-*Holmes-VAU：多粒度指令与采样。原文 Figure 4。 [原图 / PDF](<https://arxiv.org/html/2412.06171v2/fig_framework.png>) · [论文 / 作者页面](<https://arxiv.org/html/2412.06171>) · Zhang, Huaxin et al. / Holmes-VAU*
+*Holmes-VAU：多粒度指令与采样。原文 Figure 4。 Zhang, Huaxin et al. / Holmes-VAU · [来源](<assets/papers/README.md#figure-holmes-vau>)*
 
 ---
 
@@ -1123,7 +1123,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![VERA 原论文框架图](assets/papers/vera.png)](assets/papers/vera.png)
 
-*VERA：语言反馈优化问题。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2412.01095v3/fig2.png>) · [论文 / 作者页面](<https://arxiv.org/html/2412.01095>) · Ye, Muchao et al. / VERA*
+*VERA：语言反馈优化问题。原文 Figure 2。 Ye, Muchao et al. / VERA · [来源](<assets/papers/README.md#figure-vera>)*
 
 ---
 
@@ -1146,7 +1146,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![VA-GPT：时空有效词元对齐原论文图](assets/papers/va-gpt.png)](assets/papers/va-gpt.png)
 
-*VA-GPT：时空有效词元对齐（原文 Figure 2）。 [原图 / PDF](<https://openaccess.thecvf.com/content/ICCV2025/papers/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>) · Chen, Yingxian et al. / VA-GPT*
+*VA-GPT：时空有效词元对齐（原文 Figure 2）。 Chen, Yingxian et al. / VA-GPT · [来源](<assets/papers/README.md#figure-va-gpt>)*
 
 ---
 
@@ -1169,7 +1169,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![Ex-VAD：解释融合与标签对齐原论文图](assets/papers/ex-vad.png)](assets/papers/ex-vad.png)
 
-*Ex-VAD：解释融合与标签对齐（原文 Figure 2）。 [原图 / PDF](<https://raw.githubusercontent.com/mlresearch/v267/main/assets/huang25ad/huang25ad.pdf>) · [论文 / 作者页面](<https://proceedings.mlr.press/v267/huang25ad.html>) · Chao Huang et al. / Ex-VAD*
+*Ex-VAD：解释融合与标签对齐（原文 Figure 2）。 Chao Huang et al. / Ex-VAD · [来源](<assets/papers/README.md#figure-ex-vad>)*
 
 ---
 
@@ -1193,7 +1193,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 [![VANE-Bench：VANE-Bench 的视频异常评测与问答构建流程。](assets/papers/vane-bench.png)](assets/papers/vane-bench.png)
 
-*VANE-Bench 的视频异常评测与问答构建流程。 [原图 / PDF](<https://github.com/rohit901/VANE-Bench/raw/main/assets/Main_VANE-Bench%20Flow_v7.png?raw=true>) · [论文 / 作者页面](<https://github.com/rohit901/VANE-Bench>) · Gani, Hanan et al. / VANE-Bench*
+*VANE-Bench 的视频异常评测与问答构建流程。 Gani, Hanan et al. / VANE-Bench · [来源](<assets/papers/README.md#figure-vane-bench>)*
 
 ---
 
@@ -1217,7 +1217,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![A2Seek / A2Seek-R1：航拍异常理解基准的任务、场景与标注概览。](assets/papers/a2seek.png)](assets/papers/a2seek.png)
 
-*航拍异常理解基准的任务、场景与标注概览。 [原图 / PDF](<https://2-mo.github.io/A2Seek/static/images/carousel1.png>) · [论文 / 作者页面](<https://2-mo.github.io/A2Seek/>) · Mo, Mengjingcheng et al. / A2Seek / A2Seek-R1*
+*航拍异常理解基准的任务、场景与标注概览。 Mo, Mengjingcheng et al. / A2Seek / A2Seek-R1 · [来源](<assets/papers/README.md#figure-a2seek>)*
 
 ---
 
@@ -1235,7 +1235,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![MoniTor 原论文框架图](assets/papers/monitor.png)](assets/papers/monitor.png)
 
-*MoniTor：流式记忆与分数队列。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2510.21449v1/frameworkv5.png>) · [论文 / 作者页面](<https://arxiv.org/html/2510.21449>) · Yang, Shengtian et al. / MoniTor*
+*MoniTor：流式记忆与分数队列。原文 Figure 2。 Yang, Shengtian et al. / MoniTor · [来源](<assets/papers/README.md#figure-monitor>)*
 
 ---
 
@@ -1254,7 +1254,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![PANDA 原论文框架图](assets/papers/panda.png)](assets/papers/panda.png)
 
-*PANDA：场景规划与工具反思。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2509.26386v2/PANDA_Pipeline.png>) · [论文 / 作者页面](<https://arxiv.org/html/2509.26386>) · Yang, Zhiwei et al. / PANDA*
+*PANDA：场景规划与工具反思。原文 Figure 2。 Yang, Zhiwei et al. / PANDA · [来源](<assets/papers/README.md#figure-panda>)*
 
 ---
 
@@ -1273,7 +1273,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![URF-ZS-HVAA：统一视频异常分析框架的总体流程。](assets/papers/urf-zs-hvaa.png)](assets/papers/urf-zs-hvaa.png)
 
-*图 1：时间检测、空间定位与异常理解任务之间的链式推理框架。 [原图 / PDF](<https://github.com/Rathgrith/URF-HVAA/raw/main/assets/image.png>) · [论文 / 作者页面](<https://github.com/Rathgrith/URF-ZS-HVAA>) · Lin, Dongheng et al. / URF-ZS-HVAA*
+*图 1：时间检测、空间定位与异常理解任务之间的链式推理框架。 Lin, Dongheng et al. / URF-ZS-HVAA · [来源](<assets/papers/README.md#figure-urf-zs-hvaa>)*
 
 ---
 
@@ -1291,7 +1291,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![VAD-DPO：图 1：视觉与文本共现偏差导致异常误判的研究动机示意。](assets/papers/vad-dpo.png)](assets/papers/vad-dpo.png)
 
-*图 1：视觉与文本共现偏差导致异常误判的研究动机示意。 [原图 / PDF](<https://papers.nips.cc/paper_files/paper/2025/file/99b419554537c66bf27e5eb7a74c7de4-Paper-Conference.pdf>) · [论文 / 作者页面](<https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html>) · Zhang, Menghao et al. / VAD-DPO*
+*图 1：视觉与文本共现偏差导致异常误判的研究动机示意。 Zhang, Menghao et al. / VAD-DPO · [来源](<assets/papers/README.md#figure-vad-dpo>)*
 
 ---
 
@@ -1310,7 +1310,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![Vad-R1 原论文框架图](assets/papers/vad-r1.jpg)](assets/papers/vad-r1.jpg)
 
-*Vad-R1：感知认知推理链与自验证奖励。 [原图 / PDF](<https://raw.githubusercontent.com/wbfwonderful/Vad-R1/HEAD/images/overview.png>) · [论文 / 作者页面](<https://github.com/wbfwonderful/Vad-R1>) · Huang, Chao et al. / Vad-R1*
+*Vad-R1：感知认知推理链与自验证奖励。 Huang, Chao et al. / Vad-R1 · [来源](<assets/papers/README.md#figure-vad-r1>)*
 
 ---
 
@@ -1329,7 +1329,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![VADTree 原论文框架图](assets/papers/vadtree.jpg)](assets/papers/vadtree.jpg)
 
-*VADTree：事件边界驱动的层次粒度树。 [原图 / PDF](<https://raw.githubusercontent.com/wenlongli10/VADTree/HEAD/assets/framework.png>) · [论文 / 作者页面](<https://github.com/wenlongli10/VADTree>) · Li, Wenlong et al. / VADTree*
+*VADTree：事件边界驱动的层次粒度树。 Li, Wenlong et al. / VADTree · [来源](<assets/papers/README.md#figure-vadtree>)*
 
 ---
 
@@ -1352,7 +1352,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![Fig. 2: CRCL 场景去偏与因果正常性学习流程（作者预印本）](assets/papers/crcl.png)](assets/papers/crcl.png)
 
-*Fig. 2: CRCL 场景去偏与因果正常性学习流程（作者预印本） [原图 / PDF](<https://arxiv.org/html/2503.18808v1/tifs-CReC_00.png>) · [论文 / 作者页面](<https://arxiv.org/html/2503.18808v1>) · Liu, Yang et al. / CRCL*
+*Fig. 2: CRCL 场景去偏与因果正常性学习流程（作者预印本） Liu, Yang et al. / CRCL · [来源](<assets/papers/README.md#figure-crcl>)*
 
 ---
 
@@ -1396,7 +1396,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![Flashback：图 2：离线构建语义记忆，在线检索并生成异常分数。](assets/papers/flashback.png)](assets/papers/flashback.png)
 
-*图 2：离线构建语义记忆，在线检索并生成异常分数。 [原图 / PDF](<https://arxiv.org/html/2505.15205v2/method10.png>) · [论文 / 作者页面](<https://arxiv.org/html/2505.15205>) · Lee, Hyogun et al. / Flashback*
+*图 2：离线构建语义记忆，在线检索并生成异常分数。 Lee, Hyogun et al. / Flashback · [来源](<assets/papers/README.md#figure-flashback>)*
 
 ---
 
@@ -1414,7 +1414,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![SlowFastVAD：图 2：结合快速检测、检索增强的慢速推理与结果融合。](assets/papers/slowfastvad.png)](assets/papers/slowfastvad.png)
 
-*图 2：结合快速检测、检索增强的慢速推理与结果融合。 [原图 / PDF](<https://arxiv.org/pdf/2504.10320>) · [论文 / 作者页面](<https://arxiv.org/abs/2504.10320>) · Ding, Zongcan et al. / SlowFastVAD*
+*图 2：结合快速检测、检索增强的慢速推理与结果融合。 Ding, Zongcan et al. / SlowFastVAD · [来源](<assets/papers/README.md#figure-slowfastvad>)*
 
 ---
 
@@ -1433,7 +1433,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![VAU-R1：图 2：使用 GRPO 强化微调提升视频异常推理。](assets/papers/vau-r1.png)](assets/papers/vau-r1.png)
 
-*图 2：使用 GRPO 强化微调提升视频异常推理。 [原图 / PDF](<https://arxiv.org/html/2505.23504v1/pipeline_v2.png>) · [论文 / 作者页面](<https://arxiv.org/html/2505.23504>) · Zhu, Liyun et al. / VAU-R1*
+*图 2：使用 GRPO 强化微调提升视频异常推理。 Zhu, Liyun et al. / VAU-R1 · [来源](<assets/papers/README.md#figure-vau-r1>)*
 
 ---
 
@@ -1461,7 +1461,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![VadCLIP 原论文框架图](assets/papers/vadclip.png)](assets/papers/vadclip.png)
 
-*VadCLIP：视觉语言双分支对齐。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2308.11681v3/pipeline.png>) · [论文 / 作者页面](<https://arxiv.org/html/2308.11681>) · Wu, Peng et al. / VadCLIP*
+*VadCLIP：视觉语言双分支对齐。原文 Figure 2。 Wu, Peng et al. / VadCLIP · [来源](<assets/papers/README.md#figure-vadclip>)*
 
 ---
 
@@ -1485,7 +1485,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![CUVA 原论文基准概览：原因、事件、后果和重要性曲线](assets/papers/cuva.png)](assets/papers/cuva.png)
 
-*CUVA：事件因果任务分解。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2405.00181v3/dataset_4.png>) · [论文 / 作者页面](<https://arxiv.org/html/2405.00181>) · Du, Hang et al. / CUVA*
+*CUVA：事件因果任务分解。原文 Figure 2。 Du, Hang et al. / CUVA · [来源](<assets/papers/README.md#figure-cuva>)*
 
 ---
 
@@ -1505,7 +1505,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![LAVAD 原论文框架图](assets/papers/lavad.png)](assets/papers/lavad.png)
 
-*LAVAD：字幕聚合语言评分。原文 Figure 4。 [原图 / PDF](<https://arxiv.org/html/2404.01014v1/architecture.png>) · [论文 / 作者页面](<https://arxiv.org/html/2404.01014>) · Zanella, Luca et al. / LAVAD*
+*LAVAD：字幕聚合语言评分。原文 Figure 4。 Zanella, Luca et al. / LAVAD · [来源](<assets/papers/README.md#figure-lavad>)*
 
 ---
 
@@ -1523,7 +1523,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![OVVAD：语言知识与异常合成原论文图](assets/papers/ovvad.png)](assets/papers/ovvad.png)
 
-*OVVAD：语言知识与异常合成（原文 Figure 2）。 [原图 / PDF](<https://openaccess.thecvf.com/content/CVPR2024/papers/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html>) · Wu, Peng et al. / OVVAD*
+*OVVAD：语言知识与异常合成（原文 Figure 2）。 Wu, Peng et al. / OVVAD · [来源](<assets/papers/README.md#figure-ovvad>)*
 
 ---
 
@@ -1541,7 +1541,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![TPWNG：正常引导伪标签学习原论文图](assets/papers/tpwng.png)](assets/papers/tpwng.png)
 
-*TPWNG：正常引导伪标签学习（原文 Figure 2）。 [原图 / PDF](<https://openaccess.thecvf.com/content/CVPR2024/papers/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html>) · Yang, Zhiwei et al. / TPWNG*
+*TPWNG：正常引导伪标签学习（原文 Figure 2）。 Yang, Zhiwei et al. / TPWNG · [来源](<assets/papers/README.md#figure-tpwng>)*
 
 ---
 
@@ -1560,7 +1560,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![UCA：用于多模态异常检测的增强 TEVAD 基线框架原论文图](assets/papers/uca-paper.png)](assets/papers/uca-paper.png)
 
-*用于多模态异常检测的增强 TEVAD 基线框架（原文 Figure 3）。 [原图 / PDF](<https://openaccess.thecvf.com/content/CVPR2024/papers/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html>) · Yuan, Tongtong et al. / UCA*
+*用于多模态异常检测的增强 TEVAD 基线框架（原文 Figure 3）。 Yuan, Tongtong et al. / UCA · [来源](<assets/papers/README.md#figure-uca-paper>)*
 
 ---
 
@@ -1584,7 +1584,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![AnomalyRuler 原论文框架图](assets/papers/anomalyruler.png)](assets/papers/anomalyruler.png)
 
-*AnomalyRuler：正常规则归纳演绎。原文 Figure 2。 [原图 / PDF](<https://arxiv.org/html/2407.10299v2/VAD_newpipe.png>) · [论文 / 作者页面](<https://arxiv.org/html/2407.10299>) · Yang, Yuchen et al. / AnomalyRuler*
+*AnomalyRuler：正常规则归纳演绎。原文 Figure 2。 Yang, Yuchen et al. / AnomalyRuler · [来源](<assets/papers/README.md#figure-anomalyruler>)*
 
 ---
 
@@ -1608,7 +1608,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![HAWK 原论文框架图](assets/papers/hawk.png)](assets/papers/hawk.png)
 
-*HAWK：运动语言监督对齐。原文 Figure 3。 [原图 / PDF](<https://arxiv.org/html/2405.16886v1/framework.png>) · [论文 / 作者页面](<https://arxiv.org/html/2405.16886>) · Tang, Jiaqi et al. / HAWK*
+*HAWK：运动语言监督对齐。原文 Figure 3。 Tang, Jiaqi et al. / HAWK · [来源](<assets/papers/README.md#figure-hawk>)*
 
 ---
 
@@ -1632,7 +1632,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![Fig. 4: ALAN 的视频、文本、音频编码与跨模态对齐框架（作者预印本）](assets/papers/alan.png)](assets/papers/alan.png)
 
-*Fig. 4: ALAN 的视频、文本、音频编码与跨模态对齐框架（作者预印本） [原图 / PDF](<https://arxiv.org/html/2307.12545v2/pipeline.png>) · [论文 / 作者页面](<https://arxiv.org/html/2307.12545v2>) · Wu, Peng et al. / ALAN / VAR*
+*Fig. 4: ALAN 的视频、文本、音频编码与跨模态对齐框架（作者预印本） Wu, Peng et al. / ALAN / VAR · [来源](<assets/papers/README.md#figure-alan>)*
 
 ---
 
@@ -1651,7 +1651,7 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![Fig. 2：PEL 时序上下文聚合与提示增强学习框架（作者预印本，第 4 页）。](assets/papers/pel.png)](assets/papers/pel.png)
 
-*Fig. 2：PEL 时序上下文聚合与提示增强学习框架（作者预印本，第 4 页）。 [原图 / PDF](<https://arxiv.org/pdf/2306.14451v2>) · [论文 / 作者页面](<https://arxiv.org/abs/2306.14451v2>) · Pu, Yujiang et al. / PEL*
+*Fig. 2：PEL 时序上下文聚合与提示增强学习框架（作者预印本，第 4 页）。 Pu, Yujiang et al. / PEL · [来源](<assets/papers/README.md#figure-pel>)*
 
 ---
 
@@ -1678,6 +1678,6 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [![EVAL：对象运动属性解释原论文图](assets/papers/eval.png)](assets/papers/eval.png)
 
-*EVAL：对象运动属性解释（原文 Figure 1）。 [原图 / PDF](<https://openaccess.thecvf.com/content/CVPR2023/papers/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.pdf>) · [论文 / 作者页面](<https://openaccess.thecvf.com/content/CVPR2023/html/Singh_EVAL_Explainable_Video_Anomaly_Localization_CVPR_2023_paper.html>) · Singh, Ashish et al. / EVAL*
+*EVAL：对象运动属性解释（原文 Figure 1）。 Singh, Ashish et al. / EVAL · [来源](<assets/papers/README.md#figure-eval>)*
 
 ---

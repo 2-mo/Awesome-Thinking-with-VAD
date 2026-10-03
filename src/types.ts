@@ -74,15 +74,29 @@ export interface Paper {
   figurePending?: { note: string; sources: Source[]; verifiedAt: string };
 }
 export interface Dataset {
+  composition?: {
+    kind: "original" | "annotation" | "resplit" | "mixed";
+    note: string;
+    evidence: Source;
+    baseDatasetIds?: string[];
+  };
+  availability?: {
+    status: "available" | "partial" | "pending" | "unverified";
+    note: string;
+    evidence: Source;
+    verifiedAt: string;
+  };
   year: number;
   venue: string;
-  thumbnail?: { src: string; alt: string; sourceUrl: string; credit: string };
+  thumbnail?: { src: string; alt: string; caption?: string; sourceUrl: string; credit: string };
   id: string;
   name: string;
   description: string;
   tasks: string[];
   modalities: string[];
   annotations: string[];
+  // Concise reader-facing caveat; full protocol and evidence remain below.
+  usageNote?: string;
   protocol: string;
   links: { website: string; paper?: string };
   sources: Source[];

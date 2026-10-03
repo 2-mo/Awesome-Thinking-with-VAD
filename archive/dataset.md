@@ -60,7 +60,7 @@
 
 **Recent Large-scale:**
 - **[NWPU Campus](https://campusvad.github.io/)** (CVPR 2023)  
-  - **Largest**: 547 videos, 16 hours, 43 scenes, 28 classes
+  - 547 videos, 16 hours, 43 scenes, 28 classes
   - Scene-dependent anomalies
   - Anomaly anticipation task
   
@@ -131,7 +131,7 @@
 - **[UCA (UCF-Crime Annotation)](https://xuange923.github.io/Surveillance-Video-Understanding)** (CVPR 2024)  
   - **23,542 fine-grained sentences**, 111 hours
   - Temporal event descriptions for surveillance video understanding
-  - Enables video captioning and Q&A for anomaly scenes
+  - Supports temporal sentence grounding, video captioning, dense video captioning, and multimodal anomaly detection
   
 - **[UCCD](https://github.com/lingruzhou/UCCD)** (TMM 2024)  
   - Human-centric behavior descriptions
@@ -161,7 +161,7 @@
   
 - **[MSAD](https://msad-dataset.github.io/)** (NeurIPS 2024) [![arXiv](https://img.shields.io/badge/arXiv-2402.04857-b31b1b)](https://arxiv.org/pdf/2402.04857)  
   - **14 diverse scenarios** (factory, tunnel, prison, classroom, etc.)
-  - 6,811 videos with 150,308 frames
+  - 720 videos with 447,236 frames ([NeurIPS 2024 paper](https://papers.neurips.cc/paper_files/paper/2024/file/a3c5af1f56fc73eef1ba0f442739f5ca-Paper-Datasets_and_Benchmarks_Track.pdf))
   - Long-tail distribution with rare anomaly types
   - Designed for real-world deployment challenges
 
