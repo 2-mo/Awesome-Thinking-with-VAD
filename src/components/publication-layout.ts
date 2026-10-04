@@ -1,5 +1,6 @@
 import type { Cluster, Paper } from "../types";
-import { clusterName, isMapPaper, paperMethods, publicationVenue } from "../publication.ts";
+import { clusterName, isMapPaper, paperMethods, publicationVenue, timelineYear } from "../publication.ts";
+import { MAP_FONT_SIZE } from "./map-typography.ts";
 
 export type Point = { x: number; y: number };
 export type Box = Point & { width: number; height: number };
@@ -7,10 +8,14 @@ export type Platform = Point & { lineId: string };
 export type Station = Point & {
   paperId: string; lineId: string; lineIds: string[]; platforms: Platform[]; label: Box;
   fork?: { parentId: string; branchId: string };
+  // A returning branch meets its parent at one ordinary station.
+  merge?: { parentId: string; branchId: string };
   // A two-direction paper with only one incoming and one outgoing rail uses
   // one ordinary marker. Its method memberships remain available in details.
   continuation?: boolean;
 };
+export const isInterchangeStation = (station: Station): boolean =>
+  station.platforms.some(platform => platform.x !== station.x || platform.y !== station.y);
 export function stationBounds(station: Station, padding = 12): Box {
   const top = Math.min(...station.platforms.map((platform) => platform.y));
   const bottom = Math.max(...station.platforms.map((platform) => platform.y));
@@ -23,6 +28,9 @@ export type PublicationLine = {
   branchOf?: string;
   branchAt?: Cluster["branchAt"];
   routes?: Cluster["routes"];
+  // The actual station sequences used to draw each track, including the
+  // chronological fallback for directions without editorial route records.
+  paperRoutes: string[][];
   tracks: Point[][];
   labelPosition: Point;
   labelAnchor?: "start" | "end";
@@ -49,9 +57,16 @@ export const publicationLabel = (paper: Paper): string =>
 // Combined benchmark/model titles keep their model name at the map station;
 // the complete title remains in the index, accessible name and detail panel.
 export const stationName = (paper: Paper): string => paper.shortTitle.split(" / ").at(-1)!;
-export const stationVenue = (paper: Paper, fork = false): string =>
-  `${publicationVenue(paper.venue)}${fork ? " · Fork" : ""}`;
-export const stationVenueSize = (fork = false): number => fork ? 12 : 14;
+export const STATION_NAME_SIZE = MAP_FONT_SIZE.primary;
+export const STATION_ICON_SIZE = 22;
+export const stationNameWidth = (paper: Paper): number => labelWidth(stationName(paper), STATION_NAME_SIZE);
+export const stationVenue = (paper: Paper): string => publicationVenue(paper.venue);
+export const stationVenueSize = (): number => MAP_FONT_SIZE.secondary;
+// Reserve the same subtitle footprint across the catalog's venue styles, so
+// changing publication metadata does not move a paper's date coordinate.
+export const stationSubtitleWidth = (paper: Paper): number =>
+  Math.max(labelWidth(stationVenue(paper), stationVenueSize()), labelWidth("NeurIPS", stationVenueSize()),
+    labelWidth("ACM MM", stationVenueSize())) + (paper.mapIcon ? STATION_ICON_SIZE + 16 : 0);
 // Conservative glyph estimates keep packing deterministic before fonts load.
 export function labelWidth(text: string, size = 14): number {
   return Math.ceil(
@@ -116,6 +131,23 @@ type Segment = { a: Point; b: Point };
 const segments = (path: Point[]): Segment[] =>
   path.slice(1).map((b, i) => ({ a: path[i], b }));
 const length = (a: Point, b: Point) => Math.hypot(b.x - a.x, b.y - a.y);
+
+// Measure the whole name block, including its ends, against a nearby rail.
+// Center-only measurements miss long names that almost touch another line.
+export function railLabelDistance(box: Box, a: Point, b: Point): number {
+  if (crosses(a, b, box)) return 0;
+  const pointToBox = (p: Point) => Math.hypot(
+    Math.max(box.x - p.x, p.x - box.x - box.width, 0),
+    Math.max(box.y - p.y, p.y - box.y - box.height, 0));
+  const dx = b.x - a.x, dy = b.y - a.y, squared = dx * dx + dy * dy;
+  return Math.min(pointToBox(a), pointToBox(b), ...[
+    { x: box.x, y: box.y }, { x: box.x + box.width, y: box.y },
+    { x: box.x, y: box.y + box.height }, { x: box.x + box.width, y: box.y + box.height },
+  ].map(p => {
+    const t = squared ? Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / squared)) : 0;
+    return Math.hypot(p.x - a.x - t * dx, p.y - a.y - t * dy);
+  }));
+}
 
 // Two shortest octilinear alternatives: put the diagonal first or last.
 function elbows(a: Point, b: Point): Point[][] {
@@ -224,6 +256,7 @@ function routeBetween(
   bounds: Box,
   bendLate = false,
   connections: Point[] = [start, end],
+  bendEarly = false,
 ): Point[] {
   obstacles = obstacles.filter((box) => box.x < end.x && box.x + box.width > start.x);
   occupied = occupied.filter(({ a, b }) => a.x <= end.x && b.x >= start.x);
@@ -235,14 +268,16 @@ function routeBetween(
       point.y >= bounds.y && point.y <= bounds.y + bounds.height) &&
     // Move right immediately when leaving a station, so a route arriving
     // vertically cannot double back along the same segment at a peak/valley.
-    (!same(path[0], start) || path[1]?.x > start.x) &&
+    (!same(path[0], start) || path[1]?.x > start.x &&
+      (!bendEarly || end.y === start.y || (path[1].y - start.y) * (end.y - start.y) > 0)) &&
     segments(path).every(
       ({ a, b }) => !obstacles.some((box) => crosses(a, b, box)) && !unnamedJoin(a, b, occupied, connections),
     );
   const cost = (path: Point[]) =>
     segments(path).reduce(
       (sum, { a, b }) => sum + length(a, b) + parallelPenalty(a, b, occupied) + crossingPenalty(a, b, occupied) +
-        (bendLate ? Math.abs(b.y - a.y) * Math.max(0, end.x - (a.x + b.x) / 2) / Math.max(1, end.x - start.x) : 0),
+        (bendLate ? Math.abs(b.y - a.y) * Math.max(0, end.x - (a.x + b.x) / 2) / Math.max(1, end.x - start.x) : 0) +
+        (bendEarly ? Math.abs(b.y - a.y) * Math.max(0, (a.x + b.x) / 2 - start.x) / Math.max(1, end.x - start.x) * 4 : 0),
       0,
     ) +
     (path.length - 2) * 100;
@@ -331,22 +366,22 @@ function routeBetween(
 }
 
 function route(start: Point, end: Point, obstacles: Box[], occupied: Segment[], bounds: Box,
-  platforms: { start: number; end: number }, bendLate = false): Point[] {
+  platforms: { start: number; end: number }, bendLate = false, bendEarly = false): Point[] {
   // Only shared stations need horizontal approaches to their separate
   // platforms. Ordinary stations may sit directly on a diagonal or its end.
-  if (!platforms.start && !platforms.end) return routeBetween(start, end, obstacles, occupied, bounds, bendLate);
+  if (!platforms.start && !platforms.end) return routeBetween(start, end, obstacles, occupied, bounds, bendLate, [start, end], bendEarly);
   for (const scale of [1, .75]) {
     if (end.x - start.x <= scale * (platforms.start + platforms.end)) continue;
     const departure = { x: start.x + platforms.start * scale, y: start.y };
     const arrival = { x: end.x - platforms.end * scale, y: end.y };
     if (obstacles.some((box) => crosses(start, departure, box) || crosses(arrival, end, box))) continue;
     try {
-      return simplify([start, ...routeBetween(departure, arrival, obstacles, occupied, bounds, bendLate, [start, end]), end]);
+      return simplify([start, ...routeBetween(departure, arrival, obstacles, occupied, bounds, bendLate, [start, end], bendEarly), end]);
     } catch {
       // A tight label corridor can require a shorter platform or a direct route.
     }
   }
-  return routeBetween(start, end, obstacles, occupied, bounds, bendLate);
+  return routeBetween(start, end, obstacles, occupied, bounds, bendLate, [start, end], bendEarly);
 }
 
 // Shared-paper and parent/branch topology determine neighboring lines.
@@ -426,7 +461,7 @@ function packLabels(options: Map<string, LabelCandidate[]>): Map<string, Box> {
 export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = []): PublicationLayout {
   const month = (paper: Paper) => paper.timeline?.month ?? 13;
   papers = papers.filter(isMapPaper).sort((a, b) =>
-    a.year - b.year || month(a) - month(b) || a.id.localeCompare(b.id));
+    timelineYear(a) - timelineYear(b) || month(a) - month(b) || a.id.localeCompare(b.id));
   const ids = [...new Set(papers.flatMap(paperMethods))];
   const schools = [
     ...clusters.filter((school) => ids.includes(school.id)).map(c => ({ ...c, label: clusterName(c) })),
@@ -435,13 +470,37 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   ] as Pick<PublicationLine, "id" | "label" | "color" | "branchOf" | "branchAt" | "routes">[];
   const forks = new Map(schools.filter(s => s.branchOf && s.branchAt &&
     papers.some(p => p.id === s.branchAt!.paperId)).map(s => [s.branchAt!.paperId, s]));
+  // Local return routes and one-way branches leave at an ordinary shared
+  // station. A branch root does not need a separate interchange platform.
+  for (const school of schools) for (const route of school.routes ?? []) {
+    if (!school.branchOf || route.paperIds.length < 3) continue;
+    const members = route.paperIds.map(id => papers.find(p => p.id === id));
+    if (members.some(p => !p)) continue;
+    const [root, terminal] = [members[0]!, members.at(-1)!];
+    if (!paperMethods(root).includes(school.branchOf!) ||
+      members.slice(1, -1).some(p => paperMethods(p!).length > 1)) continue;
+    const returns = paperMethods(terminal).includes(school.branchOf!);
+    const departureOnly = !school.routes?.some(other => other.paperIds.slice(1).includes(root.id));
+    if (!returns && !departureOnly) continue;
+    const trunk = schools.find(s => s.id === school.branchOf)?.routes?.find(r =>
+      r.paperIds.includes(root.id) && (returns
+        ? r.paperIds.indexOf(terminal.id) > r.paperIds.indexOf(root.id)
+        : r.paperIds.indexOf(root.id) < r.paperIds.length - 1));
+    if (!trunk) continue;
+    forks.set(root.id, school);
+  }
   const nearby = clusters.filter(c => ids.includes(c.id) && c.layoutNear && ids.includes(c.layoutNear))
     .map(c => [c.id, c.layoutNear!, c.layoutSide ?? ""]);
   const order = methodOrder(papers, schools.map((school) => school.id),
     schools.filter(s => s.branchOf && ids.includes(s.branchOf)).map(s => [s.id, s.branchOf!]), nearby);
   const rank = (paper: Paper) => forks.has(paper.id) ? order.indexOf(forks.get(paper.id)!.branchOf!) : paperMethods(paper)
     .reduce((sum, id) => sum + order.indexOf(id), 0) / paperMethods(paper).length;
-  const margin = 24, top = 88, laneGap = 168, slotWidth = 68, origin = top + 108;
+  // An upper synthesis band provides the first lane itself. Otherwise reserve
+  // headroom for detection offshoots above the first visible trunk.
+  const synthesisAboveDetection = nearby.some(([id, neighbor, side]) =>
+    id === "synthesis" && neighbor === "detection" && side === "above");
+  const detectionHeadroom = ids.includes("detection") && !synthesisAboveDetection ? 216 : 0;
+  const margin = 24, top = 88, laneGap = 336, slotWidth = 72, origin = top + 108 + detectionHeadroom;
   // Short branches share a tighter band with their neighbors. Dense trunks
   // retain the room needed by two-sided labels and interchange platforms.
   const compactBranch = (id: string) => schools.some(s => s.id === id && s.branchOf) &&
@@ -449,22 +508,58 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   // A branch explicitly grouped beside its parent needs room for transfer
   // approaches on the neighboring trunk. Other short branches stay compact.
   const groupedBranch = (id: string) => compactBranch(id) && nearby.some(pair => pair.includes(id));
+  // Reuse the inactive synthesis band for earlier alignment papers. The
+  // later synthesis and streaming routes fill the gap after alignment ends.
+  // Overrides apply only to adjacent directions.
+  const corridorGaps = new Map([
+    ["synthesis:detection", 432], ["detection:alignment", 384],
+    ["detection:synthesis", 288], ["synthesis:alignment", 240], ["alignment:understanding", 336], ["detection:understanding", 528], ["understanding:evidence", 336],
+    ["evidence:evaluation", 264], ["evaluation:reasoning", 312],
+    ["reasoning:explanation", 528],
+  ]);
   const levels = new Map<string, number>();
   order.forEach((id, index) => levels.set(id, index === 0 ? 0 : levels.get(order[index - 1])! +
-    (compactBranch(id) || compactBranch(order[index - 1]) ?
-      (groupedBranch(id) || groupedBranch(order[index - 1]) ? 168 : 144) :
-      nearby.some(pair => pair.includes(id) && pair.includes(order[index - 1])) ? 168 : laneGap)));
+    (corridorGaps.get(`${order[index - 1]}:${id}`) ?? (compactBranch(id) || compactBranch(order[index - 1]) ?
+      (groupedBranch(id) || groupedBranch(order[index - 1]) ? laneGap : 192) : laneGap))));
+  // A direction does not reserve an empty horizontal band for every year.
+  // Earlier trunks use the space before later branches become active; sparse
+  // criteria segments sit closer to reasoning before spreading out in 2026.
+  const heightProfiles: Record<string, [number, number][]> = {
+    alignment: [[2023, -192], [2025.5, -192], [2026.5, 0], [2027, 0]],
+    understanding: [[2023, -96], [2025.5, -96], [2026.5, 0], [2027, 0]],
+    evidence: [[2023, -96], [2025.5, -96], [2026.5, 0], [2027, 0]],
+    evaluation: [[2023, -144], [2025.5, -144], [2026.5, -48], [2027, 0]],
+    reasoning: [[2023, -144], [2025.5, -144], [2026.5, -48], [2027, 0]],
+    explanation: [[2023, -240], [2025.5, -288], [2026.5, -144], [2027, 0]],
+  };
+  const profileOffset = (id: string, paper: Paper): number => {
+    const profile = heightProfiles[id];
+    if (!profile) return 0;
+    const minimum = -levels.get(id)!;
+    const time = timelineYear(paper) + (month(paper) - 1) / 12;
+    const next = profile.findIndex(([date]) => date >= time);
+    if (next < 0) return Math.max(minimum, profile.at(-1)![1]);
+    if (!next) return Math.max(minimum, profile[0][1]);
+    const [a, b] = [profile[next - 1], profile[next]];
+    return Math.max(minimum, a[1] + (b[1] - a[1]) * (time - a[0]) / (b[0] - a[0]));
+  };
   const level = (paper: Paper) => {
     const methods = forks.has(paper.id) ? [forks.get(paper.id)!.branchOf!] : paperMethods(paper);
-    return methods.reduce((sum, id) => sum + levels.get(id)!, 0) / methods.length;
+    return methods.reduce((sum, id) => sum + levels.get(id)! + profileOffset(id, paper), 0) / methods.length;
   };
   const stationXs = new Map<string, number>();
-  const yearValues = [...new Set(papers.map((paper) => paper.year))];
+  // Parallel arms may use the same month column. A shared anchor reserves
+  // every arm of its direction; unrelated arms do not serialize each other.
+  const routeSlots = new Map(schools.map(school => [school.id,
+    (school.routes ?? []).map((route, index) => ({ key: `${school.id}:${index}`, ids: route.paperIds }))]));
+  const yearValues = [...new Set(papers.map(timelineYear))];
   let x = margin;
   const years = yearValues.map((year) => {
-    const members = papers.filter((paper) => paper.year === year);
+    const members = papers.filter((paper) => timelineYear(paper) === year);
     const months = [...new Set(members.map(month))].sort((a, b) => a - b);
-    let cursor = x + 40;
+    // Let the first date column carry centered names inside its year band.
+    let cursor = x + Math.max(40, ...members.filter(paper => month(paper) === months[0])
+      .map(paper => Math.max(stationNameWidth(paper), stationSubtitleWidth(paper)) / 2 + 12));
     const packMonth = (value: number) => {
       const pending = members.filter((paper) => month(paper) === value)
         .sort((a, b) => Number(forks.has(b.id)) - Number(forks.has(a.id)) || rank(a) - rank(b) || a.id.localeCompare(b.id));
@@ -520,16 +615,24 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
         // Other same-month papers must not land inside its connector.
         const indices = methods.map(id => order.indexOf(id));
         const occupiedMethods = order.slice(Math.min(...indices), Math.max(...indices) + 1);
-        const slot = Math.max(0, ...occupiedMethods.map((id) => nextSlot.get(id) ?? 0));
+        const occupiedSlots = occupiedMethods.flatMap(id => {
+          const routes = routeSlots.get(id)!;
+          const local = routes.filter(route => route.ids.includes(paper.id));
+          return routes.length ? (local.length === 1 && methods.length === 1 ? local : routes).map(route => route.key) : [id];
+        });
+        const slot = Math.max(0, ...occupiedSlots.map((id) => nextSlot.get(id) ?? 0));
         stationXs.set(paper.id, cursor + slot * slotWidth);
-        occupiedMethods.forEach((id) => nextSlot.set(id, slot + 1));
+        occupiedSlots.forEach((id) => nextSlot.set(id, slot + 1));
         // Reserve time-axis space after the actual fork paper, so an immediate
         // same-month branch can leave it diagonally rather than vertically.
         const fork = forks.get(paper.id);
-        if (fork) nextSlot.set(fork.id, slot + Math.ceil((laneGap + 32) / slotWidth));
+        if (fork) {
+          const keys = routeSlots.get(fork.id)!.map(route => route.key);
+          for (const key of keys.length ? keys : [fork.id]) nextSlot.set(key, slot + Math.ceil((laneGap + 32) / slotWidth));
+        }
         lastSlot = Math.max(lastSlot, slot);
       }
-      cursor += lastSlot * slotWidth + 52;
+      cursor += lastSlot * slotWidth + 44;
     };
     const quarters: PublicationLayout["years"][number]["quarters"] = [];
     if (year >= 2025) {
@@ -546,9 +649,9 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       }
     } else months.forEach(packMonth);
     const widestTail = Math.max(0, ...members.map((paper) =>
-      stationXs.get(paper.id)! - x + labelWidth(stationName(paper), 20) / 2 + 40));
+      stationXs.get(paper.id)! - x + stationNameWidth(paper) * (forks.has(paper.id) ? 1 : .5) + 40));
     const width = Math.max(140, cursor - x, widestTail, ...members.map((paper) =>
-      Math.max(labelWidth(stationName(paper), 20), labelWidth(publicationVenue(paper.venue), 14)) + 22));
+      Math.max(stationNameWidth(paper), stationSubtitleWidth(paper)) + 22));
     if (quarters.length) quarters.at(-1)!.width = x + width - quarters.at(-1)!.x;
     const item = { year, x, width, count: members.length, quarters };
     x += width;
@@ -589,26 +692,6 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     return degrees.some(d => d.incoming === 1 && d.outgoing === 0) &&
       degrees.some(d => d.incoming === 0 && d.outgoing === 1);
   }).map(paper => paper.id));
-  // Inserting a short color section into a through route should not flip
-  // the alternating shelves of every later station on that route.
-  const inlineTails = new Set<string>();
-  for (const school of schools) for (const members of routeMembers.get(school.id)!) {
-    if (members.length !== 2 || members.some(p => !continuations.has(p.id))) continue;
-    for (const id of paperMethods(members[0])) {
-      if (id !== school.id && paperMethods(members[1]).includes(id)) inlineTails.add(`${id}:${members[1].id}`);
-    }
-  }
-  // Pair neighboring stops on alternating shelves. The resulting long bends
-  // make room for station names without stretching every dense month sideways.
-  const shelves = new Map(schools.map((school) => {
-    let index = 0;
-    const values = new Map(lineMembers.get(school.id)!.map(paper => {
-      const shelf = (Math.floor(index / 2) % 2 ? 1 : -1) * 24;
-      if (!inlineTails.has(`${school.id}:${paper.id}`)) index++;
-      return [paper.id, shelf];
-    }));
-    return [school.id, values];
-  }));
   // Between the last transfer and a later fork, an as-yet inactive branch
   // does not need its full band. Lift ordinary parent/lower-line stops in
   // that interval. Shared papers are exempt from this direct height shift.
@@ -628,9 +711,7 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       stationXs.get(paper.id)! > band.start && stationXs.get(paper.id)! < band.end &&
       order.indexOf(paper.cluster) >= band.parentRank).reduce((sum, band) => sum + band.amount, 0) : 0);
   const home = new Map(papers.map((paper) => {
-    const methods = forks.has(paper.id) ? [forks.get(paper.id)!.branchOf!] : paperMethods(paper);
-    const shelf = methods.reduce((sum, id) => sum + shelves.get(id)!.get(paper.id)!, 0) / methods.length;
-    return [paper.id, origin + anchorLevel(paper) + shelf];
+    return [paper.id, origin + anchorLevel(paper)];
   }));
   let ys = new Map(home);
   // Barycentric relaxation follows each paper's actual neighboring stations.
@@ -663,8 +744,8 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       lineIds: methods, platforms, x: stationX, y: stationY,
       ...(fork ? { fork: { parentId: fork.branchOf!, branchId: fork.id } } : {}),
       ...(continuation ? { continuation: true } : {}),
-      label: { x: 0, y: 0, width: Math.max(labelWidth(stationName(paper), 20),
-        labelWidth(stationVenue(paper, !!fork), stationVenueSize(!!fork))) + 14, height: 48 } });
+      label: { x: 0, y: 0, width: Math.max(stationNameWidth(paper),
+        stationSubtitleWidth(paper)) + 14, height: 72 } });
   }
   // The 24-unit rail grid and month spacing need not have identical steps.
   // Fit nearby level runs to a true 45° connection before placing labels.
@@ -727,10 +808,11 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   // intermediate papers instead of alternating station-by-station heights.
   const parallelPairs = new Set<string>();
   const directDepartures = new Set<string>(), directArrivals = new Set<string>();
-  const returningForks = new Set<string>();
   const fanClearance = new Map<string, number>();
+  const convergingPairs = new Set<string>();
+  const levelCorridors = new Set<string>();
   for (const school of schools) for (const branch of routeMembers.get(school.id)!) {
-    if (!school.branchOf || branch.length < 3 || branch[0].id !== school.branchAt?.paperId) continue;
+    if (!school.branchOf || branch.length < 3 || forks.get(branch[0].id)?.id !== school.id) continue;
     const root = stations.get(branch[0].id)!, terminal = stations.get(branch.at(-1)!.id)!;
     if (!terminal.lineIds.includes(school.branchOf) || branch.slice(1, -1).some(p => paperMethods(p).length > 1)) continue;
     const parentRoutes = routeMembers.get(school.branchOf)!;
@@ -738,6 +820,16 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       route.findIndex(p => p.id === terminal.paperId) > route.findIndex(p => p.id === root.paperId));
     if (!trunk) continue;
     const start = trunk.findIndex(p => p.id === root.paperId), end = trunk.findIndex(p => p.id === terminal.paperId);
+    const continuesBranch = routeMembers.get(school.id)!.some(route => {
+      const index = route.findIndex(paper => paper.id === terminal.paperId);
+      return index >= 0 && index < route.length - 1;
+    });
+    if (terminal.lineIds.length === 2 && !continuesBranch) {
+      terminal.y = terminal.platforms.find(p => p.lineId === school.branchOf)!.y;
+      for (const platform of terminal.platforms) platform.y = terminal.y;
+      terminal.merge = { parentId: school.branchOf, branchId: school.id };
+      directArrivals.add(`${school.id}:${branch.at(-2)!.id}:${terminal.paperId}`);
+    }
     if (trunk.slice(start + 1, end).some(p => paperMethods(p).length > 1)) continue;
     let height = root.platforms.find(p => p.lineId === school.branchOf)!.y;
     const sideRoutes = parentRoutes.filter(route => route !== trunk && route[0]?.id === root.paperId &&
@@ -758,23 +850,134 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       }
     }
     const side = order.indexOf(school.id) < order.indexOf(school.branchOf) ? -1 : 1;
-    let last = end;
-    while (last + 1 < trunk.length && paperMethods(trunk[last + 1]).length === 1) last++;
-    for (const paper of trunk.slice(start + 1, last + 1)) {
+    // The returning fan stays flat only through its own return. Later papers
+    // are free to use the vertical space beside the next junction.
+    for (const paper of trunk.slice(start, end + 1)) levelCorridors.add(paper.id);
+    for (const paper of trunk.slice(start + 1, end + 1)) {
       const station = stations.get(paper.id)!;
       moveStation(station, station.y + height - station.platforms.find(p => p.lineId === school.branchOf)!.y);
+    }
+    if (terminal.merge) {
+      // Incoming arms occupy both sides of the return label, so give its
+      // first continuing neighbor enough room for two adjacent names.
+      const next = trunk[end + 1] && stations.get(trunk[end + 1].id);
+      if (next) fanClearance.set(`${terminal.paperId}:${next.paperId}`,
+        Math.ceil((terminal.label.width + next.label.width / 2 + 40) / 8) * 8);
     }
     const shelf = (members: Paper[], y: number, outward: number) => {
       for (const paper of members) { moveStation(stations.get(paper.id)!, y); labelSides.set(paper.id, outward); }
       for (let i = 1; i < members.length; i++) parallelPairs.add(`${members[i - 1].id}:${members[i].id}`);
     };
-    shelf(branch.slice(1, -1), height + side * 120, side);
+    shelf(branch.slice(1, -1), height + side * 192, side);
     for (const route of sideRoutes) {
-      shelf(route.slice(1, -1), height - side * 120, side);
+      shelf(route.slice(1, -1), height - side * 192, -side);
       directDepartures.add(`${school.branchOf}:${root.paperId}:${route[1].id}`);
       directArrivals.add(`${school.branchOf}:${route.at(-2)!.id}:${terminal.paperId}`);
     }
-    returningForks.add(`${school.id}:${root.paperId}`);
+  }
+  // Same-color reading branches reuse named stations on a longer trunk.
+  // Give their interiors a separate shelf on the roomier side, and leave
+  // the trunk flat so the fork reads as two paths rather than a sharp peak.
+  for (const [lineId, routes] of routeMembers) for (const branch of routes) {
+    if (branch.length < 3 || branch.slice(1, -1).some(p => paperMethods(p).length !== 1)) continue;
+    const root = stations.get(branch[0].id)!, terminal = stations.get(branch.at(-1)!.id)!;
+    const trunk = routes.find(other => other !== branch && other.length > branch.length &&
+      other.findIndex(p => p.id === root.paperId) >= 0 &&
+      other.findIndex(p => p.id === terminal.paperId) > other.findIndex(p => p.id === root.paperId));
+    if (!trunk || levelCorridors.has(root.paperId) && levelCorridors.has(terminal.paperId)) continue;
+    const start = trunk.findIndex(p => p.id === root.paperId), end = trunk.findIndex(p => p.id === terminal.paperId);
+    const middle = trunk.slice(start + 1, end);
+    if (!middle.length || middle.some(p => paperMethods(p).length !== 1) ||
+        branch.slice(1, -1).some(p => trunk.some(other => other.id === p.id))) continue;
+    const rootHeight = root.platforms.find(p => p.lineId === lineId)!.y;
+    const terminalHeight = terminal.platforms.find(p => p.lineId === lineId)!.y;
+    const height = isInterchangeStation(terminal) ? Math.round((rootHeight + terminalHeight) / 48) * 24 : rootHeight;
+    moveStation(root, root.y + height - rootHeight);
+    moveStation(terminal, terminal.y + height - terminalHeight);
+    const midpoint = (root.x + terminal.x) / 2;
+    const neighbors = [...routeMembers.entries()].filter(([id]) => id !== lineId)
+      .flatMap(([, localRoutes]) => localRoutes.flatMap(members => {
+        // Disconnected reading segments do not occupy their empty time gap.
+        if (stations.get(members[0].id)!.x > terminal.x || stations.get(members.at(-1)!.id)!.x < root.x) return [];
+        // Include long passing rails whose endpoints fall outside this fan.
+        const active = members.filter(p => !paperMethods(p).includes(lineId));
+        active.sort((a, b) => Math.abs(stations.get(a.id)!.x - midpoint) - Math.abs(stations.get(b.id)!.x - midpoint));
+        return active.length ? [stations.get(active[0].id)!.y] : [];
+      }));
+    const above = Math.max(top + 72, ...neighbors.filter(y => y < height));
+    const below = Math.min(plotBottom - 72, ...neighbors.filter(y => y > height));
+    // Keep a returning arm opposite the other line at its transfer, so the
+    // two incoming approaches do not compete for the same diagonal corridor.
+    const transferSide = terminal.platforms.find(p => p.lineId !== lineId && p.y !== height);
+    const side = transferSide ? -Math.sign(transferSide.y - height)
+      : below - height >= height - above ? 1 : -1;
+    const shelf = height + side * 216;
+    for (const paper of middle) {
+      moveStation(stations.get(paper.id)!, height);
+      labelSides.set(paper.id, -side);
+    }
+    if (terminal.platforms.length === 1) moveStation(terminal, height);
+    for (const paper of branch.slice(1, -1)) {
+      moveStation(stations.get(paper.id)!, shelf);
+      labelSides.set(paper.id, side);
+    }
+    for (const paper of [...trunk.slice(start, end + 1), ...branch]) levelCorridors.add(paper.id);
+    for (const arm of [middle, branch.slice(1, -1)]) {
+      for (let i = 1; i < arm.length; i++) parallelPairs.add(`${arm[i - 1].id}:${arm[i].id}`);
+    }
+    directDepartures.add(`${lineId}:${root.paperId}:${branch[1].id}`);
+    directArrivals.add(`${lineId}:${branch.at(-2)!.id}:${terminal.paperId}`);
+    convergingPairs.add(`${branch.at(-2)!.id}:${terminal.paperId}`);
+    // Center labels at the two named junctions without crowding either arm.
+    const lead = start > 0 ? stations.get(trunk[start - 1].id)! : undefined;
+    if (lead) {
+      const yearStart = years.find(year => year.year === timelineYear(trunk[start - 1]))!.x;
+      if (lead.x - yearStart < lead.label.width / 2 + 4)
+        fanClearance.set(`${lead.paperId}:${root.paperId}`,
+          Math.max((lead.label.width + root.label.width) / 2 + 24, lead.label.width + 40));
+    }
+    fanClearance.set(`${root.paperId}:${middle[0].id}`, root.label.width / 2 + stations.get(middle[0].id)!.label.width / 2 + 24);
+    fanClearance.set(`${middle.at(-1)!.id}:${terminal.paperId}`, terminal.label.width / 2 + stations.get(middle.at(-1)!.id)!.label.width / 2 + 24);
+  }
+  // A domain-specific reading arm may finish independently. It does not
+  // need a decorative return into an unrelated method on the main route.
+  for (const [lineId, routes] of routeMembers) for (const branch of routes) {
+    if (branch.length < 3 || branch.slice(1).some(p => paperMethods(p).length !== 1)) continue;
+    const root = stations.get(branch[0].id)!;
+    const trunk = routes.find(other => other !== branch && other.some(p => p.id === root.paperId));
+    if (!trunk || branch.slice(1).some(p => routes.some(other => other !== branch && other.some(q => q.id === p.id)))) continue;
+    const height = root.platforms.find(p => p.lineId === lineId)!.y;
+    const side = ["alignment", "detection", "understanding"].includes(lineId) ? -1 : 1;
+    const offset = lineId === "explanation" ? 192 : 216;
+    const shelf = height + side * offset;
+    if (shelf + stations.get(branch.at(-1)!.id)!.label.height + 36 >= plotBottom) continue;
+    for (const paper of branch.slice(1)) {
+      moveStation(stations.get(paper.id)!, shelf);
+      labelSides.set(paper.id, side);
+      levelCorridors.add(paper.id);
+    }
+    for (let i = 2; i < branch.length; i++) parallelPairs.add(`${branch[i - 1].id}:${branch[i].id}`);
+    directDepartures.add(`${lineId}:${root.paperId}:${branch[1].id}`);
+    fanClearance.set(`${root.paperId}:${branch[1].id}`, offset + 48);
+  }
+  // Two independent entry routes meet at one ordinary station before the
+  // through route. Keep their heads on opposite shelves and converge only
+  // at the named paper, with no shared incoming stub or extra transfer mark.
+  for (const routes of routeMembers.values()) for (const through of routes) {
+    if (through.length < 2) continue;
+    const terminal = stations.get(through[0].id)!;
+    if (terminal.platforms.length !== 1) continue;
+    const leads = routes.filter(route => route !== through && route.length === 2 &&
+      route[1].id === terminal.paperId && stations.get(route[0].id)!.platforms.length === 1 &&
+      !routes.some(other => other !== route && other.some(paper => paper.id === route[0].id)));
+    if (leads.length !== 2) continue;
+    leads.forEach((lead, index) => {
+      const root = stations.get(lead[0].id)!, side = index === 0 ? -1 : 1;
+      moveStation(root, terminal.y + side * 108);
+      labelSides.set(root.paperId, side);
+      fanClearance.set(`${root.paperId}:${terminal.paperId}`, 188);
+      convergingPairs.add(`${root.paperId}:${terminal.paperId}`);
+    });
   }
   // A short local offshoot should not make its trunk peak at the fork. Keep
   // that root on the incoming shelf, then align an interchange terminal with
@@ -784,12 +987,31 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     const root = stations.get(members[0].id)!, terminal = stations.get(members[1].id)!;
     const trunk = routes.find(other => other !== members && other.some(paper => paper.id === root.paperId));
     if (!trunk) continue;
+    directDepartures.add(`${lineId}:${root.paperId}:${terminal.paperId}`);
     const index = trunk.findIndex(paper => paper.id === root.paperId);
     if (index > 0 && index < trunk.length - 1 && root.platforms.length === 1) {
       const before = stations.get(trunk[index - 1].id)!, after = stations.get(trunk[index + 1].id)!;
       const previousY = before.platforms.find(platform => platform.lineId === lineId)!.y;
       const nextY = after.platforms.find(platform => platform.lineId === lineId)!.y;
       if ((root.y - previousY) * (root.y - nextY) > 0) moveStation(root, previousY);
+    }
+    // An isolated one-stop branch needs a visible diagonal and a short level
+    // run, so its endpoint reads as a branch rather than a displaced marker.
+    if (terminal.platforms.length === 1 && !routes.some(other =>
+      other !== members && other.some(paper => paper.id === terminal.paperId))) {
+      const passingArm = routes.filter(other => other !== members &&
+        !other.some(p => p.id === root.paperId) &&
+        stations.get(other[0].id)!.x < root.x && stations.get(other.at(-1)!.id)!.x > root.x)
+        .flatMap(other => other.slice(1, -1).map(p => stations.get(p.id)!))
+        .filter(s => Math.abs(s.y - root.y) >= 72)
+        .sort((a, b) => Math.abs(a.y - root.y) - Math.abs(b.y - root.y))[0];
+      // A terminal spur belongs opposite a nearby returning arm. Otherwise
+      // two same-color branches cross despite having no shared paper there.
+      const side = passingArm ? -Math.sign(passingArm.y - root.y) : Math.sign(terminal.y - root.y) || -1;
+      const rise = passingArm ? 168 : Math.max(120, Math.abs(terminal.y - root.y));
+      moveStation(terminal, root.y + side * rise);
+      fanClearance.set(`${root.paperId}:${terminal.paperId}`, Math.abs(terminal.y - root.y) + 80);
+      labelSides.set(terminal.paperId, side);
     }
     for (const platform of terminal.platforms.filter(platform => platform.lineId !== lineId)) {
       const continuation = routeMembers.get(platform.lineId)?.find(other => other[0]?.id === terminal.paperId && other.length > 1);
@@ -803,13 +1025,19 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   // leave a broad level shoulder. Crossings then fall away from the shared
   // markers rather than forming a cramped triangular tip around them.
   const platformRoom = new Map([...stations.values()].map(station => {
-    if (station.platforms.length < 2 || station.continuation) return [station.paperId, 0];
+    if (!isInterchangeStation(station)) return [station.paperId, 0];
+    // A diagonal reading arm leaves directly from one platform. Keep the
+    // neighboring platform's shoulder short enough that its parallel exit
+    // stays visibly separate instead of hiding beneath the arm's SVG casing.
+    if (station.platforms.length === 2 && station.lineIds.some(id =>
+      [...directDepartures].some(key => key.startsWith(`${id}:${station.paperId}:`))))
+      return [station.paperId, 12];
     const indices = station.lineIds.map(id => order.indexOf(id));
     const between = order.slice(Math.min(...indices) + 1, Math.max(...indices));
     const activeBetween = !station.fork && between.some(id =>
       routeMembers.get(id)?.some(members => members.some(p => stationXs.get(p.id)! < station.x) &&
         members.some(p => stationXs.get(p.id)! > station.x)));
-    return [station.paperId, activeBetween ? 80 : 16];
+    return [station.paperId, Math.max(activeBetween ? 80 : 16, station.label.width / 2 - 40)];
   }));
   // Keep a level passing route clear of the widened transfer shelf, including
   // its two markers. Adjust ordinary endpoints together to retain a flat run.
@@ -829,6 +1057,158 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       }
     }
   }
+  // Put ordinary runs on one clear shelf and stagger their names instead of
+  // adding one-stop rail peaks. Named forks, returns and transfers stay fixed.
+  for (const [lineId, routes] of routeMembers) {
+    const repeated = new Set(routes.flat().filter((paper, index, all) =>
+      all.findIndex(other => other.id === paper.id) !== index).map(paper => paper.id));
+    for (const members of routes) {
+      let run: Station[] = [];
+      const placeRun = () => {
+        if (run.length >= 2) {
+          const first = members.findIndex(paper => paper.id === run[0].paperId);
+          const before = first > 0 ? stations.get(members[first - 1].id) : undefined;
+          const y = before?.continuation ? before.platforms.find(p => p.lineId === lineId)!.y
+            : Math.round(run.reduce((sum, station) => sum + station.y, 0) / run.length / 24) * 24;
+          run.forEach(station => moveStation(station, y));
+        }
+        run = [];
+      };
+      for (const paper of members) {
+        const station = stations.get(paper.id)!;
+        if (station.platforms.length !== 1 || repeated.has(paper.id) || inlineStations.has(paper.id) ||
+            levelCorridors.has(paper.id)) { placeRun(); continue; }
+        run.push(station);
+      }
+      placeRun();
+    }
+  }
+  // Later reasoning stays on the Plus corridor. Only genuine transfers
+  // leave this shelf; the independent industrial arm occupies the lower one.
+  const reasoningShelf = stations.get("vad-r1-plus")?.platforms.find(p => p.lineId === "reasoning")?.y;
+  if (reasoningShelf !== undefined) for (const id of ["srvau-r1", "adversa", "las-vad", "stch", "cg-coe", "clue-vad", "avar"]) {
+    const station = stations.get(id), platform = station?.platforms.find(p => p.lineId === "reasoning");
+    if (station && platform && !isInterchangeStation(station)) moveStation(station, station.y + reasoningShelf - platform.y);
+  }
+  // The sparse criteria route reads more clearly as level sections than as
+  // alternating one-stop peaks. Preserve the shared AnomalyRuler platform
+  // and let the later sections descend in a few deliberate, shallow steps.
+  const criteriaAnchor = stations.get("anomalyruler")?.platforms.find(p => p.lineId === "explanation");
+  if (criteriaAnchor) {
+    const criteriaBase = Math.min(criteriaAnchor.y, plotBottom - 432 - 80 - 48);
+    for (const [offset, ids] of [
+      [144, ["eval", "lavad", "log-sad", "vera", "promptvad"]],
+      [240, ["lagovad", "lrpo", "prime-vad", "road"]],
+      [432, ["probe-vad", "ca-judge"]],
+    ] as const) for (const id of ids) {
+      const station = stations.get(id);
+      if (station?.lineIds.length === 1 && station.lineId === "explanation")
+        moveStation(station, criteriaBase + offset);
+    }
+  }
+  // The memory branch rises immediately; its continuing trunk keeps the
+  // shared platform height instead of following it on a close parallel rail.
+  const earlyMemory = stations.get("scene-dependent-vaa"), memoryFork = stations.get("holmes-vau");
+  if (earlyMemory?.lineId === "understanding" && memoryFork && !isInterchangeStation(earlyMemory))
+    moveStation(earlyMemory, memoryFork.y);
+  const detectionBranch = stations.get("td-vad");
+  const detectionPlatform = detectionBranch?.platforms.find(p => p.lineId === "detection");
+  if (detectionBranch && detectionPlatform && order.indexOf("detection") < order.indexOf("alignment")) {
+    // Keep the detection trunk level with an upper event-camera offshoot.
+    // Synthesis uses its requested side; the lower position shares the late
+    // corridor with the streaming connection into the memory route.
+    const height = origin + levels.get("detection")!;
+    moveStation(detectionBranch, detectionBranch.y + height - detectionPlatform.y);
+    labelSides.set("td-vad", 1);
+    for (const id of ["lec-vad", "mpgdfl", "piercingeye", "alert-clip", "d2mil", "fine-vad"]) {
+      const station = stations.get(id);
+      if (station?.lineIds.length === 1 && station.lineId === "detection") moveStation(station, height);
+    }
+    for (const id of ["scene-dependent-vad", "upr-vad", "spherevad"]) {
+      const station = stations.get(id);
+      if (station?.lineId === "detection" && !isInterchangeStation(station)) moveStation(station, height);
+    }
+    for (const id of ["ewad", "deal-vad"]) {
+      const station = stations.get(id);
+      if (station?.lineId === "detection" && !isInterchangeStation(station)) moveStation(station, height - 216);
+    }
+    for (const id of ["lavida", "anomalycraft", "pa-vad", "cavge"]) {
+      const station = stations.get(id);
+      if (station?.lineIds.includes("synthesis"))
+        moveStation(station, synthesisAboveDetection ? height - 432 : height + 360);
+    }
+    const copra = stations.get("copra"), platform = copra?.platforms.find(p => p.lineId === "detection");
+    if (copra && platform) moveStation(copra, copra.y + height + 216 - platform.y);
+  }
+  // The late memory corridor climbs into the detection transfer, then keeps
+  // its height through the graph and event-refinement papers.
+  const memoryRoot = stations.get("reactvau")?.platforms.find(p => p.lineId === "understanding")
+    ?? stations.get("memovad")?.platforms.find(p => p.lineId === "understanding");
+  if (memoryRoot) for (const id of ["s2mgraph-vad", "peer-vad"]) {
+    const station = stations.get(id);
+    if (station?.lineId === "understanding" && !isInterchangeStation(station)) moveStation(station, memoryRoot.y);
+  }
+  // Keep the late observation and evaluation runs separated by a full
+  // label corridor. Their old opposing zigzags pinched names between rails.
+  for (const ids of [["agenticvau", "vibes", "vto", "seek-vau"],
+    ["pistachio", "ecva-anomshield", "tau-bench", "tar-bench"]]) {
+    const members = ids.map(id => stations.get(id)).filter((s): s is Station => !!s);
+    if (members.length < 2 || members.some(isInterchangeStation)) continue;
+    const y = Math.round(members.reduce((sum, s) => sum + s.y, 0) / members.length / 24) * 24;
+    members.forEach(s => moveStation(s, y));
+  }
+  // Entry arms settle onto their continuing trunk at the named merge. Moving
+  // the complete head group removes a tiny dip immediately after the merge.
+  for (const routes of routeMembers.values()) for (const through of routes) {
+    if (through.length < 2) continue;
+    const terminal = stations.get(through[0].id)!, next = stations.get(through[1].id)!;
+    if (terminal.platforms.length !== 1 || next.platforms.length !== 1) continue;
+    const heads = routes.filter(route => route.length === 2 && route[1].id === terminal.paperId &&
+      stations.get(route[0].id)!.platforms.length === 1);
+    if (heads.length !== 2) continue;
+    const shift = next.y - terminal.y;
+    for (const head of heads) {
+      const station = stations.get(head[0].id)!;
+      moveStation(station, station.y + shift);
+    }
+    moveStation(terminal, next.y);
+  }
+  // Keep enough room above the topmost rail for a full two-line name.
+  for (const station of stations.values()) {
+    if (!isInterchangeStation(station) && station.y < top + station.label.height + 36)
+      moveStation(station, top + station.label.height + 36);
+  }
+  // These named labels have an intentional reading side. Keep collision
+  // handling within that side when space exists instead of flipping a label
+  // merely to save a few pixels of horizontal alignment.
+  const preferredLabelSides = new Map<string, number>([
+    ["cuebench", -1], ["vad-dpo", 1],
+    ["eval", 1], ["lavad", -1], ["log-sad", 1], ["vera", -1],
+    ["lagovad", -1], ["lrpo", -1], ["probe-vad", 1], ["prime-vad", -1],
+    ["ca-judge", 1], ["road", 1], ["promptvad", -1],
+  ]);
+  // Alternate names, not the rail itself. Two neighbors can share horizontal
+  // space while each name stays tucked against its own station. Reserve the
+  // full width only between every other name on the same reading side.
+  const staggeredPairs = new Set<string>();
+  const staggeredLabelSides = new Map<string, number>();
+  for (const routes of routeMembers.values()) for (const members of routes) {
+    let previousSide = 0;
+    for (let i = 0; i < members.length; i++) {
+      const station = stations.get(members[i].id)!;
+      const before = i ? stations.get(members[i - 1].id)! : undefined;
+      const levelPair = before && !isInterchangeStation(before) && !isInterchangeStation(station) &&
+        before.y === station.y && station.y > top + 108 && station.y < plotBottom - 108;
+      const side = preferredLabelSides.get(station.paperId) ??
+        (levelPair && previousSide ? -previousSide : labelSides.get(station.paperId) ?? -1);
+      if (levelPair && side !== previousSide) {
+        staggeredPairs.add(`${before.paperId}:${station.paperId}`);
+        staggeredLabelSides.set(before.paperId, previousSide);
+        staggeredLabelSides.set(station.paperId, side);
+      }
+      previousSide = side;
+    }
+  }
   // Reserve horizontal space from the actual platform heights, rather than
   // counting the number of method bands a transfer crosses. Stretch only the
   // constrained columns; every independent paper in that column moves with it.
@@ -843,11 +1223,33 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       const entries = incoming.get(b.paperId) ?? [];
       // Alternating labels can share horizontal space. Wider same-period
       // names still need more room than the compact base column interval.
-      const samePeriod = members[i - 1].year === members[i].year && month(members[i - 1]) === month(members[i]);
-      const nameWidths = members.slice(i - 1, i + 1).map(paper => labelWidth(stationName(paper), 20) + 14);
+      const samePeriod = timelineYear(members[i - 1]) === timelineYear(members[i]) && month(members[i - 1]) === month(members[i]);
+      const nameWidths = members.slice(i - 1, i + 1).map(paper => stationNameWidth(paper) + 14);
       const paired = parallelPairs.has(`${a.paperId}:${b.paperId}`);
-      const labelGap = samePeriod || paired ? Math.ceil(((nameWidths[0] + nameWidths[1]) * (paired ? .5 : .28) + (paired ? 24 : 0)) / 8) * 8 : 0;
-      entries.push({ from: a, distance: Math.max(Math.abs(pb.y - pa.y) + departure + arrival, labelGap, fanClearance.get(`${a.paperId}:${b.paperId}`) ?? 0) });
+      // At the plot edge, labels cannot alternate above and below the rail.
+      // Reserve a full adjacent pair, including compact context icons.
+      const labelRoom = Math.max(a.label.height, b.label.height) + 20;
+      const edgeShelf = pa.y === pb.y && (pa.y + labelRoom > plotBottom - 12 || pa.y - labelRoom < top + 10);
+      const closeShelf = Math.abs(pb.y - pa.y) <= 64 && b.x - a.x <= 96;
+      const topEntry = pa.y - labelRoom < top + 24 && pb.y > pa.y;
+      const staggered = staggeredPairs.has(`${a.paperId}:${b.paperId}`);
+      const afterMerge = a.merge?.parentId === lineId;
+      const nearMerge = afterMerge || members.slice(Math.max(0, i - 3), i).some(p =>
+        stations.get(p.id)!.merge?.parentId === lineId);
+      const labelGap = edgeShelf || topEntry ? Math.ceil(((a.label.width + b.label.width) / 2 + 16) / 8) * 8
+        : nearMerge && staggered ? Math.ceil((Math.max(...nameWidths) * .56 + 28) / 8) * 8
+        : staggered && !paired ? Math.ceil((Math.max(...nameWidths) * .42 + 20) / 8) * 8
+        : paired ? Math.ceil(((nameWidths[0] + nameWidths[1]) / 2 + 24) / 8) * 8
+        : closeShelf ? Math.ceil(((nameWidths[0] + nameWidths[1]) * .34 + 16) / 8) * 8
+        : samePeriod && Math.abs(pb.y - pa.y) < 64 ? Math.ceil(((nameWidths[0] + nameWidths[1]) * .28) / 8) * 8 : 0;
+      const colorChangeRoom = a.continuation && pa.y === pb.y &&
+        a.lineIds.some(id => !b.lineIds.includes(id)) ? Math.max(...nameWidths) / 2 + 40 : 0;
+      entries.push({ from: a, distance: Math.max(Math.abs(pb.y - pa.y) + departure + arrival, labelGap,
+        colorChangeRoom, fanClearance.get(`${a.paperId}:${b.paperId}`) ?? 0) });
+      if (i > 1 && staggered && staggeredPairs.has(`${members[i - 2].id}:${a.paperId}`)) {
+        const earlier = stations.get(members[i - 2].id)!;
+        entries.push({ from: earlier, distance: (stationNameWidth(members[i - 2]) + stationNameWidth(members[i]) + 28) / 2 + 20 });
+      }
       incoming.set(b.paperId, entries);
     }
   }
@@ -856,9 +1258,15 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   const movedXs = new Map<string, number>();
   const shifts: { x: number; amount: number }[] = [{ x: margin, amount: 0 }];
   let shift = 0;
-  for (const column of columns) {
+  for (const [index, column] of columns.entries()) {
     const group = [...stations.values()].filter(station => station.x === column);
-    const position = Math.max(column + shift, ...group.flatMap(station =>
+    const previous = columns[index - 1] ?? margin;
+    const yearBoundary = years.some(year => year.x > previous && year.x <= column);
+    // Recover unused horizontal slack after a constrained connection instead
+    // of carrying every earlier expansion through all later months. Preserve
+    // year-end padding; edges still reserve their actual diagonal/label room.
+    const columnGap = yearBoundary ? column - previous : Math.min(column - previous, 24);
+    const position = Math.max(column, previous + shift + columnGap, ...group.flatMap(station =>
       (incoming.get(station.paperId) ?? []).map(edge =>
         (movedXs.get(edge.from.paperId) ?? originalXs.get(edge.from.paperId)!) + edge.distance)));
     shift = position - column;
@@ -898,47 +1306,53 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     .map(s => ({ x: s.x, y: s.y, paperId: s.paperId, ...s.fork! }));
   // Keep labels next to their paper. Station bodies and planned tracks define
   // local candidates; the packer resolves conflicts between neighboring names.
-  const nodes = [...stations.values()].map((station) => stationBounds(station, 15));
+  const nodes = [...stations.values()].map((station) => stationBounds(station, 13));
   // Reserve the planned bend corridors before placing labels. A name must not
   // occupy the only forward path between two closely spaced stops.
   const needsPlatform = (stop: Stop) => stations.get(stop.paperId)!.platforms.length > 1 &&
     !stations.get(stop.paperId)!.continuation;
-  const bendLate = (a: Stop, b: Stop) => b.x - a.x > 240 && needsPlatform(b) && !stations.get(b.paperId)!.fork;
+  const bendLate = (id: string, a: Stop, b: Stop) => stations.get(a.paperId)!.fork?.parentId === id ||
+    [...directDepartures].some(key => key.startsWith(`${id}:${a.paperId}:`)) ||
+    directArrivals.has(`${id}:${a.paperId}:${b.paperId}`) ||
+    convergingPairs.has(`${a.paperId}:${b.paperId}`) ||
+    b.x - a.x > 240 && needsPlatform(b) && !stations.get(b.paperId)!.fork;
+  const bendEarly = (id: string, a: Stop, b: Stop) =>
+    stations.get(a.paperId)!.fork?.branchId === id || directDepartures.has(`${id}:${a.paperId}:${b.paperId}`);
+  const stationRoutes = new Map(papers.map(paper => [paper.id, new Set<string>()]));
+  for (const [id, routes] of routesByLine) routes.forEach((members, index) =>
+    members.forEach(stop => stationRoutes.get(stop.paperId)!.add(`${id}:${index}`)));
   const corridors = [...routesByLine.entries()].flatMap(([id, routes]) =>
-    routes.flatMap(members => members.slice(1).flatMap((b, index) => {
+    routes.flatMap((members, routeIndex) => members.slice(1).flatMap((b, index) => {
       const a = members[index];
-      const leavesFork = schools.find(s => s.id === id)?.branchAt?.paperId === a.paperId;
+      const leavesFork = stations.get(a.paperId)!.fork?.branchId === id;
       const departure = { x: a.x + (leavesFork || directDepartures.has(`${id}:${a.paperId}:${b.paperId}`) ? 0 : platformRoom.get(a.paperId)!), y: a.y };
       const arrival = { x: b.x - (directArrivals.has(`${id}:${a.paperId}:${b.paperId}`) ? 0 : platformRoom.get(b.paperId)!), y: b.y };
-      if (leavesFork && !returningForks.has(`${id}:${a.paperId}`) && b.x - a.x > Math.abs(b.y - a.y) + 160) {
-        // For a sparse branch, leave the paper on a short diagonal and reserve
-        // the large change in height nearer its first station. This keeps the
-        // long station-free interval beside the trunk instead of diving away.
-        const offset = Math.min(48, Math.abs(b.y - a.y));
-        const lead = { x: a.x + offset, y: a.y + Math.sign(b.y - a.y) * offset };
-        return segments([a, ...elbows(lead, arrival)[1], b]);
-      }
-      const planned = [a, ...elbows(departure, arrival)[bendLate(a, b) ? 1 : 0], b];
+      const early = bendEarly(id, a, b), late = !early && bendLate(id, a, b);
+      const planned = [a, ...elbows(departure, arrival)[late ? 1 : 0], b];
       const otherNodes = [...stations.values()].filter(station =>
         station.paperId !== a.paperId && station.paperId !== b.paperId)
         .map(station => stationBounds(station, 20));
       if (segments(planned).some(({ a, b }) => otherNodes.some(box => crosses(a, b, box)))) {
-        return segments([a, ...routeBetween(departure, arrival, otherNodes, [], plotBounds, bendLate(a, b)), b]);
+        return segments([a, ...routeBetween(departure, arrival, otherNodes, [], plotBounds, late, [a, b], early), b])
+          .map(segment => ({ ...segment, routeKey: `${id}:${routeIndex}` }));
       }
-      return segments(planned);
+      return segments(planned).map(segment => ({ ...segment, routeKey: `${id}:${routeIndex}` }));
     })));
   const labelOptions = new Map<string, LabelCandidate[]>();
   for (const paper of papers) {
     const station = stations.get(paper.id)!;
-    const year = years.find((item) => item.year === paper.year)!;
+    const interchange = isInterchangeStation(station);
+    const railClearance = interchange ? 14 : 8;
+    const year = years.find((item) => item.year === timelineYear(paper))!;
     const outward = labelSides.get(paper.id) ?? (home.get(paper.id)! < origin + anchorLevel(paper) ? -1 : 1);
     const candidates: LabelCandidate[] = [];
     const clearLabel = (box: Box) => box.x >= year.x + 4 && box.x + box.width <= year.x + year.width - 4 &&
       box.y >= top + 10 && box.y + box.height <= plotBottom - 12 &&
-      !corridors.some(({ a, b }) => crosses(a, b, { x: box.x - 8, y: box.y - 8,
-        width: box.width + 16, height: box.height + 16 })) &&
-      !nodes.some(node => overlaps(box, node, 4));
-    for (const gap of station.platforms.length > 1 && !station.continuation ? [20, 28, 36, 44] : [20, 28]) {
+      !corridors.some(({ a, b }) => crosses(a, b, { x: box.x - railClearance, y: box.y - railClearance,
+        width: box.width + railClearance * 2, height: box.height + railClearance * 2 })) &&
+      !nodes.some(node => overlaps(box, node, 2));
+    for (const gap of station.platforms.length > 1 && !station.continuation ? [20, 28, 36, 44, 52, 60, 68]
+      : [16, 24, 32]) {
       for (const side of [-1, 1]) {
         for (const align of [0, -.25, .25, -.5, .5, -.75, .75, -1, 1]) {
           const box = { ...station.label,
@@ -955,14 +1369,39 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
         }
       }
       for (const side of [-1, 1]) for (const align of [0, -.5, .5]) {
+        if (gap < 24) continue; // Keep horizontal terminal caps outside the name.
         const box = { ...station.label,
           x: side < 0 ? station.x - gap - station.label.width : station.x + gap,
           y: station.y - station.label.height / 2 + align * station.label.height / 2 };
         if (clearLabel(box)) candidates.push({ box, score: gap * 4 + Math.abs(align) * 24 + 60 });
       }
     }
-    candidates.sort((a, b) => a.score - b.score);
-    labelOptions.set(paper.id, candidates);
+    // A transfer name belongs on the open side of the fan. Favor centered
+    // names and clear surroundings over squeezing into the nearest wedge.
+    if (interchange) for (const candidate of candidates) {
+      const box = candidate.box;
+      const halo = { x: box.x - 28, y: box.y - 28, width: box.width + 56, height: box.height + 56 };
+      candidate.score += Math.abs(box.x + box.width / 2 - station.x) +
+        corridors.filter(({ a, b }) => crosses(a, b, halo)).length * 80;
+    }
+    const unrelatedCorridors = corridors.filter(segment => !stationRoutes.get(paper.id)!.has(segment.routeKey));
+    const associated: LabelCandidate[] = [];
+    for (const candidate of candidates) {
+      const ownDistance = Math.min(...station.platforms.map(p => railLabelDistance(candidate.box, p, p)));
+      const otherDistance = Math.min(...unrelatedCorridors
+        .map(({ a, b }) => railLabelDistance(candidate.box, a, b)));
+      candidate.score += Math.max(0, ownDistance + 24 - otherDistance) * 16;
+      if (otherDistance >= ownDistance + 12) associated.push(candidate);
+      const side = staggeredLabelSides.get(paper.id);
+      if (side && (side < 0 ? candidate.box.y >= station.y : candidate.box.y < station.y)) candidate.score += 120;
+    }
+    const nearbyCandidates = associated.length ? associated : candidates;
+    const preferredSide = preferredLabelSides.get(paper.id);
+    const preferred = preferredSide === undefined ? [] : nearbyCandidates.filter(({ box }) => preferredSide < 0
+      ? box.y + box.height < station.platforms[0].y : box.y > station.platforms.at(-1)!.y);
+    const options = preferred.length ? preferred : nearbyCandidates;
+    options.sort((a, b) => a.score - b.score);
+    labelOptions.set(paper.id, [...new Map(options.map(option => [JSON.stringify(option.box), option])).values()]);
   }
   const packedLabels = packLabels(labelOptions);
   for (const [id, box] of packedLabels) stations.get(id)!.label = box;
@@ -986,25 +1425,25 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
         const unrelated = [...stations.values()].flatMap((station) =>
           station.paperId !== stop.paperId && station.paperId !== before.paperId
             ? [stationBounds(station)]
-            : station.platforms.filter((platform) => platform.lineId !== id && !station.fork && !station.continuation)
+            : station.platforms.filter((platform) => platform.lineId !== id && isInterchangeStation(station))
                 .map((platform) => ({ x: platform.x - 11, y: platform.y - 11, width: 22, height: 22 })));
         const obstacles = [...labels, ...unrelated];
         const path = route(before, stop, obstacles, occupied, plotBounds, {
           start: stations.get(before.paperId)!.fork?.branchId === id || directDepartures.has(`${id}:${before.paperId}:${stop.paperId}`) ? 0 : platformRoom.get(before.paperId)!,
           end: directArrivals.has(`${id}:${before.paperId}:${stop.paperId}`) ? 0 : platformRoom.get(stop.paperId)!,
-        }, bendLate(before, stop));
+        }, !bendEarly(id, before, stop) && bendLate(id, before, stop), bendEarly(id, before, stop));
         track.push(...path.slice(1));
       });
       const last = stops.at(-1);
       if (last && stations.get(last.paperId)!.platforms.length === 1 &&
-          !routes.some(other => other !== stops && other[0]?.paperId === last.paperId)) {
+          !routes.some(other => other !== stops && other.some(stop => stop.paperId === last.paperId))) {
         track.push({ x: last.x + 18, y: last.y });
       }
       const simplified = simplify(track);
       occupied.push(...segments(simplified));
       return simplified;
     });
-    return { ...school, tracks,
+    return { ...school, tracks, paperRoutes: routes.map(stops => stops.map(stop => stop.paperId)),
       labelPosition: { x: 24 + order.indexOf(id) * 300, y: plotBottom + 32 } };
   });
   return { width: Math.max(1700, x + 24), height: plotBottom + 96,

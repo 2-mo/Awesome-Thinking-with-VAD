@@ -117,8 +117,18 @@ export function validateCatalog(catalog) {
         const methods = [anchor.cluster, ...(Array.isArray(anchor.secondaryMethods) ? anchor.secondaryMethods.map(m => m?.cluster) : [])];
         if (!methods.includes(cluster.id) || !methods.includes(cluster.branchOf)) fail(`${path}.branchAt`, 'fork paper must belong to both method directions');
         if (!mapPapers.includes(anchor)) fail(`${path}.branchAt`, 'fork paper must be eligible for the map');
-        const time = p => p.year * 14 + (p.timeline?.month ?? 13);
-        if (mapPapers.some(p => p.id !== anchor.id && (p.cluster === cluster.id || (Array.isArray(p.secondaryMethods) && p.secondaryMethods.some(m => m?.cluster === cluster.id))) && time(p) < time(anchor))) fail(`${path}.branchAt`, 'fork paper must precede its branch papers');
+        const time = p => (p.timeline?.year ?? p.year) * 14 + (p.timeline?.month ?? 13);
+        // A direction can also have an earlier, separately anchored reading
+        // segment, wholly before the main fork and starting at a shared paper.
+        const earlierSegments = new Set((Array.isArray(cluster.routes) ? cluster.routes : []).flatMap(route => {
+          if (!Array.isArray(route?.paperIds) || route.paperIds.length < 2) return [];
+          const members = route.paperIds.map(id => paperById.get(id));
+          if (members.some(p => !p || !mapPapers.includes(p) || time(p) >= time(anchor))) return [];
+          const start = members[0];
+          const methods = [start.cluster, ...(Array.isArray(start.secondaryMethods) ? start.secondaryMethods.map(m => m?.cluster) : [])];
+          return methods.includes(cluster.id) && methods.includes(cluster.branchOf) ? route.paperIds : [];
+        }));
+        if (mapPapers.some(p => p.id !== anchor.id && !earlierSegments.has(p.id) && (p.cluster === cluster.id || (Array.isArray(p.secondaryMethods) && p.secondaryMethods.some(m => m?.cluster === cluster.id))) && time(p) < time(anchor))) fail(`${path}.branchAt`, 'fork paper must precede its branch papers unless an earlier route has its own shared anchor');
         if (clusters.some(c => c.id !== cluster.id && c.branchAt?.paperId === anchor.id)) fail(`${path}.branchAt`, 'each fork paper anchors one branch');
       }
       source(cluster.branchAt?.evidence, `${path}.branchAt.evidence`);
@@ -141,7 +151,7 @@ export function validateCatalog(catalog) {
             else {
               const methods = [paper.cluster, ...(Array.isArray(paper.secondaryMethods) ? paper.secondaryMethods.map(m => m?.cluster) : [])];
               if (!methods.includes(cluster.id)) fail(`${at}.paperIds`, 'paper must belong to the route direction');
-              const time = paper.year * 14 + (paper.timeline?.month ?? 13);
+              const time = (paper.timeline?.year ?? paper.year) * 14 + (paper.timeline?.month ?? 13);
               if (previous !== undefined && time < previous) fail(`${at}.paperIds`, 'route must follow publication time');
               previous = time;
             }
@@ -185,12 +195,17 @@ export function validateCatalog(catalog) {
     if (paper.timeline !== undefined) {
       if (!object(paper.timeline)) fail(`${path}.timeline`, 'must include month, basis and source');
       else {
+        if (paper.timeline.year !== undefined && (!Number.isInteger(paper.timeline.year) || paper.timeline.year < 1900 || paper.timeline.year > paper.year)) fail(`${path}.timeline.year`, 'must be a valid year no later than the catalog publication year');
         if (!Number.isInteger(paper.timeline.month) || paper.timeline.month < 1 || paper.timeline.month > 12) fail(`${path}.timeline.month`, 'must be an integer from 1 to 12');
         if (!['conference', 'journal', 'preprint'].includes(paper.timeline.basis)) fail(`${path}.timeline.basis`, 'must be conference, journal or preprint');
         source(paper.timeline.source, `${path}.timeline.source`);
       }
     }
     if (paper.scope !== 'core') fail(`${path}.scope`, 'must be core');
+    if (paper.mapIcon !== undefined) {
+      if (!['industry', 'road', 'video'].includes(paper.mapIcon?.kind)) fail(`${path}.mapIcon.kind`, 'must be industry, road or video');
+      source(paper.mapIcon?.evidence, `${path}.mapIcon.evidence`);
+    }
     if (paper.mapExclusion !== undefined) {
       if (!object(paper.mapExclusion)) fail(`${path}.mapExclusion`, 'must include an editorial note');
       else text(paper.mapExclusion.note, `${path}.mapExclusion.note`);

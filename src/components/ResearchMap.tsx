@@ -2,22 +2,26 @@ import { useId, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import type { Cluster, Paper } from "../types";
 import {
-  createPublicationLayout,
+  isInterchangeStation,
   labelWidth,
   stationName,
   stationVenue,
   stationVenueSize,
+  STATION_NAME_SIZE,
+  STATION_ICON_SIZE,
 } from "./publication-layout";
-import type { Point, Station } from "./publication-layout";
-import { clusterName, contributionLabels, paperContribution, paperMethods } from "../publication";
-import type { ContributionKind } from "../publication";
+import type { Point, Station, PublicationLayout } from "./publication-layout";
+import { clusterName, contributionLabels, mapIconLabels, paperContribution, paperMethods, publicationKind } from "../publication";
+import type { ContributionKind, PublicationKind } from "../publication";
 import { metroPath } from "./metro-path";
 import { createResearchBackdrop } from "./research-regions";
-import { createMapLegend, LEGEND_ROUTE_TOP, LEGEND_ROUTE_STEP, legendDivider } from "./map-legend";
+import { createMapLegend, LEGEND_ROUTE_TOP, LEGEND_ROUTE_STEP, LEGEND_ITEMS, LEGEND_ROW_CENTER, legendDivider } from "./map-legend";
 import { createMapRouteLabels, ROUTE_LABEL_SIZE } from "./map-route-labels";
+import { MAP_FONT_SIZE } from "./map-typography";
 import "./research-map.css";
 
 interface Props {
+  network: PublicationLayout;
   papers: Paper[];
   allPapers?: Paper[];
   clusters: Cluster[];
@@ -28,10 +32,35 @@ interface Props {
 }
 const INK = "#243b3b";
 const PAPER = "#fffcf5";
+// IEEE titles share cool tints; Springer IJCV uses a warmer family.
+const JOURNAL_TINTS: Record<string, string> = {
+  TPAMI: "#e5edf6", TIP: "#e9f1f7", TNNLS: "#ececf7",
+  TCSVT: "#e8eef9", TCYB: "#e8edf5", TIFS: "#e5f0f4",
+  IJCV: "#f3e8da",
+};
 const clamp = (n: number, min: number, max: number) =>
   Math.min(max, Math.max(min, n));
 const fitLabel = (text: string, size: number, available: number) =>
   labelWidth(text, size) > available ? available : undefined;
+
+function PaperContextIcon({ kind, x, y }: { kind: NonNullable<Paper["mapIcon"]>["kind"]; x: number; y: number }) {
+  return <g data-context-icon={kind} transform={`translate(${x - STATION_ICON_SIZE / 2} ${y - STATION_ICON_SIZE / 2}) scale(${STATION_ICON_SIZE / 24})`}
+    fill="none" stroke="#89918c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <title>{mapIconLabels[kind]}</title>
+    {kind === "industry" ? <>
+      <path d={`${Array.from({ length: 32 }, (_, i) => {
+        const radius = i % 4 < 2 ? 11 : 8.6, angle = (i - .5) * Math.PI / 16;
+        return `${i ? "L" : "M"}${12 + radius * Math.cos(angle)} ${12 + radius * Math.sin(angle)}`;
+      }).join(" ")}Z M15.4 12a3.4 3.4 0 1 0-6.8 0 3.4 3.4 0 1 0 6.8 0Z`}
+        fill="none" />
+    </> : kind === "road" ? <>
+      <path d="M7 3 3 21M17 3l4 18M12 3v3m0 4v4m0 4v3" />
+    </> : <>
+      <rect x="2" y="4" width="20" height="16" rx="3" />
+      <path d="m10 8 6 4-6 4Z" fill="#89918c" stroke="none" />
+    </>}
+  </g>;
+}
 
 function StationShape({ kind, x = 0, y = 0, radius, fill, stroke, strokeWidth, className }: {
   kind: ContributionKind; x?: number; y?: number; radius: number;
@@ -43,27 +72,34 @@ function StationShape({ kind, x = 0, y = 0, radius, fill, stroke, strokeWidth, c
       rx={radius * .16} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />;
 }
 
+function VenueLabel({ venue, kind, x, y, available = Infinity }: {
+  venue: string; kind: PublicationKind; x: number; y: number; available?: number;
+}) {
+  const size = stationVenueSize();
+  const width = Math.min(labelWidth(venue, size) + 8, available);
+  return <g data-publication-venue={kind}>
+    <title>{kind === "journal" ? "Journal" : kind === "preprint" ? "Preprint" : "Conference"}</title>
+    {kind === "journal" && <rect x={x - width / 2} y={y - size - 1} width={width} height={size + 6} rx="3"
+      fill={JOURNAL_TINTS[venue] ?? "#edf1ed"} stroke="none" />}
+    <text x={x} y={y} textAnchor="middle" fill={kind === "preprint" ? "#747474" : "#52605a"}
+      fontSize={size} fontWeight={kind === "conference" ? "650" : kind === "journal" ? "500" : "400"}
+      fontStyle={kind === "preprint" ? "italic" : undefined}
+      textLength={fitLabel(venue, size, kind === "journal" ? width - 8 : available)} lengthAdjust="spacingAndGlyphs">
+      {venue}
+    </text>
+  </g>;
+}
+
 function StationMarker({ station, colors, kind, active = false, muted = false }: {
   station: Station; colors: Map<string, string>; kind: ContributionKind; active?: boolean; muted?: boolean;
 }) {
   const color = colors.get(station.lineId) || INK;
   const first = station.platforms[0], last = station.platforms.at(-1)!;
-  const interchange = station.platforms.length > 1 && !station.fork && !station.continuation;
+  const interchange = isInterchangeStation(station);
   const connector = `M${station.x} ${first.y}V${last.y}`;
   return (
-    <g className={station.fork ? "metro-fork" : interchange ? "metro-interchange" : undefined}>
-      {station.fork ? (
-        <g transform={`translate(${station.x} ${station.y})`}>
-          {active && <circle r="18" fill={color} opacity=".16" />}
-          <StationShape kind={kind} radius={muted ? 6 : 11} fill={PAPER} stroke={muted ? "#b1b9ae" : INK} strokeWidth={muted ? 2 : 3} />
-          {!muted && <>
-            <path d="M-5 0H5" stroke={colors.get(station.fork.parentId)} strokeWidth="2.5" strokeLinecap="round" />
-            <path d={`M0 0l5 ${[...colors.keys()].indexOf(station.fork.branchId) < [...colors.keys()].indexOf(station.fork.parentId) ? -5 : 5}`}
-              stroke={colors.get(station.fork.branchId)} strokeWidth="2.5" strokeLinecap="round" />
-            {kind === "hybrid" && <circle r="2.5" fill={INK} />}
-          </>}
-        </g>
-      ) : interchange ? (
+    <g className={interchange ? "metro-interchange" : undefined}>
+      {interchange ? (
         <>
           {active && <path d={connector} stroke={color} strokeWidth="36" strokeLinecap="round" opacity=".14" />}
           <path d={connector} stroke={PAPER} strokeWidth="22" strokeLinecap="round" />
@@ -101,6 +137,7 @@ function StationMarker({ station, colors, kind, active = false, muted = false }:
 }
 
 export default function ResearchMap({
+  network,
   papers,
   allPapers,
   clusters,
@@ -128,10 +165,6 @@ export default function ResearchMap({
   const regionsClipId = `research-regions-${id}`;
   const sourcePapers = allPapers || papers;
   const visibleIds = useMemo(() => new Set(papers.map((p) => p.id)), [papers]);
-  const network = useMemo(
-    () => createPublicationLayout(sourcePapers, clusters),
-    [sourcePapers, clusters],
-  );
   const { width } = network;
   const routeLabels = useMemo(() => createMapRouteLabels(network), [network]);
   const legend = useMemo(() => createMapLegend(network, routeLabels), [network, routeLabels]);
@@ -225,7 +258,7 @@ export default function ResearchMap({
         ref={svgRef}
         className="research-map-canvas"
         viewBox={`0 0 ${width} ${height}`}
-        aria-label={`${papers.length} papers by year and quarter. Circles: methods. Squares: datasets or benchmarks. Squares with dots: combined contributions. Y junctions: forks. Linked platforms: multiple research directions.`}
+        aria-label={`${papers.length} papers by year and quarter. Circles: methods. Squares: datasets or benchmarks. Squares with dots: combined contributions. Linked platforms: multiple research directions. Venue text: semibold conferences, journals on a pale background, and gray italic preprints.`}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
@@ -235,8 +268,8 @@ export default function ResearchMap({
             '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif',
         }}
       >
-        <title>Video Anomaly Understanding · Research Route Map</title>
-        <desc>Research directions are named beside their colored routes. Circles mark methods, squares mark datasets or benchmarks, and squares with dots mark combined contributions. {legend.embedded ? "The station key occupies clear space on the left." : "The station key appears below the map."}</desc>
+        <title>Anomaly Understanding · Research Route Map</title>
+        <desc>Research directions are named beside their colored routes. Circles mark methods, squares mark datasets or benchmarks, and squares with dots mark combined contributions. Branch departures and returns use ordinary markers. Venue names have no borders: semibold text for conferences, regular text on a pale background for journals, and gray italic text for preprints. {legend.embedded ? "The horizontal station key occupies clear space in the bottom-left corner." : "The station key appears below the map."}</desc>
         <defs>
           <clipPath id={regionsClipId}>
             <rect x={network.plotBounds.x} y={plotTop} width={network.plotBounds.width} height={network.plotBounds.height} />
@@ -257,13 +290,13 @@ export default function ResearchMap({
         >
           <>
               <g className="research-regions" pointerEvents="none" clipPath={`url(#${regionsClipId})`}>
-                <g data-terrain="mountains" aria-hidden="true" fill="none" stroke="#c0c7b8" strokeWidth="1.1" opacity=".72"
+                <g data-terrain="mountains" aria-hidden="true" fill="none" stroke="#b1bca9" strokeWidth="1" opacity=".42"
                   strokeLinecap="round" strokeLinejoin="round">
                   {backdrop.mountains.map((point, index) => (
                     <g key={index} transform={`translate(${point.x} ${point.y}) scale(${point.width / 172} ${point.height / 52})`}>
-                        <path d="M0 44l25-24 19 15L74 2l29 35 22-19 41 29" />
-                        <path d="M57 21l10 3 7-8 8 7 8-2M74 16l-5 28M115 27l8 5 9-5" />
-                        <path d="M15 50q20-8 39-1m42 1q24-5 53 1" />
+                      <path d="M0 44l25-24 19 15L74 2l29 35 22-19 41 29" />
+                      <path d="M57 21l10 3 7-8 8 7 8-2M74 16l-5 28M115 27l8 5 9-5" />
+                      <path d="M15 50q20-8 39-1m42 1q24-5 53 1" />
                     </g>
                   ))}
                 </g>
@@ -288,7 +321,7 @@ export default function ResearchMap({
                     y={plotTop - 49}
                     textAnchor="middle"
                     fill={INK}
-                    fontSize="27"
+                    fontSize={MAP_FONT_SIZE.primary}
                     fontWeight="850"
                     letterSpacing="-.8"
                   >
@@ -315,10 +348,10 @@ export default function ResearchMap({
                         y={plotTop - 13}
                         textAnchor="middle"
                         fill={quarter.count ? "#52685e" : "#8b978d"}
-                        fontSize="14"
+                        fontSize={MAP_FONT_SIZE.secondary}
                         fontWeight="750"
                       >
-                        {quarter.quarter === null ? "TBD" : `Q${quarter.quarter}`}
+                        {quarter.quarter === null ? "" : `Q${quarter.quarter}`}
                       </text>
                     </g>
                   ))}
@@ -353,7 +386,7 @@ export default function ResearchMap({
                       d={path}
                       fill="none"
                       stroke={line.color}
-                      strokeWidth={focus && focusedLines.size ? 6 : 4.8}
+                      strokeWidth={focus && focusedLines.size ? 7.2 : 6}
                       strokeLinejoin="round"
                       strokeLinecap="round"
                     />
@@ -371,13 +404,13 @@ export default function ResearchMap({
                   );
                 })}
               {routeLabels.map(label => <text key={label.lineId} data-route-label={label.lineId}
-                x={label.x} y={label.y + 18} fill={label.color} fontSize={ROUTE_LABEL_SIZE} fontWeight="600"
+                x={label.x} y={label.y + ROUTE_LABEL_SIZE} fill={label.color} fontSize={ROUTE_LABEL_SIZE} fontWeight="600"
                 opacity={!focusedLines.size || focusedLines.has(label.lineId) ? 1 : .22} pointerEvents="none">
                 {label.text}
               </text>)}
               <g data-map-legend="true" data-embedded={legend.embedded} transform={`translate(${legend.x} ${legend.y})`} pointerEvents="none">
                 <rect width={legend.width} height={legend.height} rx="8" fill={PAPER} />
-                {!!legend.fallbackLineIds.length && <text x="16" y="20" fill="#65726a" fontSize="14" fontWeight="750" letterSpacing="1.3">RESEARCH DIRECTIONS</text>}
+                {!!legend.fallbackLineIds.length && <text x="16" y="26" fill="#65726a" fontSize={MAP_FONT_SIZE.secondary} fontWeight="750" letterSpacing="1.3">RESEARCH DIRECTIONS</text>}
               {network.lines.filter(line => legend.fallbackLineIds.includes(line.id)).map((line, index) => {
                 const x = 16;
                 const y = LEGEND_ROUTE_TOP + index * LEGEND_ROUTE_STEP;
@@ -401,33 +434,24 @@ export default function ResearchMap({
                       x="41"
                       y="5"
                       fill={INK}
-                      fontSize="18"
+                      fontSize={ROUTE_LABEL_SIZE}
                       fontWeight="700"
                     >
-                      {line.label}{line.branchOf && <tspan fontSize="14" fill="#65726a"> · Branch</tspan>}
+                      {line.label}{line.branchOf && <tspan fontSize={MAP_FONT_SIZE.secondary} fill="#65726a"> · Branch</tspan>}
                     </text>
                   </g>
                 );
               })}
-              <g data-contribution-legend="true" transform={`translate(16 ${legendDivider(legend.fallbackLineIds.length)})`}>
-                {!!legend.fallbackLineIds.length && <path d={`M0 0H${legend.width - 32}`} stroke="#d9dfd3" strokeWidth="1" />}
-                <text x="0" y="24" fill="#65726a" fontSize="14" fontWeight="750" letterSpacing="1.3">STATION TYPES</text>
-                {(["method", "resource", "hybrid"] as const).map((kind, index) => (
-                  <g key={kind} transform={`translate(${index === 1 ? 300 : 8} ${index === 2 ? 86 : 54})`}>
+              <g data-contribution-legend="true" transform={`translate(0 ${legendDivider(legend.fallbackLineIds.length)})`}>
+                {!!legend.fallbackLineIds.length && <path d={`M16 0H${legend.width - 16}`} stroke="#d9dfd3" strokeWidth="1" />}
+                <text x="16" y={LEGEND_ROW_CENTER + 8} fill="#65726a" fontSize={MAP_FONT_SIZE.secondary} fontWeight="750">STATION TYPES</text>
+                {LEGEND_ITEMS.map(({ kind, x }) => (
+                  <g key={kind} transform={`translate(${x} ${LEGEND_ROW_CENTER})`}>
                     <StationShape kind={kind} radius={8} fill={PAPER} stroke={INK} strokeWidth={2.6} />
                     {kind !== "resource" && <circle r={kind === "hybrid" ? 3.2 : 2.3} fill={INK} />}
-                    <text x="20" y="5" fill={INK} fontSize="16" fontWeight="650">{contributionLabels[kind]}</text>
+                    <text x="20" y="12" fill={INK} fontSize={MAP_FONT_SIZE.primary} fontWeight="650">{contributionLabels[kind]}</text>
                   </g>
                 ))}
-                <g transform="translate(300 86)">
-                  <path d="M0 -7V7" stroke={INK} strokeWidth="5" strokeLinecap="round" />
-                  <path d="M0 -7V7" stroke={PAPER} strokeWidth="2" strokeLinecap="round" />
-                  {[-7, 7].map(y => <g key={y}>
-                    <circle cy={y} r="5" fill={PAPER} stroke={INK} strokeWidth="2" />
-                    <circle cy={y} r="1.7" fill={INK} />
-                  </g>)}
-                  <text x="20" y="5" fill={INK} fontSize="16" fontWeight="650">Interchange</text>
-                </g>
               </g>
               </g>
             </>
@@ -436,28 +460,32 @@ export default function ResearchMap({
             if (!station) return null;
             const box = station.label;
             const selected = selectedId === paper.id;
-            const publicationDetails = `${paper.title}, ${paper.venue}, ${paper.year}`;
+            const publicationDetails = `${paper.title}, ${paper.venue}, ${paper.year}${paper.mapIcon ? `, ${mapIconLabels[paper.mapIcon.kind]}` : ""}`;
             const active = selected || hoveredId === paper.id;
             const line = network.lines.find(
               (item) => item.id === paper.cluster,
             );
             const color = line?.color || INK;
-            const fontSize = 20;
-            const interchange = station.lineIds.length > 1 && !station.fork && !station.continuation;
+            const fontSize = STATION_NAME_SIZE;
+            const interchange = isInterchangeStation(station);
             const name = stationName(paper);
             const kind = paperContribution(paper);
             const tx = box.x + box.width / 2;
             const available = box.width - 10;
-            const labelY = box.y + 21;
+            const iconSpace = paper.mapIcon ? STATION_ICON_SIZE + 8 : 0;
+            const venueWidth = Math.min(labelWidth(stationVenue(paper), stationVenueSize()) + 8, available - iconSpace);
+            const labelY = box.y + fontSize + 1;
+            const venueY = box.y + box.height - 7;
             return (
               <g
                 key={paper.id}
                 role="button"
                 tabIndex={0}
-                aria-label={`${publicationDetails}, ${contributionLabels[kind]}, ${paperMethods(paper).map((id) => { const cluster = clusters.find((item) => item.id === id); return cluster ? clusterName(cluster) : id; }).join(", ")}${station.fork ? ", fork" : interchange ? ", interchange" : ""}. View paper details.`}
+                aria-label={`${publicationDetails}, ${publicationKind(paper)}, ${contributionLabels[kind]}, ${paperMethods(paper).map((id) => { const cluster = clusters.find((item) => item.id === id); return cluster ? clusterName(cluster) : id; }).join(", ")}${interchange ? ", interchange" : ""}. View paper details.`}
                 aria-pressed={selected}
                 data-paper={paper.id}
                 data-contribution={kind}
+                data-publication-kind={publicationKind(paper)}
                 data-fork={station.fork?.branchId}
                 className={`metro-station${selected ? " is-selected" : ""}`}
                 onMouseEnter={() => setHoveredId(paper.id)}
@@ -474,7 +502,7 @@ export default function ResearchMap({
                   }
                 }}
               >
-                <title>{`${publicationDetails} — ${contributionLabels[kind]}${station.fork ? " · Fork" : interchange ? " · Interchange" : ""}`}</title>
+                <title>{`${publicationDetails} — ${contributionLabels[kind]}${interchange ? " · Interchange" : ""}\n${paper.mechanism}`}</title>
                 <rect
                   className="metro-station-label"
                   x={box.x}
@@ -499,18 +527,8 @@ export default function ResearchMap({
                 >
                   {name}
                 </text>
-                <text
-                    x={tx}
-                    y={box.y + 41}
-                    textAnchor="middle"
-                    fill="#52605a"
-                    fontSize={stationVenueSize(!!station.fork)}
-                    fontWeight="650"
-                    textLength={fitLabel(stationVenue(paper, !!station.fork), stationVenueSize(!!station.fork), available)}
-                    lengthAdjust="spacingAndGlyphs"
-                  >
-                    {stationVenue(paper, !!station.fork)}
-                  </text>
+                <VenueLabel venue={stationVenue(paper)} kind={publicationKind(paper)} x={tx - iconSpace / 2} y={venueY} available={available - iconSpace} />
+                {paper.mapIcon && <PaperContextIcon kind={paper.mapIcon.kind} x={tx + venueWidth / 2 + 4} y={venueY - stationVenueSize() * .375} />}
               </g>
             );
           })}

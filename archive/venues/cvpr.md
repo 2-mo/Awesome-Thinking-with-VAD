@@ -150,7 +150,7 @@ MBZUAI | `Federated Learning` `Unsupervised` | [[Project]](https://anasemad11.gi
 #### 🪞 Self-Distilled Masked Auto-Encoders are Efficient Video Anomaly Detectors
 University of Bucharest | `Self-supervised` `Reconstruction` | [[ArXiv]](https://arxiv.org/abs/2306.12041) [[Code]](https://github.com/ristea/aed-mae/tree/main)
 
-> 在 MAE 架构中引入自蒸馏，采用学生-教师结构强化对异常细节的感知，推理阶段仅需编码器 + 线性头，适合实时场景。
+> 以运动梯度突出前景 token，使用共享编码器的教师与学生解码器进行自蒸馏，并引入合成异常增强；检测结合重构、预测异常图与教师学生差异。保留为[检测背景阅读](../../literature/catalog.md#paper-sd-mae)。
 
 #### 🪟 Open-Vocabulary Video Anomaly Detection
 Northwestern Polytechnical University | `Open Vocabulary` `Zero-shot` | [[ArXiv]](https://arxiv.org/abs/2311.07042)

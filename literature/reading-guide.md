@@ -1,4 +1,4 @@
-# 视频异常理解 · 阅读路线
+# 异常理解 · 阅读路线
 
 [论文年表](../llm4vad.md) · [方法比较](comparison.md) · [数据集与评测](benchmarks.md) · [背景综述](../research/README.md)
 

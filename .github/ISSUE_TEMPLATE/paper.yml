@@ -1,5 +1,5 @@
 name: Recommend a paper / 推荐论文
-description: Suggest directly relevant video anomaly understanding research.
+description: Suggest directly relevant anomaly understanding research.
 title: "[Paper] "
 body:
   - type: input
@@ -19,7 +19,7 @@ body:
     id: relevance
     attributes:
       label: Relevance and contribution / 收录理由与创新
-      description: Explain how it supports video anomaly explanation, reasoning, localization or evaluation.
+      description: Explain how the work supports anomaly understanding, explanation, reasoning, evidence localization or evaluation.
     validations:
       required: true
   - type: textarea

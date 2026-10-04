@@ -42,10 +42,10 @@ export function renderPaperCard(paper) {
 /** Illustrated cards grouped by year/venue, generated from the same verified papers. */
 export function renderLiterature(catalog) {
   const lines = [
-    '# 视频异常理解 · 论文年表', '',
+    '# 异常理解 · 论文年表', '',
     '[按创新思路阅读](literature/catalog.md) · [方法比较](literature/comparison.md) · [数据集与评测](literature/benchmarks.md) · [阅读路线](literature/reading-guide.md) · [按会议查找](literature/venues.md) · [研究地图](https://2-mo.github.io/Awesome-Thinking-with-VAD/)', '',
     `更新：${catalog.updatedAt} · ${catalog.papers.length} 篇论文 · ${catalog.clusters.length} 个方法方向。`, '',
-    '聚焦视频异常解释、推理、时序定位与理解评估，以及直接支撑这些目标的语义表征方法。会议与年份采用已核验的正式发表信息；未确认录用的论文保留 arXiv。', '',
+    '聚焦异常解释、推理、证据定位与理解评估，以及直接支撑这些目标的语义表征方法。会议与年份采用已核验的正式发表信息；未确认录用的论文保留 arXiv。', '',
     `已配原论文图片 ${catalog.papers.filter(p => p.figure).length} / ${catalog.papers.length} 篇；点击图片查看大图。[图片来源与待补记录](assets/papers/README.md)。完整阅读关注见 [研究目录](literature/catalog.md)，作者、DOI 与 BibTeX 见 [引用导出](literature/citations.md)。`, '',
     years(catalog).map(year => `[${year}](#year-${year})`).join(' · '), '',
   ];
@@ -87,9 +87,9 @@ export function renderFigureSources(catalog) {
 
 export function renderVenueIndex(catalog) {
   const legacy = { AAAI: 'aaai', CVPR: 'cvpr', ICCV: 'iccv', ECCV: 'eccv', NeurIPS: 'neurips', ICML: 'icml', ICLR: 'iclr', 'ACM MM': 'acmmm', IJCAI: 'ijcai' };
-  const journals = { TPAMI: 'tpami', IJCV: 'ijcv', TIP: 'tip', TNNLS: 'tnnls' };
+  const journals = { TPAMI: 'tpami', IJCV: 'ijcv', TIP: 'tip', TNNLS: 'tnnls', TCSVT: 'tcsvt' };
   // Editorial influence priority for count ties in this research area.
-  const influenceOrder = ['TPAMI', 'IJCV', 'CVPR', 'ICCV', 'NeurIPS', 'ICML', 'ICLR', 'ECCV', 'TIP', 'ACL', 'AAAI', 'IJCAI', 'ACM MM', 'TNNLS', 'NAACL Findings', 'WACV', 'arXiv'];
+  const influenceOrder = ['TPAMI', 'IJCV', 'CVPR', 'ICCV', 'NeurIPS', 'ICML', 'ICLR', 'ECCV', 'TIP', 'ACL', 'AAAI', 'IJCAI', 'ACM MM', 'TNNLS', 'TCSVT', 'NAACL Findings', 'WACV', 'arXiv'];
   const influenceRank = venue => {
     const rank = influenceOrder.indexOf(venue);
     return rank < 0 ? influenceOrder.length : rank;
@@ -101,7 +101,7 @@ export function renderVenueIndex(catalog) {
     || influenceRank(a.venue) - influenceRank(b.venue)
     || a.venue.localeCompare(b.venue));
   const lines = [
-    '# 视频异常理解 · 发表索引', '',
+    '# 异常理解 · 发表索引', '',
     `更新：${catalog.updatedAt}。从 [结构化目录](../data/catalog.json) 自动生成；年份链接进入当前核验年表。`, '',
     '| 发表场所 | 篇数 | 年份 | 历史笔记 |', '| --- | ---: | --- | --- |',
   ];
@@ -119,7 +119,7 @@ export function renderVenueIndex(catalog) {
 
 export function renderCatalog(catalog) {
   const lines = [
-    '# Video Anomaly Understanding — 精选核验目录', '',
+    '# Anomaly Understanding — 精选核验目录', '',
     '这是从结构化数据生成的精选核验目录，并非完整文献综述。原仓库的会议笔记作为额外资料保留，尚未全面复核，不应视作本目录的核验条目。', '',
     `数据更新时间：${catalog.updatedAt} · ${catalog.papers.length} 篇论文。另见 [按年份阅读](../llm4vad.md)、[发表索引](venues.md)、[阅读路线](reading-guide.md)与[引用导出](citations.md)。`, '',
     '## Core research / 核心研究', '',
@@ -151,7 +151,7 @@ const generatedNote = '[引用导出](citations.md) · [更新记录](../CHANGEL
 const paperRef = paper => link(escape(paper.shortTitle), `catalog.md#paper-${paper.id}`);
 
 export function renderComparison(catalog) {
-  const lines = ['# 视频异常理解 · 方法比较', '', '[论文年表](../llm4vad.md) · [数据集与评测](benchmarks.md) · [阅读路线](reading-guide.md)', '', generatedNote, '',
+  const lines = ['# 异常理解 · 方法比较', '', '[论文年表](../llm4vad.md) · [数据集与评测](benchmarks.md) · [阅读路线](reading-guide.md)', '', generatedNote, '',
     '按方法方向比较输出、训练与适配、运行设置和验证方式。每个已填写单元格链接到证据；待核验表示尚未完成该维度核对，不代表论文没有该能力。基准论文记录其评测对象。', '',
     '冻结主模型不等于整个流程无需训练；提示搜索、轻量模块训练和权重微调分别记录。在线／流式标签不能单独证明不访问未来帧。不同数据划分、输入模态与评测协议下的数值不作统一排名。', ''];
   for (const cluster of catalog.clusters) {
@@ -176,7 +176,7 @@ export function renderBenchmarks(catalog) {
     { id: 'understanding-data', title: '理解与推理', matches: isUnderstanding },
     { id: 'retrieval-data', title: '异常检索', matches: isRetrieval },
   ].map(group => ({ ...group, datasets: catalog.datasets.filter(group.matches).sort((a, b) => a.year - b.year || a.name.localeCompare(b.name)) })).filter(group => group.datasets.length);
-  const lines = ['# 视频异常理解 · 数据集与评测', '', '[论文年表](../llm4vad.md) · [方法比较](comparison.md) · [阅读路线](reading-guide.md)', '',
+  const lines = ['# 异常理解 · 数据集与评测', '', '[论文年表](../llm4vad.md) · [方法比较](comparison.md) · [阅读路线](reading-guide.md)', '',
     `${catalog.datasets.length} 个数据集与评测资源，按任务浏览。点击徽章进入论文或作者发布页。`, '',
     groups.map(group => link(group.title, `#${group.id}`)).join(' · '), '',
     '<details>', '<summary>快速跳转</summary>', '',
@@ -187,7 +187,7 @@ export function renderBenchmarks(catalog) {
       const papers = catalog.papers.filter(p => p.datasetIds.includes(d.id));
       const venue = displayVenue(d.venue);
       const paperUrl = d.links.paper ?? d.links.website;
-      const publication = /^(TPAMI|TIP|TNNLS|TCYB|TIFS|IJCV)$/.test(venue)
+      const publication = /^(TPAMI|TIP|TNNLS|TCSVT|TCYB|TIFS|IJCV)$/.test(venue)
         ? `${link(`![${escape(venue)}](https://img.shields.io/badge/${badgePart(venue)}-537A7A?style=flat)`, paperUrl)} · ${d.year}`
         : badge(venue, d.year, venueColors[venue] ?? '537A7A', paperUrl);
       const a = d.availability;
@@ -217,7 +217,7 @@ export function renderBenchmarks(catalog) {
 }
 
 export function renderGuides(catalog) {
-  const lines = ['# 视频异常理解 · 阅读路线', '', '[论文年表](../llm4vad.md) · [方法比较](comparison.md) · [数据集与评测](benchmarks.md) · [背景综述](../research/README.md)', '', generatedNote, '',
+  const lines = ['# 异常理解 · 阅读路线', '', '[论文年表](../llm4vad.md) · [方法比较](comparison.md) · [数据集与评测](benchmarks.md) · [背景综述](../research/README.md)', '', generatedNote, '',
     '按研究问题选择路线。以下顺序是编辑阅读建议，不表示论文之间存在引用或继承关系。', '',
     ...catalog.guides.map(g => `- [${escape(g.title)}](#guide-${g.id})`), ''];
   for (const g of catalog.guides) {

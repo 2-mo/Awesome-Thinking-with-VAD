@@ -446,6 +446,32 @@ test('earlier supplementary papers do not constrain a map fork date', () => {
   assert.match(validateCatalog(data).join('\n'), /precede its branch papers/);
 });
 
+test('an earlier reading segment needs its own shared anchor and must end before the later fork', () => {
+  const data = fixture(), evidence = data.papers[0].sources[0];
+  data.papers[0].secondaryMethods = [{ cluster: 'branch', evidence }];
+  data.papers[1].cluster = 'branch';
+  const earlier = structuredClone(data.papers[0]);
+  earlier.id = 'early-anchor'; earlier.year = 2023;
+  earlier.citation.key = 'early2023'; earlier.citation.year = 2023;
+  const leaf = structuredClone(earlier);
+  leaf.id = 'early-leaf'; leaf.cluster = 'branch'; leaf.citation.key = 'leaf2023';
+  delete leaf.secondaryMethods;
+  data.papers.push(earlier, leaf);
+  data.clusters.push({ ...data.clusters[0], id: 'branch', branchOf: 'reasoning',
+    branchAt: { paperId: 'core-a', evidence }, routes: [
+      { paperIds: ['core-a', 'core-b'], evidence },
+      { paperIds: ['early-anchor', 'early-leaf'], evidence },
+    ] });
+  assert.deepEqual(validateCatalog(data), []);
+  const unanchored = structuredClone(data);
+  unanchored.papers.find(p => p.id === 'early-anchor').cluster = 'branch';
+  delete unanchored.papers.find(p => p.id === 'early-anchor').secondaryMethods;
+  assert.match(validateCatalog(unanchored).join('\n'), /precede its branch papers/);
+  const spanning = structuredClone(data);
+  spanning.clusters[1].routes[1].paperIds.push('core-b');
+  assert.match(validateCatalog(spanning).join('\n'), /precede its branch papers/);
+});
+
 test('dataset cards do not imply downloads when availability is unknown', () => {
   const data = fixture();
   assert.deepEqual(validateCatalog(data), []);

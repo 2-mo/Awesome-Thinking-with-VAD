@@ -1,16 +1,16 @@
-# 视频异常理解 · 数据集与评测
+# 异常理解 · 数据集与评测
 
 [论文年表](../llm4vad.md) · [方法比较](comparison.md) · [阅读路线](reading-guide.md)
 
-28 个数据集与评测资源，按任务浏览。点击徽章进入论文或作者发布页。
+39 个数据集与评测资源，按任务浏览。点击徽章进入论文或作者发布页。
 
 [异常检测](<#detection-data>) · [理解与推理](<#understanding-data>) · [异常检索](<#retrieval-data>)
 
 <details>
 <summary>快速跳转</summary>
 
-- **异常检测**：[UCSD Ped1 / Ped2](<#dataset-ucsd-ped1-ped2>) · [CUHK Avenue](<#dataset-cuhk-avenue>) · [ShanghaiTech Campus](<#dataset-shanghaitech>) · [UCF-Crime](<#dataset-ucf-crime>) · [XD-Violence](<#dataset-xd-violence>) · [TAD (Traffic Anomaly Dataset)](<#dataset-tad>) · [UBnormal](<#dataset-ubnormal>) · [NWPU Campus](<#dataset-nwpu-campus>) · [MSAD](<#dataset-msad>)
-- **理解与推理**：[CUVA](<#dataset-cuva-dataset>) · [HAWK](<#dataset-hawk-dataset>) · [MM-AU](<#dataset-mm-au>) · [UCA](<#dataset-uca>) · [A2Seek](<#dataset-a2seek-data>) · [HIVAU-70k](<#dataset-hivau-70k>) · [Vad-Reasoning](<#dataset-vad-reasoning>) · [VANE-Bench](<#dataset-vane-bench-data>) · [CueBench](<#dataset-cuebench-data>) · [ECVA](<#dataset-ecva>) · [FineW3](<#dataset-finew3>) · [Pistachio](<#dataset-pistachio-data>) · [TAR / TAR-Bench](<#dataset-tar-data>) · [TAU-Bench](<#dataset-tau-bench-data>) · [Vad-Reasoning-Plus](<#dataset-vad-reasoning-plus>) · [VAGU](<#dataset-vagu-data>) · [VALU](<#dataset-valu-data>)
+- **异常检测**：[UCSD Ped1 / Ped2](<#dataset-ucsd-ped1-ped2>) · [CUHK Avenue](<#dataset-cuhk-avenue>) · [ShanghaiTech Campus](<#dataset-shanghaitech>) · [UCF-Crime](<#dataset-ucf-crime>) · [XD-Violence](<#dataset-xd-violence>) · [TAD (Traffic Anomaly Dataset)](<#dataset-tad>) · [UBnormal](<#dataset-ubnormal>) · [NWPU Campus](<#dataset-nwpu-campus>) · [MSAD](<#dataset-msad>) · [MulA](<#dataset-mula>)
+- **理解与推理**：[SUTD-TrafficQA](<#dataset-sutd-trafficqa>) · [DoTA](<#dataset-dota>) · [CUVA](<#dataset-cuva-dataset>) · [HAWK](<#dataset-hawk-dataset>) · [MM-AU](<#dataset-mm-au>) · [UCA](<#dataset-uca>) · [A2Seek](<#dataset-a2seek-data>) · [Anomaly-Instruct-125k](<#dataset-anomaly-instruct-125k>) · [AV-TAU](<#dataset-av-tau>) · [BlackSwanSuite](<#dataset-black-swan-suite>) · [HIVAU-70k](<#dataset-hivau-70k>) · [MMAD](<#dataset-mmad-data>) · [Phys-AD](<#dataset-phys-ad-data>) · [Vad-Reasoning](<#dataset-vad-reasoning>) · [VANE-Bench](<#dataset-vane-bench-data>) · [VisA-D&R](<#dataset-visa-dr>) · [CueBench](<#dataset-cuebench-data>) · [ECVA](<#dataset-ecva>) · [Expert-AD](<#dataset-expert-ad>) · [FineW3](<#dataset-finew3>) · [Pistachio](<#dataset-pistachio-data>) · [SEEK-M&V](<#dataset-seek-mv>) · [TAR / TAR-Bench](<#dataset-tar-data>) · [TAU-Bench](<#dataset-tau-bench-data>) · [Vad-Reasoning-Plus](<#dataset-vad-reasoning-plus>) · [VAGU](<#dataset-vagu-data>) · [VALU](<#dataset-valu-data>)
 - **异常检索**：[UCFCrime-AR](<#dataset-ucfcrime-ar>) · [XDViolence-AR](<#dataset-xdviolence-ar>)
 
 </details>
@@ -38,6 +38,8 @@
 
 获取：作者数据页提供数据包、更新时间和校验值。
 
+相关工作：[Crowded-Scene AD](<catalog.md#paper-crowded-scenes-tpami>) · [Self-Distilled MAE](<catalog.md#paper-sd-mae>)
+
 来源：[1](<http://www.svcl.ucsd.edu/projects/anomaly/dataset.htm>) · [2](<http://www.svcl.ucsd.edu/projects/anomaly/>)
 
 </details>
@@ -60,6 +62,8 @@
 采用官方 16／21 训练／测试划分；训练以正常情况为主，作者提示少量离群样本、稀有正常模式及测试轻微抖动。帧级与空间定位评价分开，并说明所用空间标注版本。
 
 获取：作者页分别提供 Avenue Dataset 与 Ground truth 下载入口。
+
+相关工作：[NWPU Campus](<catalog.md#paper-nwpu-campus-paper>) · [Latent-Space VAA](<catalog.md#paper-scene-dependent-vaa>) · [FPDM](<catalog.md#paper-fpdm>) · [Self-Distilled MAE](<catalog.md#paper-sd-mae>) · [ADSM](<catalog.md#paper-adsm>)
 
 来源：[1](<https://www.cse.cuhk.edu.hk/leojia/projects/detectabnormal/dataset.html>)
 
@@ -84,6 +88,8 @@
 
 获取：作者页提供 Google Drive 与 OneDrive 下载入口。
 
+相关工作：[NWPU Campus](<catalog.md#paper-nwpu-campus-paper>) · [Latent-Space VAA](<catalog.md#paper-scene-dependent-vaa>) · [Background-Agnostic VAD](<catalog.md#paper-background-agnostic-vad>) · [STG-NF](<catalog.md#paper-stg-nf>) · [FPDM](<catalog.md#paper-fpdm>) · [Self-Distilled MAE](<catalog.md#paper-sd-mae>) · [ADSM](<catalog.md#paper-adsm>) · [PE-MIL](<catalog.md#paper-pe-mil>) · [FedVAD](<catalog.md#paper-fedvad>) · [D²MIL](<catalog.md#paper-d2mil>) · [STPrompt](<catalog.md#paper-stprompt>)
+
 来源：[1](<https://svip-lab.github.io/dataset/campus_dataset.html>) · [2](<https://openaccess.thecvf.com/content_ICCV_2017/papers/Luo_A_Revisit_of_ICCV_2017_paper.pdf>)
 
 </details>
@@ -107,7 +113,7 @@
 
 获取：作者页提供视频整包、分包及测试时序标注入口；本轮未逐包下载。
 
-相关工作：[VadCLIP](<catalog.md#paper-vadclip>) · [LAVAD](<catalog.md#paper-lavad>) · [Ex-VAD](<catalog.md#paper-ex-vad>) · [EventVAD](<catalog.md#paper-eventvad>) · [MoniTor](<catalog.md#paper-monitor>) · [OVVAD](<catalog.md#paper-ovvad>) · [TPWNG](<catalog.md#paper-tpwng>) · [UCA](<catalog.md#paper-uca-paper>) · [Anomize](<catalog.md#paper-anomize>) · [VA-GPT](<catalog.md#paper-va-gpt>) · [LAVIDA](<catalog.md#paper-lavida>) · [LAS-VAD](<catalog.md#paper-las-vad>) · [VADTree](<catalog.md#paper-vadtree>) · [MemoVAD](<catalog.md#paper-memovad>) · [Flashback](<catalog.md#paper-flashback>) · [LRPO](<catalog.md#paper-lrpo>) · [TD-VAD](<catalog.md#paper-td-vad>) · [URF-ZS-HVAA](<catalog.md#paper-urf-zs-hvaa>) · [CLUE-VAD](<catalog.md#paper-clue-vad>) · [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) · [Probe-VAD](<catalog.md#paper-probe-vad>) · [HiProbe-VAD](<catalog.md#paper-hiprobe-vad>) · [PEL](<catalog.md#paper-pel>) · [PromptVAD](<catalog.md#paper-promptvad>) · [PA-VAD](<catalog.md#paper-pa-vad>) · [S2MGraph-VAD](<catalog.md#paper-s2mgraph-vad>)
+相关工作：[VadCLIP](<catalog.md#paper-vadclip>) · [LAVAD](<catalog.md#paper-lavad>) · [Ex-VAD](<catalog.md#paper-ex-vad>) · [EventVAD](<catalog.md#paper-eventvad>) · [MoniTor](<catalog.md#paper-monitor>) · [OVVAD](<catalog.md#paper-ovvad>) · [TPWNG](<catalog.md#paper-tpwng>) · [UCA](<catalog.md#paper-uca-paper>) · [Anomize](<catalog.md#paper-anomize>) · [VA-GPT](<catalog.md#paper-va-gpt>) · [LAVIDA](<catalog.md#paper-lavida>) · [LAS-VAD](<catalog.md#paper-las-vad>) · [VADTree](<catalog.md#paper-vadtree>) · [MemoVAD](<catalog.md#paper-memovad>) · [Flashback](<catalog.md#paper-flashback>) · [LRPO](<catalog.md#paper-lrpo>) · [TD-VAD](<catalog.md#paper-td-vad>) · [URF-ZS-HVAA](<catalog.md#paper-urf-zs-hvaa>) · [CLUE-VAD](<catalog.md#paper-clue-vad>) · [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) · [Probe-VAD](<catalog.md#paper-probe-vad>) · [HiProbe-VAD](<catalog.md#paper-hiprobe-vad>) · [PEL](<catalog.md#paper-pel>) · [PromptVAD](<catalog.md#paper-promptvad>) · [PA-VAD](<catalog.md#paper-pa-vad>) · [S2MGraph-VAD](<catalog.md#paper-s2mgraph-vad>) · [DSRL](<catalog.md#paper-dsrl>) · [PiercingEye](<catalog.md#paper-piercingeye>) · [MGFN](<catalog.md#paper-mgfn>) · [UR-DMU](<catalog.md#paper-ur-dmu>) · [FPDM](<catalog.md#paper-fpdm>) · [BN-WVAD](<catalog.md#paper-bn-wvad>) · [PE-MIL](<catalog.md#paper-pe-mil>) · [FedVAD](<catalog.md#paper-fedvad>) · [PI-VAD](<catalog.md#paper-pi-vad>) · [LEC-VAD](<catalog.md#paper-lec-vad>) · [D²MIL](<catalog.md#paper-d2mil>) · [STPrompt](<catalog.md#paper-stprompt>) · [Fine-VAD](<catalog.md#paper-fine-vad>)
 
 来源：[1](<https://openaccess.thecvf.com/content_cvpr_2018/html/Sultani_Real-World_Anomaly_Detection_CVPR_2018_paper.html>) · [2](<https://www.crcv.ucf.edu/research/real-world-anomaly-detection-in-surveillance-videos/>)
 
@@ -136,7 +142,7 @@
 
 获取：官方页提供视频、测试标注及特征；旧百度训练链接标为失效，另有阿里云与 OneDrive 入口。
 
-相关工作：[VadCLIP](<catalog.md#paper-vadclip>) · [LAVAD](<catalog.md#paper-lavad>) · [Ex-VAD](<catalog.md#paper-ex-vad>) · [EventVAD](<catalog.md#paper-eventvad>) · [MoniTor](<catalog.md#paper-monitor>) · [OVVAD](<catalog.md#paper-ovvad>) · [TPWNG](<catalog.md#paper-tpwng>) · [Anomize](<catalog.md#paper-anomize>) · [VA-GPT](<catalog.md#paper-va-gpt>) · [LAVIDA](<catalog.md#paper-lavida>) · [LAS-VAD](<catalog.md#paper-las-vad>) · [VADTree](<catalog.md#paper-vadtree>) · [MemoVAD](<catalog.md#paper-memovad>) · [Flashback](<catalog.md#paper-flashback>) · [LRPO](<catalog.md#paper-lrpo>) · [TD-VAD](<catalog.md#paper-td-vad>) · [URF-ZS-HVAA](<catalog.md#paper-urf-zs-hvaa>) · [CLUE-VAD](<catalog.md#paper-clue-vad>) · [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) · [Probe-VAD](<catalog.md#paper-probe-vad>) · [HiProbe-VAD](<catalog.md#paper-hiprobe-vad>) · [PEL](<catalog.md#paper-pel>) · [PromptVAD](<catalog.md#paper-promptvad>) · [PA-VAD](<catalog.md#paper-pa-vad>) · [S2MGraph-VAD](<catalog.md#paper-s2mgraph-vad>) · [DEAL](<catalog.md#paper-deal-vad>)
+相关工作：[VadCLIP](<catalog.md#paper-vadclip>) · [LAVAD](<catalog.md#paper-lavad>) · [Ex-VAD](<catalog.md#paper-ex-vad>) · [EventVAD](<catalog.md#paper-eventvad>) · [MoniTor](<catalog.md#paper-monitor>) · [OVVAD](<catalog.md#paper-ovvad>) · [TPWNG](<catalog.md#paper-tpwng>) · [Anomize](<catalog.md#paper-anomize>) · [VA-GPT](<catalog.md#paper-va-gpt>) · [LAVIDA](<catalog.md#paper-lavida>) · [LAS-VAD](<catalog.md#paper-las-vad>) · [VADTree](<catalog.md#paper-vadtree>) · [MemoVAD](<catalog.md#paper-memovad>) · [Flashback](<catalog.md#paper-flashback>) · [LRPO](<catalog.md#paper-lrpo>) · [TD-VAD](<catalog.md#paper-td-vad>) · [URF-ZS-HVAA](<catalog.md#paper-urf-zs-hvaa>) · [CLUE-VAD](<catalog.md#paper-clue-vad>) · [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) · [Probe-VAD](<catalog.md#paper-probe-vad>) · [HiProbe-VAD](<catalog.md#paper-hiprobe-vad>) · [PEL](<catalog.md#paper-pel>) · [PromptVAD](<catalog.md#paper-promptvad>) · [PA-VAD](<catalog.md#paper-pa-vad>) · [S2MGraph-VAD](<catalog.md#paper-s2mgraph-vad>) · [DEAL](<catalog.md#paper-deal-vad>) · [DSRL](<catalog.md#paper-dsrl>) · [PiercingEye](<catalog.md#paper-piercingeye>) · [MGFN](<catalog.md#paper-mgfn>) · [UR-DMU](<catalog.md#paper-ur-dmu>) · [BN-WVAD](<catalog.md#paper-bn-wvad>) · [PE-MIL](<catalog.md#paper-pe-mil>) · [FedVAD](<catalog.md#paper-fedvad>) · [PI-VAD](<catalog.md#paper-pi-vad>) · [LEC-VAD](<catalog.md#paper-lec-vad>) · [Fine-VAD](<catalog.md#paper-fine-vad>)
 
 来源：[1](<https://roc-ng.github.io/XD-Violence/>)
 
@@ -186,6 +192,8 @@
 
 获取：作者仓库提供 Google Drive 下载、划分脚本，并明确测试集 ground truth 已发布。
 
+相关工作：[STG-NF](<catalog.md#paper-stg-nf>) · [FPDM](<catalog.md#paper-fpdm>) · [Self-Distilled MAE](<catalog.md#paper-sd-mae>) · [FedVAD](<catalog.md#paper-fedvad>) · [STPrompt](<catalog.md#paper-stprompt>)
+
 来源：[1](<https://github.com/lilygeorgescu/UBnormal>)
 
 </details>
@@ -208,6 +216,8 @@
 采用官方 305 正常训练／242 测试视频划分；场景依赖异常的正常性需结合所在场景判断。异常检测与预判应分别报告任务与评价协议。
 
 获取：作者页提供百度网盘和 Google Drive 下载，标示完整视频约 76.6 GB。
+
+相关工作：[NWPU Campus](<catalog.md#paper-nwpu-campus-paper>) · [Latent-Space VAA](<catalog.md#paper-scene-dependent-vaa>) · [ADSM](<catalog.md#paper-adsm>)
 
 来源：[1](<https://campusvad.github.io/>) · [2](<https://campusvaa.github.io/>)
 
@@ -234,7 +244,32 @@
 
 获取：I3D／Video-Swin 特征提供直接下载；原视频须填写官方申请表并经作者审核。
 
+相关工作：[PI-VAD](<catalog.md#paper-pi-vad>) · [D²MIL](<catalog.md#paper-d2mil>)
+
 来源：[1](<https://msad-dataset.github.io/>)
+
+</details>
+
+---
+
+<a id="dataset-mula"></a>
+
+### MulA
+
+[![CVPR](https://img.shields.io/badge/CVPR-2026-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.html>) [![Data](https://img.shields.io/badge/Data-%E9%A1%B9%E7%9B%AE%E5%85%A5%E5%8F%A3-537A7A)](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.html>)
+
+> 面向多类型图像异常的缺陷数据，覆盖不同物体类别和缺陷类型，用于检验类型级异常特征。
+
+**标注** · 正常／异常标签 · 物体类别 · 缺陷类型
+
+<details>
+<summary>划分与相关工作</summary>
+
+按论文的零样本和缺陷类型设置评测，不将类别与缺陷类型混为同一统计口径。
+
+相关工作：[ADSeeker](<catalog.md#paper-adseeker>)
+
+来源：[1](<https://openaccess.thecvf.com/content/CVPR2026/papers/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.pdf>)
 
 </details>
 
@@ -243,6 +278,64 @@
 <a id="understanding-data"></a>
 
 ## 理解与推理
+
+<a id="dataset-sutd-trafficqa"></a>
+
+### SUTD-TrafficQA
+
+[![CVPR](https://img.shields.io/badge/CVPR-2021-1E90FF)](<https://github.com/sutdcv/SUTD-TrafficQA>) [![Data](https://img.shields.io/badge/Data-%E9%83%A8%E5%88%86%E5%BC%80%E6%94%BE-A87938)](<https://github.com/sutdcv/SUTD-TrafficQA>)
+
+> 10,080 段交通视频与 62,535 组问答，覆盖基本理解、归因、反事实、预测等六类交通推理任务。
+
+**标注** · 基本理解与归因 · 内省与反事实推理 · 事件预测与逆向推理
+
+**使用说明** · 完整数据需向作者申请；覆盖一般交通事件及事故。
+
+<details>
+<summary>划分与相关工作</summary>
+
+按官方划分分别评估六类交通问答。数据涵盖一般交通事件与事故，不应把所有问题都视为异常理解评测。仅登记 CMCIR 使用的数据资源，不另收录 2021 年会议论文。
+
+获取：样例和代码公开；完整视频与问答需按仓库说明向作者申请。
+
+相关工作：[CMCIR](<catalog.md#paper-cmcir>)
+
+来源：[1](<https://github.com/sutdcv/SUTD-TrafficQA>)
+
+</details>
+
+---
+
+<a id="dataset-dota"></a>
+
+### DoTA
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-537A7A?style=flat)](<https://doi.org/10.1109/TPAMI.2022.3150763>) · 2023 [![Data](https://img.shields.io/badge/Data-%E4%B8%8B%E8%BD%BD-537A7A)](<https://github.com/MoonBlvd/Detection-of-Traffic-Anomaly>)
+
+> 4,677 段第一视角驾驶视频，提供异常起止时间、异常对象框及事件类别，支持何时、何处、何种异常的分析。
+
+**标注** · 异常起止时间 · 异常对象边界框 · 异常类别与自车参与标记
+
+**使用说明** · 2020 年预印本已介绍数据；关联期刊论文正式发表于 TPAMI 2023。
+
+[![DoTA：Figure 2：DoTA 数据样例及异常对象框，取自早期作者预印本，不代表 TPAMI 新增方法框架。](../assets/papers/dota-paper.png)](../assets/papers/dota-paper.png)
+
+*Figure 2：DoTA 数据样例及异常对象框，取自早期作者预印本，不代表 TPAMI 新增方法框架。 Yu Yao et al. / DoTA author preprint (2020) · [图片来源](<https://arxiv.org/pdf/2004.03044#page=5>)*
+
+<details>
+<summary>划分与相关工作</summary>
+
+按官方训练／测试划分评估视频异常检测；STAUC 同时考虑时间检测与空间定位。数据已在 2020 年作者预印本公开，此处年份采用关联 TPAMI 正式卷期 2023。
+
+获取：作者仓库提供视频与标注下载入口，本次未逐包下载。
+
+相关工作：[DoTA](<catalog.md#paper-dota-paper>) · [TTHF](<catalog.md#paper-tthf>)
+
+来源：[1](<https://github.com/MoonBlvd/Detection-of-Traffic-Anomaly>) · [2](<https://arxiv.org/abs/2004.03044>)
+
+</details>
+
+---
 
 <a id="dataset-cuva-dataset"></a>
 
@@ -315,7 +408,7 @@
 
 分别评估对象检测、事故原因回答、近事故场景恢复与预测等任务；按对应论文任务设置比较。此处提供论文入口，未核验数据下载可用性。
 
-相关工作：[ADVersa](<catalog.md#paper-adversa>)
+相关工作：[ADVersa](<catalog.md#paper-adversa>) · [AdVersa-SD](<catalog.md#paper-adversa-sd>)
 
 来源：[1](<https://openaccess.thecvf.com/content/CVPR2024/html/Fang_Abductive_Ego-View_Accident_Video_Understanding_for_Safe_Driving_Perception_CVPR_2024_paper.html>) · [2](<https://engagedscholarship.csuohio.edu/enece_facpub/533/>)
 
@@ -381,6 +474,79 @@
 
 ---
 
+<a id="dataset-anomaly-instruct-125k"></a>
+
+### Anomaly-Instruct-125k
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) [![Data](https://img.shields.io/badge/Data-%E4%B8%8B%E8%BD%BD-537A7A)](<https://xujiacong.github.io/Anomaly-OV/>)
+
+> Anomaly-OV 的视觉异常指令数据，包含异常描述、可能原因与改进建议，整合现有视觉数据和 WebAD 图像。
+
+**标注** · 多轮异常问答 · 细粒度缺陷描述 · 可能原因与改进建议
+
+<details>
+<summary>划分与相关工作</summary>
+
+用于异常专家与指令微调；按论文设置隔离目标评测数据，不将零样本推理理解为无训练。
+
+获取：作者项目提供训练资源下载清单，仓库提供数据配置与训练脚本；未逐包下载。
+
+相关工作：[Anomaly-OV](<catalog.md#paper-anomaly-ov>)
+
+来源：[1](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) · [2](<https://xujiacong.github.io/Anomaly-OV/>)
+
+</details>
+
+---
+
+<a id="dataset-av-tau"></a>
+
+### AV-TAU
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) [![Data](https://img.shields.io/badge/Data-%E4%B8%8B%E8%BD%BD-537A7A)](<https://huggingface.co/datasets/harryhsing/AV-TAU>)
+
+> 29,865 段音视频交通异常片段与 149,325 组问答，覆盖事件描述、原因、异常时段、预防和响应。
+
+**标注** · 五任务问答 · 异常起止时段 · 原因及预防／响应建议
+
+<details>
+<summary>划分与相关工作</summary>
+
+沿用论文训练／测试划分，按五项任务分别评估；预防与响应建议属于事后理解任务，不直接作为提前预测结果。
+
+获取：作者仓库链接 Hugging Face 数据集，并说明视频与训练／测试问答文件结构；未逐包下载。
+
+相关工作：[EchoTraffic](<catalog.md#paper-echotraffic>)
+
+来源：[1](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) · [2](<https://huggingface.co/datasets/harryhsing/AV-TAU>)
+
+</details>
+
+---
+
+<a id="dataset-black-swan-suite"></a>
+
+### BlackSwanSuite
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/html/Chinchure_Black_Swan_Abductive_and_Defeasible_Video_Reasoning_in_Unpredictable_Events_CVPR_2025_paper.html>) [![Data](https://img.shields.io/badge/Data-%E9%A1%B9%E7%9B%AE%E5%85%A5%E5%8F%A3-537A7A)](<https://blackswan.cs.ubc.ca/>)
+
+> 包含 1,655 段意外事件视频，构建预测、缺失事件溯因与新证据下假设修正任务。
+
+**标注** · 事件前／中／后片段 · 选择题 · 生成式问答 · 是非题
+
+<details>
+<summary>划分与相关工作</summary>
+
+Forecaster 仅见事件前，Detective 见前后片段，Reporter 见完整视频；分别报告各任务和问题格式表现。
+
+相关工作：[Black Swan](<catalog.md#paper-black-swan>)
+
+来源：[1](<https://openaccess.thecvf.com/content/CVPR2025/papers/Chinchure_Black_Swan_Abductive_and_Defeasible_Video_Reasoning_in_Unpredictable_Events_CVPR_2025_paper.pdf>)
+
+</details>
+
+---
+
 <a id="dataset-hivau-70k"></a>
 
 ### HIVAU-70k
@@ -407,6 +573,66 @@
 相关工作：[Holmes-VAU](<catalog.md#paper-holmes-vau>) · [TargetVAU](<catalog.md#paper-targetvau>)
 
 来源：[1](<https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.html>) · [2](<https://github.com/pipixin321/HolmesVAU>) · [3](<https://github.com/pipixin321/HolmesVAU/tree/master/HIVAU-70k>)
+
+</details>
+
+---
+
+<a id="dataset-mmad-data"></a>
+
+### MMAD
+
+[![ICLR](https://img.shields.io/badge/ICLR-2025-4B0082)](<https://proceedings.iclr.cc/paper_files/paper/2025/file/d91ffbe9c126765755ff52d36b715683-Paper-Conference.pdf>) [![Data](https://img.shields.io/badge/Data-%E4%B8%8B%E8%BD%BD-537A7A)](<https://huggingface.co/datasets/jiang-cc/MMAD>)
+
+> 在 8,366 张工业图像上构建 39,672 个问题，覆盖异常判别、缺陷分类／定位／描述／分析与物体分类／分析七项任务。
+
+**标注** · 多项选择问答 · 缺陷位置与外观 · 缺陷影响及物体知识
+
+[![MMAD 七项任务的图像与多项选择问答示例。](../assets/papers/mmad.png)](../assets/papers/mmad.png)
+
+*MMAD 七项任务的图像与多项选择问答示例。原文 Figure 2。 Jiang, Xi et al. / MMAD · [图片来源](<https://proceedings.iclr.cc/paper_files/paper/2025/file/d91ffbe9c126765755ff52d36b715683-Paper-Conference.pdf#page=3>)*
+
+<details>
+<summary>划分与相关工作</summary>
+
+按七项任务分别报告准确率；核对正常参照数量、领域知识上下文及训练／测试使用设置。
+
+获取：作者仓库与 Hugging Face 提供数据、评测代码与领域知识文件。
+
+相关工作：[JUDO](<catalog.md#paper-judo>) · [MMAD](<catalog.md#paper-mmad>) · [ADSeeker](<catalog.md#paper-adseeker>)
+
+来源：[1](<https://proceedings.iclr.cc/paper_files/paper/2025/file/d91ffbe9c126765755ff52d36b715683-Paper-Conference.pdf>) · [2](<https://huggingface.co/datasets/jiang-cc/MMAD>)
+
+</details>
+
+---
+
+<a id="dataset-phys-ad-data"></a>
+
+### Phys-AD
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/papers/Li_Towards_Visual_Discrimination_and_Reasoning_of_Real-World_Physical_Dynamics_Physics-Grounded_CVPR_2025_paper.pdf>) [![Data](https://img.shields.io/badge/Data-%E4%B8%8B%E8%BD%BD-537A7A)](<https://huggingface.co/datasets/guoliz/Phys-AD>)
+
+> 以机械臂与电机和 22 类真实物体交互的视频检验物理异常判断、现象描述与原因解释。
+
+**标注** · 正常／异常及缺陷类型 · 物理现象描述 · 异常原因解释
+
+**使用说明** · 论文统计为 6,434 段，项目页列 6,359 段；复现请以实际下载版本及划分清单为准。
+
+[![Phys-AD 的物体、交互动作与正常／异常动态示例。](../assets/papers/phys-ad.png)](../assets/papers/phys-ad.png)
+
+*Phys-AD 的物体、交互动作与正常／异常动态示例。原文 Figure 1。 Li, Wenqiao et al. / Phys-AD · [图片来源](<https://openaccess.thecvf.com/content/CVPR2025/papers/Li_Towards_Visual_Discrimination_and_Reasoning_of_Real-World_Physical_Dynamics_Physics-Grounded_CVPR_2025_paper.pdf#page=1>)*
+
+<details>
+<summary>划分与相关工作</summary>
+
+区分无监督、弱监督与视频理解设置；按发布划分评估检测及 PAEval 描述／解释分数。
+
+获取：作者项目链接至 Hugging Face 数据发布入口，未逐包下载。
+
+相关工作：[O-VAD](<catalog.md#paper-o-vad>) · [Phys-AD](<catalog.md#paper-phys-ad>)
+
+来源：[1](<https://openaccess.thecvf.com/content/CVPR2025/papers/Li_Towards_Visual_Discrimination_and_Reasoning_of_Real-World_Physical_Dynamics_Physics-Grounded_CVPR_2025_paper.pdf>) · [2](<https://huggingface.co/datasets/guoliz/Phys-AD>)
 
 </details>
 
@@ -470,6 +696,31 @@
 
 ---
 
+<a id="dataset-visa-dr"></a>
+
+### VisA-D&R
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) [![Data](https://img.shields.io/badge/Data-%E4%B8%8B%E8%BD%BD-537A7A)](<https://xujiacong.github.io/Anomaly-OV/>)
+
+> 由 VisA 的 10 类物体构建检测与推理评测，包含 761 个正常样本和 1,000 个异常样本及人工复核的异常问答。
+
+**标注** · 正常／异常回答 · 缺陷描述 · 可能原因与改进建议
+
+<details>
+<summary>划分与相关工作</summary>
+
+检测使用准确率／精确率／召回率／F1；描述与复杂推理使用 ROUGE-L、SBERT 和 GPT-Score 分别评估。
+
+获取：作者项目提供 Benchmark 下载入口，仓库提供独立检测与推理评测脚本；未下载整包。
+
+相关工作：[Anomaly-OV](<catalog.md#paper-anomaly-ov>)
+
+来源：[1](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) · [2](<https://xujiacong.github.io/Anomaly-OV/>)
+
+</details>
+
+---
+
 <a id="dataset-cuebench-data"></a>
 
 ### CueBench
@@ -523,6 +774,29 @@
 相关工作：[ECVA / AnomShield](<catalog.md#paper-ecva-anomshield>)
 
 来源：[1](<https://link.springer.com/article/10.1007/s11263-026-02983-0>) · [2](<https://arxiv.org/abs/2412.07183>) · [3](<https://github.com/Dulpy/ECVA>) · [4](<https://www.modelscope.cn/datasets/gouchenyi/ECVA/files>) · [5](<https://arxiv.org/html/2412.07183v1#S3.SS2>)
+
+</details>
+
+---
+
+<a id="dataset-expert-ad"></a>
+
+### Expert-AD
+
+[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](<https://ojs.aaai.org/index.php/AAAI/article/view/37588>) [![Data](https://img.shields.io/badge/Data-%E9%A1%B9%E7%9B%AE%E5%85%A5%E5%8F%A3-537A7A)](<https://ojs.aaai.org/index.php/AAAI/article/view/37588>)
+
+> 从工业异常图像构建带正常性、缺陷类型、位置和推理内容的训练数据，用于感知激活微调。
+
+**标注** · 异常判断 · 缺陷类型 · 位置 · 思维链
+
+<details>
+<summary>划分与相关工作</summary>
+
+作为 PA-SFT 训练数据；训练和跨数据集测试分别统计，不把结构化匹配奖励视作独立因果解释评分。
+
+相关工作：[IAD-R1](<catalog.md#paper-iad-r1>)
+
+来源：[1](<https://ojs.aaai.org/index.php/AAAI/article/download/37588/41550>)
 
 </details>
 
@@ -583,6 +857,29 @@
 相关工作：[Pistachio](<catalog.md#paper-pistachio>)
 
 来源：[1](<https://arxiv.org/abs/2511.19474>) · [2](<https://arxiv.org/html/2511.19474v6>)
+
+</details>
+
+---
+
+<a id="dataset-seek-mv"></a>
+
+### SEEK-M&V
+
+[![CVPR](https://img.shields.io/badge/CVPR-2026-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.html>) [![Data](https://img.shields.io/badge/Data-%E9%A1%B9%E7%9B%AE%E5%85%A5%E5%8F%A3-537A7A)](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.html>)
+
+> 将 MVTec 和 VisA 场景的领域描述组织成图像—文档知识对，支撑异常知识检索与推理。
+
+**标注** · 图像—文档配对 · 缺陷知识描述
+
+<details>
+<summary>划分与相关工作</summary>
+
+作为 Q2K RAG 的知识来源；检索知识与查询图像角色分开，按论文规定的知识库范围比较。
+
+相关工作：[ADSeeker](<catalog.md#paper-adseeker>)
+
+来源：[1](<https://openaccess.thecvf.com/content/CVPR2026/papers/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.pdf>)
 
 </details>
 

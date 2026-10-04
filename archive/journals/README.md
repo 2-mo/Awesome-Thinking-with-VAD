@@ -2,6 +2,8 @@
 
 > 历史资料：保留较广的原始收集范围，尚未全部复核。当前精选内容见[论文年表](../../llm4vad.md)与[数据集索引](../../literature/benchmarks.md)。
 
+[TPAMI 已核验 16 篇完整索引](tpami.md) · [本次补录与来源](../../research/tpami-coverage-2026-10-04.md)
+
 ## 2026
 
 #### ECVA / AnomShield: Exploring What Why and How
@@ -10,7 +12,7 @@
 
 #### ADVersa: Abductive Driving Accident Video Understanding
 [![TPAMI](https://img.shields.io/badge/TPAMI-2026-0B3D91)](https://doi.org/10.1109/TPAMI.2026.3663545)
-> Relation-aware multimodal reasoning supports accident explanations, near-crash recovery/prediction and cause-conditioned generation. TPAMI 48(6): 6980–6998. [Verified entry](../../literature/catalog.md#paper-adversa). The earlier CVPR 2024 AdVersa-SD is documented as related work, without adding a second map station.
+> Relation-aware multimodal reasoning supports accident explanations, near-crash recovery/prediction and cause-conditioned generation. TPAMI 48(6): 6980–6998. [Verified entry](../../literature/catalog.md#paper-adversa). The CVPR 2024 AdVersa-SD is indexed separately; a direct extension relationship remains unverified.
 
 #### Deep Learning for Video Anomaly Detection: A Review
 [![TNNLS](https://img.shields.io/badge/TNNLS-2026-F39C12)](https://doi.org/10.1109/TNNLS.2025.3647892)

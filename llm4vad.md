@@ -1,14 +1,14 @@
-# 视频异常理解 · 论文年表
+# 异常理解 · 论文年表
 
 [按创新思路阅读](literature/catalog.md) · [方法比较](literature/comparison.md) · [数据集与评测](literature/benchmarks.md) · [阅读路线](literature/reading-guide.md) · [按会议查找](literature/venues.md) · [研究地图](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
 
-更新：2026-10-03 · 83 篇论文 · 7 个方法方向。
+更新：2026-10-04 · 127 篇论文 · 8 个方法方向。
 
-聚焦视频异常解释、推理、时序定位与理解评估，以及直接支撑这些目标的语义表征方法。会议与年份采用已核验的正式发表信息；未确认录用的论文保留 arXiv。
+聚焦异常解释、推理、证据定位与理解评估，以及直接支撑这些目标的语义表征方法。会议与年份采用已核验的正式发表信息；未确认录用的论文保留 arXiv。
 
-已配原论文图片 70 / 83 篇；点击图片查看大图。[图片来源与待补记录](assets/papers/README.md)。完整阅读关注见 [研究目录](literature/catalog.md)，作者、DOI 与 BibTeX 见 [引用导出](literature/citations.md)。
+已配原论文图片 103 / 127 篇；点击图片查看大图。[图片来源与待补记录](assets/papers/README.md)。完整阅读关注见 [研究目录](literature/catalog.md)，作者、DOI 与 BibTeX 见 [引用导出](literature/citations.md)。
 
-[2026](#year-2026) · [2025](#year-2025) · [2024](#year-2024) · [2023](#year-2023)
+[2026](#year-2026) · [2025](#year-2025) · [2024](#year-2024) · [2023](#year-2023) · [2022](#year-2022) · [2021](#year-2021) · [2019](#year-2019) · [2014](#year-2014) · [2009](#year-2009) · [2008](#year-2008)
 
 <a id="year-2026"></a>
 
@@ -72,6 +72,24 @@
 [![HeadHunt-VAD：图 3：离线识别异常敏感注意力头并用于在线检测。](assets/papers/headhunt-vad.png)](assets/papers/headhunt-vad.png)
 
 *图 3：离线识别异常敏感注意力头并用于在线检测。 Cai, Zhaolin et al. / HeadHunt-VAD · [来源](<assets/papers/README.md#figure-headhunt-vad>)*
+
+---
+
+<a id="paper-iad-r1"></a>
+
+#### IAD-R1: Reinforcing Consistent Reasoning in Industrial Anomaly Detection
+
+[![AAAI](https://img.shields.io/badge/AAAI-2026-000080)](<https://ojs.aaai.org/index.php/AAAI/article/view/37588>)
+
+[论文](<https://ojs.aaai.org/index.php/AAAI/article/view/37588>) · [阅读笔记](<literature/catalog.md#paper-iad-r1>) · [引用 / BibTeX](<literature/citations.md#cite-iad-r1>)
+
+> **IAD-R1 · 感知推理一致性微调与强化学习**
+>
+> 以 Expert-AD 思维链数据进行感知激活监督微调，再通过 SC-GRPO 联合优化正常性一致性、判断准确率、缺陷类型和位置奖励，使缺陷感知、推理与答案相互一致。
+
+[![IAD-R1 的感知激活微调、结构化奖励和 SC-GRPO 框架。](assets/papers/iad-r1.png)](assets/papers/iad-r1.png)
+
+*IAD-R1 的感知激活微调、结构化奖励和 SC-GRPO 框架。原文 Figure 2。 Li, Yanhui et al. / IAD-R1 · [来源](<assets/papers/README.md#figure-iad-r1>)*
 
 ---
 
@@ -312,6 +330,24 @@
 
 ### CVPR
 
+<a id="paper-adseeker"></a>
+
+#### ADSeeker: A Knowledge-Grounded Reasoning Framework for Industry Anomaly Detection and Reasoning
+
+[![CVPR](https://img.shields.io/badge/CVPR-2026-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.html>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.html>) · [阅读笔记](<literature/catalog.md#paper-adseeker>) · [引用 / BibTeX](<literature/citations.md#cite-adseeker>)
+
+> **ADSeeker · 图像查询驱动的领域知识检索**
+>
+> 构建图文知识库 SEEK-M&V，以 Q2K RAG 将查询图像关联到领域文档；结合层次稀疏提示和缺陷类型特征，为异常定位、判断与解释提供视觉和知识证据，并提出 MulA 数据。
+
+[![ADSeeker 的 Q2K 知识检索与异常专家双路径架构。](assets/papers/adseeker.png)](assets/papers/adseeker.png)
+
+*ADSeeker 的 Q2K 知识检索与异常专家双路径架构。原文 Figure 4。 Zhang, Kai et al. / ADSeeker · [来源](<assets/papers/README.md#figure-adseeker>)*
+
+---
+
 <a id="paper-alert-clip"></a>
 
 #### Alert-CLIP: Abnormality-aware Latent-Enhanced Representation Tuning of CLIP for Video Anomaly Detection
@@ -327,6 +363,42 @@
 [![Alert-CLIP：区域语义多层对齐原论文图](assets/papers/alert-clip.png)](assets/papers/alert-clip.png)
 
 *Alert-CLIP：区域语义多层对齐（原文 Figure 3）。 Zhu, Yiyan et al. / Alert-CLIP · [来源](<assets/papers/README.md#figure-alert-clip>)*
+
+---
+
+<a id="paper-d2mil"></a>
+
+#### Learning from Noisy Supervision: A Denoising-Debiasing Framework for Weakly Supervised Video Anomaly Detection
+
+[![CVPR](https://img.shields.io/badge/CVPR-2026-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhao_Learning_from_Noisy_Supervision_A_Denoising-Debiasing_Framework_for_Weakly_Supervised_CVPR_2026_paper.html>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhao_Learning_from_Noisy_Supervision_A_Denoising-Debiasing_Framework_for_Weakly_Supervised_CVPR_2026_paper.html>) · [阅读笔记](<literature/catalog.md#paper-d2mil>) · [引用 / BibTeX](<literature/citations.md#cite-d2mil>)
+
+> **D²MIL · 动态去噪与视觉语言语义复核**
+>
+> 先按动态丢弃率筛除训练损失较高的疑似噪声片段，再用冻结视觉语言模型复核这些候选，找回因难以识别而被误删的异常实例，减少弱监督噪声和困难异常之间的混淆。
+
+[![D²MIL：Figure 2：D²MIL 的动态去噪与视觉语言去偏复核。](assets/papers/d2mil.png)](assets/papers/d2mil.png)
+
+*Figure 2：D²MIL 的动态去噪与视觉语言去偏复核。 Yaxin Zhao et al. / CVPR 2026 · [来源](<assets/papers/README.md#figure-d2mil>)*
+
+---
+
+<a id="paper-fine-vad"></a>
+
+#### Fine-VAD: Towards Fine-Grained Video Anomaly Detection via Progressive Cross-Granularity Learning
+
+[![CVPR](https://img.shields.io/badge/CVPR-2026-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_Fine-VAD_Towards_Fine-Grained_Video_Anomaly_Detection_via_Progressive_Cross-Granularity_Learning_CVPR_2026_paper.html>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_Fine-VAD_Towards_Fine-Grained_Video_Anomaly_Detection_via_Progressive_Cross-Granularity_Learning_CVPR_2026_paper.html>) · [阅读笔记](<literature/catalog.md#paper-fine-vad>) · [引用 / BibTeX](<literature/citations.md#cite-fine-vad>)
+
+> **Fine-VAD · 跨粒度渐进对齐辨别异常类别**
+>
+> 从正常／异常粗粒度监督，经聚类构建的中间伪类别，逐步对齐到细粒度异常类别语义；利用互补监督缓解同类事件跨场景变化及不同异常共享视觉特征导致的混淆。
+
+[![Fine-VAD 方法框架](assets/papers/fine-vad.png)](assets/papers/fine-vad.png)
+
+*Figure 2：Fine-VAD 从粗粒度到类别语义的渐进对齐。 Menghao Zhang et al. / CVPR 2026 · [来源](<assets/papers/README.md#figure-fine-vad>)*
 
 ---
 
@@ -433,6 +505,7 @@
 
 [![ECCV](https://img.shields.io/badge/ECCV-2026-0B84FE)](<https://arxiv.org/abs/2607.18142>)
 [![Code](https://img.shields.io/github/stars/o-vad/O-VAD?style=social&label=Code&logo=github)](<https://github.com/o-vad/O-VAD>)
+[![Project](https://img.shields.io/badge/Project-Website-537A7A)](<https://o-vad.github.io/>)
 
 [论文](<https://arxiv.org/abs/2607.18142>) · [阅读笔记](<literature/catalog.md#paper-o-vad>) · [引用 / BibTeX](<literature/citations.md#cite-o-vad>)
 
@@ -542,6 +615,25 @@
 <a id="year-2026-iclr"></a>
 
 ### ICLR
+
+<a id="paper-judo"></a>
+
+#### JUDO: A Juxtaposed Domain-Oriented Multimodal Reasoner for Industrial Anomaly QA
+
+[![ICLR](https://img.shields.io/badge/ICLR-2026-4B0082)](<https://proceedings.iclr.cc/paper_files/paper/2026/hash/92a7a03e1c716970848a4a86cc8243ee-Abstract-Conference.html>)
+[![Code](https://img.shields.io/github/stars/woodavid31/JUDO?style=social&label=Code&logo=github)](<https://github.com/woodavid31/JUDO>)
+
+[论文](<https://proceedings.iclr.cc/paper_files/paper/2026/hash/92a7a03e1c716970848a4a86cc8243ee-Abstract-Conference.html>) · [阅读笔记](<literature/catalog.md#paper-judo>) · [引用 / BibTeX](<literature/citations.md#cite-judo>)
+
+> **JUDO · 正常参照对照与领域知识推理**
+>
+> 通过正常图像与缺陷图像的并置分割学习视觉对照，以监督微调注入领域知识，再用领域推理、分割与答案奖励的 GRPO 联合优化异常问答。
+
+[![JUDO 三阶段训练：并置分割、领域知识注入与领域推理强化学习。](assets/papers/judo.png)](assets/papers/judo.png)
+
+*JUDO 三阶段训练：并置分割、领域知识注入与领域推理强化学习。原文 Figure 1。 Kang, Hyunju et al. / JUDO · [来源](<assets/papers/README.md#figure-judo>)*
+
+---
 
 <a id="paper-lagovad"></a>
 
@@ -737,7 +829,7 @@
 
 > **COPRA · 片段条件化参数适配**
 >
-> 根据视频片段为冻结视觉语言模型生成输入条件化参数更新，并在训练和推理时使用同一适配方式。
+> 根据视频片段为冻结视觉语言模型生成条件化参数更新，在训练和推理时采用一致适配；除异常检测外，还可迁移到视频问答与密集字幕。
 
 [![Figure 2: COPRA 实例条件参数生成与强化学习框架（作者预印本）](assets/papers/copra.jpg)](assets/papers/copra.jpg)
 
@@ -791,7 +883,7 @@
 
 > **SphereVAD · 超球面测地异常推断**
 >
-> 在单位超球面上对视频特征做中心化与场景注意力建模，用测地距离和方向分布进行免训练异常评分。
+> 读取预训练多模态大模型的中间层特征，在单位超球面上进行中心化、场景注意力与测地推断，以少量合成图像校准实现免训练零样本异常评分。
 
 [![Figure 2: SphereVAD 单位超球面测地推理流程（作者预印本）](assets/papers/spherevad.png)](assets/papers/spherevad.png)
 
@@ -814,6 +906,29 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 [![Figure 1: TAR 与 TAR-Bench 交通异常多任务标注示意（作者预印本）](assets/papers/tar-bench.png)](assets/papers/tar-bench.png)
 
 *Figure 1: TAR 与 TAR-Bench 交通异常多任务标注示意（作者预印本） Han Zhang et al. / TAR / TAR-Bench · [来源](<assets/papers/README.md#figure-tar-bench>)*
+
+---
+
+
+<a id="year-2026-tcsvt"></a>
+
+### TCSVT
+
+<a id="paper-cagc-vad"></a>
+
+#### CAGC-VAD: Controlled Abstraction and Graph Competition for Video Anomaly Detection
+
+[![TCSVT](https://img.shields.io/badge/TCSVT-2026-537A7A)](<https://doi.org/10.1109/TCSVT.2026.3735599>)
+
+[论文](<https://doi.org/10.1109/TCSVT.2026.3735599>) · [阅读笔记](<literature/catalog.md#paper-cagc-vad>) · [引用 / BibTeX](<literature/citations.md#cite-cagc-vad>)
+
+> **CAGC-VAD · 受控抽象与图竞争（题名暂定）**
+>
+> 以受控抽象与图竞争开展视频异常检测。已核验正式书目信息，摘要与正文暂未获取；具体推理机制、解释输出和实验设置待核验。
+
+方法归类按题名暂定，[核验依据](<https://api.crossref.org/works/10.1109/TCSVT.2026.3735599>)。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-cagc-vad>)*
 
 ---
 
@@ -858,6 +973,25 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 [![ADVersa 物体中心与关系中心事故视频扩散及文本推理框架](assets/papers/adversa.png)](assets/papers/adversa.png)
 
 *ADVersa 事故视频扩散与文本推理框架（作者主页所示 TPAMI 2026 版本） Lei-Lei Li et al. / ADVersa · [来源](<assets/papers/README.md#figure-adversa>)*
+
+---
+
+<a id="paper-piercingeye"></a>
+
+#### PiercingEye: Dual-Space Video Violence Detection With Hyperbolic Vision-Language Guidance
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2026-537A7A)](<https://doi.org/10.1109/tpami.2025.3617460>)
+[![Code](https://img.shields.io/github/stars/wuzhanjie123/PiercingEye?style=social&label=Code&logo=github)](<https://github.com/wuzhanjie123/PiercingEye>)
+
+[论文](<https://doi.org/10.1109/tpami.2025.3617460>) · [阅读笔记](<literature/catalog.md#paper-piercingeye>) · [引用 / BibTeX](<literature/citations.md#cite-piercingeye>)
+
+> **PiercingEye · 易混淆文本与双曲视语对齐**
+>
+> 在 DSRL 双空间表征上，利用 VLM／LLM 改写场景或行为生成易混淆事件描述，再以动态加权的双曲视觉语言对比损失强化细粒度区分。
+
+[![PiercingEye：Figure 2：双空间表征、易混淆文本生成与双曲视觉语言监督（作者预印本）。](assets/papers/piercingeye.png)](assets/papers/piercingeye.png)
+
+*Figure 2：双空间表征、易混淆文本生成与双曲视觉语言监督（作者预印本）。 Jiaxu Leng et al. / PiercingEye · [来源](<assets/papers/README.md#figure-piercingeye>)*
 
 ---
 
@@ -1071,6 +1205,26 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 ### CVPR
 
+<a id="paper-anomaly-ov"></a>
+
+#### Towards Zero-Shot Anomaly Detection and Reasoning with Multimodal Large Language Models
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/html/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.html>)
+[![Code](https://img.shields.io/github/stars/honda-research-institute/Anomaly-OneVision?style=social&label=Code&logo=github)](<https://github.com/honda-research-institute/Anomaly-OneVision>)
+[![Project](https://img.shields.io/badge/Project-Website-537A7A)](<https://xujiacong.github.io/Anomaly-OV/>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2025/html/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.html>) · [阅读笔记](<literature/catalog.md#paper-anomaly-ov>) · [引用 / BibTeX](<literature/citations.md#cite-anomaly-ov>)
+
+> **Anomaly-OV · 二次特征匹配与异常视觉token筛选**
+>
+> 通过 Look-Twice Feature Matching 学习异常表征并突出可疑视觉 token，结合异常指令微调生成缺陷描述、可能原因和改进建议；配套 Anomaly-Instruct-125k 与 VisA-D&R。
+
+[![Anomaly-OV 的异常专家、Look-Twice 特征匹配与视觉 token 选择框架。](assets/papers/anomaly-ov.png)](assets/papers/anomaly-ov.png)
+
+*Anomaly-OV 的异常专家、Look-Twice 特征匹配与视觉 token 选择框架。原文 Figure 3。 Xu, Jiacong et al. / Anomaly-OV · [来源](<assets/papers/README.md#figure-anomaly-ov>)*
+
+---
+
 <a id="paper-anomize"></a>
 
 #### Anomize: Better Open Vocabulary Video Anomaly Detection
@@ -1086,6 +1240,44 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 [![Anomize：多源语义与标签关系原论文图](assets/papers/anomize.png)](assets/papers/anomize.png)
 
 *Anomize：多源语义与标签关系（原文 Figure 3）。 Li, Fei et al. / Anomize · [来源](<assets/papers/README.md#figure-anomize>)*
+
+---
+
+<a id="paper-black-swan"></a>
+
+#### Black Swan: Abductive and Defeasible Video Reasoning in Unpredictable Events
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/html/Chinchure_Black_Swan_Abductive_and_Defeasible_Video_Reasoning_in_Unpredictable_Events_CVPR_2025_paper.html>)
+[![Project](https://img.shields.io/badge/Project-Website-537A7A)](<https://blackswan.cs.ubc.ca/>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2025/html/Chinchure_Black_Swan_Abductive_and_Defeasible_Video_Reasoning_in_Unpredictable_Events_CVPR_2025_paper.html>) · [阅读笔记](<literature/catalog.md#paper-black-swan>) · [引用 / BibTeX](<literature/citations.md#cite-black-swan>)
+
+> **Black Swan · 意外事件溯因与证据更新评测**
+>
+> 将意外事件视频拆成事件前、事件中与事件后观察，构建 Forecaster、Detective、Reporter 三类任务，评估候选事件预测、缺失事件溯因以及新证据出现后的解释修正。
+
+[![BlackSwanSuite 的 Forecaster、Detective 与 Reporter 三类任务示例。](assets/papers/black-swan.png)](assets/papers/black-swan.png)
+
+*BlackSwanSuite 的 Forecaster、Detective 与 Reporter 三类任务示例。原文 Figure 1。 Chinchure, Aditya et al. / Black Swan · [来源](<assets/papers/README.md#figure-black-swan>)*
+
+---
+
+<a id="paper-echotraffic"></a>
+
+#### EchoTraffic: Enhancing Traffic Anomaly Understanding with Audio-Visual Insights
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/html/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.html>)
+[![Code](https://img.shields.io/github/stars/HarryHsing/EchoTraffic?style=social&label=Code&logo=github)](<https://github.com/HarryHsing/EchoTraffic>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2025/html/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.html>) · [阅读笔记](<literature/catalog.md#paper-echotraffic>) · [引用 / BibTeX](<literature/citations.md#cite-echotraffic>)
+
+> **EchoTraffic · 声音引导选帧与音视频动态融合**
+>
+> 用声音变化引导关键帧选择，再经动态连接器融合音视频信息进行交通异常问答；构建 AV-TAU，覆盖事件描述、原因、时段、预防与响应五项任务。
+
+[![EchoTraffic 的声音引导选帧与音视频动态连接器。](assets/papers/echotraffic.png)](assets/papers/echotraffic.png)
+
+*EchoTraffic 的声音引导选帧与音视频动态连接器。原文 Figure 4。 Xing, Zhenghao et al. / EchoTraffic · [来源](<assets/papers/README.md#figure-echotraffic>)*
 
 ---
 
@@ -1105,6 +1297,64 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 [![Holmes-VAU 原论文框架图](assets/papers/holmes-vau.png)](assets/papers/holmes-vau.png)
 
 *Holmes-VAU：多粒度指令与采样。原文 Figure 4。 Zhang, Huaxin et al. / Holmes-VAU · [来源](<assets/papers/README.md#figure-holmes-vau>)*
+
+---
+
+<a id="paper-log-sad"></a>
+
+#### Towards Training-free Anomaly Detection with Vision and Language Foundation Models
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Towards_Training-free_Anomaly_Detection_with_Vision_and_Language_Foundation_Models_CVPR_2025_paper.html>)
+[![Code](https://img.shields.io/github/stars/zhang0jhon/LogSAD?style=social&label=Code&logo=github)](<https://github.com/zhang0jhon/LogSAD>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Towards_Training-free_Anomaly_Detection_with_Vision_and_Language_Foundation_Models_CVPR_2025_paper.html>) · [阅读笔记](<literature/catalog.md#paper-log-sad>) · [引用 / BibTeX](<literature/citations.md#cite-log-sad>)
+
+> **LogSAD · 组合规则引导的多粒度异常匹配**
+>
+> 通过 match-of-thought 从正常图像和语言规则构造匹配方案，联合局部、对象兴趣集合与组合层面的匹配，经检测器校准融合识别结构和逻辑异常。
+
+[![LogSAD 的规则提示与局部、对象集合、组合三级匹配框架。](assets/papers/log-sad.png)](assets/papers/log-sad.png)
+
+*LogSAD 的规则提示与局部、对象集合、组合三级匹配框架。原文 Figure 2。 Zhang, Jinjin et al. / LogSAD · [来源](<assets/papers/README.md#figure-log-sad>)*
+
+---
+
+<a id="paper-phys-ad"></a>
+
+#### Towards Visual Discrimination and Reasoning of Real-World Physical Dynamics: Physics-Grounded Anomaly Detection
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/html/Li_Towards_Visual_Discrimination_and_Reasoning_of_Real-World_Physical_Dynamics_Physics-Grounded_CVPR_2025_paper.html>)
+[![Code](https://img.shields.io/github/stars/Chopper-233/Physics-AD?style=social&label=Code&logo=github)](<https://github.com/Chopper-233/Physics-AD>)
+[![Project](https://img.shields.io/badge/Project-Website-537A7A)](<https://guyao2023.github.io/Phys-AD/>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2025/html/Li_Towards_Visual_Discrimination_and_Reasoning_of_Real-World_Physical_Dynamics_Physics-Grounded_CVPR_2025_paper.html>) · [阅读笔记](<literature/catalog.md#paper-phys-ad>) · [引用 / BibTeX](<literature/citations.md#cite-phys-ad>)
+
+> **Phys-AD · 物理交互异常与原因解释评测**
+>
+> 采集机械臂与电机作用于真实物体的动态异常视频，分别评估异常判别、现象描述和物理原因解释，提出 Phys-AD 数据与 PAEval 指标。
+
+[![Phys-AD 的物体、交互动作与正常／异常动态示例。](assets/papers/phys-ad.png)](assets/papers/phys-ad.png)
+
+*Phys-AD 的物体、交互动作与正常／异常动态示例。原文 Figure 1。 Li, Wenqiao et al. / Phys-AD · [来源](<assets/papers/README.md#figure-phys-ad>)*
+
+---
+
+<a id="paper-pi-vad"></a>
+
+#### Just Dance with pi! A Poly-modal Inductor for Weakly-supervised Video Anomaly Detection
+
+[![CVPR](https://img.shields.io/badge/CVPR-2025-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2025/html/Majhi_Just_Dance_with_pi_A_Poly-modal_Inductor_for_Weakly-supervised_Video_CVPR_2025_paper.html>)
+[![Code](https://img.shields.io/github/stars/snehashismajhi/PI-VAD?style=social&label=Code&logo=github)](<https://github.com/snehashismajhi/PI-VAD>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2025/html/Majhi_Just_Dance_with_pi_A_Poly-modal_Inductor_for_Weakly-supervised_Video_CVPR_2025_paper.html>) · [阅读笔记](<literature/catalog.md#paper-pi-vad>) · [引用 / BibTeX](<literature/citations.md#cite-pi-vad>)
+
+> **PI-VAD · 五类模态线索诱导语义检测表征**
+>
+> 训练时利用姿态、深度、全景分割、光流和视觉语言语义五类线索，通过伪模态生成与跨模态诱导补充 RGB 表征，区分外观相似而动作或场景含义不同的异常事件。
+
+[![PI-VAD：Figure 2：PI-VAD 的伪模态生成与跨模态诱导。](assets/papers/pi-vad.png)](assets/papers/pi-vad.png)
+
+*Figure 2：PI-VAD 的伪模态生成与跨模态诱导。 Snehashis Majhi et al. / CVPR 2025 · [来源](<assets/papers/README.md#figure-pi-vad>)*
 
 ---
 
@@ -1132,6 +1382,25 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 ### ICCV
 
+<a id="paper-adsm"></a>
+
+#### Autoregressive Denoising Score Matching is a Good Video Anomaly Detector
+
+[![ICCV](https://img.shields.io/badge/ICCV-2025-00CED1)](<https://openaccess.thecvf.com/content/ICCV2025/html/Zhang_Autoregressive_Denoising_Score_Matching_is_a_Good_Video_Anomaly_Detector_ICCV_2025_paper.html>)
+[![Code](https://img.shields.io/github/stars/Bbeholder/ADSM?style=social&label=Code&logo=github)](<https://github.com/Bbeholder/ADSM>)
+
+[论文](<https://openaccess.thecvf.com/content/ICCV2025/html/Zhang_Autoregressive_Denoising_Score_Matching_is_a_Good_Video_Anomaly_Detector_ICCV_2025_paper.html>) · [阅读笔记](<literature/catalog.md#paper-adsm>) · [引用 / BibTeX](<literature/citations.md#cite-adsm>)
+
+> **ADSM · 场景运动感知自回归去噪评分**
+>
+> 在原始视频空间以噪声条件 Transformer 学习得分函数，结合场景条件和运动权重，并通过自回归加噪、去噪与外观差异累积增强异常判断。
+
+[![ADSM：Figure 2：ADSM 的场景与运动感知去噪得分网络。](assets/papers/adsm.png)](assets/papers/adsm.png)
+
+*Figure 2：ADSM 的场景与运动感知去噪得分网络。 Hanwen Zhang et al. / ICCV 2025 · [来源](<assets/papers/README.md#figure-adsm>)*
+
+---
+
 <a id="paper-va-gpt"></a>
 
 #### Aligning Effective Tokens with Video Anomaly in Large Language Models
@@ -1147,6 +1416,30 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 [![VA-GPT：时空有效词元对齐原论文图](assets/papers/va-gpt.png)](assets/papers/va-gpt.png)
 
 *VA-GPT：时空有效词元对齐（原文 Figure 2）。 Chen, Yingxian et al. / VA-GPT · [来源](<assets/papers/README.md#figure-va-gpt>)*
+
+---
+
+
+<a id="year-2025-iclr"></a>
+
+### ICLR
+
+<a id="paper-mmad"></a>
+
+#### MMAD: A Comprehensive Benchmark for Multimodal Large Language Models in Industrial Anomaly Detection
+
+[![ICLR](https://img.shields.io/badge/ICLR-2025-4B0082)](<https://proceedings.iclr.cc/paper_files/paper/2025/hash/d91ffbe9c126765755ff52d36b715683-Abstract-Conference.html>)
+[![Code](https://img.shields.io/github/stars/jam-cc/MMAD?style=social&label=Code&logo=github)](<https://github.com/jam-cc/MMAD>)
+
+[论文](<https://proceedings.iclr.cc/paper_files/paper/2025/hash/d91ffbe9c126765755ff52d36b715683-Abstract-Conference.html>) · [阅读笔记](<literature/catalog.md#paper-mmad>) · [引用 / BibTeX](<literature/citations.md#cite-mmad>)
+
+> **MMAD · 七任务异常问答与缺陷分析评测**
+>
+> 将工业异常判别、缺陷分类、位置、描述、影响分析和物体知识组织为七项问答任务，以 8,366 张图像和 39,672 个问题评估多模态模型。
+
+[![MMAD 七项任务的图像与多项选择问答示例。](assets/papers/mmad.png)](assets/papers/mmad.png)
+
+*MMAD 七项任务的图像与多项选择问答示例。原文 Figure 2。 Jiang, Xi et al. / MMAD · [来源](<assets/papers/README.md#figure-mmad>)*
 
 ---
 
@@ -1170,6 +1463,24 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 [![Ex-VAD：解释融合与标签对齐原论文图](assets/papers/ex-vad.png)](assets/papers/ex-vad.png)
 
 *Ex-VAD：解释融合与标签对齐（原文 Figure 2）。 Chao Huang et al. / Ex-VAD · [来源](<assets/papers/README.md#figure-ex-vad>)*
+
+---
+
+<a id="paper-lec-vad"></a>
+
+#### Learning Event Completeness for Weakly Supervised Video Anomaly Detection
+
+[![ICML](https://img.shields.io/badge/ICML-2025-FF6B6B)](<https://proceedings.mlr.press/v267/wang25l.html>)
+
+[论文](<https://proceedings.mlr.press/v267/wang25l.html>) · [阅读笔记](<literature/catalog.md#paper-lec-vad>) · [引用 / BibTeX](<literature/citations.md#cite-lec-vad>)
+
+> **LEC-VAD · 双路视觉语言语义与完整事件定位**
+>
+> 联合类别感知与类别无关的视觉语言语义分支，以异常感知高斯混合约束事件边界，并通过记忆库原型丰富简短的异常类别文本，缓解弱监督检测只覆盖事件局部的问题。
+
+[![LEC-VAD：Figure 2：LEC-VAD 的类别语义、原型记忆与完整事件建模。](assets/papers/lec-vad.png)](assets/papers/lec-vad.png)
+
+*Figure 2：LEC-VAD 的类别语义、原型记忆与完整事件建模。 Yu Wang et al. / ICML 2025 · [来源](<assets/papers/README.md#figure-lec-vad>)*
 
 ---
 
@@ -1248,9 +1559,9 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 [论文](<https://arxiv.org/abs/2509.26386>) · [阅读笔记](<literature/catalog.md#paper-panda>) · [引用 / BibTeX](<literature/citations.md#cite-panda>)
 
-> **PANDA · 场景规划与工具反思**
+> **PANDA · 场景规划、工具反思与长短时记忆**
 >
-> 把场景规划、工具反思与经验记忆组合为通用异常检测智能体。
+> 把场景规划、工具反思与长短时记忆链组合为通用异常检测智能体：短期记忆保留近期视觉／文本上下文，长期记忆积累推理和反思轨迹，并检索历史案例辅助工具决策。
 
 [![PANDA 原论文框架图](assets/papers/panda.png)](assets/papers/panda.png)
 
@@ -1356,10 +1667,45 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 ---
 
+<a id="paper-where-what"></a>
+
+#### Where and What: Contextual Dynamics-Aware Anomaly Detection in Surveillance Videos
+
+[![TIP](https://img.shields.io/badge/TIP-2025-537A7A)](<https://doi.org/10.1109/TIP.2025.3623392>)
+
+[论文](<https://doi.org/10.1109/TIP.2025.3623392>) · [阅读笔记](<literature/catalog.md#paper-where-what>) · [引用 / BibTeX](<literature/citations.md#cite-where-what>)
+
+> **Where and What · 场景与原子动作的时序关系建模**
+>
+> 用轻量场景分类器提供位置上下文，以原子动作特征刻画事件，通过时序语义关系网络 TSRN 联合建模多模态特征，并用片段选择的焦点间隔损失缓解类别不平衡。
+
+[![Where and What 在低照度和拥挤监控场景中的示例。](assets/papers/where-what.png)](assets/papers/where-what.png)
+
+*低照度和拥挤监控场景示例。作者主页提供的原文 Figure 9。 Deok-Hyun Ahn et al. / Where and What · [来源](<assets/papers/README.md#figure-where-what>)*
+
+---
+
 
 <a id="year-2025-tpami"></a>
 
 ### TPAMI
+
+<a id="paper-scene-dependent-vaa"></a>
+
+#### Scene-Dependent Prediction in Latent Space for Video Anomaly Detection and Anticipation
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2025-537A7A)](<https://doi.org/10.1109/tpami.2024.3461718>)
+[![Project](https://img.shields.io/badge/Project-Website-537A7A)](<https://campusvaa.github.io/>)
+
+[论文](<https://doi.org/10.1109/tpami.2024.3461718>) · [阅读笔记](<literature/catalog.md#paper-scene-dependent-vaa>) · [引用 / BibTeX](<literature/citations.md#cite-scene-dependent-vaa>)
+
+> **Latent-Space VAA · 场景依赖潜空间双向预测**
+>
+> 扩展 NWPU Campus 工作，以层次 VAE、潜空间扩散和场景信息自编码器建模事件与场景关系，并用关键帧时序损失约束运动一致性。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-scene-dependent-vaa>)*
+
+---
 
 <a id="paper-mpgdfl"></a>
 
@@ -1446,6 +1792,24 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 ### AAAI
 
+<a id="paper-anomalygpt"></a>
+
+#### AnomalyGPT: Detecting Industrial Anomalies Using Large Vision-Language Models
+
+[![AAAI](https://img.shields.io/badge/AAAI-2024-000080)](<https://ojs.aaai.org/index.php/AAAI/article/view/27963>)
+
+[论文](<https://ojs.aaai.org/index.php/AAAI/article/view/27963>) · [阅读笔记](<literature/catalog.md#paper-anomalygpt>) · [引用 / BibTeX](<literature/citations.md#cite-anomalygpt>)
+
+> **AnomalyGPT · 缺陷定位特征与语言提示对齐**
+>
+> 用合成缺陷图像和对应描述构造监督，通过细粒度视觉语言解码器产生定位特征，再以可学习提示接入大视觉语言模型，支持缺陷判断、定位和多轮交互。
+
+[![AnomalyGPT 的细粒度异常解码器、提示学习与大视觉语言模型架构。](assets/papers/anomalygpt.png)](assets/papers/anomalygpt.png)
+
+*AnomalyGPT 的细粒度异常解码器、提示学习与大视觉语言模型架构。原文 Figure 2。 Gu, Zhaopeng et al. / AnomalyGPT · [来源](<assets/papers/README.md#figure-anomalygpt>)*
+
+---
+
 <a id="paper-vadclip"></a>
 
 #### VadCLIP: Adapting Vision-Language Models for Weakly Supervised Video Anomaly Detection
@@ -1466,9 +1830,50 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 ---
 
 
+<a id="year-2024-acm-mm"></a>
+
+### ACM MM
+
+<a id="paper-stprompt"></a>
+
+#### Weakly Supervised Video Anomaly Detection and Localization with Spatio-Temporal Prompts
+
+[![ACM MM](https://img.shields.io/badge/ACM_MM-2024-FF69B4)](<https://doi.org/10.1145/3664647.3681442>)
+
+[论文](<https://doi.org/10.1145/3664647.3681442>) · [阅读笔记](<literature/catalog.md#paper-stprompt>) · [引用 / BibTeX](<literature/citations.md#cite-stprompt>)
+
+> **STPrompt · 时空提示将语义对齐到异常区域**
+>
+> 以预训练视觉语言模型的语义知识和视频运动先验学习时空提示，在双分支网络中同时进行帧级异常判断与局部异常区域定位，减轻整帧背景信息对检测的干扰。
+
+[![STPrompt 方法框架](assets/papers/stprompt.png)](assets/papers/stprompt.png)
+
+*Figure 2：STPrompt 的时序检测与空间定位双分支。 Peng Wu et al. / ACM MM 2024 · [来源](<assets/papers/README.md#figure-stprompt>)*
+
+---
+
+
 <a id="year-2024-cvpr"></a>
 
 ### CVPR
+
+<a id="paper-adversa-sd"></a>
+
+#### Abductive Ego-View Accident Video Understanding for Safe Driving Perception
+
+[![CVPR](https://img.shields.io/badge/CVPR-2024-1E90FF)](<https://doi.org/10.1109/cvpr52733.2024.02080>)
+
+[论文](<https://doi.org/10.1109/cvpr52733.2024.02080>) · [阅读笔记](<literature/catalog.md#paper-adversa-sd>) · [引用 / BibTeX](<literature/citations.md#cite-adversa-sd>)
+
+> **AdVersa-SD · 事故原因预防文本对与对象扩散**
+>
+> 提出 MM-AU 多模态事故理解数据，以事故原因和预防建议的对比文本对训练 AbductiveCLIP，并用对象中心扩散生成事故前后视频。
+
+[![AdVersa-SD：Figure 1：MM-AU 的事故对象、类别、时空位置、原因与预防等理解任务。](assets/papers/adversa-sd.png)](assets/papers/adversa-sd.png)
+
+*Figure 1：MM-AU 的事故对象、类别、时空位置、原因与预防等理解任务。 Jianwu Fang et al. / CVPR 2024 · [来源](<assets/papers/README.md#figure-adversa-sd>)*
+
+---
 
 <a id="paper-cuva"></a>
 
@@ -1524,6 +1929,43 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 [![OVVAD：语言知识与异常合成原论文图](assets/papers/ovvad.png)](assets/papers/ovvad.png)
 
 *OVVAD：语言知识与异常合成（原文 Figure 2）。 Wu, Peng et al. / OVVAD · [来源](<assets/papers/README.md#figure-ovvad>)*
+
+---
+
+<a id="paper-pe-mil"></a>
+
+#### Prompt-Enhanced Multiple Instance Learning for Weakly Supervised Video Anomaly Detection
+
+[![CVPR](https://img.shields.io/badge/CVPR-2024-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2024/html/Chen_Prompt-Enhanced_Multiple_Instance_Learning_for_Weakly_Supervised_Video_Anomaly_Detection_CVPR_2024_paper.html>)
+[![Code](https://img.shields.io/github/stars/Junxi-Chen/PE-MIL?style=social&label=Code&logo=github)](<https://github.com/Junxi-Chen/PE-MIL>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2024/html/Chen_Prompt-Enhanced_Multiple_Instance_Learning_for_Weakly_Supervised_Video_Anomaly_Detection_CVPR_2024_paper.html>) · [阅读笔记](<literature/catalog.md#paper-pe-mil>) · [引用 / BibTeX](<literature/citations.md#cite-pe-mil>)
+
+> **PE-MIL · 异常语义与正常上下文双提示**
+>
+> 以异常类别标注和可学习提示向视频特征注入语义先验，再用正常上下文提示区分异常动作与周围背景，增强多实例学习对多样异常及事件边界的辨别能力。
+
+[![PE-MIL：Figure 2：异常感知提示与正常上下文提示共同增强 MIL。](assets/papers/pe-mil.png)](assets/papers/pe-mil.png)
+
+*Figure 2：异常感知提示与正常上下文提示共同增强 MIL。 Junxi Chen et al. / CVPR 2024 · [来源](<assets/papers/README.md#figure-pe-mil>)*
+
+---
+
+<a id="paper-sd-mae"></a>
+
+#### Self-Distilled Masked Auto-Encoders are Efficient Video Anomaly Detectors
+
+[![CVPR](https://img.shields.io/badge/CVPR-2024-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2024/html/Ristea_Self-Distilled_Masked_Auto-Encoders_are_Efficient_Video_Anomaly_Detectors_CVPR_2024_paper.html>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2024/html/Ristea_Self-Distilled_Masked_Auto-Encoders_are_Efficient_Video_Anomaly_Detectors_CVPR_2024_paper.html>) · [阅读笔记](<literature/catalog.md#paper-sd-mae>) · [引用 / BibTeX](<literature/citations.md#cite-sd-mae>)
+
+> **Self-Distilled MAE · 运动引导掩码重构与自蒸馏**
+>
+> 用运动梯度突出前景 token，令共享编码器的教师与学生解码器形成自蒸馏差异；同时以合成异常增强训练，联合学习正常帧重构与像素异常图。
+
+[![Self-Distilled MAE：Figure 1：运动引导掩码、自蒸馏与合成异常训练。](assets/papers/sd-mae.png)](assets/papers/sd-mae.png)
+
+*Figure 1：运动引导掩码、自蒸馏与合成异常训练。 Nicolae-Cătălin Ristea et al. / CVPR 2024 · [来源](<assets/papers/README.md#figure-sd-mae>)*
 
 ---
 
@@ -1588,10 +2030,47 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 
 ---
 
+<a id="paper-fedvad"></a>
+
+#### FedVAD: Enhancing Federated Video Anomaly Detection with GPT-Driven Semantic Distillation
+
+[![ECCV](https://img.shields.io/badge/ECCV-2024-0B84FE)](<https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/6981_ECCV_2024_paper.php>)
+[![Project](https://img.shields.io/badge/Project-Website-537A7A)](<https://github.com/Eurekaer/FedVAD>)
+
+[论文](<https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/6981_ECCV_2024_paper.php>) · [阅读笔记](<literature/catalog.md#paper-fedvad>) · [引用 / BibTeX](<literature/citations.md#cite-fedvad>)
+
+> **FedVAD · 语言语义生成校准与联邦蒸馏**
+>
+> 用大语言模型为公共视频生成并校准语义描述，以视频文本对适配多模态教师，再将语义知识自适应蒸馏进联邦全局检测模型；同时按视觉一致性对客户端分组。
+
+[![FedVAD：Figure 2：FedVAD 的联邦聚合与自适应语义增强蒸馏。](assets/papers/fedvad.png)](assets/papers/fedvad.png)
+
+*Figure 2：FedVAD 的联邦聚合与自适应语义增强蒸馏。 Fan Qi et al. / ECCV 2024 · [来源](<assets/papers/README.md#figure-fedvad>)*
+
+---
+
 
 <a id="year-2024-neurips"></a>
 
 ### NeurIPS
+
+<a id="paper-dsrl"></a>
+
+#### Beyond Euclidean: Dual-Space Representation Learning for Weakly Supervised Video Violence Detection
+
+[![NeurIPS](https://img.shields.io/badge/NeurIPS-2024-2DB55D)](<https://proceedings.neurips.cc/paper_files/paper/2024/hash/1f471322127d6347e5ae09a14b1e5cf7-Abstract-Conference.html>)
+
+[论文](<https://proceedings.neurips.cc/paper_files/paper/2024/hash/1f471322127d6347e5ae09a14b1e5cf7-Abstract-Conference.html>) · [阅读笔记](<literature/catalog.md#paper-dsrl>) · [引用 / BibTeX](<literature/citations.md#cite-dsrl>)
+
+> **DSRL · 欧氏与双曲空间交互表征**
+>
+> 结合欧氏空间的视觉特征与双曲空间的事件层次关系，通过能量约束的分层信息聚合和跨空间注意力区分外观相似的正常与暴力事件。
+
+[![DSRL：Figure 2：DSRL 的双曲能量约束图卷积与双空间交互。](assets/papers/dsrl.png)](assets/papers/dsrl.png)
+
+*Figure 2：DSRL 的双曲能量约束图卷积与双空间交互。 Jiaxu Leng et al. / NeurIPS 2024 · [来源](<assets/papers/README.md#figure-dsrl>)*
+
+---
 
 <a id="paper-hawk"></a>
 
@@ -1609,6 +2088,47 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 [![HAWK 原论文框架图](assets/papers/hawk.png)](assets/papers/hawk.png)
 
 *HAWK：运动语言监督对齐。原文 Figure 3。 Tang, Jiaqi et al. / HAWK · [来源](<assets/papers/README.md#figure-hawk>)*
+
+---
+
+
+<a id="year-2024-tcsvt"></a>
+
+### TCSVT
+
+<a id="paper-bn-wvad"></a>
+
+#### BatchNorm-Based Weakly Supervised Video Anomaly Detection
+
+[![TCSVT](https://img.shields.io/badge/TCSVT-2024-537A7A)](<https://ieeexplore.ieee.org/document/10649595/>)
+
+[论文](<https://ieeexplore.ieee.org/document/10649595/>) · [阅读笔记](<literature/catalog.md#paper-bn-wvad>) · [引用 / BibTeX](<literature/citations.md#cite-bn-wvad>)
+
+> **BN-WVAD · 批归一化均值偏离与片段筛选**
+>
+> 以特征偏离 BatchNorm 均值的程度作为异常判据，结合样本与批次级片段选择学习异常分类，并用统计评分修正易受标签噪声影响的预测。
+
+[![BN-WVAD：Figure 3：BN-WVAD 的特征均值偏离评分与片段选择（作者预印本）。](assets/papers/bn-wvad.png)](assets/papers/bn-wvad.png)
+
+*Figure 3：BN-WVAD 的特征均值偏离评分与片段选择（作者预印本）。 Yixuan Zhou et al. / TCSVT 2024 · [来源](<assets/papers/README.md#figure-bn-wvad>)*
+
+---
+
+<a id="paper-tthf"></a>
+
+#### Text-Driven Traffic Anomaly Detection With Temporal High-Frequency Modeling in Driving Videos
+
+[![TCSVT](https://img.shields.io/badge/TCSVT-2024-537A7A)](<https://doi.org/10.1109/tcsvt.2024.3390173>)
+
+[论文](<https://doi.org/10.1109/tcsvt.2024.3390173>) · [阅读笔记](<literature/catalog.md#paper-tthf>) · [引用 / BibTeX](<literature/citations.md#cite-tthf>)
+
+> **TTHF · 文本对齐与时序高频异常聚焦**
+>
+> 将文本提示与驾驶视频对齐，结合时序高频建模和注意力异常聚焦模块，提高道路异常事件的视觉语言判别。
+
+[![TTHF：Figure 2：文本驱动道路异常检测与时序高频建模框架。](assets/papers/tthf.png)](assets/papers/tthf.png)
+
+*Figure 2：文本驱动道路异常检测与时序高频建模框架。 Rongqin Liang et al. / TCSVT 2024 · [来源](<assets/papers/README.md#figure-tthf>)*
 
 ---
 
@@ -1656,9 +2176,73 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 ---
 
 
+<a id="year-2024-tpami"></a>
+
+### TPAMI
+
+<a id="paper-ssmctb"></a>
+
+#### Self-Supervised Masked Convolutional Transformer Block for Anomaly Detection
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2024-537A7A)](<https://doi.org/10.1109/tpami.2023.3322604>)
+
+[论文](<https://doi.org/10.1109/tpami.2023.3322604>) · [阅读笔记](<literature/catalog.md#paper-ssmctb>) · [引用 / BibTeX](<literature/citations.md#cite-ssmctb>)
+
+> **SSMCTB · 掩码卷积与通道注意力自监督**
+>
+> 在网络内部用掩码卷积、通道 Transformer 与 Huber 自监督目标重构被遮蔽信息，可接入图像和视频异常检测网络。
+
+[![SSMCTB：Figure 1：SSMCTB 的掩码卷积与通道 Transformer 模块。](assets/papers/ssmctb.png)](assets/papers/ssmctb.png)
+
+*Figure 1：SSMCTB 的掩码卷积与通道 Transformer 模块。 Neelu Madan et al. / TPAMI · [来源](<assets/papers/README.md#figure-ssmctb>)*
+
+---
+
+
 <a id="year-2023"></a>
 
 ## 2023
+
+<a id="year-2023-aaai"></a>
+
+### AAAI
+
+<a id="paper-mgfn"></a>
+
+#### MGFN: Magnitude-Contrastive Glance-and-Focus Network for Weakly-Supervised Video Anomaly Detection
+
+[![AAAI](https://img.shields.io/badge/AAAI-2023-000080)](<https://ojs.aaai.org/index.php/AAAI/article/view/25112>)
+
+[论文](<https://ojs.aaai.org/index.php/AAAI/article/view/25112>) · [阅读笔记](<literature/catalog.md#paper-mgfn>) · [引用 / BibTeX](<literature/citations.md#cite-mgfn>)
+
+> **MGFN · 全局局部建模与幅值对比学习**
+>
+> 用 Glance-and-Focus 网络联合长程上下文与局部时序特征，通过特征幅值增强和幅值对比损失减轻不同场景下幅值与异常性不一致的问题。
+
+[![MGFN：Figure 3：MGFN 的特征幅值增强与 Glance-and-Focus 网络。](assets/papers/mgfn.png)](assets/papers/mgfn.png)
+
+*Figure 3：MGFN 的特征幅值增强与 Glance-and-Focus 网络。 Yingxian Chen et al. / AAAI 2023 · [来源](<assets/papers/README.md#figure-mgfn>)*
+
+---
+
+<a id="paper-ur-dmu"></a>
+
+#### Dual Memory Units with Uncertainty Regulation for Weakly Supervised Video Anomaly Detection
+
+[![AAAI](https://img.shields.io/badge/AAAI-2023-000080)](<https://ojs.aaai.org/index.php/AAAI/article/view/25489>)
+
+[论文](<https://ojs.aaai.org/index.php/AAAI/article/view/25489>) · [阅读笔记](<literature/catalog.md#paper-ur-dmu>) · [引用 / BibTeX](<literature/citations.md#cite-ur-dmu>)
+
+> **UR-DMU · 正常异常双记忆与不确定性约束**
+>
+> 以全局与局部自注意力提取时序特征，分别记忆正常和异常原型，并约束正常特征的潜在分布，以区分易混淆片段并抑制噪声影响。
+
+[![UR-DMU：Figure 2：UR-DMU 的双记忆库与正常性不确定性建模。](assets/papers/ur-dmu.png)](assets/papers/ur-dmu.png)
+
+*Figure 2：UR-DMU 的双记忆库与正常性不确定性建模。 Hang Zhou et al. / AAAI 2023 · [来源](<assets/papers/README.md#figure-ur-dmu>)*
+
+---
+
 
 <a id="year-2023-cvpr"></a>
 
@@ -1679,5 +2263,308 @@ Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/
 [![EVAL：对象运动属性解释原论文图](assets/papers/eval.png)](assets/papers/eval.png)
 
 *EVAL：对象运动属性解释（原文 Figure 1）。 Singh, Ashish et al. / EVAL · [来源](<assets/papers/README.md#figure-eval>)*
+
+---
+
+<a id="paper-nwpu-campus-paper"></a>
+
+#### A New Comprehensive Benchmark for Semi-Supervised Video Anomaly Detection and Anticipation
+
+[![CVPR](https://img.shields.io/badge/CVPR-2023-1E90FF)](<https://openaccess.thecvf.com/content/CVPR2023/html/Cao_A_New_Comprehensive_Benchmark_for_Semi-Supervised_Video_Anomaly_Detection_and_CVPR_2023_paper.html>)
+[![Code](https://img.shields.io/github/stars/zugexiaodui/campus_vad_code?style=social&label=Code&logo=github)](<https://github.com/zugexiaodui/campus_vad_code>)
+[![Project](https://img.shields.io/badge/Project-Website-537A7A)](<https://campusvad.github.io/>)
+
+[论文](<https://openaccess.thecvf.com/content/CVPR2023/html/Cao_A_New_Comprehensive_Benchmark_for_Semi-Supervised_Video_Anomaly_Detection_and_CVPR_2023_paper.html>) · [阅读笔记](<literature/catalog.md#paper-nwpu-campus-paper>) · [引用 / BibTeX](<literature/citations.md#cite-nwpu-campus-paper>)
+
+> **NWPU Campus · 场景条件前后向帧预测**
+>
+> 提出 NWPU Campus 基准，覆盖随场景规则改变正常性的行为；以前后向场景条件帧预测统一异常检测与提前预判。
+
+[![NWPU Campus：Figure 4：场景条件前后向帧预测框架。](assets/papers/nwpu-campus-paper.png)](assets/papers/nwpu-campus-paper.png)
+
+*Figure 4：场景条件前后向帧预测框架。 Congqi Cao et al. / CVPR 2023 · [来源](<assets/papers/README.md#figure-nwpu-campus-paper>)*
+
+---
+
+
+<a id="year-2023-iccv"></a>
+
+### ICCV
+
+<a id="paper-fpdm"></a>
+
+#### Feature Prediction Diffusion Model for Video Anomaly Detection
+
+[![ICCV](https://img.shields.io/badge/ICCV-2023-00CED1)](<https://openaccess.thecvf.com/content/ICCV2023/html/Yan_Feature_Prediction_Diffusion_Model_for_Video_Anomaly_Detection_ICCV_2023_paper.html>)
+
+[论文](<https://openaccess.thecvf.com/content/ICCV2023/html/Yan_Feature_Prediction_Diffusion_Model_for_Video_Anomaly_Detection_ICCV_2023_paper.html>) · [阅读笔记](<literature/catalog.md#paper-fpdm>) · [引用 / BibTeX](<literature/citations.md#cite-fpdm>)
+
+> **FPDM · 运动预测与外观细化双扩散**
+>
+> 以两个去噪扩散隐式模块分别预测和细化视频帧特征，学习正常运动与外观分布，再用特征预测误差评估异常，无需额外的对象或动作语义提取模型。
+
+[![FPDM：Figure 2：FPDM 的特征预测与细化扩散模块。](assets/papers/fpdm.png)](assets/papers/fpdm.png)
+
+*Figure 2：FPDM 的特征预测与细化扩散模块。 Cheng Yan et al. / ICCV 2023 · [来源](<assets/papers/README.md#figure-fpdm>)*
+
+---
+
+<a id="paper-stg-nf"></a>
+
+#### Normalizing Flows for Human Pose Anomaly Detection
+
+[![ICCV](https://img.shields.io/badge/ICCV-2023-00CED1)](<https://openaccess.thecvf.com/content/ICCV2023/html/Hirschorn_Normalizing_Flows_for_Human_Pose_Anomaly_Detection_ICCV_2023_paper.html>)
+[![Code](https://img.shields.io/github/stars/orhir/STG-NF?style=social&label=Code&logo=github)](<https://github.com/orhir/STG-NF>)
+
+[论文](<https://openaccess.thecvf.com/content/ICCV2023/html/Hirschorn_Normalizing_Flows_for_Human_Pose_Anomaly_Detection_ICCV_2023_paper.html>) · [阅读笔记](<literature/catalog.md#paper-stg-nf>) · [引用 / BibTeX](<literature/citations.md#cite-stg-nf>)
+
+> **STG-NF · 姿态时空图归一化流似然**
+>
+> 将人体姿态图序列映射到潜在概率分布，用时空图归一化流直接计算似然并评估人体动作异常；同时研究仅正常数据训练和带异常标签的监督设置。
+
+[![STG-NF：Figure 1：STG-NF 的人体姿态序列概率建模。](assets/papers/stg-nf.png)](assets/papers/stg-nf.png)
+
+*Figure 1：STG-NF 的人体姿态序列概率建模。 Or Hirschorn et al. / ICCV 2023 · [来源](<assets/papers/README.md#figure-stg-nf>)*
+
+---
+
+
+<a id="year-2023-tpami"></a>
+
+### TPAMI
+
+<a id="paper-cmcir"></a>
+
+#### Cross-Modal Causal Relational Reasoning for Event-Level Visual Question Answering
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2023-537A7A)](<https://doi.org/10.1109/tpami.2023.3284038>)
+[![Code](https://img.shields.io/github/stars/HCPLab-SYSU/CMCIR?style=social&label=Code&logo=github)](<https://github.com/HCPLab-SYSU/CMCIR>)
+
+[论文](<https://doi.org/10.1109/tpami.2023.3284038>) · [阅读笔记](<literature/catalog.md#paper-cmcir>) · [引用 / BibTeX](<literature/citations.md#cite-cmcir>)
+
+> **CMCIR · 前后门干预与跨模态因果关系推理**
+>
+> 以视觉前门干预、语言后门干预和时空 Transformer 减少问答中的伪相关，并在 SUTD-TrafficQA 等基准研究事件级视觉问答。
+
+[![CMCIR：Figure 3：视觉前门干预、语言后门干预与时空 Transformer。](assets/papers/cmcir.png)](assets/papers/cmcir.png)
+
+*Figure 3：视觉前门干预、语言后门干预与时空 Transformer。 Yang Liu, Guanbin Li and Liang Lin / TPAMI 2023 · [来源](<assets/papers/README.md#figure-cmcir>)*
+
+---
+
+<a id="paper-dota-paper"></a>
+
+#### DoTA: Unsupervised Detection of Traffic Anomaly in Driving Videos
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2023-537A7A)](<https://doi.org/10.1109/tpami.2022.3150763>)
+[![Project](https://img.shields.io/badge/Project-Website-537A7A)](<https://github.com/MoonBlvd/Detection-of-Traffic-Anomaly>)
+
+[论文](<https://doi.org/10.1109/tpami.2022.3150763>) · [阅读笔记](<literature/catalog.md#paper-dota-paper>) · [引用 / BibTeX](<literature/citations.md#cite-dota-paper>)
+
+> **DoTA · 自车运动与对象轨迹预测检测**
+>
+> 提出驾驶视频异常数据 DoTA，以时间、对象框和类别描述异常，并结合自车运动与对象轨迹预测进行无监督检测，使用 STAUC 联合衡量时空定位。
+
+[![DoTA：Figure 2：DoTA 数据样例及异常对象框，取自早期作者预印本，不代表 TPAMI 新增方法框架。](assets/papers/dota-paper.png)](assets/papers/dota-paper.png)
+
+*Figure 2：DoTA 数据样例及异常对象框，取自早期作者预印本，不代表 TPAMI 新增方法框架。 Yu Yao et al. / DoTA author preprint (2020) · [来源](<assets/papers/README.md#figure-dota-paper>)*
+
+---
+
+
+<a id="year-2022"></a>
+
+## 2022
+
+<a id="year-2022-tpami"></a>
+
+### TPAMI
+
+<a id="paper-background-agnostic-vad"></a>
+
+#### A Background-Agnostic Framework with Adversarial Training for Abnormal Event Detection in Video
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2022-537A7A)](<https://doi.org/10.1109/tpami.2021.3074805>)
+
+[论文](<https://doi.org/10.1109/tpami.2021.3074805>) · [阅读笔记](<literature/catalog.md#paper-background-agnostic-vad>) · [引用 / BibTeX](<literature/citations.md#cite-background-agnostic-vad>)
+
+> **Background-Agnostic VAD · 对象级重构与伪异常对抗训练**
+>
+> 围绕检测到的对象建模外观与运动，用域外伪异常对抗训练自编码器和判别器，并补充区域与轨迹级异常标注。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-background-agnostic-vad>)*
+
+---
+
+<a id="paper-future-frame-vad"></a>
+
+#### Future Frame Prediction Network for Video Anomaly Detection
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2022-537A7A)](<https://doi.org/10.1109/tpami.2021.3129349>)
+
+[论文](<https://doi.org/10.1109/tpami.2021.3129349>) · [阅读笔记](<literature/catalog.md#paper-future-frame-vad>) · [引用 / BibTeX](<literature/citations.md#cite-future-frame-vad>)
+
+> **Future Frame Prediction · 外观运动约束预测与跨场景适配**
+>
+> 以外观和运动约束设计未来帧预测网络，并研究元学习使预测模型用少量起始帧适配新测试场景。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-future-frame-vad>)*
+
+---
+
+<a id="paper-single-scene-vad-survey"></a>
+
+#### A Survey of Single-Scene Video Anomaly Detection
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2022-537A7A)](<https://doi.org/10.1109/tpami.2020.3040591>)
+
+[论文](<https://doi.org/10.1109/tpami.2020.3040591>) · [阅读笔记](<literature/catalog.md#paper-single-scene-vad-survey>) · [引用 / BibTeX](<literature/citations.md#cite-single-scene-vad-survey>)
+
+> **Single-Scene VAD Survey · 单场景异常检测综述与评测梳理**
+>
+> 系统梳理单场景视频异常检测的问题定义、公开数据、评测准则与方法分类，并比较标准测试集上的算法表现。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-single-scene-vad-survey>)*
+
+---
+
+
+<a id="year-2021"></a>
+
+## 2021
+
+<a id="year-2021-tpami"></a>
+
+### TPAMI
+
+<a id="paper-sparse-coding-vad"></a>
+
+#### Video Anomaly Detection with Sparse Coding Inspired Deep Neural Networks
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2021-537A7A)](<https://doi.org/10.1109/tpami.2019.2944377>)
+
+[论文](<https://doi.org/10.1109/tpami.2019.2944377>) · [阅读笔记](<literature/catalog.md#paper-sparse-coding-vad>) · [引用 / BibTeX](<literature/citations.md#cite-sparse-coding-vad>)
+
+> **TSC / sRNN-AE · 时序稀疏编码展开为循环网络**
+>
+> 将时序一致稀疏编码的迭代求解展开为堆叠循环网络，并通过自编码结构联合学习表征和重构，用于视频异常检测。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-sparse-coding-vad>)*
+
+---
+
+
+<a id="year-2019"></a>
+
+## 2019
+
+<a id="year-2019-tpami"></a>
+
+### TPAMI
+
+<a id="paper-mdi"></a>
+
+#### Detecting Regions of Maximal Divergence for Spatio-Temporal Anomaly Detection
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2019-537A7A)](<https://doi.org/10.1109/tpami.2018.2823766>)
+
+[论文](<https://doi.org/10.1109/tpami.2018.2823766>) · [阅读笔记](<literature/catalog.md#paper-mdi>) · [引用 / BibTeX](<literature/citations.md#cite-mdi>)
+
+> **MDI · 分布散度定位连续时空异常区域**
+>
+> 以无偏 KL 散度比较候选区域与其余数据，搜索连续异常时间段和空间区域，并用区间提议提高大规模搜索效率。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-mdi>)*
+
+---
+
+
+<a id="year-2014"></a>
+
+## 2014
+
+<a id="year-2014-tpami"></a>
+
+### TPAMI
+
+<a id="paper-crowded-scenes-tpami"></a>
+
+#### Anomaly Detection and Localization in Crowded Scenes
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2014-537A7A)](<https://doi.org/10.1109/tpami.2013.111>)
+
+[论文](<https://doi.org/10.1109/tpami.2013.111>) · [阅读笔记](<literature/catalog.md#paper-crowded-scenes-tpami>) · [引用 / BibTeX](<literature/citations.md#cite-crowded-scenes-tpami>)
+
+> **Crowded-Scene AD · 动态纹理联合外观与运动异常**
+>
+> 利用动态纹理联合建模外观与运动，并结合时间和空间异常证据，在拥挤监控场景中检测与定位异常。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-crowded-scenes-tpami>)*
+
+---
+
+<a id="paper-shnn-cad"></a>
+
+#### Online Learning and Sequential Anomaly Detection in Trajectories
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2014-537A7A)](<https://doi.org/10.1109/tpami.2013.172>)
+
+[论文](<https://doi.org/10.1109/tpami.2013.172>) · [阅读笔记](<literature/catalog.md#paper-shnn-cad>) · [引用 / BibTeX](<literature/citations.md#cite-shnn-cad>)
+
+> **SHNN-CAD · 序贯轨迹共形异常检测**
+>
+> 以 Hausdorff 近邻距离和共形校准分析尚未完成的轨迹，支持训练集增量更新与在线异常报警。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-shnn-cad>)*
+
+---
+
+
+<a id="year-2009"></a>
+
+## 2009
+
+<a id="year-2009-tpami"></a>
+
+### TPAMI
+
+<a id="paper-scene-dynamics"></a>
+
+#### Probabilistic Modeling of Scene Dynamics for Applications in Visual Surveillance
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2009-537A7A)](<https://doi.org/10.1109/tpami.2008.175>)
+
+[论文](<https://doi.org/10.1109/tpami.2008.175>) · [阅读笔记](<literature/catalog.md#paper-scene-dynamics>) · [引用 / BibTeX](<literature/citations.md#cite-scene-dynamics>)
+
+> **Scene Dynamics · 轨迹密度建模与场景动态推断**
+>
+> 以静态摄像机中的对象轨迹学习位置与转移时间的非参数概率模型，统一支持轨迹生成、持续跟踪与异常运动检测。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-scene-dynamics>)*
+
+---
+
+
+<a id="year-2008"></a>
+
+## 2008
+
+<a id="year-2008-tpami"></a>
+
+### TPAMI
+
+<a id="paper-video-behavior-profiling"></a>
+
+#### Video Behavior Profiling for Anomaly Detection
+
+[![TPAMI](https://img.shields.io/badge/TPAMI-2008-537A7A)](<https://doi.org/10.1109/tpami.2007.70731>)
+
+[论文](<https://doi.org/10.1109/tpami.2007.70731>) · [阅读笔记](<literature/catalog.md#paper-video-behavior-profiling>) · [引用 / BibTeX](<literature/citations.md#cite-video-behavior-profiling>)
+
+> **Behavior Profiling · 动态贝叶斯行为建模与谱聚类**
+>
+> 从监控视频中的离散事件表示行为，用动态贝叶斯网络比较行为序列，并以谱聚类学习正常模式以支持在线异常检测。
+
+*配图待补：尚未取得可核验的论文原图。[查看检索记录](<assets/papers/README.md#missing-video-behavior-profiling>)*
 
 ---

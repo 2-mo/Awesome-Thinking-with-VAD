@@ -40,10 +40,12 @@ export interface Paper {
   year: number;
   venue: string;
   // Hidden ordering: conference, journal publication, or arXiv v1 month.
-  timeline?: { month: number; basis: "conference" | "journal" | "preprint"; source: Source };
+  timeline?: { year?: number; month: number; basis: "conference" | "journal" | "preprint"; source: Source };
   scope: "core";
   // Editorial map selection only; keep the bibliographic record in reading indexes.
   mapExclusion?: { note: string };
+  // A compact scene/task hint; video anomaly understanding remains unmarked.
+  mapIcon?: { kind: "industry" | "road" | "video"; evidence: Source };
   cluster: string;
   classification?: { basis: "title"; evidence: Source };
   // Resource-focused or combined contributions; ordinary method papers omit this.

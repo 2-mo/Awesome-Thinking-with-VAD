@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readCatalog } from '../scripts/catalog.mjs';
-import { isMapPaper, paperMethods } from '../src/publication.ts';
-import { createPublicationLayout as createLayout, stationBounds } from '../src/components/publication-layout.ts';
+import { isMapPaper, paperMethods, publicationKind, timelineYear } from '../src/publication.ts';
+import { createPublicationLayout as createLayout, isInterchangeStation, railLabelDistance, stationBounds, stationVenue } from '../src/components/publication-layout.ts';
 import { createMapLegend } from '../src/components/map-legend.ts';
 import { createMapRouteLabels } from '../src/components/map-route-labels.ts';
 import { createResearchBackdrop } from '../src/components/research-regions.ts';
@@ -38,9 +38,9 @@ test('the evaluation branch leaves Vad-R1 toward Cue-R1 above reasoning while cr
   const fork = layout.stations.get('vad-r1');
   assert.deepEqual(branch.tracks[0][0], { x: fork.x, y: fork.y });
   assert.ok(branch.tracks[0][1].x > fork.x && branch.tracks[0][1].y < fork.y, 'the branch leaves to the upper right');
-  const stops = [...layout.stations.values()].filter(s => s.lineIds.includes('evaluation')).sort((a, b) => a.x - b.x);
+  const stops = [...layout.stations.values()].filter(s => s.lineIds.includes('evaluation') && s.x >= fork.x).sort((a, b) => a.x - b.x);
   assert.deepEqual(stops.slice(0, 2).map(s => s.paperId), ['vad-r1', 'cuebench']);
-  assert.deepEqual(layout.stations.get('cuva').lineIds, ['reasoning']);
+  assert.deepEqual([...layout.stations.get('cuva').lineIds].sort(), ['evaluation', 'reasoning']);
 });
 
 test('three local paths keep level shelves and rejoin at Vad-R1-Plus', () => {
@@ -53,7 +53,7 @@ test('three local paths keep level shelves and rejoin at Vad-R1-Plus', () => {
   assert.deepEqual(fine.lineIds, ['evaluation'], 'FineVAU remains an ordinary branch stop');
   assert.equal(cue.y, fine.y);
   assert.ok(root.y - cue.y >= 112 && lower.y - root.y >= 112, 'three paths have clear vertical separation');
-  for (const id of ['urf-zs-hvaa', 'targetvau', 'srvau-r1', 'las-vad', 'stch']) {
+  for (const id of ['urf-zs-hvaa', 'targetvau']) {
     assert.equal(layout.stations.get(id).y, root.y, `${id} stays on the level trunk`);
   }
   assert.equal(trunk.y, root.y);
@@ -67,8 +67,48 @@ test('three local paths keep level shelves and rejoin at Vad-R1-Plus', () => {
     assert.equal(track.at(-1).y, endpoint.y);
   }
   assert.ok(segments({ tracks: [reasoning.tracks[0]] }).some(([a,b]) =>
-    a.x <= root.x && b.x >= layout.stations.get('stch').x && a.y === root.y && b.y === root.y),
+    a.x <= root.x && b.x >= plus.x && a.y === root.y && b.y === root.y),
     'one straight trunk crosses the entire local corridor');
+});
+
+test('dense reading groups use clearly separated returning shelves', () => {
+  for (const [lineId, rootId, endId, interior] of [
+    ['understanding', 'where-what', 'panda', ['eventvad', 'vadtree']],
+  ]) {
+    const root = layout.stations.get(rootId).platforms.find(p => p.lineId === lineId);
+    const end = layout.stations.get(endId).platforms.find(p => p.lineId === lineId);
+    const arm = interior.map(id => layout.stations.get(id));
+    assert.equal(root.y, end.y, 'fork and return retain a level trunk');
+    assert.ok(arm.every(s => s.y === arm[0].y && Math.abs(s.y - root.y) >= 144));
+    assert.ok(root.x < arm[0].x && arm.at(-1).x < end.x);
+    const track = layout.lines.find(line => line.id === lineId).tracks.find(track =>
+      track[0].x === root.x && track[0].y === root.y && track.at(-1).x === end.x && track.at(-1).y === end.y);
+    assert.ok(track, 'the side path leaves and returns at the named platforms without a tail stub');
+    assert.equal(isInterchangeStation(layout.stations.get(rootId)), ['va-gpt', 'memovad'].includes(rootId),
+      'branching does not change the actual method interchange semantics');
+  }
+});
+
+test('industrial reasoning ends independently and the later branches keep open terminals', () => {
+  const plus = layout.stations.get('vad-r1-plus');
+  const industrial = ['iad-r1', 'judo', 'o-vad'].map(id => layout.stations.get(id));
+  assert.ok(industrial.every(s => s.y === industrial[0].y && s.y > plus.y));
+  const line = layout.lines.find(line => line.id === 'reasoning');
+  const arm = line.tracks.find(track => track[0].x === plus.x && track[0].y === plus.y);
+  assert.ok(arm && arm.at(-1).x === industrial.at(-1).x + 18);
+  for (const id of ['las-vad', 'stch', 'cg-coe', 'clue-vad', 'avar'])
+    assert.equal(layout.stations.get(id).y, plus.y, 'ordinary reasoning stops retain a clear main corridor');
+  for (const [lineId, rootId, terminalId] of [
+    ['detection', 'td-vad', 'deal-vad'],
+    ['explanation', 'lrpo', 'ca-judge'],
+  ]) {
+    const root = layout.stations.get(rootId).platforms.find(p => p.lineId === lineId);
+    const terminal = layout.stations.get(terminalId);
+    const track = layout.lines.find(line => line.id === lineId).tracks.find(track =>
+      track[0].x === root.x && track[0].y === root.y && track.at(-1).x === terminal.x + 18);
+    assert.ok(track, `${terminalId} ends independently with a terminal stub`);
+    assert.equal(track.at(-1).y, terminal.y);
+  }
 });
 
 test('Vad-R1 and its Plus extension retain separate dated stations', () => {
@@ -79,11 +119,23 @@ test('Vad-R1 and its Plus extension retain separate dated stations', () => {
   assert.ok(layout.stations.get('crcl').x < original.x, 'CRCL stays before the later R1 papers');
 });
 
+test('the labels after the R1 return have breathing room without changing the level trunk', () => {
+  const plus = layout.stations.get('vad-r1-plus'), next = layout.stations.get('srvau-r1');
+  const later = layout.stations.get('las-vad');
+  assert.ok(next.label.x - (plus.label.x + plus.label.width) >= 40,
+    'the returning fan label clears the first continuing name');
+  assert.ok(later.label.x - (next.label.x + next.label.width) >= 56,
+    'same-side labels remain separated across the staggered run');
+  for (const id of ['srvau-r1', 'adversa', 'las-vad']) {
+    assert.equal(layout.stations.get(id).y, plus.y, 'only local horizontal spacing changes');
+  }
+});
+
 test('each paper stays in its publication year and on all of its method routes', () => {
   assert.equal(layout.stations.size, papers.length);
   for (const paper of papers) {
     const station = layout.stations.get(paper.id);
-    const year = layout.years.find(item => item.year === paper.year);
+    const year = layout.years.find(item => item.year === timelineYear(paper));
     const cell = { x: year.x, width: year.width, y: layout.plotBounds.y, height: layout.plotBounds.height };
     assert.ok(contains(cell, station), paper.id);
     assert.ok(contains(cell, station.label), `${paper.id} label start`);
@@ -100,7 +152,7 @@ test('each paper stays in its publication year and on all of its method routes',
 
 test('hidden month order is consistent across the topology', () => {
   for (const a of papers) for (const b of papers) {
-    if (a.year < b.year || (a.year === b.year && a.timeline?.month < b.timeline?.month)) {
+    if (timelineYear(a) < timelineYear(b) || (timelineYear(a) === timelineYear(b) && a.timeline?.month < b.timeline?.month)) {
       assert.ok(layout.stations.get(a.id).x < layout.stations.get(b.id).x, `${a.id} precedes ${b.id}`);
     }
   }
@@ -116,7 +168,7 @@ test('quarter bands cover recent years and contain the correct paper months', ()
     for (const [index, quarter] of year.quarters.entries()) {
       assert.ok(quarter.width > 0);
       if (index) assert.equal(year.quarters[index - 1].x + year.quarters[index - 1].width, quarter.x);
-      const members = papers.filter(paper => paper.year === year.year &&
+      const members = papers.filter(paper => timelineYear(paper) === year.year &&
         (paper.timeline ? Math.ceil(paper.timeline.month / 3) : null) === quarter.quarter);
       assert.equal(quarter.count, members.length);
       for (const paper of members) {
@@ -177,41 +229,117 @@ test('station coordinates are independent of conference assignments', () => {
 });
 
 test('shared methods form genuine single-paper interchange stations', () => {
-  const transfers = papers.filter(paper => paperMethods(paper).length > 1 &&
-    !layout.stations.get(paper.id).fork && !layout.stations.get(paper.id).continuation);
-  assert.deepEqual(transfers.map(paper => paper.id).sort(), ['a2seek', 'anom-pi', 'anomalyruler', 'cg-coe', 'lrpo', 'memovad', 'td-vad', 'vad-r1-plus']);
-  const trunks = layout.lines.filter(line => !line.branchOf).map(line => line.id);
+  const transfers = papers.filter(paper => isInterchangeStation(layout.stations.get(paper.id)));
+  assert.deepEqual(transfers.map(paper => paper.id).sort(), ['a2seek', 'anom-pi', 'anomalyruler', 'ex-vad', 'memovad', 'panda', 'reactvau', 'va-gpt']);
   for (const paper of transfers) {
-    const methods = paperMethods(paper);
-    const order = methods.every(id => trunks.includes(id)) ? trunks : layout.methodOrder;
-    const [a, b] = methods.map(id => order.indexOf(id));
-    assert.equal(Math.abs(a - b), 1, `${paper.id} connects neighboring routes`);
+    const station = layout.stations.get(paper.id);
+    // A line can leave its nominal band to meet a shared paper. Check the
+    // actual connector, rather than treating vertical method order as rails.
+    const body = stationBounds(station, 20);
+    for (const line of layout.lines.filter(line => !station.lineIds.includes(line.id))) {
+      assert.ok(segments(line).every(([a, b]) => !crossesBox(a, b, body)),
+        `${paper.id} connector clears the unrelated ${line.id} route`);
+    }
   }
   assert.equal(layout.stations.size, papers.length, 'interchanges do not duplicate papers');
 });
 
-test('LAVIDA uses one continuation point while preserving both sourced memberships', () => {
+test('LRPO belongs only to the red route and TTHF stays on the separate detection line', () => {
+  const lrpo = layout.stations.get('lrpo');
+  assert.ok(!isInterchangeStation(lrpo));
+  assert.deepEqual(lrpo.lineIds, ['explanation']);
+  assert.ok(lrpo.platforms.every(p => p.x === lrpo.x && p.y === lrpo.y));
+  for (const id of lrpo.lineIds) {
+    assert.ok(segments(layout.lines.find(line => line.id === id)).some(([a, b]) => onSegment(lrpo, a, b)));
+  }
+  assert.ok(!segments(layout.lines.find(line => line.id === 'reasoning')).some(([a, b]) => onSegment(lrpo, a, b)),
+    'the green route bypasses LRPO');
+  const tthf = layout.stations.get('tthf'), hawk = layout.stations.get('hawk');
+  assert.deepEqual(tthf.lineIds, ['detection']);
+  assert.deepEqual(hawk.lineIds, ['alignment']);
+  assert.ok(Math.abs(tthf.y - hawk.y) >= 144, 'detection and understanding occupy distinct corridors');
+});
+
+test('a returning evaluation branch meets Vad-R1-Plus at one ordinary station', () => {
+  const station = layout.stations.get('vad-r1-plus');
+  assert.deepEqual(station.lineIds, ['reasoning', 'evaluation']);
+  assert.deepEqual(station.merge, { parentId: 'reasoning', branchId: 'evaluation' });
+  assert.ok(!isInterchangeStation(station));
+  assert.ok(station.platforms.every(platform => platform.x === station.x && platform.y === station.y));
+  const evaluation = layout.lines.find(line => line.id === 'evaluation').tracks[0];
+  assert.equal(evaluation.at(-1).x, station.x);
+  assert.equal(evaluation.at(-1).y, station.y);
+  assert.ok(evaluation.at(-2).x < station.x && evaluation.at(-2).y < station.y,
+    'the upper branch meets the trunk directly without a duplicate horizontal approach');
+  const root = layout.stations.get('vad-r1');
+  assert.ok(!isInterchangeStation(root));
+  assert.equal(stationVenue(papers.find(paper => paper.id === root.paperId)), 'NeurIPS');
+});
+
+test('the early evaluation route leaves CUVA and returns at HoloTrace using ordinary nodes', () => {
+  const root = layout.stations.get('cuva'), terminal = layout.stations.get('holotrace');
+  const track = layout.lines.find(line => line.id === 'evaluation').tracks[2];
+  assert.deepEqual(root.fork, { parentId: 'reasoning', branchId: 'evaluation' });
+  assert.deepEqual(terminal.merge, root.fork);
+  for (const station of [root, terminal]) {
+    assert.ok(!isInterchangeStation(station));
+    assert.ok(station.platforms.every(p => p.x === station.x && p.y === station.y));
+  }
+  assert.deepEqual(track[0], { x: root.x, y: root.y });
+  assert.equal(track.at(-1).x, terminal.x);
+  assert.equal(track.at(-1).y, terminal.y);
+  const upperApproach = track.findLast(point => point.y < terminal.y);
+  assert.ok(upperApproach && upperApproach.x < terminal.x && track.every(point => point.x <= terminal.x),
+    'the expanded evaluation corridor returns from above without overshooting HoloTrace');
+});
+
+test('PANDA connects memory and active observation at distinct platforms on both routes', () => {
+  const station = layout.stations.get('panda');
+  assert.deepEqual([...station.lineIds].sort(), ['evidence', 'understanding']);
+  assert.ok(isInterchangeStation(station));
+  for (const platform of station.platforms) {
+    const line = layout.lines.find(line => line.id === platform.lineId);
+    assert.ok(segments(line).some(([a, b]) => onSegment(platform, a, b)));
+  }
+});
+
+test('publication styling distinguishes journals and preprints without misclassifying AAAI proceedings', () => {
+  for (const id of ['vadclip', 'finevau', 'targetvau', 'judo']) {
+    assert.equal(publicationKind(papers.find(paper => paper.id === id)), 'conference', id);
+  }
+  for (const id of ['pel', 'mpgdfl', 'crcl', 'adversa', 'ecva-anomshield', 'promptvad']) {
+    assert.equal(publicationKind(catalogPapers.find(paper => paper.id === id)), 'journal', id);
+  }
+  for (const paper of papers.filter(paper => paper.venue === 'arXiv')) {
+    assert.equal(publicationKind(paper), 'preprint', paper.id);
+  }
+});
+
+test('LAVIDA splits synthesis from the continuing detection route at one sourced station', () => {
   const paper = papers.find(paper => paper.id === 'lavida');
   const station = layout.stations.get(paper.id);
   assert.equal(paper.cluster, 'synthesis');
-  assert.deepEqual(paperMethods(paper), ['synthesis', 'alignment']);
+  assert.deepEqual(paperMethods(paper), ['synthesis', 'detection']);
   assert.ok(paper.secondaryMethods[0].evidence.url.includes('2602.19248'));
   assert.equal(station.platforms.length, 2);
-  assert.ok(station.continuation, 'one incoming and one outgoing rail need one marker');
+  assert.ok(!isInterchangeStation(station), 'a named fork uses one ordinary marker');
   assert.ok(station.platforms.every(p => p.x === station.x && p.y === station.y));
-  assert.ok(!station.fork, 'a color continuation does not create an extra branch');
-  assert.ok(!layout.junctions.some(junction => junction.branchId === 'synthesis'));
+  assert.deepEqual(station.fork, { parentId: 'detection', branchId: 'synthesis' });
+  assert.ok(layout.junctions.some(junction => junction.paperId === 'lavida'));
   for (const platform of station.platforms) {
     assert.ok(segments(layout.lines.find(line => line.id === platform.lineId))
       .some(([a, b]) => onSegment(platform, a, b)));
   }
   assert.equal([...layout.stations.keys()].filter(id => id === paper.id).length, 1);
-  const alignment = layout.lines.find(line => line.id === 'alignment');
+  const alignment = layout.lines.find(line => line.id === 'detection');
   const synthesis = layout.lines.find(line => line.id === 'synthesis');
-  const incoming = alignment.tracks.find(track => track.at(-1).x === station.x && track.at(-1).y === station.y);
+  const incoming = alignment.tracks.find(track => segments({ tracks: [track] }).some(([a, b]) => onSegment(station, a, b)));
   const outgoing = synthesis.tracks.find(track => track[0].x === station.x && track[0].y === station.y);
   assert.ok(incoming && outgoing, 'the two colors meet exactly at the station without terminal stubs');
-  assert.ok(incoming.at(-2).x < station.x && outgoing[1].x > station.x);
+  assert.ok(incoming[0].x < station.x && incoming.at(-1).x > station.x && outgoing[1].x > station.x);
+  const arrival = layout.stations.get('reactvau').platforms.find(p => p.lineId === 'detection');
+  assert.equal(incoming.at(-1).x, arrival.x);
+  assert.equal(incoming.at(-1).y, arrival.y);
 });
 
 const crossesBox = (a, b, box) => {
@@ -235,7 +363,7 @@ test('tracks avoid paper labels and unrelated station markers', () => {
         assert.ok(!crossesBox(a, b, stationBounds(station, 10)),
           `${line.id} passes through unrelated ${station.paperId}`);
       } else {
-        for (const platform of station.platforms.filter(item => item.lineId !== line.id && !station.fork && !station.continuation)) {
+        for (const platform of station.platforms.filter(item => item.lineId !== line.id && isInterchangeStation(station))) {
           assert.ok(!crossesBox(a, b, { x: platform.x - 9, y: platform.y - 9, width: 18, height: 18 }),
             `${line.id} uses the wrong platform at ${station.paperId}`);
         }
@@ -276,8 +404,8 @@ test('early supervision is a level through section at OVVAD and TPWNG without an
   assert.ok(segments({ tracks: [line.tracks[1]] }).some(([a,b]) => onSegment(platform,a,b)));
   assert.ok(line.tracks[1].at(-1).x >= layout.stations.get('cavge').x);
   assert.ok(!segments(line).some(([a, b]) => a.x <= tpwng.x + 40 && b.x >= lavida.x - 40));
-  const early = ['vadclip', 'ovvad', 'tpwng', 'hawk'].map(id => layout.stations.get(id));
-  assert.ok(early.every(s => s.y === tpwng.y), 'the early through rail has no isolated upper spur');
+  const early = ['vadclip', 'ovvad', 'tpwng', 'tthf'].map(id => layout.stations.get(id));
+  assert.equal(layout.stations.get('ovvad').y, tpwng.y, 'the supervision color section stays level');
   for (const id of ['ovvad', 'tpwng']) {
     const station = layout.stations.get(id);
     assert.ok(station.continuation && !station.fork);
@@ -285,14 +413,33 @@ test('early supervision is a level through section at OVVAD and TPWNG without an
     const center = station.label.x + station.label.width / 2;
     assert.ok(early.filter(other => other !== station).every(other =>
       Math.abs(center - station.x) < Math.abs(center - other.x)), 'the label identifies its own stop');
-    const rail = segments(layout.lines.find(l => l.id === 'alignment'));
+    const rail = segments(layout.lines.find(l => l.id === 'detection'));
     assert.ok(rail.some(([a, b]) => onSegment(station, a, b)));
   }
 });
 
+test('NWPU Campus and DoTA converge independently at one ordinary UCA station', () => {
+  const line = layout.lines.find(line => line.id === 'understanding');
+  const uca = layout.stations.get('uca-paper');
+  const campus = layout.stations.get('nwpu-campus-paper'), dota = layout.stations.get('dota-paper');
+  assert.ok(campus.y < uca.y && dota.y > uca.y, 'the two entry routes occupy opposite shelves');
+  assert.equal(uca.platforms.length, 1);
+  assert.ok(!isInterchangeStation(uca));
+  for (const [index, root] of [campus, dota].entries()) {
+    const track = line.tracks[index];
+    assert.ok(segments({ tracks: [track] }).some(([a, b]) => onSegment(root, a, b)));
+    assert.equal(track.at(-1).x, uca.x);
+    assert.equal(track.at(-1).y, uca.y);
+    assert.ok((track.at(-2).y - uca.y) * (root.y - uca.y) > 0,
+      'each incoming diagonal reaches UCA from its own side');
+  }
+  assert.equal(line.tracks[2][0].x, uca.x, 'the through route starts exactly at UCA');
+  assert.equal(line.tracks[2][0].y, uca.y);
+});
+
 test('local LAVIDA and COPRA branches depart from named paper platforms', () => {
-  const line = layout.lines.find(line => line.id === 'alignment');
-  for (const [anchorId, leafId] of [['alert-clip', 'lavida'], ['upr-vad', 'copra']]) {
+  const line = layout.lines.find(line => line.id === 'detection');
+  for (const [anchorId, leafId] of [['alert-clip', 'reactvau'], ['upr-vad', 'copra']]) {
     const anchor = layout.stations.get(anchorId).platforms.find(p => p.lineId === line.id);
     const leaf = layout.stations.get(leafId).platforms.find(p => p.lineId === line.id);
     const branch = line.tracks.find(track => track[0].x === anchor.x && track[0].y === anchor.y);
@@ -304,10 +451,11 @@ test('local LAVIDA and COPRA branches depart from named paper platforms', () => 
   }
 });
 
-test('local offshoots keep flat trunk roots and a level LAVIDA continuation', () => {
-  for (const [before, root] of [['steervad', 'alert-clip'], ['scene-dependent-vad', 'upr-vad']]) {
-    assert.equal(layout.stations.get(root).y, layout.stations.get(before).y,
-      `${root} does not form an artificial peak at its branch`);
+test('local offshoots avoid artificial trunk peaks and keep a level LAVIDA continuation', () => {
+  for (const [before, root, after] of [['piercingeye', 'alert-clip', 'td-vad'], ['scene-dependent-vad', 'upr-vad', 'spherevad']]) {
+    const y = layout.stations.get(root).y;
+    assert.ok((y - layout.stations.get(before).y) * (y - layout.stations.get(after).y) <= 0,
+      `${root} stays on a level or monotone incoming corridor`);
   }
   const line = layout.lines.find(line => line.id === 'synthesis');
   const lavida = layout.stations.get('lavida').platforms.find(p => p.lineId === line.id);
@@ -330,14 +478,16 @@ test('the later evaluation segment reconnects at CG-CoE without crossing Anom-π
   const paper = papers.find(p => p.id === station.paperId);
   assert.equal(paper.cluster, 'evaluation');
   assert.deepEqual(station.lineIds, ['evaluation', 'reasoning']);
+  assert.ok(!isInterchangeStation(station), 'CG-CoE uses an ordinary branch marker');
+  assert.ok(station.platforms.every(platform => platform.x === station.x && platform.y === station.y));
   assert.match(paper.secondaryMethods[0].evidence.note, /事件抽取.*匹配链/);
   const evaluation = layout.lines.find(line => line.id === 'evaluation');
   const platform = station.platforms.find(p => p.lineId === evaluation.id);
   assert.deepEqual(evaluation.tracks[1][0], { x: platform.x, y: platform.y });
   const plus = layout.stations.get('vad-r1-plus');
   assert.equal(evaluation.tracks[0].at(-1).x, plus.x, 'the early segment returns at Vad-R1-Plus');
-  const left = layout.stations.get('stch').x, right = layout.stations.get('lrpo').x;
-  assert.ok(layout.stations.get('anom-pi').x < station.x && station.x < right,
+  const left = layout.stations.get('stch').x, right = station.x + 80;
+  assert.ok(layout.stations.get('anom-pi').x < station.x,
     'same-month ordering gives each shared station its own approach');
   const routes = layout.lines.filter(line => ['reasoning', 'evaluation', 'evidence'].includes(line.id));
   for (let i = 0; i < routes.length; i++) for (let j = i + 1; j < routes.length; j++) {
@@ -362,9 +512,16 @@ test('Anom-π connects active observation and structured reasoning once, clearin
   assert.equal([...layout.stations.values()].filter(s => s.paperId === paper.id).length, 1);
   assert.ok(layout.stations.get('cg-coe').x > station.x, 'the same-month resource clears the connector');
   const evaluation = layout.lines.find(line => line.id === 'evaluation');
-  assert.equal(evaluation.tracks.length, 2);
+  assert.equal(evaluation.tracks.length, 3);
   assert.ok(evaluation.tracks[0].at(-1).x < station.x);
   assert.ok(evaluation.tracks[1][0].x > station.x, 'the later evaluation route starts after Anom-π');
+  const cuva = layout.stations.get('cuva').platforms.find(p => p.lineId === 'evaluation');
+  assert.deepEqual(evaluation.tracks[2][0], { x: cuva.x, y: cuva.y });
+  for (const id of ['mmad', 'phys-ad']) {
+    const earlier = layout.stations.get(id);
+    assert.ok(earlier.x < layout.stations.get('vad-r1').x);
+    assert.ok(segments({ tracks: [evaluation.tracks[2]] }).some(([a, b]) => onSegment(earlier, a, b)));
+  }
 });
 
 test('all route joins occur at paper platforms, with no shared unnamed segments', () => {
@@ -399,29 +556,92 @@ test('all route joins occur at paper platforms, with no shared unnamed segments'
   }
 });
 
-test('long transfer approaches retain their home shelf until close to the shared station', () => {
-  const line = layout.lines.find(line => line.id === 'understanding');
-  const first = layout.stations.get('vadtree'), transfer = layout.stations.get('td-vad');
-  assert.equal(railHeight(line, (first.x + transfer.x) / 2), first.y,
-    'the purple line keeps space compact through the otherwise empty middle');
-  assert.equal(railHeight(line, transfer.x - 160), first.y, 'the bend stays near TD-VAD');
+test('TD-VAD stays on detection without lifting the temporal line', () => {
+  const td = layout.stations.get('td-vad');
+  assert.deepEqual(td.lineIds, ['detection']);
+  assert.ok(!isInterchangeStation(td));
+  assert.equal(td.y, layout.stations.get('fine-vad').y, 'the detection trunk stays level');
+  const temporal = layout.lines.find(line => line.id === 'understanding');
+  assert.ok(!segments(temporal).some(([a, b]) => onSegment(td, a, b)));
+  const panda = layout.stations.get('panda').platforms.find(p => p.lineId === 'understanding');
+  const valu = layout.stations.get('valu');
+  for (const [a, b] of segments(temporal).filter(([a, b]) => a.x >= panda.x && b.x <= valu.x)) {
+    assert.ok(Math.min(a.y, b.y) >= Math.min(panda.y, valu.y) - 24,
+      'the temporal run no longer climbs into the empty detection corridor');
+  }
 });
 
-test('ordinary stops before the evaluation fork use the inactive branch band', () => {
+test('late synthesis and streaming detection reuse the corridor after the blue terminus', () => {
+  const trunk = layout.stations.get('alert-clip');
+  const synthesis = layout.stations.get('lavida');
+  const events = layout.stations.get('ewad');
+  const blueEnd = layout.stations.get('steervad');
+  const react = layout.stations.get('reactvau');
+  assert.ok(events.y <= trunk.y - 192, 'event-camera branch remains above detection');
+  assert.ok(synthesis.y >= trunk.y + 288, 'synthesis occupies the interior corridor');
+  assert.ok(blueEnd.x < synthesis.x, 'the synthesis lane opens after the earlier blue route ends');
+  assert.ok(synthesis.y < react.platforms[0].y - 120, 'streaming detection stays below synthesis');
+  assert.equal(layout.methodOrder.indexOf('synthesis'), layout.methodOrder.indexOf('detection') + 1);
+  const memoryY = react.platforms.find(p => p.lineId === 'understanding').y;
+  for (const id of ['s2mgraph-vad', 'peer-vad'])
+    assert.equal(layout.stations.get(id).y, memoryY, 'late memory continues on one shelf');
+  const detection = layout.lines.find(line => line.id === 'detection');
+  const bridge = detection.tracks.find(track => track.at(-1).x === react.x);
+  assert.ok(bridge && segments({ tracks: [bridge] }).some(([a, b]) => onSegment(synthesis, a, b)));
+});
+
+test('VA-GPT exits diverge before the temporal branch opens at Where and What', () => {
+  const root = layout.stations.get('va-gpt');
+  const fork = layout.stations.get('where-what');
+  const blue = layout.lines.find(line => line.id === 'alignment');
+  const purple = layout.lines.find(line => line.id === 'understanding');
+  assert.ok(isInterchangeStation(root), 'VA-GPT retains its genuine method transfer');
+  assert.ok(fork.x > root.x, 'the reading branch opens at the next named station');
+  const x = Math.min(root.x + 96, (root.x + fork.x) / 2);
+  const blueY = railHeight(blue, x), purpleY = railHeight(purple, x);
+  assert.ok(blueY < root.platforms[0].y - 48, 'blue climbs away from the transfer');
+  assert.ok(purpleY > root.platforms.at(-1).y + 48, 'purple descends before branching');
+  assert.ok(purpleY - blueY >= 128, 'the exits open a visible gap instead of tightly tracking each other');
+  const event = layout.stations.get('eventvad');
+  const arm = purple.tracks.find(track => track[0].x === fork.x && track[0].y === fork.y);
+  assert.ok(arm && segments({ tracks: [arm] }).some(([a, b]) => onSegment(event, a, b)));
+});
+
+test('every method route belongs to one connected network through sourced paper stations', () => {
+  const reached = new Set([layout.methodOrder[0]]);
+  for (let pass = 0; pass < layout.lines.length; pass++) for (const station of layout.stations.values()) {
+    if (station.lineIds.some(id => reached.has(id))) station.lineIds.forEach(id => reached.add(id));
+  }
+  assert.deepEqual([...reached].sort(), layout.lines.map(line => line.id).sort());
+  for (const [id, methods] of [['va-gpt', ['alignment', 'understanding']], ['reactvau', ['understanding', 'detection']]]) {
+    const station = layout.stations.get(id);
+    assert.deepEqual(station.lineIds, methods);
+    assert.ok(isInterchangeStation(station));
+    const paper = papers.find(p => p.id === id);
+    assert.ok(paper.secondaryMethods.every(method => method.evidence.url && method.evidence.note));
+  }
+});
+
+test('the early evaluation corridor clears the reasoning trunk before the later fork', () => {
   const fork = layout.stations.get('vad-r1');
-  for (const id of ['vau-r1', 'holotrace']) {
+  const trunk = layout.stations.get('vau-r1');
+  for (const id of ['mmad', 'phys-ad']) {
     const station = layout.stations.get(id);
     assert.ok(station.x < fork.x);
-    assert.ok(station.y <= fork.y, `${id} avoids the low empty shelf before the branch begins`);
+    assert.ok(station.y < trunk.y, `${id} stays above the active reasoning trunk`);
   }
-  assert.ok(layout.stations.get('vera').y - fork.y < 180, 'the lower criteria line follows the compact interval');
+  assert.ok(layout.stations.get('holotrace').x < fork.x, 'the early reading route returns before the later fork');
 });
 
-test('the station key fits existing left whitespace with room around tracks and direct names', () => {
+test('the horizontal station key fits bottom-left whitespace with room around tracks and names', () => {
   const legend = createMapLegend(layout);
   const routeLabels = createMapRouteLabels(layout);
   assert.deepEqual(legend.fallbackLineIds, []);
-  assert.ok(legend.height < 120);
+  assert.ok(legend.height <= 72, "the three station types share one compact row");
+  assert.ok(legend.y >= layout.plotBounds.y + layout.plotBounds.height * .75, "legend stays in the bottom quarter");
+  const criteriaY = layout.stations.get('lrpo').y;
+  assert.ok(legend.y >= criteriaY + 48 && legend.y + legend.height <= criteriaY + 192,
+    'legend occupies the open band just below the red trunk');
   assert.ok(legend.embedded);
   assert.ok(legend.x + legend.width < layout.width * .4, 'legend stays on the left');
   assert.ok(contains(layout.plotBounds, legend));
@@ -435,9 +655,20 @@ test('the station key fits existing left whitespace with room around tracks and 
       box.y + box.height <= clearance.y || clearance.y + clearance.height <= box.y,
       `legend clears ${station.paperId}`);
   }
-  const mountains = createResearchBackdrop(layout, [legend, ...routeLabels]).mountains;
-  for (const box of mountains) assert.ok(box.x + box.width <= clearance.x || clearance.x + clearance.width <= box.x ||
-    box.y + box.height <= clearance.y || clearance.y + clearance.height <= box.y, 'decoration clears the legend');
+  const backdrop = createResearchBackdrop(layout, [legend, ...routeLabels]);
+  for (const box of backdrop.mountains) {
+    assert.ok(box.x + box.width <= clearance.x || clearance.x + clearance.width <= box.x ||
+      box.y + box.height <= clearance.y || clearance.y + clearance.height <= box.y, 'decoration clears the legend');
+    const padded = { x: box.x - 20, y: box.y - 20, width: box.width + 40, height: box.height + 40 };
+    for (const line of layout.lines) for (const [a, b] of segments(line)) {
+      assert.ok(!crossesBox(a, b, padded), `decoration clears the ${line.id} route`);
+    }
+    for (const station of layout.stations.values()) for (const other of [station.label, stationBounds(station)]) {
+      assert.ok(other.x + other.width <= padded.x || padded.x + padded.width <= other.x ||
+        other.y + other.height <= padded.y || padded.y + padded.height <= other.y,
+        `decoration clears ${station.paperId}`);
+    }
+  }
   assert.deepEqual(createMapLegend(createPublicationLayout([...papers].reverse())), legend);
 });
 
@@ -445,7 +676,7 @@ test('every direction is named beside its own rail without covering stations, tr
   const labels = createMapRouteLabels(layout);
   assert.deepEqual(labels.map(l => l.lineId).sort(), layout.lines.map(l => l.id).sort());
   const legend = createMapLegend(layout, labels);
-  const mountains = createResearchBackdrop(layout, [legend, ...labels]).mountains;
+  const backdrop = createResearchBackdrop(layout, [legend, ...labels]);
   const disjoint = (a, b) => a.x + a.width <= b.x || b.x + b.width <= a.x ||
     a.y + a.height <= b.y || b.y + b.height <= a.y;
   for (const label of labels) {
@@ -455,9 +686,14 @@ test('every direction is named beside its own rail without covering stations, tr
     assert.equal(label.text, own.label);
     assert.ok(segments(own).some(([a, b]) => a.y === b.y && b.x > label.x && a.x < label.x + label.width &&
       Math.min(Math.abs(a.y - label.y), Math.abs(a.y - label.y - label.height)) <= 42), 'name stays next to its rail');
+    const ownDistance = Math.min(...segments(own).map(([a, b]) => railLabelDistance(label, a, b)));
+    for (const other of layout.lines.filter(line => line !== own)) {
+      assert.ok(segments(other).every(([a, b]) => railLabelDistance(label, a, b) >= ownDistance + 28),
+        `${label.lineId} name clearly belongs to its own rail rather than ${other.id}`);
+    }
     const padded = { x: label.x - 10, y: label.y - 10, width: label.width + 20, height: label.height + 20 };
     for (const line of layout.lines) for (const [a, b] of segments(line)) assert.ok(!crossesBox(a, b, padded));
-    const occupied = [...labels.filter(other => other !== label), legend, ...mountains,
+    const occupied = [...labels.filter(other => other !== label), legend, ...backdrop.mountains,
       ...[...layout.stations.values()].flatMap(s => [s.label, stationBounds(s, 20)])];
     assert.ok(occupied.every(box => disjoint(padded, box)), `${label.lineId} clears all map content`);
   }
@@ -483,7 +719,7 @@ test('interchange routes use separate straight platforms with one shared label',
         label.y + label.height <= bounds.y || bounds.y + bounds.height <= label.y,
         `${other.paperId} label avoids ${station.paperId} station body`);
     }
-    if (station.platforms.length < 2 || station.fork || station.continuation) continue;
+    if (!isInterchangeStation(station)) continue;
     for (const [index, platform] of station.platforms.entries()) {
       assert.equal(platform.x, station.x, 'all platforms keep the paper date');
       if (index) assert.ok(platform.y - station.platforms[index - 1].y >= 24, 'platform markers remain separate');
@@ -504,9 +740,17 @@ test('labels stay close enough to identify their own station in dense months', (
     const y = Math.max(box.y, Math.min(station.y, box.y + box.height));
     const distance = Math.min(...station.platforms.map(p => Math.hypot(p.x - x, p.y - y)),
       Math.hypot(station.x - x, station.y - y));
-    assert.ok(distance <= (station.platforms.length > 1 && !station.continuation ? 44 : 28),
+    assert.ok(distance <= (station.platforms.length > 1 && !station.continuation ? 68 : 52),
       `${station.paperId} label drifts away from its station`);
     assert.ok(x === station.x || y === station.y, `${station.paperId} has a diagonal callout`);
+    for (const other of layout.lines) for (const track of other.tracks) {
+      const parts = segments({ tracks: [track] });
+      const ownsStation = station.platforms.some(p => p.lineId === other.id &&
+        parts.some(([a, b]) => onSegment(p, a, b)));
+      if (ownsStation) continue;
+      assert.ok(parts.every(([a, b]) => railLabelDistance(box, a, b) >= distance + 12),
+        `${station.paperId} name stays closer to its station than to an unrelated ${other.id} arm`);
+    }
   }
 });
 
@@ -515,39 +759,53 @@ test('dense late-year labels stay beside their stations instead of stacking far 
     const station = layout.stations.get(id), box = station.label;
     const verticalGap = Math.max(box.y - station.y, station.y - box.y - box.height, 0);
     const horizontalGap = Math.max(box.x - station.x, station.x - box.x - box.width, 0);
-    assert.ok(Math.hypot(verticalGap, horizontalGap) <= 28, `${id} stays adjacent`);
+    assert.ok(Math.hypot(verticalGap, horizontalGap) <= 52, `${id} stays adjacent`);
   }
 });
 
-test('Anomize connects to Ex-VAD by one 45-degree segment without platform detours', () => {
-  const a = layout.stations.get('anomize'), b = layout.stations.get('ex-vad');
-  const next = layout.stations.get('hiprobe-vad');
-  const parts = segments(layout.lines.find(line => line.id === 'alignment'));
-  assert.ok(b.x > a.x && b.y > a.y);
-  assert.equal(b.x - a.x, b.y - a.y, 'station heights fit the actual horizontal spacing');
-  assert.ok(parts.some(([start, end]) => onSegment(a, start, end) && onSegment(b, start, end)),
-    'one straight track reaches both station centers');
-  assert.equal(b.y, next.y, 'the following level run is preserved');
-  assert.ok(parts.some(([start, end]) => onSegment(b, start, end) && onSegment(next, start, end)));
+test('detection has its own color and keeps all requested foundations without deleting papers', () => {
+  const line = layout.lines.find(line => line.id === 'detection');
+  assert.notEqual(line.color, layout.lines.find(line => line.id === 'alignment').color);
+  assert.equal(layout.lines.length, clusters.length);
+  assert.equal(layout.stations.size, papers.length);
+  for (const id of ['ovvad', 'anomize', 'mpgdfl', 'piercingeye', 'ewad', 'spherevad'])
+    assert.ok(layout.stations.get(id).lineIds.includes('detection'), id);
+  for (const id of ['anomalygpt', 'anomaly-ov', 'hawk', 'echotraffic', 'hiprobe-vad', 'headhunt-vad', 'steervad'])
+    assert.deepEqual(layout.stations.get(id).lineIds, ['alignment'], id);
+  const representationSequence = ['va-gpt', 'hiprobe-vad', 'headhunt-vad', 'steervad'];
+  const representationRoute = clusters.find(c => c.id === 'alignment').routes.find(r => r.paperIds.includes('va-gpt'));
+  const start = representationRoute.paperIds.indexOf('va-gpt');
+  assert.deepEqual(representationRoute.paperIds.slice(start, start + 4), representationSequence);
+  assert.deepEqual(layout.stations.get('ex-vad').lineIds, ['alignment', 'detection']);
+  const copra = layout.stations.get('copra');
+  assert.deepEqual(copra.lineIds, ['detection']);
+  assert.ok(!isInterchangeStation(copra), 'COPRA is an ordinary detection endpoint');
+  assert.ok(!segments(layout.lines.find(line => line.id === 'alignment')).some(([a, b]) => onSegment(copra, a, b)),
+    'the understanding route does not connect to COPRA');
 });
 
 test('Y branches start at sourced paper stations with shared platform centers', () => {
-  assert.deepEqual(layout.junctions.map(j => j.branchId).sort(), ['evaluation']);
+  assert.deepEqual(layout.junctions.map(j => j.paperId).sort(), ['cg-coe', 'cuva', 'lavida', 'vad-r1']);
   for (const junction of layout.junctions) {
     const parent = layout.lines.find(l => l.id === junction.parentId);
     const branch = layout.lines.find(l => l.id === junction.branchId);
-    assert.deepEqual(branch.tracks[0][0], { x: junction.x, y: junction.y });
+    const track = branch.tracks.find(track => track[0].x === junction.x && track[0].y === junction.y);
+    assert.ok(track, 'a reviewed branch route starts at the junction');
     const trunk = segments(parent).find(([a, b]) => onSegment(junction, a, b));
     assert.ok(trunk, 'branch starts on its parent');
-    assert.ok(parent.tracks[0][0].x < junction.x && parent.tracks[0].at(-1).x > junction.x,
-      'the parent continues on both sides of the junction');
-    const [a, b] = trunk, arm = branch.tracks[0][1];
+    assert.ok(parent.tracks.some(track => track[0].x <= junction.x && track.at(-1).x > junction.x &&
+      segments({ tracks: [track] }).some(([a, b]) => onSegment(junction, a, b))),
+      'the parent continues beyond the junction, which may also start the trunk');
+    const [a, b] = trunk, arm = track[1];
     assert.ok(Math.abs((b.x - a.x) * (arm.y - junction.y) - (b.y - a.y) * (arm.x - junction.x)) > epsilon,
       'the new arm diverges immediately instead of retracing the parent');
     const station = layout.stations.get(junction.paperId);
     assert.equal(station.x, junction.x);
     assert.equal(station.y, junction.y);
-    assert.equal(clusters.find(c => c.id === junction.branchId).branchAt.paperId, station.paperId);
+    const cluster = clusters.find(c => c.id === junction.branchId);
+    assert.ok(cluster.branchAt.paperId === station.paperId ||
+      cluster.routes.some(route => route.paperIds[0] === station.paperId && route.evidence?.url),
+      'each fork comes from the primary anchor or a sourced local route');
     assert.equal(station.platforms.length, 2);
     assert.ok(station.platforms.every(p => p.x === station.x && p.y === station.y));
   }
@@ -587,6 +845,40 @@ test('one route can fork twice and an existing branch can fork again', () => {
   assert.equal(network.junctions.find(j => j.branchId === 'nested').parentId, 'first');
 });
 
+test('local branches open diagonally before settling onto their own shelf', () => {
+  for (const [lineId, rootId, firstId] of [
+    ['detection', 'alert-clip', 'lavida'],
+    ['detection', 'td-vad', 'ewad'], ['detection', 'upr-vad', 'copra'],
+    ['understanding', 'where-what', 'eventvad'],
+    ['reasoning', 'vad-r1-plus', 'iad-r1'], ['explanation', 'lrpo', 'probe-vad'],
+    ['evaluation', 'cuva', 'mmad'], ['evaluation', 'vad-r1', 'cuebench'],
+    ['evaluation', 'cg-coe', 'pistachio'],
+  ]) {
+    const root = layout.stations.get(rootId).platforms.find(p => p.lineId === lineId);
+    const first = layout.stations.get(firstId).platforms.find(p => p.lineId === lineId);
+    const track = layout.lines.find(line => line.id === lineId).tracks.find(track =>
+      track[0].x === root.x && track[0].y === root.y &&
+      segments({ tracks: [track] }).some(([a, b]) => onSegment(first, a, b)));
+    assert.ok(track, `${rootId} has its own outgoing branch`);
+    assert.ok(track[1].x > root.x && (track[1].y - root.y) * (first.y - root.y) > 0,
+      `${rootId} leaves diagonally at the station`);
+    const horizontal = segments({ tracks: [track] }).find(([a, b]) => a.y === b.y && a.x < first.x);
+    if (horizontal) assert.ok(Math.abs(horizontal[0].y - root.y) >= Math.min(120, Math.abs(first.y - root.y)),
+      `${rootId} opens enough room before running parallel`);
+    for (const trunk of layout.lines.find(line => line.id === lineId).tracks.filter(other => other !== track)) {
+      if (!segments({ tracks: [trunk] }).some(([a, b]) => onSegment(root, a, b))) continue;
+      const x = root.x + Math.min(80, (first.x - root.x) / 2);
+      const at = parts => {
+        const pair = parts.find(([a, b]) => a.x <= x && b.x >= x && b.x > a.x);
+        return pair && pair[0].y + (pair[1].y - pair[0].y) * (x - pair[0].x) / (pair[1].x - pair[0].x);
+      };
+      const branchY = at(segments({ tracks: [track] })), trunkY = at(segments({ tracks: [trunk] }));
+      if (branchY !== undefined && trunkY !== undefined)
+        assert.ok(Math.abs(branchY - trunkY) >= 40, `${rootId} arms separate rather than following close parallel diagonals`);
+    }
+  }
+});
+
 test('confirmed papers with pending citations still appear exactly once on their routes', () => {
   for (const id of ['seek-vau', 'ca-judge', 'road']) {
     const paper = papers.find(p => p.id === id);
@@ -595,7 +887,7 @@ test('confirmed papers with pending citations still appear exactly once on their
     assert.equal([...layout.stations.values()].filter(s => s.paperId === id).length, 1);
   }
   assert.equal(layout.stations.get('seek-vau').lineId, 'evidence');
-  const branchWithoutAnchor = papers.filter(p => p.cluster === 'synthesis' && p.id !== 'ovvad');
+  const branchWithoutAnchor = papers.filter(p => p.cluster === 'synthesis' && !['ovvad', 'lavida'].includes(p.id));
   const onlyBranch = createPublicationLayout(branchWithoutAnchor);
   assert.equal(onlyBranch.junctions.length, 0);
   assert.equal(onlyBranch.stations.size, branchWithoutAnchor.length);

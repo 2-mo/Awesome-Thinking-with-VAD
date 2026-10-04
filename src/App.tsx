@@ -2,10 +2,15 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import rawCatalog from "../data/catalog.json";
 import type { Catalog, Paper } from "./types";
 import ResearchMap from "./components/ResearchMap";
+import PaperFigure from "./components/PaperFigure";
+import PaperNavigation from "./components/PaperNavigation";
+import { createPublicationLayout } from "./components/publication-layout";
 import { clusterName, contributionLabels, isMapPaper, paperContribution, paperMethods, publicationVenue } from "./publication";
 
 const catalog = rawCatalog as Catalog;
 const mapPapers = catalog.papers.filter(isMapPaper);
+const paperById = new Map(mapPapers.map(paper => [paper.id, paper]));
+const mapLayout = createPublicationLayout(mapPapers, catalog.clusters);
 const REPO = "https://github.com/2-mo/Awesome-Thinking-with-VAD";
 const initial = new URLSearchParams(window.location.search);
 const venues = [...new Set(mapPapers.map(p => publicationVenue(p.venue)))].sort();
@@ -19,7 +24,7 @@ const comparisonLabels = {
   outputs: "输出／评测对象", training: "训练与适配", inference: "运行设置",
   futureFrames: "未来帧访问", evaluation: "验证方式",
 };
-const datasetKindLabels = { original: "原始视频", annotation: "派生标注", resplit: "重新划分", mixed: "混合来源" };
+const datasetKindLabels = { original: "原始数据", annotation: "派生标注", resplit: "重新划分", mixed: "混合来源" };
 const datasetAvailabilityLabels = { available: "已开放", partial: "部分开放", pending: "待发布", unverified: "待核验" };
 
 export default function App() {
@@ -32,7 +37,10 @@ export default function App() {
   const [year, setYear] = useState(initialValue("year", years));
   const [task, setTask] = useState(initialValue("task", tasks));
   const [selectedId, setSelectedId] = useState(initialValue("paper", mapPapers.map(p => p.id)));
+  const [readingLineId, setReadingLineId] = useState(cluster);
   const dialog = useRef<HTMLDialogElement>(null);
+  const paperTitle = useRef<HTMLHeadingElement>(null);
+  const navigating = useRef(false);
   const selected = mapPapers.find(p => p.id === selectedId);
   const visiblePapers = useMemo(() => mapPapers.filter(p => {
     const text = `${p.shortTitle} ${p.title} ${p.summary} ${p.mechanism} ${p.venue} ${p.tasks.join(" ")} ${(p.tags || []).join(" ")}`.toLowerCase();
@@ -54,7 +62,22 @@ export default function App() {
   useEffect(() => {
     if (selected && !dialog.current?.open) dialog.current?.showModal();
     else if (!selected && dialog.current?.open) dialog.current.close();
+    if (selected && navigating.current) {
+      paperTitle.current?.focus({ preventScroll: true });
+      if (dialog.current) dialog.current.scrollTop = 0;
+      navigating.current = false;
+    }
   }, [selected]);
+
+  const openPaper = (id: string) => {
+    setReadingLineId(cluster || paperById.get(id)!.cluster);
+    setSelectedId(id);
+  };
+  const navigatePaper = (id: string, lineId: string) => {
+    navigating.current = true;
+    setReadingLineId(lineId);
+    setSelectedId(id);
+  };
 
   const resetFilters = () => {
     setQuery(""); setCluster(""); setVenue(""); setYear(""); setTask("");
@@ -66,7 +89,7 @@ export default function App() {
       <header className="map-header">
         <div>
           <span className="eyebrow">THINKING WITH VAD</span>
-          <h1>视频异常理解 · 研究线路图</h1>
+          <h1>异常理解 · 研究线路图</h1>
         </div>
         <nav aria-label="阅读资源">
           <a href={`${REPO}#conference-papers`}>会议与期刊论文 ↗</a>
@@ -99,10 +122,10 @@ export default function App() {
 
       <main id="main" tabIndex={-1} className="map-frame">
         <ResearchMap papers={visiblePapers} allPapers={mapPapers} clusters={catalog.clusters}
-          selectedId={selectedId || null} onSelect={setSelectedId} activeCluster={cluster || "all"} onReset={resetFilters} />
+          network={mapLayout} selectedId={selectedId || null} onSelect={openPaper} activeCluster={cluster || "all"} onReset={resetFilters} />
       </main>
       <footer className="map-footer">
-        <span>点击站点查看论文 · Y 型从标注的论文站点分叉 · 拖动平移</span>
+        <span>点击站点查看论文 · 拖动平移</span>
         <span>更新 {catalog.updatedAt} · {mapPapers.length} 篇论文</span>
       </footer>
 
@@ -113,7 +136,7 @@ export default function App() {
             <span>{contributionLabels[paperContribution(selected)]} · {selected.venue} · {selected.year}</span>
             <button type="button" autoFocus aria-label="关闭论文详情" onClick={() => dialog.current?.close()}>关闭 ×</button>
           </div>
-          <h2 id="paper-title">{selected.shortTitle}</h2>
+          <h2 id="paper-title" ref={paperTitle} tabIndex={-1}>{selected.shortTitle}</h2>
           <p className="full-title">{selected.title}</p>
           <div className="paper-links">
             <a href={selected.links.paper} target="_blank" rel="noreferrer">论文 ↗</a>
@@ -125,21 +148,17 @@ export default function App() {
             const method = catalog.clusters.find(c => c.id === id)!;
             return <span key={id} style={{ borderColor: method.color }}>{clusterName(method)}</span>;
           })}</div>
+          <PaperNavigation paper={selected} papers={paperById} lines={mapLayout.lines} lineId={readingLineId}
+            onLineChange={setReadingLineId} onNavigate={navigatePaper} />
           {selected.classification?.basis === "title" && <p className="classification-note">
             按题名暂定归类 · 方法细节待正文核验
           </p>}
           {selected.citation.version === "pending" && <p className="verification-date">{selected.citation.note}</p>}
-          {catalog.clusters.filter(c => c.branchAt?.paperId === selected.id).map(c => (
-            <div key={c.id} className="classification-note">
-              <strong>Fork · {clusterName(catalog.clusters.find(parent => parent.id === c.branchOf)!)} → {clusterName(c)}</strong>
-              <p>{c.branchAt!.evidence.note}</p>
-              <a href={c.branchAt!.evidence.url} target="_blank" rel="noreferrer">分叉依据 ↗</a>
-            </div>
-          ))}
           <h3>{selected.mechanism}</h3>
           <p>{selected.summary}</p>
+          {selected.figure && <PaperFigure key={selected.id} figure={selected.figure} />}
           <p>{selected.takeaway}</p>
-          <PaperEvidence paper={selected} />
+          <PaperEvidence key={`evidence-${selected.id}`} paper={selected} />
         </>}
       </dialog>
     </div>
@@ -149,6 +168,7 @@ export default function App() {
 function PaperEvidence({ paper }: { paper: Paper }) {
   const datasets = catalog.datasets.filter(d => paper.datasetIds.includes(d.id));
   const sources = [...paper.sources, ...(paper.secondaryMethods || []).map(m => m.evidence),
+    ...catalog.clusters.filter(c => c.branchAt?.paperId === paper.id).map(c => c.branchAt!.evidence),
     ...(paper.contribution ? [paper.contribution.evidence] : []),
     ...(paper.classification ? [paper.classification.evidence] : [])];
   return <>

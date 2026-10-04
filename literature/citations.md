@@ -2,7 +2,7 @@
 
 [论文年表](../llm4vad.md) · [更新记录](../CHANGELOG.md) · [查看完整 BibTeX](references.bib) · [下载 references.bib](https://raw.githubusercontent.com/2-mo/Awesome-Thinking-with-VAD/main/literature/references.bib)
 
-83 篇论文，80 条完整引用；其中 56 条引用正式发表版本，11 条为会议已录用记录，13 条引用预印本。另有 3 篇已录用论文待补书目，暂不导出 BibTeX。核验日期：2026-10-03。
+127 篇论文，124 条完整引用；其中 100 条引用正式发表版本，11 条为会议已录用记录，13 条引用预印本。另有 3 篇已录用论文待补书目，暂不导出 BibTeX。核验日期：2026-10-04。
 
 复制下方单篇 BibTeX，或下载整库加入文献管理器。优先引用正式版本；尚未取得完整正式书目信息时，区分已录用记录与预印本。DOI 未核验时不填写；arXiv DOI 仅用于预印本，不代替会议／期刊 DOI。引用的是原始论文，不是本仓库。
 
@@ -91,6 +91,50 @@
 | [ROAD](#cite-road) | 2026 · NeurIPS · 已录用，书目待补 | 未核验 |
 | [ECVA / AnomShield](#cite-ecva-anomshield) | 2026 · International Journal of Computer Vision | [10.1007/s11263-026-02983-0](<https://doi.org/10.1007/s11263-026-02983-0>) |
 | [ADVersa](#cite-adversa) | 2026 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2026.3663545](<https://doi.org/10.1109/tpami.2026.3663545>) |
+| [JUDO](#cite-judo) | 2026 · International Conference on Learning Representations | 未核验 |
+| [Phys-AD](#cite-phys-ad) | 2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [MMAD](#cite-mmad) | 2025 · International Conference on Learning Representations | 未核验 |
+| [Anomaly-OV](#cite-anomaly-ov) | 2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [EchoTraffic](#cite-echotraffic) | 2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [CAGC-VAD](#cite-cagc-vad) | 2026 · IEEE Transactions on Circuits and Systems for Video Technology | [10.1109/TCSVT.2026.3735599](<https://doi.org/10.1109/TCSVT.2026.3735599>) |
+| [NWPU Campus](#cite-nwpu-campus-paper) | 2023 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | [10.1109/CVPR52729.2023.01953](<https://doi.org/10.1109/CVPR52729.2023.01953>) |
+| [Latent-Space VAA](#cite-scene-dependent-vaa) | 2025 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2024.3461718](<https://doi.org/10.1109/tpami.2024.3461718>) |
+| [DSRL](#cite-dsrl) | 2024 · Advances in Neural Information Processing Systems | [10.52202/079017-0552](<https://doi.org/10.52202/079017-0552>) |
+| [PiercingEye](#cite-piercingeye) | 2026 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2025.3617460](<https://doi.org/10.1109/tpami.2025.3617460>) |
+| [Behavior Profiling](#cite-video-behavior-profiling) | 2008 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2007.70731](<https://doi.org/10.1109/tpami.2007.70731>) |
+| [Scene Dynamics](#cite-scene-dynamics) | 2009 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2008.175](<https://doi.org/10.1109/tpami.2008.175>) |
+| [Crowded-Scene AD](#cite-crowded-scenes-tpami) | 2014 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2013.111](<https://doi.org/10.1109/tpami.2013.111>) |
+| [SHNN-CAD](#cite-shnn-cad) | 2014 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2013.172](<https://doi.org/10.1109/tpami.2013.172>) |
+| [MDI](#cite-mdi) | 2019 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2018.2823766](<https://doi.org/10.1109/tpami.2018.2823766>) |
+| [TSC / sRNN-AE](#cite-sparse-coding-vad) | 2021 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2019.2944377](<https://doi.org/10.1109/tpami.2019.2944377>) |
+| [Single-Scene VAD Survey](#cite-single-scene-vad-survey) | 2022 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2020.3040591](<https://doi.org/10.1109/tpami.2020.3040591>) |
+| [Background-Agnostic VAD](#cite-background-agnostic-vad) | 2022 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2021.3074805](<https://doi.org/10.1109/tpami.2021.3074805>) |
+| [Future Frame Prediction](#cite-future-frame-vad) | 2022 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2021.3129349](<https://doi.org/10.1109/tpami.2021.3129349>) |
+| [SSMCTB](#cite-ssmctb) | 2024 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2023.3322604](<https://doi.org/10.1109/tpami.2023.3322604>) |
+| [DoTA](#cite-dota-paper) | 2023 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2022.3150763](<https://doi.org/10.1109/tpami.2022.3150763>) |
+| [CMCIR](#cite-cmcir) | 2023 · IEEE Transactions on Pattern Analysis and Machine Intelligence | [10.1109/tpami.2023.3284038](<https://doi.org/10.1109/tpami.2023.3284038>) |
+| [AdVersa-SD](#cite-adversa-sd) | 2024 · 2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) | [10.1109/cvpr52733.2024.02080](<https://doi.org/10.1109/cvpr52733.2024.02080>) |
+| [TTHF](#cite-tthf) | 2024 · IEEE Transactions on Circuits and Systems for Video Technology | [10.1109/tcsvt.2024.3390173](<https://doi.org/10.1109/tcsvt.2024.3390173>) |
+| [Black Swan](#cite-black-swan) | 2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [AnomalyGPT](#cite-anomalygpt) | 2024 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v38i3.27963](<https://doi.org/10.1609/aaai.v38i3.27963>) |
+| [ADSeeker](#cite-adseeker) | 2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [Where and What](#cite-where-what) | 2025 · IEEE Transactions on Image Processing | [10.1109/TIP.2025.3623392](<https://doi.org/10.1109/TIP.2025.3623392>) |
+| [IAD-R1](#cite-iad-r1) | 2026 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v40i8.37588](<https://doi.org/10.1609/aaai.v40i8.37588>) |
+| [LogSAD](#cite-log-sad) | 2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [MGFN](#cite-mgfn) | 2023 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v37i1.25112](<https://doi.org/10.1609/aaai.v37i1.25112>) |
+| [UR-DMU](#cite-ur-dmu) | 2023 · Proceedings of the AAAI Conference on Artificial Intelligence | [10.1609/aaai.v37i3.25489](<https://doi.org/10.1609/aaai.v37i3.25489>) |
+| [STG-NF](#cite-stg-nf) | 2023 · Proceedings of the IEEE/CVF International Conference on Computer Vision | 未核验 |
+| [FPDM](#cite-fpdm) | 2023 · Proceedings of the IEEE/CVF International Conference on Computer Vision | 未核验 |
+| [Self-Distilled MAE](#cite-sd-mae) | 2024 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [ADSM](#cite-adsm) | 2025 · Proceedings of the IEEE/CVF International Conference on Computer Vision | 未核验 |
+| [BN-WVAD](#cite-bn-wvad) | 2024 · IEEE Transactions on Circuits and Systems for Video Technology | [10.1109/TCSVT.2024.3450734](<https://doi.org/10.1109/TCSVT.2024.3450734>) |
+| [PE-MIL](#cite-pe-mil) | 2024 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [FedVAD](#cite-fedvad) | 2024 · Computer Vision – ECCV 2024 | [10.1007/978-3-031-73668-1\_14](<https://doi.org/10.1007/978-3-031-73668-1_14>) |
+| [PI-VAD](#cite-pi-vad) | 2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [LEC-VAD](#cite-lec-vad) | 2025 · Proceedings of the 42nd International Conference on Machine Learning | 未核验 |
+| [D²MIL](#cite-d2mil) | 2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
+| [STPrompt](#cite-stprompt) | 2024 · Proceedings of the 32nd ACM International Conference on Multimedia | [10.1145/3664647.3681442](<https://doi.org/10.1145/3664647.3681442>) |
+| [Fine-VAD](#cite-fine-vad) | 2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition | 未核验 |
 
 <a id="cite-vadclip"></a>
 
@@ -2022,5 +2066,1085 @@
   pages = {6980--6998},
   doi = {10.1109/tpami.2026.3663545},
   url = {https://doi.org/10.1109/tpami.2026.3663545}
+}
+```
+
+<a id="cite-judo"></a>
+
+## JUDO
+
+**JUDO: A Juxtaposed Domain-Oriented Multimodal Reasoner for Industrial Anomaly QA**
+
+作者（原顺序）：Kang, Hyunju；Lee, Woohyun；Kim, Jaewon；Park, Hogun
+
+引用版本：2026 · International Conference on Learning Representations。
+
+来源：[核验依据](<https://proceedings.iclr.cc/paper_files/paper/2026/hash/92a7a03e1c716970848a4a86cc8243ee-Abstract-Conference.html>) — 正式论文集核验题名、完整作者顺序、发表年份及引用元数据。
+
+```bibtex
+@inproceedings{judo2026,
+  author = {Kang, Hyunju and Lee, Woohyun and Kim, Jaewon and Park, Hogun},
+  title = {{JUDO: A Juxtaposed Domain-Oriented Multimodal Reasoner for Industrial Anomaly QA}},
+  year = {2026},
+  booktitle = {International Conference on Learning Representations},
+  url = {https://proceedings.iclr.cc/paper_files/paper/2026/hash/92a7a03e1c716970848a4a86cc8243ee-Abstract-Conference.html}
+}
+```
+
+<a id="cite-phys-ad"></a>
+
+## Phys-AD
+
+**Towards Visual Discrimination and Reasoning of Real-World Physical Dynamics: Physics-Grounded Anomaly Detection**
+
+作者（原顺序）：Li, Wenqiao；Gu, Yao；Chen, Xintao；Xu, Xiaohao；Hu, Ming；Huang, Xiaonan；Wu, Yingna
+
+引用版本：2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2025/html/Li_Towards_Visual_Discrimination_and_Reasoning_of_Real-World_Physical_Dynamics_Physics-Grounded_CVPR_2025_paper.html>) — 正式论文集核验题名、完整作者顺序、发表年份及引用元数据。
+
+```bibtex
+@inproceedings{physad2025,
+  author = {Li, Wenqiao and Gu, Yao and Chen, Xintao and Xu, Xiaohao and Hu, Ming and Huang, Xiaonan and Wu, Yingna},
+  title = {{Towards Visual Discrimination and Reasoning of Real-World Physical Dynamics: Physics-Grounded Anomaly Detection}},
+  year = {2025},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {30409--30419},
+  url = {https://openaccess.thecvf.com/content/CVPR2025/html/Li_Towards_Visual_Discrimination_and_Reasoning_of_Real-World_Physical_Dynamics_Physics-Grounded_CVPR_2025_paper.html}
+}
+```
+
+<a id="cite-mmad"></a>
+
+## MMAD
+
+**MMAD: A Comprehensive Benchmark for Multimodal Large Language Models in Industrial Anomaly Detection**
+
+作者（原顺序）：Jiang, Xi；Li, Jian；Deng, Hanqiu；Liu, Yong；Gao, Bin-Bin；Zhou, Yifeng；Li, Jialin；Wang, Chengjie；Zheng, Feng
+
+引用版本：2025 · International Conference on Learning Representations。
+
+来源：[核验依据](<https://proceedings.iclr.cc/paper_files/paper/2025/hash/d91ffbe9c126765755ff52d36b715683-Abstract-Conference.html>) — 正式论文集核验题名、完整作者顺序、发表年份及引用元数据。
+
+```bibtex
+@inproceedings{mmad2025,
+  author = {Jiang, Xi and Li, Jian and Deng, Hanqiu and Liu, Yong and Gao, Bin-Bin and Zhou, Yifeng and Li, Jialin and Wang, Chengjie and Zheng, Feng},
+  title = {{MMAD: A Comprehensive Benchmark for Multimodal Large Language Models in Industrial Anomaly Detection}},
+  year = {2025},
+  booktitle = {International Conference on Learning Representations},
+  url = {https://proceedings.iclr.cc/paper_files/paper/2025/hash/d91ffbe9c126765755ff52d36b715683-Abstract-Conference.html}
+}
+```
+
+<a id="cite-anomaly-ov"></a>
+
+## Anomaly-OV
+
+**Towards Zero-Shot Anomaly Detection and Reasoning with Multimodal Large Language Models**
+
+作者（原顺序）：Xu, Jiacong；Lo, Shao-Yuan；Safaei, Bardia；Patel, Vishal M.；Dwivedi, Isht
+
+引用版本：2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2025/html/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.html>) — 正式论文集核验题名、完整作者顺序、发表年份及引用元数据。
+
+```bibtex
+@inproceedings{anomalyov2025,
+  author = {Xu, Jiacong and Lo, Shao-Yuan and Safaei, Bardia and Patel, Vishal M. and Dwivedi, Isht},
+  title = {{Towards Zero-Shot Anomaly Detection and Reasoning with Multimodal Large Language Models}},
+  year = {2025},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {20370--20382},
+  url = {https://openaccess.thecvf.com/content/CVPR2025/html/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.html}
+}
+```
+
+<a id="cite-echotraffic"></a>
+
+## EchoTraffic
+
+**EchoTraffic: Enhancing Traffic Anomaly Understanding with Audio-Visual Insights**
+
+作者（原顺序）：Xing, Zhenghao；Chen, Hao；Xie, Binzhu；Xu, Jiaqi；Guo, Ziyu；Xu, Xuemiao；Hao, Jianye；Fu, Chi-Wing；Hu, Xiaowei；Heng, Pheng-Ann
+
+引用版本：2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2025/html/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.html>) — 正式论文集核验题名、完整作者顺序、发表年份及引用元数据。
+
+```bibtex
+@inproceedings{echotraffic2025,
+  author = {Xing, Zhenghao and Chen, Hao and Xie, Binzhu and Xu, Jiaqi and Guo, Ziyu and Xu, Xuemiao and Hao, Jianye and Fu, Chi-Wing and Hu, Xiaowei and Heng, Pheng-Ann},
+  title = {{EchoTraffic: Enhancing Traffic Anomaly Understanding with Audio-Visual Insights}},
+  year = {2025},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {19098--19108},
+  url = {https://openaccess.thecvf.com/content/CVPR2025/html/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.html}
+}
+```
+
+<a id="cite-cagc-vad"></a>
+
+## CAGC-VAD
+
+**CAGC-VAD: Controlled Abstraction and Graph Competition for Video Anomaly Detection**
+
+作者（原顺序）：Jiang, Yalong；Gu, Zonghua；Serami, Amin；Li, Ruimin；Fu, Hong；Xia, Yong
+
+引用版本：2026 · IEEE Transactions on Circuits and Systems for Video Technology。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/TCSVT.2026.3735599>) — IEEE 登记的 Crossref 元数据核对题名、六位作者顺序、TCSVT 2026 与 DOI。未提供摘要和可靠发表月份；页码 1–1 为占位，不写入正式引文。
+
+```bibtex
+@article{cagcvad2026,
+  author = {Jiang, Yalong and Gu, Zonghua and Serami, Amin and Li, Ruimin and Fu, Hong and Xia, Yong},
+  title = {{CAGC-VAD: Controlled Abstraction and Graph Competition for Video Anomaly Detection}},
+  year = {2026},
+  journal = {IEEE Transactions on Circuits and Systems for Video Technology},
+  doi = {10.1109/TCSVT.2026.3735599},
+  url = {https://doi.org/10.1109/TCSVT.2026.3735599}
+}
+```
+
+<a id="cite-nwpu-campus-paper"></a>
+
+## NWPU Campus
+
+**A New Comprehensive Benchmark for Semi-Supervised Video Anomaly Detection and Anticipation**
+
+作者（原顺序）：Cao, Congqi；Lu, Yue；Wang, Peng；Zhang, Yanning
+
+引用版本：2023 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2023/html/Cao_A_New_Comprehensive_Benchmark_for_Semi-Supervised_Video_Anomaly_Detection_and_CVPR_2023_paper.html>) — 正式出版书目：题名、作者顺序、年份及卷页。
+
+```bibtex
+@inproceedings{nwpuCampus2023,
+  author = {Cao, Congqi and Lu, Yue and Wang, Peng and Zhang, Yanning},
+  title = {{A New Comprehensive Benchmark for Semi-Supervised Video Anomaly Detection and Anticipation}},
+  year = {2023},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {20392--20401},
+  doi = {10.1109/CVPR52729.2023.01953},
+  url = {https://openaccess.thecvf.com/content/CVPR2023/html/Cao_A_New_Comprehensive_Benchmark_for_Semi-Supervised_Video_Anomaly_Detection_and_CVPR_2023_paper.html}
+}
+```
+
+<a id="cite-scene-dependent-vaa"></a>
+
+## Latent-Space VAA
+
+**Scene-Dependent Prediction in Latent Space for Video Anomaly Detection and Anticipation**
+
+作者（原顺序）：Cao, Congqi；Zhang, Hanwen；Lu, Yue；Wang, Peng；Zhang, Yanning
+
+引用版本：2025 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2024.3461718>) — IEEE 登记的正式卷期、页码、作者顺序；采用正式卷期年份。
+
+```bibtex
+@article{sceneDependentVAA2025,
+  author = {Cao, Congqi and Zhang, Hanwen and Lu, Yue and Wang, Peng and Zhang, Yanning},
+  title = {{Scene-Dependent Prediction in Latent Space for Video Anomaly Detection and Anticipation}},
+  year = {2025},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {47},
+  number = {1},
+  pages = {224--239},
+  doi = {10.1109/tpami.2024.3461718},
+  url = {https://doi.org/10.1109/tpami.2024.3461718}
+}
+```
+
+<a id="cite-dsrl"></a>
+
+## DSRL
+
+**Beyond Euclidean: Dual-Space Representation Learning for Weakly Supervised Video Violence Detection**
+
+作者（原顺序）：Leng, Jiaxu；Wu, Zhanjie；Tan, Mingpi；Liu, Yiran；Gan, Ji；Chen, Haosheng；Gao, Xinbo
+
+引用版本：2024 · Advances in Neural Information Processing Systems。
+
+来源：[核验依据](<https://proceedings.neurips.cc/paper_files/paper/2024/hash/1f471322127d6347e5ae09a14b1e5cf7-Abstract-Conference.html>) — 正式出版书目：题名、作者顺序、年份及卷页。
+
+```bibtex
+@inproceedings{dsrl2024,
+  author = {Leng, Jiaxu and Wu, Zhanjie and Tan, Mingpi and Liu, Yiran and Gan, Ji and Chen, Haosheng and Gao, Xinbo},
+  title = {{Beyond Euclidean: Dual-Space Representation Learning for Weakly Supervised Video Violence Detection}},
+  year = {2024},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume = {37},
+  pages = {17373--17397},
+  doi = {10.52202/079017-0552},
+  url = {https://proceedings.neurips.cc/paper_files/paper/2024/hash/1f471322127d6347e5ae09a14b1e5cf7-Abstract-Conference.html}
+}
+```
+
+<a id="cite-piercingeye"></a>
+
+## PiercingEye
+
+**PiercingEye: Dual-Space Video Violence Detection With Hyperbolic Vision-Language Guidance**
+
+作者（原顺序）：Leng, Jiaxu；Wu, Zhanjie；Tan, Mingpi；Mo, Mengjingcheng；Zheng, Jiankang；Li, Qingqing；Gan, Ji；Gao, Xinbo
+
+引用版本：2026 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2025.3617460>) — IEEE 登记的正式卷期、页码、作者顺序；采用正式卷期年份。
+
+```bibtex
+@article{piercingEye2026,
+  author = {Leng, Jiaxu and Wu, Zhanjie and Tan, Mingpi and Mo, Mengjingcheng and Zheng, Jiankang and Li, Qingqing and Gan, Ji and Gao, Xinbo},
+  title = {{PiercingEye: Dual-Space Video Violence Detection With Hyperbolic Vision-Language Guidance}},
+  year = {2026},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {48},
+  number = {2},
+  pages = {1689--1706},
+  doi = {10.1109/tpami.2025.3617460},
+  url = {https://doi.org/10.1109/tpami.2025.3617460}
+}
+```
+
+<a id="cite-video-behavior-profiling"></a>
+
+## Behavior Profiling
+
+**Video Behavior Profiling for Anomaly Detection**
+
+作者（原顺序）：Xiang, Tao；Gong, Shaogang
+
+引用版本：2008 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2007.70731>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{videobehaviorprofiling2008,
+  author = {Xiang, Tao and Gong, Shaogang},
+  title = {{Video Behavior Profiling for Anomaly Detection}},
+  year = {2008},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {30},
+  number = {5},
+  pages = {893--908},
+  doi = {10.1109/tpami.2007.70731},
+  url = {https://doi.org/10.1109/tpami.2007.70731}
+}
+```
+
+<a id="cite-scene-dynamics"></a>
+
+## Scene Dynamics
+
+**Probabilistic Modeling of Scene Dynamics for Applications in Visual Surveillance**
+
+作者（原顺序）：Saleemi, Imran；Shafique, Khurram；Shah, Mubarak
+
+引用版本：2009 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2008.175>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{scenedynamics2009,
+  author = {Saleemi, Imran and Shafique, Khurram and Shah, Mubarak},
+  title = {{Probabilistic Modeling of Scene Dynamics for Applications in Visual Surveillance}},
+  year = {2009},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {31},
+  number = {8},
+  pages = {1472--1485},
+  doi = {10.1109/tpami.2008.175},
+  url = {https://doi.org/10.1109/tpami.2008.175}
+}
+```
+
+<a id="cite-crowded-scenes-tpami"></a>
+
+## Crowded-Scene AD
+
+**Anomaly Detection and Localization in Crowded Scenes**
+
+作者（原顺序）：Li, Weixin；Mahadevan, Vijay；Vasconcelos, Nuno
+
+引用版本：2014 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2013.111>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{crowdedscenestpami2014,
+  author = {Li, Weixin and Mahadevan, Vijay and Vasconcelos, Nuno},
+  title = {{Anomaly Detection and Localization in Crowded Scenes}},
+  year = {2014},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {36},
+  number = {1},
+  pages = {18--32},
+  doi = {10.1109/tpami.2013.111},
+  url = {https://doi.org/10.1109/tpami.2013.111}
+}
+```
+
+<a id="cite-shnn-cad"></a>
+
+## SHNN-CAD
+
+**Online Learning and Sequential Anomaly Detection in Trajectories**
+
+作者（原顺序）：Laxhammar, Rikard；Falkman, Göran
+
+引用版本：2014 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2013.172>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{shnncad2014,
+  author = {Laxhammar, Rikard and Falkman, G{\"{o}}ran},
+  title = {{Online Learning and Sequential Anomaly Detection in Trajectories}},
+  year = {2014},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {36},
+  number = {6},
+  pages = {1158--1173},
+  doi = {10.1109/tpami.2013.172},
+  url = {https://doi.org/10.1109/tpami.2013.172}
+}
+```
+
+<a id="cite-mdi"></a>
+
+## MDI
+
+**Detecting Regions of Maximal Divergence for Spatio-Temporal Anomaly Detection**
+
+作者（原顺序）：Barz, Björn；Rodner, Erik；Guanche Garcia, Yanira；Denzler, Joachim
+
+引用版本：2019 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2018.2823766>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{mdi2019,
+  author = {Barz, Bj{\"{o}}rn and Rodner, Erik and Guanche Garcia, Yanira and Denzler, Joachim},
+  title = {{Detecting Regions of Maximal Divergence for Spatio-Temporal Anomaly Detection}},
+  year = {2019},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {41},
+  number = {5},
+  pages = {1088--1101},
+  doi = {10.1109/tpami.2018.2823766},
+  url = {https://doi.org/10.1109/tpami.2018.2823766}
+}
+```
+
+<a id="cite-sparse-coding-vad"></a>
+
+## TSC / sRNN-AE
+
+**Video Anomaly Detection with Sparse Coding Inspired Deep Neural Networks**
+
+作者（原顺序）：Luo, Weixin；Liu, Wen；Lian, Dongze；Tang, Jinhui；Duan, Lixin；Peng, Xi；Gao, Shenghua
+
+引用版本：2021 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2019.2944377>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{sparsecodingvad2021,
+  author = {Luo, Weixin and Liu, Wen and Lian, Dongze and Tang, Jinhui and Duan, Lixin and Peng, Xi and Gao, Shenghua},
+  title = {{Video Anomaly Detection with Sparse Coding Inspired Deep Neural Networks}},
+  year = {2021},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {43},
+  number = {3},
+  pages = {1070--1084},
+  doi = {10.1109/tpami.2019.2944377},
+  url = {https://doi.org/10.1109/tpami.2019.2944377}
+}
+```
+
+<a id="cite-single-scene-vad-survey"></a>
+
+## Single-Scene VAD Survey
+
+**A Survey of Single-Scene Video Anomaly Detection**
+
+作者（原顺序）：Ramachandra, Bharathkumar；Jones, Michael J.；Vatsavai, Ranga Raju
+
+引用版本：2022 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2020.3040591>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。；[核验依据](<https://europepmc.org/article/MED/33237854>) — 作者摘要对应的正式卷期和页码；更正 Crossref 尚停留在 Early Access 的记录。
+
+```bibtex
+@article{singlescenevadsurvey2022,
+  author = {Ramachandra, Bharathkumar and Jones, Michael J. and Vatsavai, Ranga Raju},
+  title = {{A Survey of Single-Scene Video Anomaly Detection}},
+  year = {2022},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {44},
+  number = {5},
+  pages = {2293--2312},
+  doi = {10.1109/tpami.2020.3040591},
+  url = {https://doi.org/10.1109/tpami.2020.3040591}
+}
+```
+
+<a id="cite-background-agnostic-vad"></a>
+
+## Background-Agnostic VAD
+
+**A Background-Agnostic Framework with Adversarial Training for Abnormal Event Detection in Video**
+
+作者（原顺序）：Georgescu, Mariana-Iuliana；Ionescu, Radu Tudor；Khan, Fahad Shahbaz；Popescu, Marius；Shah, Mubarak
+
+引用版本：2022 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2021.3074805>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。；[核验依据](<https://europepmc.org/article/MED/33881990>) — 作者摘要对应的正式卷期和页码；更正 Crossref 尚停留在 Early Access 的记录。
+
+```bibtex
+@article{backgroundagnosticvad2022,
+  author = {Georgescu, Mariana-Iuliana and Ionescu, Radu Tudor and Khan, Fahad Shahbaz and Popescu, Marius and Shah, Mubarak},
+  title = {{A Background-Agnostic Framework with Adversarial Training for Abnormal Event Detection in Video}},
+  year = {2022},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {44},
+  number = {9},
+  pages = {4505--4523},
+  doi = {10.1109/tpami.2021.3074805},
+  url = {https://doi.org/10.1109/tpami.2021.3074805}
+}
+```
+
+<a id="cite-future-frame-vad"></a>
+
+## Future Frame Prediction
+
+**Future Frame Prediction Network for Video Anomaly Detection**
+
+作者（原顺序）：Luo, Weixin；Liu, Wen；Lian, Dongze；Gao, Shenghua
+
+引用版本：2022 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2021.3129349>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{futureframevad2022,
+  author = {Luo, Weixin and Liu, Wen and Lian, Dongze and Gao, Shenghua},
+  title = {{Future Frame Prediction Network for Video Anomaly Detection}},
+  year = {2022},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {44},
+  number = {11},
+  pages = {7505--7520},
+  doi = {10.1109/tpami.2021.3129349},
+  url = {https://doi.org/10.1109/tpami.2021.3129349}
+}
+```
+
+<a id="cite-ssmctb"></a>
+
+## SSMCTB
+
+**Self-Supervised Masked Convolutional Transformer Block for Anomaly Detection**
+
+作者（原顺序）：Madan, Neelu；Ristea, Nicolae-Cătălin；Ionescu, Radu Tudor；Nasrollahi, Kamal；Khan, Fahad Shahbaz；Moeslund, Thomas B.；Shah, Mubarak
+
+引用版本：2024 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2023.3322604>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{ssmctb2024,
+  author = {Madan, Neelu and Ristea, Nicolae-Cătălin and Ionescu, Radu Tudor and Nasrollahi, Kamal and Khan, Fahad Shahbaz and Moeslund, Thomas B. and Shah, Mubarak},
+  title = {{Self-Supervised Masked Convolutional Transformer Block for Anomaly Detection}},
+  year = {2024},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {46},
+  number = {1},
+  pages = {525--542},
+  doi = {10.1109/tpami.2023.3322604},
+  url = {https://doi.org/10.1109/tpami.2023.3322604}
+}
+```
+
+<a id="cite-dota-paper"></a>
+
+## DoTA
+
+**DoTA: Unsupervised Detection of Traffic Anomaly in Driving Videos**
+
+作者（原顺序）：Yao, Yu；Wang, Xizi；Xu, Mingze；Pu, Zelin；Wang, Yuchen；Atkins, Ella；Crandall, David J.
+
+引用版本：2023 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2022.3150763>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{dotapaper2023,
+  author = {Yao, Yu and Wang, Xizi and Xu, Mingze and Pu, Zelin and Wang, Yuchen and Atkins, Ella and Crandall, David J.},
+  title = {{DoTA: Unsupervised Detection of Traffic Anomaly in Driving Videos}},
+  year = {2023},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {45},
+  number = {1},
+  pages = {444--459},
+  doi = {10.1109/tpami.2022.3150763},
+  url = {https://doi.org/10.1109/tpami.2022.3150763}
+}
+```
+
+<a id="cite-cmcir"></a>
+
+## CMCIR
+
+**Cross-Modal Causal Relational Reasoning for Event-Level Visual Question Answering**
+
+作者（原顺序）：Liu, Yang；Li, Guanbin；Lin, Liang
+
+引用版本：2023 · IEEE Transactions on Pattern Analysis and Machine Intelligence。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tpami.2023.3284038>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{cmcir2023,
+  author = {Liu, Yang and Li, Guanbin and Lin, Liang},
+  title = {{Cross-Modal Causal Relational Reasoning for Event-Level Visual Question Answering}},
+  year = {2023},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {45},
+  number = {10},
+  pages = {11624--11641},
+  doi = {10.1109/tpami.2023.3284038},
+  url = {https://doi.org/10.1109/tpami.2023.3284038}
+}
+```
+
+<a id="cite-adversa-sd"></a>
+
+## AdVersa-SD
+
+**Abductive Ego-View Accident Video Understanding for Safe Driving Perception**
+
+作者（原顺序）：Fang, Jianwu；Li, Lei-lei；Zhou, Junfei；Xiao, Junbin；Yu, Hongkai；Lv, Chen；Xue, Jianru；Chua, Tat-Seng
+
+引用版本：2024 · 2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/cvpr52733.2024.02080>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@inproceedings{adversasd2024,
+  author = {Fang, Jianwu and Li, Lei-lei and Zhou, Junfei and Xiao, Junbin and Yu, Hongkai and Lv, Chen and Xue, Jianru and Chua, Tat-Seng},
+  title = {{Abductive Ego-View Accident Video Understanding for Safe Driving Perception}},
+  year = {2024},
+  booktitle = {2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages = {22030--22040},
+  doi = {10.1109/cvpr52733.2024.02080},
+  url = {https://doi.org/10.1109/cvpr52733.2024.02080}
+}
+```
+
+<a id="cite-tthf"></a>
+
+## TTHF
+
+**Text-Driven Traffic Anomaly Detection With Temporal High-Frequency Modeling in Driving Videos**
+
+作者（原顺序）：Liang, Rongqin；Li, Yuanman；Zhou, Jiantao；Li, Xia
+
+引用版本：2024 · IEEE Transactions on Circuits and Systems for Video Technology。
+
+来源：[核验依据](<https://api.crossref.org/works/10.1109/tcsvt.2024.3390173>) — 出版社登记的题名、作者顺序、DOI 与正式书目；不把 DOI 年份当作卷期年份。
+
+```bibtex
+@article{tthf2024,
+  author = {Liang, Rongqin and Li, Yuanman and Zhou, Jiantao and Li, Xia},
+  title = {{Text-Driven Traffic Anomaly Detection With Temporal High-Frequency Modeling in Driving Videos}},
+  year = {2024},
+  journal = {IEEE Transactions on Circuits and Systems for Video Technology},
+  volume = {34},
+  number = {9},
+  pages = {8684--8697},
+  doi = {10.1109/tcsvt.2024.3390173},
+  url = {https://doi.org/10.1109/tcsvt.2024.3390173}
+}
+```
+
+<a id="cite-black-swan"></a>
+
+## Black Swan
+
+**Black Swan: Abductive and Defeasible Video Reasoning in Unpredictable Events**
+
+作者（原顺序）：Chinchure, Aditya；Ravi, Sahithya；Ng, Raymond；Shwartz, Vered；Li, Boyang；Sigal, Leonid
+
+引用版本：2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2025/html/Chinchure_Black_Swan_Abductive_and_Defeasible_Video_Reasoning_in_Unpredictable_Events_CVPR_2025_paper.html>) — 正式发表记录核验完整引用信息。
+
+```bibtex
+@inproceedings{blackswan2025,
+  author = {Chinchure, Aditya and Ravi, Sahithya and Ng, Raymond and Shwartz, Vered and Li, Boyang and Sigal, Leonid},
+  title = {{Black Swan: Abductive and Defeasible Video Reasoning in Unpredictable Events}},
+  year = {2025},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {24201--24210},
+  url = {https://openaccess.thecvf.com/content/CVPR2025/html/Chinchure_Black_Swan_Abductive_and_Defeasible_Video_Reasoning_in_Unpredictable_Events_CVPR_2025_paper.html}
+}
+```
+
+<a id="cite-anomalygpt"></a>
+
+## AnomalyGPT
+
+**AnomalyGPT: Detecting Industrial Anomalies Using Large Vision-Language Models**
+
+作者（原顺序）：Gu, Zhaopeng；Zhu, Bingke；Zhu, Guibo；Chen, Yingying；Tang, Ming；Wang, Jinqiao
+
+引用版本：2024 · Proceedings of the AAAI Conference on Artificial Intelligence。
+
+来源：[核验依据](<https://ojs.aaai.org/index.php/AAAI/article/view/27963>) — 正式发表记录核验完整引用信息。
+
+```bibtex
+@article{anomalygpt2024,
+  author = {Gu, Zhaopeng and Zhu, Bingke and Zhu, Guibo and Chen, Yingying and Tang, Ming and Wang, Jinqiao},
+  title = {{AnomalyGPT: Detecting Industrial Anomalies Using Large Vision-Language Models}},
+  year = {2024},
+  journal = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume = {38},
+  number = {3},
+  pages = {1932--1940},
+  doi = {10.1609/aaai.v38i3.27963},
+  url = {https://ojs.aaai.org/index.php/AAAI/article/view/27963}
+}
+```
+
+<a id="cite-adseeker"></a>
+
+## ADSeeker
+
+**ADSeeker: A Knowledge-Grounded Reasoning Framework for Industry Anomaly Detection and Reasoning**
+
+作者（原顺序）：Zhang, Kai；Zhang, Zekai；Sun, Xihe；Wang, Anpeng；Nie, Jingmeng；Chen, Qinghui；Hao, Han；Guo, Jianyuan；Zhang, Jinglin
+
+引用版本：2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.html>) — 正式发表记录核验完整引用信息。
+
+```bibtex
+@inproceedings{adseeker2026,
+  author = {Zhang, Kai and Zhang, Zekai and Sun, Xihe and Wang, Anpeng and Nie, Jingmeng and Chen, Qinghui and Hao, Han and Guo, Jianyuan and Zhang, Jinglin},
+  title = {{ADSeeker: A Knowledge-Grounded Reasoning Framework for Industry Anomaly Detection and Reasoning}},
+  year = {2026},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {21379--21388},
+  url = {https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.html}
+}
+```
+
+<a id="cite-where-what"></a>
+
+## Where and What
+
+**Where and What: Contextual Dynamics-Aware Anomaly Detection in Surveillance Videos**
+
+作者（原顺序）：Ahn, Deok-Hyun；Jo, Yong-Jin；Kim, Dong-Bum；Nam, Gi Pyo；Han, Jae-Ho；Kim, Haksub
+
+引用版本：2025 · IEEE Transactions on Image Processing。
+
+来源：[核验依据](<https://doi.org/10.1109/TIP.2025.3623392>) — 正式发表记录核验完整引用信息。
+
+```bibtex
+@article{wherewhat2025,
+  author = {Ahn, Deok-Hyun and Jo, Yong-Jin and Kim, Dong-Bum and Nam, Gi Pyo and Han, Jae-Ho and Kim, Haksub},
+  title = {{Where and What: Contextual Dynamics-Aware Anomaly Detection in Surveillance Videos}},
+  year = {2025},
+  journal = {IEEE Transactions on Image Processing},
+  volume = {34},
+  pages = {6993--7007},
+  doi = {10.1109/TIP.2025.3623392},
+  url = {https://doi.org/10.1109/TIP.2025.3623392}
+}
+```
+
+<a id="cite-iad-r1"></a>
+
+## IAD-R1
+
+**IAD-R1: Reinforcing Consistent Reasoning in Industrial Anomaly Detection**
+
+作者（原顺序）：Li, Yanhui；Cao, Yunkang；Liu, Chengliang；Xiong, Yuan；Dong, Xinghui；Huang, Chao
+
+引用版本：2026 · Proceedings of the AAAI Conference on Artificial Intelligence。
+
+来源：[核验依据](<https://ojs.aaai.org/index.php/AAAI/article/view/37588>) — 正式发表记录核验完整引用信息。
+
+```bibtex
+@article{iadr12026,
+  author = {Li, Yanhui and Cao, Yunkang and Liu, Chengliang and Xiong, Yuan and Dong, Xinghui and Huang, Chao},
+  title = {{IAD-R1: Reinforcing Consistent Reasoning in Industrial Anomaly Detection}},
+  year = {2026},
+  journal = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume = {40},
+  number = {8},
+  pages = {6583--6591},
+  doi = {10.1609/aaai.v40i8.37588},
+  url = {https://ojs.aaai.org/index.php/AAAI/article/view/37588}
+}
+```
+
+<a id="cite-log-sad"></a>
+
+## LogSAD
+
+**Towards Training-free Anomaly Detection with Vision and Language Foundation Models**
+
+作者（原顺序）：Zhang, Jinjin；Wang, Guodong；Jin, Yizhou；Huang, Di
+
+引用版本：2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Towards_Training-free_Anomaly_Detection_with_Vision_and_Language_Foundation_Models_CVPR_2025_paper.html>) — 正式发表记录核验完整引用信息。
+
+```bibtex
+@inproceedings{logsad2025,
+  author = {Zhang, Jinjin and Wang, Guodong and Jin, Yizhou and Huang, Di},
+  title = {{Towards Training-free Anomaly Detection with Vision and Language Foundation Models}},
+  year = {2025},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {15204--15213},
+  url = {https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Towards_Training-free_Anomaly_Detection_with_Vision_and_Language_Foundation_Models_CVPR_2025_paper.html}
+}
+```
+
+<a id="cite-mgfn"></a>
+
+## MGFN
+
+**MGFN: Magnitude-Contrastive Glance-and-Focus Network for Weakly-Supervised Video Anomaly Detection**
+
+作者（原顺序）：Chen, Yingxian；Liu, Zhengzhe；Zhang, Baoheng；Fok, Wilton；Qi, Xiaojuan；Wu, Yik-Chung
+
+引用版本：2023 · Proceedings of the AAAI Conference on Artificial Intelligence。
+
+来源：[核验依据](<https://ojs.aaai.org/index.php/AAAI/article/view/25112>) — 正式论文页及摘要核验发表信息与主要方法。
+
+```bibtex
+@article{mgfn2023,
+  author = {Chen, Yingxian and Liu, Zhengzhe and Zhang, Baoheng and Fok, Wilton and Qi, Xiaojuan and Wu, Yik-Chung},
+  title = {{MGFN: Magnitude-Contrastive Glance-and-Focus Network for Weakly-Supervised Video Anomaly Detection}},
+  year = {2023},
+  journal = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume = {37},
+  number = {1},
+  pages = {387--395},
+  doi = {10.1609/aaai.v37i1.25112},
+  url = {https://ojs.aaai.org/index.php/AAAI/article/view/25112}
+}
+```
+
+<a id="cite-ur-dmu"></a>
+
+## UR-DMU
+
+**Dual Memory Units with Uncertainty Regulation for Weakly Supervised Video Anomaly Detection**
+
+作者（原顺序）：Zhou, Hang；Yu, Junqing；Yang, Wei
+
+引用版本：2023 · Proceedings of the AAAI Conference on Artificial Intelligence。
+
+来源：[核验依据](<https://ojs.aaai.org/index.php/AAAI/article/view/25489>) — 正式论文页及摘要核验发表信息与主要方法。
+
+```bibtex
+@article{urdmu2023,
+  author = {Zhou, Hang and Yu, Junqing and Yang, Wei},
+  title = {{Dual Memory Units with Uncertainty Regulation for Weakly Supervised Video Anomaly Detection}},
+  year = {2023},
+  journal = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume = {37},
+  number = {3},
+  pages = {3769--3777},
+  doi = {10.1609/aaai.v37i3.25489},
+  url = {https://ojs.aaai.org/index.php/AAAI/article/view/25489}
+}
+```
+
+<a id="cite-stg-nf"></a>
+
+## STG-NF
+
+**Normalizing Flows for Human Pose Anomaly Detection**
+
+作者（原顺序）：Hirschorn, Or；Avidan, Shai
+
+引用版本：2023 · Proceedings of the IEEE/CVF International Conference on Computer Vision。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/ICCV2023/html/Hirschorn_Normalizing_Flows_for_Human_Pose_Anomaly_Detection_ICCV_2023_paper.html>) — 正式论文页及摘要核验发表信息与主要方法。
+
+```bibtex
+@inproceedings{stgnf2023,
+  author = {Hirschorn, Or and Avidan, Shai},
+  title = {{Normalizing Flows for Human Pose Anomaly Detection}},
+  year = {2023},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages = {13545--13554},
+  url = {https://openaccess.thecvf.com/content/ICCV2023/html/Hirschorn_Normalizing_Flows_for_Human_Pose_Anomaly_Detection_ICCV_2023_paper.html}
+}
+```
+
+<a id="cite-fpdm"></a>
+
+## FPDM
+
+**Feature Prediction Diffusion Model for Video Anomaly Detection**
+
+作者（原顺序）：Yan, Cheng；Zhang, Shiyu；Liu, Yang；Pang, Guansong；Wang, Wenjun
+
+引用版本：2023 · Proceedings of the IEEE/CVF International Conference on Computer Vision。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/ICCV2023/html/Yan_Feature_Prediction_Diffusion_Model_for_Video_Anomaly_Detection_ICCV_2023_paper.html>) — 正式论文页及摘要核验发表信息与主要方法。
+
+```bibtex
+@inproceedings{fpdm2023,
+  author = {Yan, Cheng and Zhang, Shiyu and Liu, Yang and Pang, Guansong and Wang, Wenjun},
+  title = {{Feature Prediction Diffusion Model for Video Anomaly Detection}},
+  year = {2023},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages = {5527--5537},
+  url = {https://openaccess.thecvf.com/content/ICCV2023/html/Yan_Feature_Prediction_Diffusion_Model_for_Video_Anomaly_Detection_ICCV_2023_paper.html}
+}
+```
+
+<a id="cite-sd-mae"></a>
+
+## Self-Distilled MAE
+
+**Self-Distilled Masked Auto-Encoders are Efficient Video Anomaly Detectors**
+
+作者（原顺序）：Ristea, Nicolae-Cătălin；Croitoru, Florinel-Alin；Ionescu, Radu Tudor；Popescu, Marius；Khan, Fahad Shahbaz；Shah, Mubarak
+
+引用版本：2024 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2024/html/Ristea_Self-Distilled_Masked_Auto-Encoders_are_Efficient_Video_Anomaly_Detectors_CVPR_2024_paper.html>) — 正式论文页及摘要核验发表信息与主要方法。
+
+```bibtex
+@inproceedings{sdmae2024,
+  author = {Ristea, Nicolae-Cătălin and Croitoru, Florinel-Alin and Ionescu, Radu Tudor and Popescu, Marius and Khan, Fahad Shahbaz and Shah, Mubarak},
+  title = {{Self-Distilled Masked Auto-Encoders are Efficient Video Anomaly Detectors}},
+  year = {2024},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {15984--15995},
+  url = {https://openaccess.thecvf.com/content/CVPR2024/html/Ristea_Self-Distilled_Masked_Auto-Encoders_are_Efficient_Video_Anomaly_Detectors_CVPR_2024_paper.html}
+}
+```
+
+<a id="cite-adsm"></a>
+
+## ADSM
+
+**Autoregressive Denoising Score Matching is a Good Video Anomaly Detector**
+
+作者（原顺序）：Zhang, Hanwen；Cao, Congqi；Lv, Qinyi；Min, Lingtong；Zhang, Yanning
+
+引用版本：2025 · Proceedings of the IEEE/CVF International Conference on Computer Vision。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/ICCV2025/html/Zhang_Autoregressive_Denoising_Score_Matching_is_a_Good_Video_Anomaly_Detector_ICCV_2025_paper.html>) — 正式论文页及摘要核验发表信息与主要方法。
+
+```bibtex
+@inproceedings{adsm2025,
+  author = {Zhang, Hanwen and Cao, Congqi and Lv, Qinyi and Min, Lingtong and Zhang, Yanning},
+  title = {{Autoregressive Denoising Score Matching is a Good Video Anomaly Detector}},
+  year = {2025},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages = {12057--12067},
+  url = {https://openaccess.thecvf.com/content/ICCV2025/html/Zhang_Autoregressive_Denoising_Score_Matching_is_a_Good_Video_Anomaly_Detector_ICCV_2025_paper.html}
+}
+```
+
+<a id="cite-bn-wvad"></a>
+
+## BN-WVAD
+
+**BatchNorm-Based Weakly Supervised Video Anomaly Detection**
+
+作者（原顺序）：Zhou, Yixuan；Qu, Yi；Xu, Xing；Shen, Fumin；Song, Jingkuan；Shen, Heng Tao
+
+引用版本：2024 · IEEE Transactions on Circuits and Systems for Video Technology。
+
+来源：[核验依据](<https://ieeexplore.ieee.org/document/10649595/>) — 正式论文页及摘要核验发表信息与主要方法。；[核验依据](<https://api.crossref.org/works/10.1109/TCSVT.2024.3450734>) — IEEE 登记书目核验完整作者、正式卷期 34(12)、13642–13654 与 DOI；末位作者按 IEEE／作者论文记作 Heng Tao Shen。
+
+```bibtex
+@article{bnwvad2024,
+  author = {Zhou, Yixuan and Qu, Yi and Xu, Xing and Shen, Fumin and Song, Jingkuan and Shen, Heng Tao},
+  title = {{BatchNorm-Based Weakly Supervised Video Anomaly Detection}},
+  year = {2024},
+  journal = {IEEE Transactions on Circuits and Systems for Video Technology},
+  volume = {34},
+  number = {12},
+  pages = {13642--13654},
+  doi = {10.1109/TCSVT.2024.3450734},
+  url = {https://ieeexplore.ieee.org/document/10649595/}
+}
+```
+
+<a id="cite-pe-mil"></a>
+
+## PE-MIL
+
+**Prompt-Enhanced Multiple Instance Learning for Weakly Supervised Video Anomaly Detection**
+
+作者（原顺序）：Chen, Junxi；Li, Liang；Su, Li；Zha, Zheng-jun；Huang, Qingming
+
+引用版本：2024 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2024/html/Chen_Prompt-Enhanced_Multiple_Instance_Learning_for_Weakly_Supervised_Video_Anomaly_Detection_CVPR_2024_paper.html>) — 正式论文集核验题名、作者、发表信息及语义相关方法贡献。
+
+```bibtex
+@inproceedings{pemil2024,
+  author = {Chen, Junxi and Li, Liang and Su, Li and Zha, Zheng-jun and Huang, Qingming},
+  title = {{Prompt-Enhanced Multiple Instance Learning for Weakly Supervised Video Anomaly Detection}},
+  year = {2024},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {18319--18329},
+  url = {https://openaccess.thecvf.com/content/CVPR2024/html/Chen_Prompt-Enhanced_Multiple_Instance_Learning_for_Weakly_Supervised_Video_Anomaly_Detection_CVPR_2024_paper.html}
+}
+```
+
+<a id="cite-fedvad"></a>
+
+## FedVAD
+
+**FedVAD: Enhancing Federated Video Anomaly Detection with GPT-Driven Semantic Distillation**
+
+作者（原顺序）：Qi, Fan；Pan, Ruijie；Zhang, Huaiwen；Xu, Changsheng
+
+引用版本：2024 · Computer Vision – ECCV 2024。
+
+来源：[核验依据](<https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/6981_ECCV_2024_paper.php>) — 正式论文集核验题名、作者、发表信息及语义相关方法贡献。；[核验依据](<https://link.springer.com/chapter/10.1007/978-3-031-73668-1_14>) — 正式章节书目核验作者、页码 234–251、LNCS 15111 与 DOI。
+
+```bibtex
+@inproceedings{fedvad2024,
+  author = {Qi, Fan and Pan, Ruijie and Zhang, Huaiwen and Xu, Changsheng},
+  title = {{FedVAD: Enhancing Federated Video Anomaly Detection with GPT-Driven Semantic Distillation}},
+  year = {2024},
+  booktitle = {Computer Vision -- ECCV 2024},
+  volume = {15111},
+  pages = {234--251},
+  doi = {10.1007/978-3-031-73668-1_14},
+  url = {https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/6981_ECCV_2024_paper.php}
+}
+```
+
+<a id="cite-pi-vad"></a>
+
+## PI-VAD
+
+**Just Dance with pi! A Poly-modal Inductor for Weakly-supervised Video Anomaly Detection**
+
+作者（原顺序）：Majhi, Snehashis；D'Amicantonio, Giacomo；Dantcheva, Antitza；Kong, Quan；Garattoni, Lorenzo；Francesca, Gianpiero；Bondarev, Egor；Bremond, Francois
+
+引用版本：2025 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2025/html/Majhi_Just_Dance_with_pi_A_Poly-modal_Inductor_for_Weakly-supervised_Video_CVPR_2025_paper.html>) — 正式论文集核验题名、作者、发表信息及语义相关方法贡献。
+
+```bibtex
+@inproceedings{pivad2025,
+  author = {Majhi, Snehashis and D'Amicantonio, Giacomo and Dantcheva, Antitza and Kong, Quan and Garattoni, Lorenzo and Francesca, Gianpiero and Bondarev, Egor and Bremond, Francois},
+  title = {{Just Dance with pi! A Poly-modal Inductor for Weakly-supervised Video Anomaly Detection}},
+  year = {2025},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {24265--24274},
+  url = {https://openaccess.thecvf.com/content/CVPR2025/html/Majhi_Just_Dance_with_pi_A_Poly-modal_Inductor_for_Weakly-supervised_Video_CVPR_2025_paper.html}
+}
+```
+
+<a id="cite-lec-vad"></a>
+
+## LEC-VAD
+
+**Learning Event Completeness for Weakly Supervised Video Anomaly Detection**
+
+作者（原顺序）：Wang, Yu；Chen, Shiwei
+
+引用版本：2025 · Proceedings of the 42nd International Conference on Machine Learning。
+
+来源：[核验依据](<https://proceedings.mlr.press/v267/wang25l.html>) — 正式论文集核验题名、作者、发表信息及语义相关方法贡献。
+
+```bibtex
+@inproceedings{lecvad2025,
+  author = {Wang, Yu and Chen, Shiwei},
+  title = {{Learning Event Completeness for Weakly Supervised Video Anomaly Detection}},
+  year = {2025},
+  booktitle = {Proceedings of the 42nd International Conference on Machine Learning},
+  volume = {267},
+  pages = {62505--62517},
+  url = {https://proceedings.mlr.press/v267/wang25l.html}
+}
+```
+
+<a id="cite-d2mil"></a>
+
+## D²MIL
+
+**Learning from Noisy Supervision: A Denoising-Debiasing Framework for Weakly Supervised Video Anomaly Detection**
+
+作者（原顺序）：Zhao, Yaxin；Wang, Yang；Guo, Wenya；Xu, Sihan；Cai, Xiangrui；Lin, Xi；Zhang, Ying；Yuan, Xiaojie
+
+引用版本：2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhao_Learning_from_Noisy_Supervision_A_Denoising-Debiasing_Framework_for_Weakly_Supervised_CVPR_2026_paper.html>) — 正式论文集核验题名、作者、发表信息及语义相关方法贡献。
+
+```bibtex
+@inproceedings{d2mil2026,
+  author = {Zhao, Yaxin and Wang, Yang and Guo, Wenya and Xu, Sihan and Cai, Xiangrui and Lin, Xi and Zhang, Ying and Yuan, Xiaojie},
+  title = {{Learning from Noisy Supervision: A Denoising-Debiasing Framework for Weakly Supervised Video Anomaly Detection}},
+  year = {2026},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {21326--21335},
+  url = {https://openaccess.thecvf.com/content/CVPR2026/html/Zhao_Learning_from_Noisy_Supervision_A_Denoising-Debiasing_Framework_for_Weakly_Supervised_CVPR_2026_paper.html}
+}
+```
+
+<a id="cite-stprompt"></a>
+
+## STPrompt
+
+**Weakly Supervised Video Anomaly Detection and Localization with Spatio-Temporal Prompts**
+
+作者（原顺序）：Wu, Peng；Zhou, Xuerong；Pang, Guansong；Yang, Zhiwei；Yan, Qingsen；Wang, Peng；Zhang, Yanning
+
+引用版本：2024 · Proceedings of the 32nd ACM International Conference on Multimedia。
+
+来源：[核验依据](<https://doi.org/10.1145/3664647.3681442>) — 正式论文集题名、作者、发表与页码。；[核验依据](<https://api.crossref.org/works/10.1145/3664647.3681442>) — ACM 登记的正式作者、题名、会议、页码及 DOI。
+
+```bibtex
+@inproceedings{stprompt2024,
+  author = {Wu, Peng and Zhou, Xuerong and Pang, Guansong and Yang, Zhiwei and Yan, Qingsen and Wang, Peng and Zhang, Yanning},
+  title = {{Weakly Supervised Video Anomaly Detection and Localization with Spatio-Temporal Prompts}},
+  year = {2024},
+  booktitle = {Proceedings of the 32nd ACM International Conference on Multimedia},
+  pages = {9301--9310},
+  doi = {10.1145/3664647.3681442},
+  url = {https://doi.org/10.1145/3664647.3681442}
+}
+```
+
+<a id="cite-fine-vad"></a>
+
+## Fine-VAD
+
+**Fine-VAD: Towards Fine-Grained Video Anomaly Detection via Progressive Cross-Granularity Learning**
+
+作者（原顺序）：Zhang, Menghao；Zhu, Yiyan；Ren, Pengfei；Sun, Haifeng；Qi, Qi；Zhuang, Zirui；Wang, Huazheng；Zhang, Lei；Liao, Jianxin；Wang, Jingyu
+
+引用版本：2026 · Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition。
+
+来源：[核验依据](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_Fine-VAD_Towards_Fine-Grained_Video_Anomaly_Detection_via_Progressive_Cross-Granularity_Learning_CVPR_2026_paper.html>) — 正式论文集题名、作者、发表与页码。
+
+```bibtex
+@inproceedings{finevad2026,
+  author = {Zhang, Menghao and Zhu, Yiyan and Ren, Pengfei and Sun, Haifeng and Qi, Qi and Zhuang, Zirui and Wang, Huazheng and Zhang, Lei and Liao, Jianxin and Wang, Jingyu},
+  title = {{Fine-VAD: Towards Fine-Grained Video Anomaly Detection via Progressive Cross-Granularity Learning}},
+  year = {2026},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {35514--35523},
+  url = {https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_Fine-VAD_Towards_Fine-Grained_Video_Anomaly_Detection_via_Progressive_Cross-Granularity_Learning_CVPR_2026_paper.html}
 }
 ```
