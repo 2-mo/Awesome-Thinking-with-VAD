@@ -2,7 +2,7 @@
 
 [按创新思路阅读](literature/catalog.md) · [方法比较](literature/comparison.md) · [数据集与评测](literature/benchmarks.md) · [阅读路线](literature/reading-guide.md) · [按会议查找](literature/venues.md) · [研究地图](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
 
-更新：2026-10-04 · 127 篇论文 · 8 个方法方向。
+更新：2026-10-04 · 127 篇论文 · 7 个方法方向。
 
 聚焦异常解释、推理、证据定位与理解评估，以及直接支撑这些目标的语义表征方法。会议与年份采用已核验的正式发表信息；未确认录用的论文保留 arXiv。
 

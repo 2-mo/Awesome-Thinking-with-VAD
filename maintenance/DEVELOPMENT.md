@@ -1,5 +1,23 @@
 # Development
 
+## Current selection and topology · 2026-10-04
+
+The map centers **visual anomaly understanding**, with video work forming most of the collection. It displays **87 of 127 papers**. All **57 papers on the five lower understanding directions remain**, including title-provisional entries. Five blue-route papers (FedVAD, STPrompt, D²MIL, UPR-VAD and now TTHF at the user’s request) move to supplementary reading, alongside the preceding 11 exclusions. Bibliography, source figures, method assignments, dates and 39 data resources are preserved.
+
+**Width first, then trunks, then vertical branches, then labels.** `MAP_CANVAS_WIDTH = 7400` is passed to `createPublicationLayout` by the application and export. The current SVG is **7400 × 2576** (2.87:1). An over-width layout fails with an actionable error instead of shrinking text or expanding the canvas. Year widths come from route and label geometry. Spare horizontal room is distributed within those bands before routing, so diagonals remain exactly 45 degrees; the rendered SVG is never stretched disproportionately.
+
+**Years are fixed; months are soft hints.** The map displays year bands only. Individual stations relax toward even spacing along actual route neighbors while staying in their publication year. Nearby months on independent routes may swap horizontal order, and same-month stops need not align. Reading-route order, marker/label clearance and clearly earlier/later work (at least six months apart) remain constraints. Publication dates and source metadata are untouched. Terminals and shared junctions retain stronger date hints so the layout stays recognizable; Q1–Q4 ticks are removed to avoid implying exact dates.
+
+Five trunks and two branch categories use six colors: blue representation/synthesis `#348dcc`, purple temporal memory `#9168c2`, gold active observation `#c58b12`, teal reasoning `#4d988c`, light green evaluation `#7aae86`, red criteria `#ef6150`. The blue comparison return follows HAWK → DSRL → Anomize → LEC-VAD → Ex-VAD above the trunk, with a separate HeadHunt-VAD → PiercingEye spur. Representation resumes on a stable shelf after VA-GPT. TD-VAD has a short local drop to keep its streaming departure label clear of the neighboring LAVIDA synthesis fork; ReactVAU connects to memory. All 87 stations are connected by real route edges. These are reading connections, not inheritance claims.
+
+Typography is Arial with **40/28** sizes, **8-unit** rails and larger station rings. Conservative regular/bold glyph advances replace the old broad character estimate; label height follows the font sizes. At a 2048-pixel overview, names are about 11.1 pixels, venues 7.7 and rails 2.2. Alternating label sides permits compact parallel arms and the first stops after a return. The label packer solves independent spatial neighborhoods separately, preventing unrelated names from consuming a congested fork's search budget. Short-route titles slide along their rail; a 36-unit gap can clear station markers. All seven route titles remain inline.
+
+The lower temporal, observation, reasoning, evaluation and criteria routes retain their papers and reading sequences. Tests cover their 57-paper retention, 7400-unit width, overview readability, 87-station connectivity, year and broad chronological ordering, label/track/station clearance and actual fork navigation. Ex-VAD is an ordinary blue station; seven genuine interchanges and four parent/branch junctions remain.
+
+This section and the [selection record](../research/video-understanding-focus-2026-10-04.md) supersede the historical selections, dimensions, typography, category split and layout examples below. Current routes are in `data/catalog.json`.
+
+## Layout contract and earlier development notes
+
 The atlas uses Vite and TypeScript. Its source of truth is `data/catalog.json`; `src/types.ts` describes the data contract. The Node validation and Markdown generation have no additional runtime dependencies. Geometry regression tests import the TypeScript layout using Node's built-in type stripping.
 
 ## Innovation transit map and artwork

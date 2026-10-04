@@ -9,13 +9,13 @@ English | [简体中文](README.zh-CN.md)
 
 A curated reading collection on **anomaly understanding**: what happened, why it is abnormal, where the evidence is, and how to evaluate the explanation.
 
-[![Research route map for anomaly understanding](output/vad-research-route-map.png)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
+[![Research route map for anomaly understanding](output/vad-research-route-map.svg)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
 
 [![Interactive map](https://img.shields.io/badge/Interactive_map-468FAF?style=flat)](https://2-mo.github.io/Awesome-Thinking-with-VAD/) [![Illustrated papers](https://img.shields.io/badge/Illustrated_papers-537A7A?style=flat)](llm4vad.md) [![BibTeX](https://img.shields.io/badge/BibTeX-8064A2?style=flat)](literature/references.bib)
 
 ## Latest update
 
-**2026-10-04** — Refined the detection route by method diversity: retained PI-VAD, DSRL and FedVAD; moved PE-MIL and PEL to supplementary reading in the catalog, preserving their figures and citations. **127 papers**, **103 map stations across 8 directions**, **39 data resources**. See the [changelog](CHANGELOG.md).
+**2026-10-04** — The **visual anomaly understanding** map now prioritizes layout within each year: independent route spacing, approximate publication order, and year labels without quarter ticks. The fixed **7400×2576** canvas holds **87 stations**, retaining all **57 papers on the lower understanding routes**. TTHF remains in supplementary reading; the **127-paper** library and **39 data resources** are preserved. See the [selection and layout notes](research/video-understanding-focus-2026-10-04.md) and [changelog](CHANGELOG.md).
 
 103 papers include original figures; see [image sources and pending figures](assets/papers/README.md).
 

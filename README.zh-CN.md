@@ -9,13 +9,13 @@
 
 聚焦**异常理解**：异常发生了什么、为什么异常、证据在哪里，以及如何验证解释与视觉证据相符。
 
-[![异常理解研究线路图](output/vad-research-route-map.png)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
+[![异常理解研究线路图](output/vad-research-route-map.svg)](https://2-mo.github.io/Awesome-Thinking-with-VAD/)
 
 [![交互地图](https://img.shields.io/badge/%E4%BA%A4%E4%BA%92%E5%9C%B0%E5%9B%BE-468FAF?style=flat)](https://2-mo.github.io/Awesome-Thinking-with-VAD/) [![图文论文](https://img.shields.io/badge/%E5%9B%BE%E6%96%87%E8%AE%BA%E6%96%87-537A7A?style=flat)](llm4vad.md) [![BibTeX](https://img.shields.io/badge/BibTeX-8064A2?style=flat)](literature/references.bib)
 
 ## 最新更新
 
-**2026-10-04** — 检测线按方法范式精选：保留 PI-VAD、DSRL、FedVAD，PE-MIL 与 PEL 移出地图并保留目录、原图和引用。目录 **127 篇论文**，线路图 **103 站／8 条线路**，数据资源 **39 项**。详情见[更新记录](CHANGELOG.md)。
+**2026-10-04** — **视觉异常理解**地图改为“年份准确、年内布局优先”：各线路独立分配横向间距，保留大致先后，去掉季度刻度。固定 **7400×2576**，当前 **87 站**；下方理解相关 **57 篇全部保留**，TTHF 留作补充阅读。完整目录 **127 篇**、数据资源 **39 项**不变。详见[选篇与布局记录](research/video-understanding-focus-2026-10-04.md)及[更新记录](CHANGELOG.md)。
 
 其中 103 篇配有论文原图，详见[图片来源与待补记录](assets/papers/README.md)。
 

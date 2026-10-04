@@ -3,13 +3,15 @@ import assert from 'node:assert/strict';
 import { readCatalog } from '../scripts/catalog.mjs';
 import { isMapPaper, paperMethods, publicationKind, timelineYear } from '../src/publication.ts';
 import { createPublicationLayout as createLayout, isInterchangeStation, railLabelDistance, stationBounds, stationVenue } from '../src/components/publication-layout.ts';
+import { MAP_CANVAS_WIDTH, MAP_FONT_SIZE, MAP_RAIL_WIDTH } from '../src/components/map-typography.ts';
 import { createMapLegend } from '../src/components/map-legend.ts';
 import { createMapRouteLabels } from '../src/components/map-route-labels.ts';
 import { createResearchBackdrop } from '../src/components/research-regions.ts';
 
 const { papers: catalogPapers, clusters } = await readCatalog();
 const papers = catalogPapers.filter(isMapPaper);
-const createPublicationLayout = papers => createLayout(papers, clusters);
+const createPublicationLayout = entries => createLayout(entries, clusters,
+  entries.length >= papers.length ? { width: MAP_CANVAS_WIDTH } : {});
 const layout = createPublicationLayout(papers);
 const epsilon = 0.001;
 const segments = line => line.tracks.flatMap(track => track.slice(1).map((b, i) => [track[i], b]));
@@ -57,7 +59,9 @@ test('three local paths keep level shelves and rejoin at Vad-R1-Plus', () => {
     assert.equal(layout.stations.get(id).y, root.y, `${id} stays on the level trunk`);
   }
   assert.equal(trunk.y, root.y);
-  assert.ok(fine.x - cue.x >= (cue.label.width + fine.label.width) / 2 + 16);
+  assert.ok(cue.label.x + cue.label.width + 8 <= fine.label.x ||
+    cue.label.y + cue.label.height + 8 <= fine.label.y || fine.label.y + fine.label.height + 8 <= cue.label.y,
+    'parallel-arm names can stagger vertically while retaining a visible gap');
   const evaluation = layout.lines.find(line => line.id === 'evaluation').tracks[0];
   const reasoning = layout.lines.find(line => line.id === 'reasoning');
   const side = reasoning.tracks.find(track => track[0].x === root.x && track[0].y === root.y);
@@ -71,44 +75,27 @@ test('three local paths keep level shelves and rejoin at Vad-R1-Plus', () => {
     'one straight trunk crosses the entire local corridor');
 });
 
-test('dense reading groups use clearly separated returning shelves', () => {
-  for (const [lineId, rootId, endId, interior] of [
-    ['understanding', 'where-what', 'panda', ['eventvad', 'vadtree']],
-  ]) {
-    const root = layout.stations.get(rootId).platforms.find(p => p.lineId === lineId);
-    const end = layout.stations.get(endId).platforms.find(p => p.lineId === lineId);
-    const arm = interior.map(id => layout.stations.get(id));
-    assert.equal(root.y, end.y, 'fork and return retain a level trunk');
-    assert.ok(arm.every(s => s.y === arm[0].y && Math.abs(s.y - root.y) >= 144));
-    assert.ok(root.x < arm[0].x && arm.at(-1).x < end.x);
-    const track = layout.lines.find(line => line.id === lineId).tracks.find(track =>
-      track[0].x === root.x && track[0].y === root.y && track.at(-1).x === end.x && track.at(-1).y === end.y);
-    assert.ok(track, 'the side path leaves and returns at the named platforms without a tail stub');
-    assert.equal(isInterchangeStation(layout.stations.get(rootId)), ['va-gpt', 'memovad'].includes(rootId),
-      'branching does not change the actual method interchange semantics');
-  }
+test('event organization follows one continuous temporal trunk without the old detection detour', () => {
+  const temporal = layout.lines.find(line => line.id === 'understanding');
+  assert.equal(temporal.tracks.length, 1);
+  assert.deepEqual(temporal.paperRoutes[0].slice(0, 9),
+    ['uca-paper', 'holmes-vau', 'va-gpt', 'where-what', 'eventvad', 'vadtree', 'monitor', 'panda', 'valu']);
+  for (const id of ['nwpu-campus-paper', 'dota-paper', 'scene-dependent-vaa'])
+    assert.ok(!layout.stations.has(id));
 });
 
-test('industrial reasoning ends independently and the later branches keep open terminals', () => {
-  const plus = layout.stations.get('vad-r1-plus');
-  const industrial = ['iad-r1', 'judo', 'o-vad'].map(id => layout.stations.get(id));
-  assert.ok(industrial.every(s => s.y === industrial[0].y && s.y > plus.y));
+test('industrial video reasoning stays on the trunk after removing the image-only arm', () => {
   const line = layout.lines.find(line => line.id === 'reasoning');
-  const arm = line.tracks.find(track => track[0].x === plus.x && track[0].y === plus.y);
-  assert.ok(arm && arm.at(-1).x === industrial.at(-1).x + 18);
-  for (const id of ['las-vad', 'stch', 'cg-coe', 'clue-vad', 'avar'])
-    assert.equal(layout.stations.get(id).y, plus.y, 'ordinary reasoning stops retain a clear main corridor');
-  for (const [lineId, rootId, terminalId] of [
-    ['detection', 'td-vad', 'deal-vad'],
-    ['explanation', 'lrpo', 'ca-judge'],
-  ]) {
-    const root = layout.stations.get(rootId).platforms.find(p => p.lineId === lineId);
-    const terminal = layout.stations.get(terminalId);
-    const track = layout.lines.find(line => line.id === lineId).tracks.find(track =>
-      track[0].x === root.x && track[0].y === root.y && track.at(-1).x === terminal.x + 18);
-    assert.ok(track, `${terminalId} ends independently with a terminal stub`);
-    assert.equal(track.at(-1).y, terminal.y);
-  }
+  assert.equal(line.tracks.length, 2, 'only the R1 reliability return remains');
+  const trunk = line.paperRoutes[0];
+  assert.deepEqual(trunk.slice(trunk.indexOf('cg-coe')), ['cg-coe', 'o-vad', 'clue-vad', 'avar']);
+  for (const id of ['las-vad', 'stch', 'cg-coe', 'o-vad', 'clue-vad', 'avar'])
+    assert.equal(layout.stations.get(id).y, layout.stations.get('vad-r1-plus').y);
+  for (const id of ['iad-r1', 'judo']) assert.ok(!layout.stations.has(id));
+  const criteria = layout.lines.find(line => line.id === 'explanation');
+  assert.equal(criteria.tracks.length, 2);
+  assert.equal(criteria.paperRoutes[0].at(-1), 'road');
+  assert.deepEqual(criteria.paperRoutes[1], ['lrpo', 'probe-vad', 'ca-judge']);
 });
 
 test('Vad-R1 and its Plus extension retain separate dated stations', () => {
@@ -116,14 +103,14 @@ test('Vad-R1 and its Plus extension retain separate dated stations', () => {
   assert.ok(original && extension);
   assert.ok(original.x < extension.x);
   assert.equal(layout.stations.size, catalogPapers.filter(isMapPaper).length);
-  assert.ok(layout.stations.get('crcl').x < original.x, 'CRCL stays before the later R1 papers');
+  assert.ok(layout.stations.get('vau-r1').x < original.x, 'VAU-R1 stays before the later R1 papers');
 });
 
 test('the labels after the R1 return have breathing room without changing the level trunk', () => {
   const plus = layout.stations.get('vad-r1-plus'), next = layout.stations.get('srvau-r1');
   const later = layout.stations.get('las-vad');
-  assert.ok(next.label.x - (plus.label.x + plus.label.width) >= 40,
-    'the returning fan label clears the first continuing name');
+  assert.ok(plus.label.y >= plus.y + 16 && next.label.y + next.label.height <= next.y - 16,
+    'the return label and first continuing name occupy opposite sides of the level trunk');
   assert.ok(later.label.x - (next.label.x + next.label.width) >= 56,
     'same-side labels remain separated across the staggered run');
   for (const id of ['srvau-r1', 'adversa', 'las-vad']) {
@@ -150,44 +137,41 @@ test('each paper stays in its publication year and on all of its method routes',
   }
 });
 
-test('hidden month order is consistent across the topology', () => {
+test('year order and broad early-to-late order remain while nearby months can move independently', () => {
   for (const a of papers) for (const b of papers) {
-    if (timelineYear(a) < timelineYear(b) || (timelineYear(a) === timelineYear(b) && a.timeline?.month < b.timeline?.month)) {
+    if (timelineYear(a) < timelineYear(b) || (timelineYear(a) === timelineYear(b) &&
+      a.timeline && b.timeline && b.timeline.month - a.timeline.month >= 6)) {
       assert.ok(layout.stations.get(a.id).x < layout.stations.get(b.id).x, `${a.id} precedes ${b.id}`);
     }
   }
-});
-
-test('quarter bands cover recent years and contain the correct paper months', () => {
-  for (const year of layout.years.filter(item => item.year >= 2025)) {
-    assert.deepEqual(year.quarters.slice(0, 4).map(item => item.quarter), [1, 2, 3, 4]);
-    assert.equal(year.quarters.reduce((sum, item) => sum + item.count, 0), year.count);
-    assert.equal(year.quarters[0].x, year.x);
-    const last = year.quarters.at(-1);
-    assert.equal(last.x + last.width, year.x + year.width);
-    for (const [index, quarter] of year.quarters.entries()) {
-      assert.ok(quarter.width > 0);
-      if (index) assert.equal(year.quarters[index - 1].x + year.quarters[index - 1].width, quarter.x);
-      const members = papers.filter(paper => timelineYear(paper) === year.year &&
-        (paper.timeline ? Math.ceil(paper.timeline.month / 3) : null) === quarter.quarter);
-      assert.equal(quarter.count, members.length);
-      for (const paper of members) {
-        const station = layout.stations.get(paper.id);
-        assert.ok(station.x > quarter.x && station.x < quarter.x + quarter.width, `${paper.id} quarter`);
-      }
-    }
+  for (const line of layout.lines) for (const route of line.paperRoutes) {
+    for (let i = 1; i < route.length; i++)
+      assert.ok(layout.stations.get(route[i - 1]).x < layout.stations.get(route[i]).x, `${line.id} reading order`);
   }
+  assert.ok(papers.some(a => papers.some(b => timelineYear(a) === timelineYear(b) &&
+    a.timeline?.month < b.timeline?.month && layout.stations.get(a.id).x > layout.stations.get(b.id).x)),
+    'independent nearby months are no longer locked to global date columns');
 });
 
-test('unknown months remain outside the four labeled quarters', () => {
+test('year bands cover the schematic without implying a precise quarter scale', () => {
+  for (const [index, year] of layout.years.entries()) {
+    assert.ok(year.width > 0);
+    assert.equal(year.count, papers.filter(p => timelineYear(p) === year.year).length);
+    assert.equal(year.quarters, undefined);
+    if (index) assert.ok(Math.abs(layout.years[index - 1].x + layout.years[index - 1].width - year.x) < epsilon);
+  }
+  assert.equal(layout.years[0].x, layout.plotBounds.x);
+  const last = layout.years.at(-1);
+  assert.ok(Math.abs(last.x + last.width - layout.plotBounds.x - layout.plotBounds.width) < epsilon);
+});
+
+test('unknown months keep their year without inventing a month or quarter', () => {
   const paper = { ...papers[0], year: 2026, timeline: undefined };
   const network = createPublicationLayout([paper]);
-  const quarters = network.years[0].quarters;
-  assert.deepEqual(quarters.map(item => item.quarter), [1, 2, 3, 4, null]);
-  assert.equal(quarters.slice(0, 4).reduce((sum, item) => sum + item.count, 0), 0);
-  const unknown = quarters.at(-1);
-  assert.equal(unknown.count, 1);
-  assert.ok(network.stations.get(paper.id).x > unknown.x);
+  const year = network.years[0], station = network.stations.get(paper.id);
+  assert.equal(year.year, 2026);
+  assert.ok(station.x > year.x && station.x < year.x + year.width);
+  assert.equal(paper.timeline, undefined);
 });
 
 test('metro routes never turn backwards and use only 0, 45 or 90 degree segments', () => {
@@ -230,7 +214,7 @@ test('station coordinates are independent of conference assignments', () => {
 
 test('shared methods form genuine single-paper interchange stations', () => {
   const transfers = papers.filter(paper => isInterchangeStation(layout.stations.get(paper.id)));
-  assert.deepEqual(transfers.map(paper => paper.id).sort(), ['a2seek', 'anom-pi', 'anomalyruler', 'ex-vad', 'memovad', 'panda', 'reactvau', 'va-gpt']);
+  assert.deepEqual(transfers.map(paper => paper.id).sort(), ['a2seek', 'anom-pi', 'anomalyruler', 'memovad', 'panda', 'reactvau', 'va-gpt']);
   for (const paper of transfers) {
     const station = layout.stations.get(paper.id);
     // A line can leave its nominal band to meet a shared paper. Check the
@@ -244,7 +228,7 @@ test('shared methods form genuine single-paper interchange stations', () => {
   assert.equal(layout.stations.size, papers.length, 'interchanges do not duplicate papers');
 });
 
-test('LRPO belongs only to the red route and TTHF stays on the separate detection line', () => {
+test('LRPO stays on criteria and the retained detection precursor stays separate from understanding', () => {
   const lrpo = layout.stations.get('lrpo');
   assert.ok(!isInterchangeStation(lrpo));
   assert.deepEqual(lrpo.lineIds, ['explanation']);
@@ -254,10 +238,10 @@ test('LRPO belongs only to the red route and TTHF stays on the separate detectio
   }
   assert.ok(!segments(layout.lines.find(line => line.id === 'reasoning')).some(([a, b]) => onSegment(lrpo, a, b)),
     'the green route bypasses LRPO');
-  const tthf = layout.stations.get('tthf'), hawk = layout.stations.get('hawk');
-  assert.deepEqual(tthf.lineIds, ['detection']);
+  const precursor = layout.stations.get('vadclip'), hawk = layout.stations.get('hawk');
+  assert.deepEqual(precursor.lineIds, ['alignment']);
   assert.deepEqual(hawk.lineIds, ['alignment']);
-  assert.ok(Math.abs(tthf.y - hawk.y) >= 144, 'detection and understanding occupy distinct corridors');
+  assert.equal(precursor.y, hawk.y, 'semantic precursors share the continuous blue shelf');
 });
 
 test('a returning evaluation branch meets Vad-R1-Plus at one ordinary station', () => {
@@ -305,7 +289,7 @@ test('PANDA connects memory and active observation at distinct platforms on both
 
 test('publication styling distinguishes journals and preprints without misclassifying AAAI proceedings', () => {
   for (const id of ['vadclip', 'finevau', 'targetvau', 'judo']) {
-    assert.equal(publicationKind(papers.find(paper => paper.id === id)), 'conference', id);
+    assert.equal(publicationKind(catalogPapers.find(paper => paper.id === id)), 'conference', id);
   }
   for (const id of ['pel', 'mpgdfl', 'crcl', 'adversa', 'ecva-anomshield', 'promptvad']) {
     assert.equal(publicationKind(catalogPapers.find(paper => paper.id === id)), 'journal', id);
@@ -319,27 +303,25 @@ test('LAVIDA splits synthesis from the continuing detection route at one sourced
   const paper = papers.find(paper => paper.id === 'lavida');
   const station = layout.stations.get(paper.id);
   assert.equal(paper.cluster, 'synthesis');
-  assert.deepEqual(paperMethods(paper), ['synthesis', 'detection']);
+  assert.deepEqual(paperMethods(paper), ['synthesis', 'alignment']);
   assert.ok(paper.secondaryMethods[0].evidence.url.includes('2602.19248'));
   assert.equal(station.platforms.length, 2);
   assert.ok(!isInterchangeStation(station), 'a named fork uses one ordinary marker');
   assert.ok(station.platforms.every(p => p.x === station.x && p.y === station.y));
-  assert.deepEqual(station.fork, { parentId: 'detection', branchId: 'synthesis' });
+  assert.deepEqual(station.fork, { parentId: 'alignment', branchId: 'synthesis' });
   assert.ok(layout.junctions.some(junction => junction.paperId === 'lavida'));
   for (const platform of station.platforms) {
     assert.ok(segments(layout.lines.find(line => line.id === platform.lineId))
       .some(([a, b]) => onSegment(platform, a, b)));
   }
   assert.equal([...layout.stations.keys()].filter(id => id === paper.id).length, 1);
-  const alignment = layout.lines.find(line => line.id === 'detection');
+  const alignment = layout.lines.find(line => line.id === 'alignment');
   const synthesis = layout.lines.find(line => line.id === 'synthesis');
   const incoming = alignment.tracks.find(track => segments({ tracks: [track] }).some(([a, b]) => onSegment(station, a, b)));
   const outgoing = synthesis.tracks.find(track => track[0].x === station.x && track[0].y === station.y);
-  assert.ok(incoming && outgoing, 'the two colors meet exactly at the station without terminal stubs');
+  assert.ok(incoming && outgoing, 'the two routes meet exactly at the station without terminal stubs');
   assert.ok(incoming[0].x < station.x && incoming.at(-1).x > station.x && outgoing[1].x > station.x);
-  const arrival = layout.stations.get('reactvau').platforms.find(p => p.lineId === 'detection');
-  assert.equal(incoming.at(-1).x, arrival.x);
-  assert.equal(incoming.at(-1).y, arrival.y);
+
 });
 
 const crossesBox = (a, b, box) => {
@@ -395,76 +377,42 @@ test('same-month transfers precede forks that would otherwise cross their approa
   }
 });
 
-test('early supervision is a level through section at OVVAD and TPWNG without an empty cross-year rail', () => {
+test('supervision connects the early blue stations and branches locally at LAVIDA', () => {
   const line = layout.lines.find(line => line.id === 'synthesis');
+  assert.deepEqual(line.paperRoutes, [['ovvad', 'tpwng'], ['lavida', 'anomalycraft', 'pa-vad', 'cavge']]);
   assert.equal(line.tracks.length, 2);
-  const tpwng = layout.stations.get('tpwng'), lavida = layout.stations.get('lavida');
-  assert.ok(line.tracks[0].at(-1).x < tpwng.x + 20);
-  const platform = lavida.platforms.find(p => p.lineId === 'synthesis');
-  assert.ok(segments({ tracks: [line.tracks[1]] }).some(([a,b]) => onSegment(platform,a,b)));
-  assert.ok(line.tracks[1].at(-1).x >= layout.stations.get('cavge').x);
-  assert.ok(!segments(line).some(([a, b]) => a.x <= tpwng.x + 40 && b.x >= lavida.x - 40));
-  const early = ['vadclip', 'ovvad', 'tpwng', 'tthf'].map(id => layout.stations.get(id));
-  assert.equal(layout.stations.get('ovvad').y, tpwng.y, 'the supervision color section stays level');
-  for (const id of ['ovvad', 'tpwng']) {
-    const station = layout.stations.get(id);
-    assert.ok(station.continuation && !station.fork);
-    assert.ok(station.platforms.every(p => p.y === station.y));
-    const center = station.label.x + station.label.width / 2;
-    assert.ok(early.filter(other => other !== station).every(other =>
-      Math.abs(center - station.x) < Math.abs(center - other.x)), 'the label identifies its own stop');
-    const rail = segments(layout.lines.find(l => l.id === 'detection'));
-    assert.ok(rail.some(([a, b]) => onSegment(station, a, b)));
-  }
+  assert.equal(line.tracks[1][0].x, layout.stations.get('lavida').x);
+  assert.ok(line.tracks[1].every(point => point.x >= layout.stations.get('lavida').x));
 });
 
-test('NWPU Campus and DoTA converge independently at one ordinary UCA station', () => {
+test('the video-language resource UCA is the temporal entry without background dataset branches', () => {
   const line = layout.lines.find(line => line.id === 'understanding');
   const uca = layout.stations.get('uca-paper');
-  const campus = layout.stations.get('nwpu-campus-paper'), dota = layout.stations.get('dota-paper');
-  assert.ok(campus.y < uca.y && dota.y > uca.y, 'the two entry routes occupy opposite shelves');
   assert.equal(uca.platforms.length, 1);
   assert.ok(!isInterchangeStation(uca));
-  for (const [index, root] of [campus, dota].entries()) {
-    const track = line.tracks[index];
-    assert.ok(segments({ tracks: [track] }).some(([a, b]) => onSegment(root, a, b)));
-    assert.equal(track.at(-1).x, uca.x);
-    assert.equal(track.at(-1).y, uca.y);
-    assert.ok((track.at(-2).y - uca.y) * (root.y - uca.y) > 0,
-      'each incoming diagonal reaches UCA from its own side');
-  }
-  assert.equal(line.tracks[2][0].x, uca.x, 'the through route starts exactly at UCA');
-  assert.equal(line.tracks[2][0].y, uca.y);
+  assert.equal(line.paperRoutes[0][0], 'uca-paper');
+  assert.ok(segments(line).some(([a, b]) => onSegment(uca, a, b)));
 });
 
-test('local LAVIDA and COPRA branches depart from named paper platforms', () => {
-  const line = layout.lines.find(line => line.id === 'detection');
-  for (const [anchorId, leafId] of [['alert-clip', 'reactvau'], ['upr-vad', 'copra']]) {
-    const anchor = layout.stations.get(anchorId).platforms.find(p => p.lineId === line.id);
-    const leaf = layout.stations.get(leafId).platforms.find(p => p.lineId === line.id);
-    const branch = line.tracks.find(track => track[0].x === anchor.x && track[0].y === anchor.y);
-    assert.ok(branch, `${leafId} starts at ${anchorId}`);
-    assert.ok(branch.slice(1).some((b, i) => onSegment(leaf, branch[i], b)));
-    assert.ok(branch.at(-1).x <= leaf.x + 18, `${leafId} terminates locally`);
-    assert.ok(line.tracks.filter(other => other !== branch).some(other =>
-      segments({ tracks: [other] }).some(([a, b]) => onSegment(anchor, a, b))));
+test('every paper is reachable through actual route edges, including the early blue connector', () => {
+  const edges = layout.lines.flatMap(line => line.paperRoutes.flatMap(route =>
+    route.slice(1).map((id, i) => [route[i], id])));
+  const reached = new Set(['vadclip']);
+  for (let pass = 0; pass < layout.stations.size; pass++) for (const [a, b] of edges) {
+    if (reached.has(a)) reached.add(b);
+    if (reached.has(b)) reached.add(a);
   }
+  assert.deepEqual([...reached].sort(), [...layout.stations.keys()].sort());
+  const blue = layout.lines.find(line => line.id === 'alignment');
+  assert.ok(blue.paperRoutes.some(route => route[0] === 'td-vad' && route.at(-1) === 'reactvau'));
 });
 
-test('local offshoots avoid artificial trunk peaks and keep a level LAVIDA continuation', () => {
-  for (const [before, root, after] of [['piercingeye', 'alert-clip', 'td-vad'], ['scene-dependent-vad', 'upr-vad', 'spherevad']]) {
-    const y = layout.stations.get(root).y;
-    assert.ok((y - layout.stations.get(before).y) * (y - layout.stations.get(after).y) <= 0,
-      `${root} stays on a level or monotone incoming corridor`);
-  }
+test('the generation arm leaves the named fork upward and continues level', () => {
   const line = layout.lines.find(line => line.id === 'synthesis');
-  const lavida = layout.stations.get('lavida').platforms.find(p => p.lineId === line.id);
-  const next = layout.stations.get('anomalycraft');
-  assert.equal(lavida.y, next.y);
-  for (const [a, b] of segments(line).filter(([a, b]) => a.x >= lavida.x && b.x <= next.x)) {
-    assert.equal(a.y, lavida.y);
-    assert.equal(b.y, lavida.y, 'the continuation has no extra dip');
-  }
+  const fork = layout.stations.get('lavida'), first = layout.stations.get('anomalycraft');
+  assert.ok(first.y < fork.y);
+  assert.equal(first.y, layout.stations.get('cavge').y);
+  assert.ok(line.tracks[1][1].y < fork.y);
 });
 
 test('the current map gives sloping connections enough room to avoid vertical drops', () => {
@@ -517,7 +465,7 @@ test('Anom-π connects active observation and structured reasoning once, clearin
   assert.ok(evaluation.tracks[1][0].x > station.x, 'the later evaluation route starts after Anom-π');
   const cuva = layout.stations.get('cuva').platforms.find(p => p.lineId === 'evaluation');
   assert.deepEqual(evaluation.tracks[2][0], { x: cuva.x, y: cuva.y });
-  for (const id of ['mmad', 'phys-ad']) {
+  for (const id of ['black-swan', 'phys-ad']) {
     const earlier = layout.stations.get(id);
     assert.ok(earlier.x < layout.stations.get('vad-r1').x);
     assert.ok(segments({ tracks: [evaluation.tracks[2]] }).some(([a, b]) => onSegment(earlier, a, b)));
@@ -556,55 +504,27 @@ test('all route joins occur at paper platforms, with no shared unnamed segments'
   }
 });
 
-test('TD-VAD stays on detection without lifting the temporal line', () => {
-  const td = layout.stations.get('td-vad');
-  assert.deepEqual(td.lineIds, ['detection']);
-  assert.ok(!isInterchangeStation(td));
-  assert.equal(td.y, layout.stations.get('fine-vad').y, 'the detection trunk stays level');
-  const temporal = layout.lines.find(line => line.id === 'understanding');
-  assert.ok(!segments(temporal).some(([a, b]) => onSegment(td, a, b)));
-  const panda = layout.stations.get('panda').platforms.find(p => p.lineId === 'understanding');
-  const valu = layout.stations.get('valu');
-  for (const [a, b] of segments(temporal).filter(([a, b]) => a.x >= panda.x && b.x <= valu.x)) {
-    assert.ok(Math.min(a.y, b.y) >= Math.min(panda.y, valu.y) - 24,
-      'the temporal run no longer climbs into the empty detection corridor');
-  }
-});
 
-test('late synthesis and streaming detection reuse the corridor after the blue terminus', () => {
-  const trunk = layout.stations.get('alert-clip');
+
+test('the late fork reuses the blue corridor with generation above and streaming below', () => {
   const synthesis = layout.stations.get('lavida');
-  const events = layout.stations.get('ewad');
   const blueEnd = layout.stations.get('steervad');
   const react = layout.stations.get('reactvau');
-  assert.ok(events.y <= trunk.y - 192, 'event-camera branch remains above detection');
-  assert.ok(synthesis.y >= trunk.y + 288, 'synthesis occupies the interior corridor');
-  assert.ok(blueEnd.x < synthesis.x, 'the synthesis lane opens after the earlier blue route ends');
-  assert.ok(synthesis.y < react.platforms[0].y - 120, 'streaming detection stays below synthesis');
-  assert.equal(layout.methodOrder.indexOf('synthesis'), layout.methodOrder.indexOf('detection') + 1);
-  const memoryY = react.platforms.find(p => p.lineId === 'understanding').y;
+  assert.ok(blueEnd.x < synthesis.x);
+  assert.equal(synthesis.y, blueEnd.y);
+  assert.ok(layout.stations.get('anomalycraft').y < synthesis.y);
+  assert.ok(react.platforms[0].y > synthesis.y);
   for (const id of ['s2mgraph-vad', 'peer-vad'])
-    assert.equal(layout.stations.get(id).y, memoryY, 'late memory continues on one shelf');
-  const detection = layout.lines.find(line => line.id === 'detection');
-  const bridge = detection.tracks.find(track => track.at(-1).x === react.x);
-  assert.ok(bridge && segments({ tracks: [bridge] }).some(([a, b]) => onSegment(synthesis, a, b)));
+    assert.equal(layout.stations.get(id).y, react.platforms.find(p => p.lineId === 'understanding').y);
 });
 
-test('VA-GPT exits diverge before the temporal branch opens at Where and What', () => {
+test('VA-GPT exits separate directly toward representation and event understanding', () => {
   const root = layout.stations.get('va-gpt');
-  const fork = layout.stations.get('where-what');
   const blue = layout.lines.find(line => line.id === 'alignment');
   const purple = layout.lines.find(line => line.id === 'understanding');
-  assert.ok(isInterchangeStation(root), 'VA-GPT retains its genuine method transfer');
-  assert.ok(fork.x > root.x, 'the reading branch opens at the next named station');
-  const x = Math.min(root.x + 96, (root.x + fork.x) / 2);
-  const blueY = railHeight(blue, x), purpleY = railHeight(purple, x);
-  assert.ok(blueY < root.platforms[0].y - 48, 'blue climbs away from the transfer');
-  assert.ok(purpleY > root.platforms.at(-1).y + 48, 'purple descends before branching');
-  assert.ok(purpleY - blueY >= 128, 'the exits open a visible gap instead of tightly tracking each other');
-  const event = layout.stations.get('eventvad');
-  const arm = purple.tracks.find(track => track[0].x === fork.x && track[0].y === fork.y);
-  assert.ok(arm && segments({ tracks: [arm] }).some(([a, b]) => onSegment(event, a, b)));
+  assert.ok(isInterchangeStation(root));
+  const x = Math.min(root.x + 96, (root.x + layout.stations.get('eventvad').x) / 2);
+  assert.ok(railHeight(purple, x) - railHeight(blue, x) >= 128);
 });
 
 test('every method route belongs to one connected network through sourced paper stations', () => {
@@ -613,7 +533,7 @@ test('every method route belongs to one connected network through sourced paper 
     if (station.lineIds.some(id => reached.has(id))) station.lineIds.forEach(id => reached.add(id));
   }
   assert.deepEqual([...reached].sort(), layout.lines.map(line => line.id).sort());
-  for (const [id, methods] of [['va-gpt', ['alignment', 'understanding']], ['reactvau', ['understanding', 'detection']]]) {
+  for (const [id, methods] of [['va-gpt', ['alignment', 'understanding']], ['reactvau', ['understanding', 'alignment']]]) {
     const station = layout.stations.get(id);
     assert.deepEqual(station.lineIds, methods);
     assert.ok(isInterchangeStation(station));
@@ -625,7 +545,7 @@ test('every method route belongs to one connected network through sourced paper 
 test('the early evaluation corridor clears the reasoning trunk before the later fork', () => {
   const fork = layout.stations.get('vad-r1');
   const trunk = layout.stations.get('vau-r1');
-  for (const id of ['mmad', 'phys-ad']) {
+  for (const id of ['black-swan', 'phys-ad']) {
     const station = layout.stations.get(id);
     assert.ok(station.x < fork.x);
     assert.ok(station.y < trunk.y, `${id} stays above the active reasoning trunk`);
@@ -639,7 +559,7 @@ test('the horizontal station key fits bottom-left whitespace with room around tr
   assert.deepEqual(legend.fallbackLineIds, []);
   assert.ok(legend.height <= 72, "the three station types share one compact row");
   assert.ok(legend.y >= layout.plotBounds.y + layout.plotBounds.height * .75, "legend stays in the bottom quarter");
-  const criteriaY = layout.stations.get('lrpo').y;
+  const criteriaY = Math.max(...layout.lines.find(l => l.id === 'explanation').tracks[0].map(p => p.y));
   assert.ok(legend.y >= criteriaY + 48 && legend.y + legend.height <= criteriaY + 192,
     'legend occupies the open band just below the red trunk');
   assert.ok(legend.embedded);
@@ -755,7 +675,7 @@ test('labels stay close enough to identify their own station in dense months', (
 });
 
 test('dense late-year labels stay beside their stations instead of stacking far away', () => {
-  for (const id of ['scene-dependent-vad', 'upr-vad', 'peer-vad', 's2mgraph-vad']) {
+  for (const id of ['agenticvau', 'vibes', 'peer-vad', 's2mgraph-vad']) {
     const station = layout.stations.get(id), box = station.label;
     const verticalGap = Math.max(box.y - station.y, station.y - box.y - box.height, 0);
     const horizontalGap = Math.max(box.x - station.x, station.x - box.x - box.width, 0);
@@ -763,25 +683,21 @@ test('dense late-year labels stay beside their stations instead of stacking far 
   }
 });
 
-test('detection has its own color and keeps all requested foundations without deleting papers', () => {
-  const line = layout.lines.find(line => line.id === 'detection');
-  assert.notEqual(line.color, layout.lines.find(line => line.id === 'alignment').color);
-  assert.equal(layout.lines.length, clusters.length);
-  assert.equal(layout.stations.size, papers.length);
-  for (const id of ['ovvad', 'anomize', 'mpgdfl', 'piercingeye', 'ewad', 'spherevad'])
-    assert.ok(layout.stations.get(id).lineIds.includes('detection'), id);
-  for (const id of ['anomalygpt', 'anomaly-ov', 'hawk', 'echotraffic', 'hiprobe-vad', 'headhunt-vad', 'steervad'])
-    assert.deepEqual(layout.stations.get(id).lineIds, ['alignment'], id);
-  const representationSequence = ['va-gpt', 'hiprobe-vad', 'headhunt-vad', 'steervad'];
-  const representationRoute = clusters.find(c => c.id === 'alignment').routes.find(r => r.paperIds.includes('va-gpt'));
-  const start = representationRoute.paperIds.indexOf('va-gpt');
-  assert.deepEqual(representationRoute.paperIds.slice(start, start + 4), representationSequence);
-  assert.deepEqual(layout.stations.get('ex-vad').lineIds, ['alignment', 'detection']);
-  const copra = layout.stations.get('copra');
-  assert.deepEqual(copra.lineIds, ['detection']);
-  assert.ok(!isInterchangeStation(copra), 'COPRA is an ordinary detection endpoint');
-  assert.ok(!segments(layout.lines.find(line => line.id === 'alignment')).some(([a, b]) => onSegment(copra, a, b)),
-    'the understanding route does not connect to COPRA');
+test('the focused map keeps understanding and bridge papers while retaining excluded bibliography', () => {
+  assert.equal(catalogPapers.length, 127);
+  assert.equal(layout.stations.size, 87);
+  assert.equal(layout.lines.length, 7, 'five trunks and two branch directions');
+  assert.equal(layout.lines.find(l => l.id === 'synthesis').color, layout.lines.find(l => l.id === 'alignment').color);
+  assert.equal(new Set(layout.lines.map(l => l.color)).size, 6);
+  for (const id of ['cuva', 'hawk', 'a2seek', 'anom-pi', 'o-vad', 'phys-ad', 'echotraffic', 'panda', 'memovad'])
+    assert.ok(layout.stations.has(id), id);
+  for (const id of ['anomalygpt', 'anomaly-ov', 'mmad', 'judo', 'iad-r1', 'adseeker', 'log-sad',
+    'nwpu-campus-paper', 'dota-paper', 'scene-dependent-vaa', 'cmcir', 'fedvad', 'stprompt', 'd2mil', 'upr-vad', 'tthf']) {
+    const paper = catalogPapers.find(p => p.id === id);
+    assert.ok(paper.citation && paper.mapExclusion.note, id);
+    assert.ok(!layout.stations.has(id), id);
+  }
+  assert.equal(layout.width, MAP_CANVAS_WIDTH, 'the canvas does not grow to accommodate more stations');
 });
 
 test('Y branches start at sourced paper stations with shared platform centers', () => {
@@ -847,11 +763,9 @@ test('one route can fork twice and an existing branch can fork again', () => {
 
 test('local branches open diagonally before settling onto their own shelf', () => {
   for (const [lineId, rootId, firstId] of [
-    ['detection', 'alert-clip', 'lavida'],
-    ['detection', 'td-vad', 'ewad'], ['detection', 'upr-vad', 'copra'],
-    ['understanding', 'where-what', 'eventvad'],
-    ['reasoning', 'vad-r1-plus', 'iad-r1'], ['explanation', 'lrpo', 'probe-vad'],
-    ['evaluation', 'cuva', 'mmad'], ['evaluation', 'vad-r1', 'cuebench'],
+    ['synthesis', 'lavida', 'anomalycraft'],
+    ['reasoning', 'vad-r1', 'vad-dpo'],
+    ['evaluation', 'cuva', 'black-swan'], ['evaluation', 'vad-r1', 'cuebench'],
     ['evaluation', 'cg-coe', 'pistachio'],
   ]) {
     const root = layout.stations.get(rootId).platforms.find(p => p.lineId === lineId);
@@ -879,15 +793,15 @@ test('local branches open diagonally before settling onto their own shelf', () =
   }
 });
 
-test('confirmed papers with pending citations still appear exactly once on their routes', () => {
+test('relevant title-based entries stay visible with their provisional classification intact', () => {
   for (const id of ['seek-vau', 'ca-judge', 'road']) {
-    const paper = papers.find(p => p.id === id);
+    const paper = catalogPapers.find(p => p.id === id);
     assert.equal(paper.citation.version, 'pending');
     assert.equal(paper.classification.basis, 'title');
-    assert.equal([...layout.stations.values()].filter(s => s.paperId === id).length, 1);
+    assert.equal(paper.mapExclusion, undefined);
+    assert.ok(layout.stations.has(id));
   }
-  assert.equal(layout.stations.get('seek-vau').lineId, 'evidence');
-  const branchWithoutAnchor = papers.filter(p => p.cluster === 'synthesis' && !['ovvad', 'lavida'].includes(p.id));
+  const branchWithoutAnchor = papers.filter(p => p.cluster === 'synthesis' && p.id !== 'lavida');
   const onlyBranch = createPublicationLayout(branchWithoutAnchor);
   assert.equal(onlyBranch.junctions.length, 0);
   assert.equal(onlyBranch.stations.size, branchWithoutAnchor.length);
@@ -907,17 +821,41 @@ test('WACV, Findings and workshop records never enter map geometry', () => {
   assert.ok(supplementary.every(p => !network.stations.has(p.id)));
 });
 
-test('editorial map selection excludes STEP and TrajVAD while retaining EWAD and the accepted NeurIPS papers', () => {
+test('editorial exclusions stay outside geometry while direct video understanding remains visible', () => {
   const network = createPublicationLayout(catalogPapers);
-  for (const id of ['step-vad', 'trajvad']) {
+  for (const id of ['step-vad', 'trajvad', 'cmcir']) {
     const paper = catalogPapers.find(p => p.id === id);
     assert.ok(paper, `${id} retains its bibliographic record`);
     assert.ok(paper.mapExclusion.note);
     assert.equal(isMapPaper(paper), false);
     assert.equal(network.stations.has(id), false);
   }
-  for (const id of ['ewad', 'seek-vau', 'ca-judge', 'road']) {
+  for (const id of ['o-vad', 'phys-ad', 'echotraffic', 'headhunt-vad', 'seek-vau', 'ca-judge', 'road', 'fine-vad', 'pi-vad']) {
     assert.ok(isMapPaper(catalogPapers.find(p => p.id === id)));
     assert.ok(network.stations.has(id));
   }
+});
+
+
+test('the fixed overview width preserves readable text, rails and the reference aspect ratio', () => {
+  assert.equal(layout.width, 7400);
+  assert.ok(layout.width / layout.height >= 2.75 && layout.width / layout.height <= 3);
+  assert.ok(MAP_FONT_SIZE.primary * 2048 / layout.width >= 11, 'paper names remain readable at overview width');
+  assert.ok(MAP_FONT_SIZE.secondary * 2048 / layout.width >= 7.5);
+  assert.ok(MAP_RAIL_WIDTH * 2048 / layout.width >= 2);
+  assert.throws(() => createLayout(papers, clusters, { width: 1000 }), /fixed 1000-unit width; split/);
+  const blue = layout.lines.find(l => l.id === 'alignment');
+  const trunk = blue.paperRoutes.find(route => route.includes('hiprobe-vad'));
+  for (const id of trunk.slice(trunk.indexOf('hiprobe-vad')).filter(id => id !== 'td-vad'))
+    assert.equal(layout.stations.get(id).y, layout.stations.get('headhunt-vad').y, 'ordinary representation stops share a stable trunk');
+  assert.ok(layout.stations.get('anomalycraft').y < layout.stations.get('lavida').y);
+});
+
+test('all 57 lower understanding papers remain while blue comparison work uses vertical branches', () => {
+  const retained = ["a2seek","adversa","adversa-sd","agenticvau","anom-pi","anomalyruler","avar","black-swan","ca-judge","cg-coe","clue-vad","crcl","cuebench","cuva","ecva-anomshield","eval","eventvad","finevau","holmes-vau","holotrace","lagovad","las-vad","lavad","lrpo","memovad","monitor","o-vad","panda","peer-vad","phys-ad","pistachio","prime-vad","probe-vad","promptvad","reactvau","road","s2mgraph-vad","seek-vau","slowfastvad","srvau-r1","stch","tar-bench","targetvau","tau-bench","uca-paper","urf-zs-hvaa","vad-dpo","vad-r1","vad-r1-plus","vadtree","vagu-gts","valu","vau-r1","vera","vibes","vto","where-what"];
+  assert.deepEqual(papers.filter(p => !['alignment', 'synthesis'].includes(p.cluster)).map(p => p.id).sort(), retained);
+  for (const id of retained) assert.ok(layout.stations.has(id), id);
+  for (const id of ['dsrl', 'anomize', 'lec-vad'])
+    assert.ok(layout.stations.get(id).y < layout.stations.get('hawk').y);
+  assert.ok(layout.stations.get('piercingeye').y < layout.stations.get('headhunt-vad').y);
 });

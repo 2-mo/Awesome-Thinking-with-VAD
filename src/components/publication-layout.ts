@@ -1,6 +1,6 @@
 import type { Cluster, Paper } from "../types";
 import { clusterName, isMapPaper, paperMethods, publicationVenue, timelineYear } from "../publication.ts";
-import { MAP_FONT_SIZE } from "./map-typography.ts";
+import { MAP_FONT_SIZE, mapTextWidth } from "./map-typography.ts";
 
 export type Point = { x: number; y: number };
 export type Box = Point & { width: number; height: number };
@@ -44,7 +44,6 @@ export type PublicationLayout = {
     x: number;
     width: number;
     count: number;
-    quarters: { quarter: number | null; x: number; width: number; count: number }[];
   }[];
   methodOrder: string[];
   lines: PublicationLine[];
@@ -67,24 +66,9 @@ export const stationVenueSize = (): number => MAP_FONT_SIZE.secondary;
 export const stationSubtitleWidth = (paper: Paper): number =>
   Math.max(labelWidth(stationVenue(paper), stationVenueSize()), labelWidth("NeurIPS", stationVenueSize()),
     labelWidth("ACM MM", stationVenueSize())) + (paper.mapIcon ? STATION_ICON_SIZE + 16 : 0);
-// Conservative glyph estimates keep packing deterministic before fonts load.
+// Use the same font metrics as the exported SVG, with a small safety margin.
 export function labelWidth(text: string, size = 14): number {
-  return Math.ceil(
-    [...text].reduce(
-      (sum, char) =>
-        sum +
-        (/[^\x00-\x7f]/.test(char)
-          ? 1
-          : /[MW@]/.test(char)
-            ? 0.91
-            : /[ilI1 .\-/]/.test(char)
-              ? 0.36
-              : 0.64),
-      0,
-    ) *
-      size +
-      6,
-  );
+  return mapTextWidth(text, size);
 }
 const same = (a: Point, b: Point) => a.x === b.x && a.y === b.y;
 function simplify(points: Point[]): Point[] {
@@ -454,11 +438,31 @@ function packLabels(options: Map<string, LabelCandidate[]>): Map<string, Box> {
     }
     return false;
   };
-  if (!search(options)) throw new Error(`Unable to place adjacent topology labels near ${blocked}`);
+  // Independent label neighborhoods cannot constrain each other. Solving
+  // them separately prevents a tight fork from backtracking through dozens
+  // of unrelated names on the other side of the map.
+  const envelopes = new Map([...options].map(([id, candidates]) => {
+    const boxes = candidates.map(candidate => candidate.box);
+    const x = Math.min(...boxes.map(box => box.x)), y = Math.min(...boxes.map(box => box.y));
+    return [id, { x, y, width: Math.max(...boxes.map(box => box.x + box.width)) - x,
+      height: Math.max(...boxes.map(box => box.y + box.height)) - y }];
+  }));
+  const pending = new Set(options.keys());
+  while (pending.size) {
+    const group = [pending.values().next().value!];
+    pending.delete(group[0]);
+    for (const id of group) for (const other of pending) {
+      if (!overlaps(envelopes.get(id)!, envelopes.get(other)!, 8)) continue;
+      group.push(other); pending.delete(other);
+    }
+    visits = 0;
+    if (!search(new Map(group.map(id => [id, options.get(id)!]))))
+      throw new Error(`Unable to place adjacent topology labels near ${blocked} (${group.join(", ")})`);
+  }
   return result;
 }
 
-export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = []): PublicationLayout {
+export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [], options: { width?: number } = {}): PublicationLayout {
   const month = (paper: Paper) => paper.timeline?.month ?? 13;
   papers = papers.filter(isMapPaper).sort((a, b) =>
     timelineYear(a) - timelineYear(b) || month(a) - month(b) || a.id.localeCompare(b.id));
@@ -495,12 +499,7 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     schools.filter(s => s.branchOf && ids.includes(s.branchOf)).map(s => [s.id, s.branchOf!]), nearby);
   const rank = (paper: Paper) => forks.has(paper.id) ? order.indexOf(forks.get(paper.id)!.branchOf!) : paperMethods(paper)
     .reduce((sum, id) => sum + order.indexOf(id), 0) / paperMethods(paper).length;
-  // An upper synthesis band provides the first lane itself. Otherwise reserve
-  // headroom for detection offshoots above the first visible trunk.
-  const synthesisAboveDetection = nearby.some(([id, neighbor, side]) =>
-    id === "synthesis" && neighbor === "detection" && side === "above");
-  const detectionHeadroom = ids.includes("detection") && !synthesisAboveDetection ? 216 : 0;
-  const margin = 24, top = 88, laneGap = 336, slotWidth = 72, origin = top + 108 + detectionHeadroom;
+  const margin = 24, top = 112, laneGap = 336, slotWidth = 72, origin = top + (ids.includes("synthesis") && ids.includes("alignment") ? 372 : 108);
   // Short branches share a tighter band with their neighbors. Dense trunks
   // retain the room needed by two-sided labels and interchange platforms.
   const compactBranch = (id: string) => schools.some(s => s.id === id && s.branchOf) &&
@@ -508,24 +507,22 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   // A branch explicitly grouped beside its parent needs room for transfer
   // approaches on the neighboring trunk. Other short branches stay compact.
   const groupedBranch = (id: string) => compactBranch(id) && nearby.some(pair => pair.includes(id));
-  // Reuse the inactive synthesis band for earlier alignment papers. The
-  // later synthesis and streaming routes fill the gap after alignment ends.
-  // Overrides apply only to adjacent directions.
+  // Synthesis shares the blue family and occupies the shelf above its trunk.
+  // Keep enough space between the remaining families for two-sided labels.
   const corridorGaps = new Map([
-    ["synthesis:detection", 432], ["detection:alignment", 384],
-    ["detection:synthesis", 288], ["synthesis:alignment", 240], ["alignment:understanding", 336], ["detection:understanding", 528], ["understanding:evidence", 336],
-    ["evidence:evaluation", 264], ["evaluation:reasoning", 312],
-    ["reasoning:explanation", 528],
+    ["synthesis:alignment", 240], ["alignment:understanding", 336],
+    ["understanding:evidence", 384], ["evidence:evaluation", 264],
+    ["evaluation:reasoning", 312], ["reasoning:explanation", 432],
   ]);
   const levels = new Map<string, number>();
   order.forEach((id, index) => levels.set(id, index === 0 ? 0 : levels.get(order[index - 1])! +
     (corridorGaps.get(`${order[index - 1]}:${id}`) ?? (compactBranch(id) || compactBranch(order[index - 1]) ?
-      (groupedBranch(id) || groupedBranch(order[index - 1]) ? laneGap : 192) : laneGap))));
+      (groupedBranch(id) || groupedBranch(order[index - 1]) ? laneGap : 240) : laneGap))));
   // A direction does not reserve an empty horizontal band for every year.
   // Earlier trunks use the space before later branches become active; sparse
   // criteria segments sit closer to reasoning before spreading out in 2026.
   const heightProfiles: Record<string, [number, number][]> = {
-    alignment: [[2023, -192], [2025.5, -192], [2026.5, 0], [2027, 0]],
+    alignment: [[2023, -96], [2025.5, -96], [2026.5, 0], [2027, 0]],
     understanding: [[2023, -96], [2025.5, -96], [2026.5, 0], [2027, 0]],
     evidence: [[2023, -96], [2025.5, -96], [2026.5, 0], [2027, 0]],
     evaluation: [[2023, -144], [2025.5, -144], [2026.5, -48], [2027, 0]],
@@ -548,8 +545,8 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     return methods.reduce((sum, id) => sum + levels.get(id)! + profileOffset(id, paper), 0) / methods.length;
   };
   const stationXs = new Map<string, number>();
-  // Parallel arms may use the same month column. A shared anchor reserves
-  // every arm of its direction; unrelated arms do not serialize each other.
+  // Seed the vertical topology in publication order. These provisional month
+  // columns are relaxed independently after branch heights are established.
   const routeSlots = new Map(schools.map(school => [school.id,
     (school.routes ?? []).map((route, index) => ({ key: `${school.id}:${index}`, ids: route.paperIds }))]));
   const yearValues = [...new Set(papers.map(timelineYear))];
@@ -634,26 +631,12 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       }
       cursor += lastSlot * slotWidth + 44;
     };
-    const quarters: PublicationLayout["years"][number]["quarters"] = [];
-    if (year >= 2025) {
-      const values: (number | null)[] = [1, 2, 3, 4];
-      if (months.includes(13)) values.push(null);
-      for (const quarter of values) {
-        const left = quarters.length ? cursor - 36 : x;
-        const quarterMonths = months.filter((value) =>
-          quarter === null ? value === 13 : value <= 12 && Math.ceil(value / 3) === quarter);
-        quarterMonths.forEach(packMonth);
-        if (!quarterMonths.length) cursor = left + 48 + 36;
-        quarters.push({ quarter, x: left, width: cursor - 36 - left,
-          count: members.filter((paper) => quarterMonths.includes(month(paper))).length });
-      }
-    } else months.forEach(packMonth);
+    months.forEach(packMonth);
     const widestTail = Math.max(0, ...members.map((paper) =>
       stationXs.get(paper.id)! - x + stationNameWidth(paper) * (forks.has(paper.id) ? 1 : .5) + 40));
     const width = Math.max(140, cursor - x, widestTail, ...members.map((paper) =>
       Math.max(stationNameWidth(paper), stationSubtitleWidth(paper)) + 22));
-    if (quarters.length) quarters.at(-1)!.width = x + width - quarters.at(-1)!.x;
-    const item = { year, x, width, count: members.length, quarters };
+    const item = { year, x, width, count: members.length };
     x += width;
     return item;
   });
@@ -745,7 +728,7 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       ...(fork ? { fork: { parentId: fork.branchOf!, branchId: fork.id } } : {}),
       ...(continuation ? { continuation: true } : {}),
       label: { x: 0, y: 0, width: Math.max(stationNameWidth(paper),
-        stationSubtitleWidth(paper)) + 14, height: 72 } });
+        stationSubtitleWidth(paper)) + 14, height: MAP_FONT_SIZE.primary + MAP_FONT_SIZE.secondary + 18 } });
   }
   // The 24-unit rail grid and month spacing need not have identical steps.
   // Fit nearby level runs to a true 45° connection before placing labels.
@@ -780,29 +763,39 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   const inlineStations = new Set<string>();
   // A short color section between two ordinary continuations belongs on
   // the through corridor. Membership alone must not create a branch or hump.
-  for (const school of schools) for (const members of routeMembers.get(school.id)!) {
-    if (members.length !== 2 || members.some(p => !continuations.has(p.id))) continue;
-    const first = stations.get(members[0].id)!, last = stations.get(members[1].id)!;
-    const adjacent = schools.filter(other => other.id !== school.id).flatMap(other =>
-      routeMembers.get(other.id)!.flatMap(route => {
-        const a = route.findIndex(p => p.id === first.paperId), b = route.findIndex(p => p.id === last.paperId);
-        return [a > 0 ? stations.get(route[a - 1].id)! : null,
-          b >= 0 && b < route.length - 1 ? stations.get(route[b + 1].id)! : null]
-          .filter((s): s is Station => !!s);
-      }));
-    if (adjacent.length !== 2) continue;
-    adjacent.sort((a, b) => a.x - b.x);
-    const y = adjacent[1].y;
-    moveStation(first, y); moveStation(last, y);
-    inlineStations.add(first.paperId); inlineStations.add(last.paperId);
-    labelSides.set(first.paperId, 1); labelSides.set(last.paperId, -1);
-    // A one-stop incoming lead can share this shelf too; it has no earlier
-    // bend to preserve. This avoids two tiny steps around the color section.
-    const lead = adjacent[0];
-    const isLead = [...routeMembers.values()].some(routes => routes.some(route =>
-      route.length === 2 && route[0].id === lead.paperId && route[1].id === first.paperId));
-    if (isLead && lead.platforms.length === 1) moveStation(lead, y);
-  }
+  const alignContinuations = () => {
+    for (const school of schools) for (const members of routeMembers.get(school.id)!) {
+      if (members.length !== 2 || members.some(p => !continuations.has(p.id))) continue;
+      const first = stations.get(members[0].id)!, last = stations.get(members[1].id)!;
+      const adjacent = schools.filter(other => other.id !== school.id).flatMap(other =>
+        routeMembers.get(other.id)!.flatMap(route => {
+          const a = route.findIndex(p => p.id === first.paperId), b = route.findIndex(p => p.id === last.paperId);
+          return [a > 0 ? stations.get(route[a - 1].id)! : null,
+            b >= 0 && b < route.length - 1 ? stations.get(route[b + 1].id)! : null]
+            .filter((s): s is Station => !!s);
+        }));
+      if (adjacent.length !== 2) continue;
+      adjacent.sort((a, b) => a.x - b.x);
+      const y = adjacent[1].y;
+      moveStation(first, y); moveStation(last, y);
+      inlineStations.add(first.paperId); inlineStations.add(last.paperId);
+      labelSides.set(first.paperId, 1); labelSides.set(last.paperId, -1);
+      // A one-stop incoming lead can share this shelf too; it has no earlier
+      // bend to preserve. This avoids two tiny steps around the color section.
+      const lead = adjacent[0];
+      const isLead = [...routeMembers.values()].some(routes => routes.some(route =>
+        route.length === 2 && route[0].id === lead.paperId && route[1].id === first.paperId));
+      if (isLead && lead.platforms.length === 1) moveStation(lead, y);
+      // A longer entry can share the same through shelf too. Keep its ordinary
+      // stops level instead of inserting a tiny height change before the join.
+      for (const routes of routeMembers.values()) for (const route of routes) {
+        if (route.at(-1)?.id !== first.paperId || route.slice(0, -1).some(p =>
+          stations.get(p.id)!.platforms.length !== 1)) continue;
+        route.slice(0, -1).forEach(p => moveStation(stations.get(p.id)!, y));
+      }
+    }
+  };
+  alignContinuations();
   // A branch that returns to its parent is a local parallel corridor. Keep
   // the trunk level through the return and use straight shelves for the
   // intermediate papers instead of alternating station-by-station heights.
@@ -862,7 +855,7 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       // first continuing neighbor enough room for two adjacent names.
       const next = trunk[end + 1] && stations.get(trunk[end + 1].id);
       if (next) fanClearance.set(`${terminal.paperId}:${next.paperId}`,
-        Math.ceil((terminal.label.width + next.label.width / 2 + 40) / 8) * 8);
+        Math.ceil(((terminal.label.width + next.label.width) / 2 + 24) / 8) * 8);
     }
     const shelf = (members: Paper[], y: number, outward: number) => {
       for (const paper of members) { moveStation(stations.get(paper.id)!, y); labelSides.set(paper.id, outward); }
@@ -911,7 +904,8 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     const transferSide = terminal.platforms.find(p => p.lineId !== lineId && p.y !== height);
     const side = transferSide ? -Math.sign(transferSide.y - height)
       : below - height >= height - above ? 1 : -1;
-    const shelf = height + side * 216;
+    // A tighter blue return keeps same-month forks within the fixed canvas.
+    const shelf = height + side * (lineId === "alignment" ? 208 : 216);
     for (const paper of middle) {
       moveStation(stations.get(paper.id)!, height);
       labelSides.set(paper.id, -side);
@@ -936,8 +930,8 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
         fanClearance.set(`${lead.paperId}:${root.paperId}`,
           Math.max((lead.label.width + root.label.width) / 2 + 24, lead.label.width + 40));
     }
-    fanClearance.set(`${root.paperId}:${middle[0].id}`, root.label.width / 2 + stations.get(middle[0].id)!.label.width / 2 + 24);
-    fanClearance.set(`${middle.at(-1)!.id}:${terminal.paperId}`, terminal.label.width / 2 + stations.get(middle.at(-1)!.id)!.label.width / 2 + 24);
+    fanClearance.set(`${root.paperId}:${middle[0].id}`, Math.max(root.label.width, stations.get(middle[0].id)!.label.width) * .6 + 24);
+    fanClearance.set(`${middle.at(-1)!.id}:${terminal.paperId}`, Math.max(terminal.label.width, stations.get(middle.at(-1)!.id)!.label.width) * .6 + 24);
   }
   // A domain-specific reading arm may finish independently. It does not
   // need a decorative return into an unrelated method on the main route.
@@ -1084,9 +1078,9 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     }
   }
   // Later reasoning stays on the Plus corridor. Only genuine transfers
-  // leave this shelf; the independent industrial arm occupies the lower one.
+  // leave this shelf; video reasoning papers continue on the same trunk.
   const reasoningShelf = stations.get("vad-r1-plus")?.platforms.find(p => p.lineId === "reasoning")?.y;
-  if (reasoningShelf !== undefined) for (const id of ["srvau-r1", "adversa", "las-vad", "stch", "cg-coe", "clue-vad", "avar"]) {
+  if (reasoningShelf !== undefined) for (const id of ["srvau-r1", "adversa", "las-vad", "stch", "cg-coe", "clue-vad", "avar", "o-vad"]) {
     const station = stations.get(id), platform = station?.platforms.find(p => p.lineId === "reasoning");
     if (station && platform && !isInterchangeStation(station)) moveStation(station, station.y + reasoningShelf - platform.y);
   }
@@ -1095,11 +1089,12 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   // and let the later sections descend in a few deliberate, shallow steps.
   const criteriaAnchor = stations.get("anomalyruler")?.platforms.find(p => p.lineId === "explanation");
   if (criteriaAnchor) {
+    const criteriaHasBranch = (routeMembers.get("explanation")?.length ?? 0) > 1;
     const criteriaBase = Math.min(criteriaAnchor.y, plotBottom - 432 - 80 - 48);
     for (const [offset, ids] of [
       [144, ["eval", "lavad", "log-sad", "vera", "promptvad"]],
       [240, ["lagovad", "lrpo", "prime-vad", "road"]],
-      [432, ["probe-vad", "ca-judge"]],
+      [criteriaHasBranch ? 432 : 240, ["probe-vad", "ca-judge"]],
     ] as const) for (const id of ids) {
       const station = stations.get(id);
       if (station?.lineIds.length === 1 && station.lineId === "explanation")
@@ -1111,35 +1106,6 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   const earlyMemory = stations.get("scene-dependent-vaa"), memoryFork = stations.get("holmes-vau");
   if (earlyMemory?.lineId === "understanding" && memoryFork && !isInterchangeStation(earlyMemory))
     moveStation(earlyMemory, memoryFork.y);
-  const detectionBranch = stations.get("td-vad");
-  const detectionPlatform = detectionBranch?.platforms.find(p => p.lineId === "detection");
-  if (detectionBranch && detectionPlatform && order.indexOf("detection") < order.indexOf("alignment")) {
-    // Keep the detection trunk level with an upper event-camera offshoot.
-    // Synthesis uses its requested side; the lower position shares the late
-    // corridor with the streaming connection into the memory route.
-    const height = origin + levels.get("detection")!;
-    moveStation(detectionBranch, detectionBranch.y + height - detectionPlatform.y);
-    labelSides.set("td-vad", 1);
-    for (const id of ["lec-vad", "mpgdfl", "piercingeye", "alert-clip", "d2mil", "fine-vad"]) {
-      const station = stations.get(id);
-      if (station?.lineIds.length === 1 && station.lineId === "detection") moveStation(station, height);
-    }
-    for (const id of ["scene-dependent-vad", "upr-vad", "spherevad"]) {
-      const station = stations.get(id);
-      if (station?.lineId === "detection" && !isInterchangeStation(station)) moveStation(station, height);
-    }
-    for (const id of ["ewad", "deal-vad"]) {
-      const station = stations.get(id);
-      if (station?.lineId === "detection" && !isInterchangeStation(station)) moveStation(station, height - 216);
-    }
-    for (const id of ["lavida", "anomalycraft", "pa-vad", "cavge"]) {
-      const station = stations.get(id);
-      if (station?.lineIds.includes("synthesis"))
-        moveStation(station, synthesisAboveDetection ? height - 432 : height + 360);
-    }
-    const copra = stations.get("copra"), platform = copra?.platforms.find(p => p.lineId === "detection");
-    if (copra && platform) moveStation(copra, copra.y + height + 216 - platform.y);
-  }
   // The late memory corridor climbs into the detection transfer, then keeps
   // its height through the graph and event-refinement papers.
   const memoryRoot = stations.get("reactvau")?.platforms.find(p => p.lineId === "understanding")
@@ -1148,13 +1114,44 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     const station = stations.get(id);
     if (station?.lineId === "understanding" && !isInterchangeStation(station)) moveStation(station, memoryRoot.y);
   }
+  // Representation resumes on one stable shelf after VA-GPT. Its two
+  // short comparison arms use the open upper band instead of shifting the
+  // trunk whenever another ordinary stop is added.
+  const representation = routeMembers.get("alignment")?.find(route =>
+    route.some(p => p.id === "hiprobe-vad") && route.some(p => p.id === "spherevad"));
+  if (representation) {
+    const baseline = origin + levels.get("alignment")! - 96;
+    for (const paper of representation.slice(representation.findIndex(p => p.id === "hiprobe-vad"))) {
+      const station = stations.get(paper.id)!;
+      if (!isInterchangeStation(station)) moveStation(station, baseline);
+    }
+    // The streaming departure needs a local lower platform so its label
+    // does not sit under LAVIDA's neighboring synthesis fork.
+    const streaming = stations.get("td-vad");
+    if (streaming && !isInterchangeStation(streaming)) moveStation(streaming, baseline + 120);
+    for (const id of ["piercingeye", "copra"]) {
+      const station = stations.get(id);
+      if (station && !isInterchangeStation(station)) moveStation(station, baseline - 120);
+    }
+  }
+  // Put the generation arm above the continuous blue trunk. It leaves at
+  // LAVIDA, while the later streaming arm leaves at TD-VAD toward memory.
+  const synthesisFork = stations.get("lavida"), blueTrunk = stations.get("steervad");
+  if (synthesisFork && blueTrunk && synthesisFork.x > blueTrunk.x) {
+    moveStation(synthesisFork, blueTrunk.y);
+    for (const id of ["anomalycraft", "pa-vad", "cavge"]) {
+      const station = stations.get(id);
+      if (station) moveStation(station, synthesisFork.y - 192);
+    }
+  }
   // Keep the late observation and evaluation runs separated by a full
   // label corridor. Their old opposing zigzags pinched names between rails.
   for (const ids of [["agenticvau", "vibes", "vto", "seek-vau"],
     ["pistachio", "ecva-anomshield", "tau-bench", "tar-bench"]]) {
     const members = ids.map(id => stations.get(id)).filter((s): s is Station => !!s);
     if (members.length < 2 || members.some(isInterchangeStation)) continue;
-    const y = Math.round(members.reduce((sum, s) => sum + s.y, 0) / members.length / 24) * 24;
+    const y = ids.includes("tau-bench") && reasoningShelf !== undefined ? reasoningShelf - 192
+      : Math.round(members.reduce((sum, s) => sum + s.y, 0) / members.length / 24) * 24;
     members.forEach(s => moveStation(s, y));
   }
   // Entry arms settle onto their continuing trunk at the named merge. Moving
@@ -1173,6 +1170,7 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     }
     moveStation(terminal, next.y);
   }
+  alignContinuations();
   // Keep enough room above the topmost rail for a full two-line name.
   for (const station of stations.values()) {
     if (!isInterchangeStation(station) && station.y < top + station.label.height + 36)
@@ -1183,6 +1181,7 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   // merely to save a few pixels of horizontal alignment.
   const preferredLabelSides = new Map<string, number>([
     ["cuebench", -1], ["vad-dpo", 1],
+    ["anomalycraft", 1], ["pa-vad", 1], ["cavge", -1],
     ["eval", 1], ["lavad", -1], ["log-sad", 1], ["vera", -1],
     ["lagovad", -1], ["lrpo", -1], ["probe-vad", 1], ["prime-vad", -1],
     ["ca-judge", 1], ["road", 1], ["promptvad", -1],
@@ -1209,10 +1208,8 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       previousSide = side;
     }
   }
-  // Reserve horizontal space from the actual platform heights, rather than
-  // counting the number of method bands a transfer crosses. Stretch only the
-  // constrained columns; every independent paper in that column moves with it.
-  // The same monotone transform updates the year and quarter boundaries.
+  // Reserve route clearances from actual platform heights, label widths and
+  // named forks. These constraints apply to individual stops, not date columns.
   const incoming = new Map<string, { from: Station; distance: number }[]>();
   for (const [lineId, routes] of routeMembers) for (const members of routes) {
     for (let i = 1; i < members.length; i++) {
@@ -1238,7 +1235,7 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
         stations.get(p.id)!.merge?.parentId === lineId);
       const labelGap = edgeShelf || topEntry ? Math.ceil(((a.label.width + b.label.width) / 2 + 16) / 8) * 8
         : nearMerge && staggered ? Math.ceil((Math.max(...nameWidths) * .56 + 28) / 8) * 8
-        : staggered && !paired ? Math.ceil((Math.max(...nameWidths) * .42 + 20) / 8) * 8
+        : staggered ? Math.ceil((Math.max(...nameWidths) * .42 + 20) / 8) * 8
         : paired ? Math.ceil(((nameWidths[0] + nameWidths[1]) / 2 + 24) / 8) * 8
         : closeShelf ? Math.ceil(((nameWidths[0] + nameWidths[1]) * .34 + 16) / 8) * 8
         : samePeriod && Math.abs(pb.y - pa.y) < 64 ? Math.ceil(((nameWidths[0] + nameWidths[1]) * .28) / 8) * 8 : 0;
@@ -1253,46 +1250,98 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       incoming.set(b.paperId, entries);
     }
   }
-  const columns = [...new Set([...stations.values()].map(station => station.x))].sort((a, b) => a - b);
-  const originalXs = new Map([...stations.values()].map(station => [station.paperId, station.x]));
-  const movedXs = new Map<string, number>();
-  const shifts: { x: number; amount: number }[] = [{ x: margin, amount: 0 }];
-  let shift = 0;
-  for (const [index, column] of columns.entries()) {
-    const group = [...stations.values()].filter(station => station.x === column);
-    const previous = columns[index - 1] ?? margin;
-    const yearBoundary = years.some(year => year.x > previous && year.x <= column);
-    // Recover unused horizontal slack after a constrained connection instead
-    // of carrying every earlier expansion through all later months. Preserve
-    // year-end padding; edges still reserve their actual diagonal/label room.
-    const columnGap = yearBoundary ? column - previous : Math.min(column - previous, 24);
-    const position = Math.max(column, previous + shift + columnGap, ...group.flatMap(station =>
-      (incoming.get(station.paperId) ?? []).map(edge =>
-        (movedXs.get(edge.from.paperId) ?? originalXs.get(edge.from.paperId)!) + edge.distance)));
-    shift = position - column;
-    shifts.push({ x: column, amount: shift });
-    group.forEach(station => movedXs.set(station.paperId, position));
-  }
-  const warpX = (value: number): number => {
-    const next = shifts.findIndex(point => point.x >= value);
-    if (next < 0) return value + shift;
-    if (!next) return value;
-    const a = shifts[next - 1], b = shifts[next];
-    return value + a.amount + (b.amount - a.amount) * (value - a.x) / (b.x - a.x);
+  // Years are hard boundaries; months only suggest a position within them.
+  // Each rail can spread its own stops instead of sharing rigid date columns.
+  const byId = new Map(papers.map(paper => [paper.id, paper]));
+  const ordered = [...stations.values()].sort((a, b) => a.x - b.x || a.paperId.localeCompare(b.paperId));
+  const seedX = new Map(ordered.map(station => [station.paperId, station.x]));
+  const seedYears = new Map(years.map(year => [year.year, { ...year }]));
+  const addConstraint = (a: Station, b: Station, distance: number) => {
+    const entries = incoming.get(b.paperId) ?? [];
+    const existing = entries.find(edge => edge.from.paperId === a.paperId);
+    if (existing) existing.distance = Math.max(existing.distance, distance);
+    else entries.push({ from: a, distance });
+    incoming.set(b.paperId, entries);
   };
+  for (let i = 0; i < ordered.length; i++) for (let j = i + 1; j < ordered.length; j++) {
+    const a = ordered[i], b = ordered[j];
+    const pa = byId.get(a.paperId)!, pb = byId.get(b.paperId)!;
+    if (timelineYear(pa) !== timelineYear(pb)) continue;
+    // Keep clearly early work before clearly late work, while nearby months
+    // on independent routes can trade places to make room for names and bends.
+    if (pa.timeline && pb.timeline && month(pb) - month(pa) >= 6) addConstraint(a, b, 24);
+    const ba = stationBounds(a, 28), bb = stationBounds(b, 28);
+    if (ba.y < bb.y + bb.height && bb.y < ba.y + ba.height) addConstraint(a, b, 72);
+  }
+  const outgoing = new Map(ordered.map(station => [station.paperId, [] as { to: Station; distance: number }[]]));
+  for (const [id, entries] of incoming) for (const edge of entries)
+    outgoing.get(edge.from.paperId)!.push({ to: stations.get(id)!, distance: edge.distance });
+  const edgePadding = (station: Station) => station.label.width / 2 + 24;
+  // The minimum width comes from actual route/label geometry, not month slots.
+  const earliest = new Map<string, number>();
+  let minimumEnd = margin;
+  for (const year of years) {
+    const members = ordered.filter(station => timelineYear(byId.get(station.paperId)!) === year.year);
+    year.x = minimumEnd;
+    for (const station of members) earliest.set(station.paperId, Math.max(year.x + edgePadding(station),
+      ...(incoming.get(station.paperId) ?? []).map(edge => earliest.get(edge.from.paperId)! + edge.distance)));
+    year.width = Math.max(140, ...members.map(station => earliest.get(station.paperId)! + edgePadding(station) - year.x));
+    minimumEnd += year.width;
+  }
+  // Unconstrained small diagrams also need room for label placement around
+  // junctions; the minimum route geometry alone is too tight for two-line names.
+  const targetEnd = options.width === undefined ? margin + (minimumEnd - margin) * 1.2 : options.width - margin;
+  if (!Number.isFinite(targetEnd) || targetEnd < minimumEnd - .01)
+    throw new Error(`Map needs ${Math.ceil(minimumEnd + margin)} units within a fixed ${options.width}-unit width; split a crowded reading route into a vertical branch.`);
+  const minimumSpan = minimumEnd - margin;
+  let yearStart = margin;
+  for (const year of years) {
+    year.x = yearStart;
+    year.width += minimumSpan ? (targetEnd - minimumEnd) * year.width / minimumSpan : 0;
+    yearStart += year.width;
+  }
+  const yearById = new Map(years.map(year => [year.year, year]));
+  const yearFor = (station: Station) => yearById.get(timelineYear(byId.get(station.paperId)!))!;
+  const latest = new Map<string, number>();
+  for (const station of ordered) {
+    const year = yearFor(station);
+    earliest.set(station.paperId, Math.max(year.x + edgePadding(station),
+      ...(incoming.get(station.paperId) ?? []).map(edge => earliest.get(edge.from.paperId)! + edge.distance)));
+  }
+  for (const station of [...ordered].reverse()) {
+    const year = yearFor(station);
+    latest.set(station.paperId, Math.min(year.x + year.width - edgePadding(station),
+      ...outgoing.get(station.paperId)!.map(edge => latest.get(edge.to.paperId)! - edge.distance)));
+  }
+  const preferredX = new Map(ordered.map(station => {
+    const year = yearFor(station), seed = seedYears.get(year.year)!;
+    const fraction = (seedX.get(station.paperId)! - seed.x) / seed.width;
+    return [station.paperId, year.x + fraction * year.width];
+  }));
+  const positions = new Map(earliest);
+  // Relax each stop toward even spacing along its actual reading neighbors.
+  // A light date preference preserves the rough timeline without enforcing
+  // shared month columns. Forward/backward sweeps preserve all hard clearances.
+  for (let pass = 0; pass < 160; pass++) {
+    for (const station of pass % 2 ? [...ordered].reverse() : ordered) {
+      const id = station.paperId;
+      const before = incoming.get(id) ?? [], after = outgoing.get(id)!;
+      const lower = Math.max(earliest.get(id)!, ...before.map(edge => positions.get(edge.from.paperId)! + edge.distance));
+      const upper = Math.min(latest.get(id)!, ...after.map(edge => positions.get(edge.to.paperId)! - edge.distance));
+      const adjacent = [...new Set(neighbors.get(id)!)].map(other => positions.get(other)!);
+      // Keep endpoints near their date hint so relaxation cannot collapse a
+      // whole terminal run into its predecessor. Interior stops spread freely.
+      const dateWeight = adjacent.length === 1 ? 8 : adjacent.length > 2 ? 2 : 0.35;
+      const target = (dateWeight * preferredX.get(id)! + adjacent.reduce((sum, value) => sum + value, 0)) /
+        (dateWeight + adjacent.length);
+      positions.set(id, Math.max(lower, Math.min(upper, target)));
+    }
+  }
   for (const station of stations.values()) {
-    station.x = movedXs.get(station.paperId)!;
+    station.x = positions.get(station.paperId)!;
     station.platforms.forEach(platform => { platform.x = station.x; });
   }
-  for (const year of years) {
-    for (const quarter of year.quarters) {
-      quarter.width = warpX(quarter.x + quarter.width) - warpX(quarter.x);
-      quarter.x = warpX(quarter.x);
-    }
-    year.width = warpX(year.x + year.width) - warpX(year.x);
-    year.x = warpX(year.x);
-  }
-  x = warpX(x);
+  x = targetEnd;
   plotBounds.width = x - margin;
   // Both tracks meet at the sourced paper's one station. There are no
   // synthetic junctions between papers and no layout-driven anchor selection.
@@ -1446,7 +1495,7 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     return { ...school, tracks, paperRoutes: routes.map(stops => stops.map(stop => stop.paperId)),
       labelPosition: { x: 24 + order.indexOf(id) * 300, y: plotBottom + 32 } };
   });
-  return { width: Math.max(1700, x + 24), height: plotBottom + 96,
+  return { width: options.width ?? Math.max(1700, x + 24), height: plotBottom + 96,
     years, methodOrder: order, lines, stations, junctions,
     plotBounds };
 }

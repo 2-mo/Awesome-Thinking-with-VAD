@@ -6,11 +6,11 @@
 
 ## Core research / 核心研究
 
-## 视频异常检测
+## 表征、对齐与融合
 
-精选支撑异常理解的检测范式：视觉语言提示、开放词汇、多模态语义、欧氏／双曲几何表征、联邦语义蒸馏、事件完整性与视觉语言复核；主要输出为异常判断与定位。
+围绕异常语义表征、开放词汇、多模态融合、大模型内部机制及适配，连接语义检测、检索、描述、问答与解释。
 
-研究问题：怎样判断和定位异常，并适应未知类别、新模态与免训练部署？
+研究问题：如何从视觉、运动、声音和语言形成异常语义，并支撑检测与理解？
 
 <a id="paper-vadclip"></a>
 
@@ -27,6 +27,36 @@
 - 阅读关注：类别语义对齐与开放式异常解释仍有距离。
 - 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2308.11681>) · [来源 2](<https://ojs.aaai.org/index.php/AAAI/article/view/28423>)
 
+<a id="paper-ex-vad"></a>
+
+### Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models
+
+**2025 · ICML** · [paper](<https://proceedings.mlr.press/v267/huang25ad.html>) · [引用 / BibTeX](<citations.md#cite-ex-vad>)
+
+**创新：解释融合与标签对齐**
+
+由帧字幕生成视频级异常解释，再结合视觉特征与标签增强对齐进行细粒度检测。
+
+- 任务：异常检测、异常解释
+- 核心启示：解释文本既是输出，也能参与检测表征学习。
+- 阅读关注：更好的分类结果是否同时意味着更忠实的解释？
+- 核验：2026-09-29；[来源 1](<https://proceedings.mlr.press/v267/huang25ad.html>) · [来源 2](<https://proceedings.mlr.press/v267/huang25ad.html>)
+
+<a id="paper-hawk"></a>
+
+### Hawk: Learning to Understand Open-World Video Anomalies
+
+**2024 · NeurIPS** · [paper](<https://arxiv.org/abs/2405.16886>) · [code](<https://github.com/jqtangust/hawk>) · [引用 / BibTeX](<citations.md#cite-hawk>)
+
+**创新：运动语言监督对齐**
+
+显式引入运动信息，并用异常视频描述与问答数据训练开放场景理解能力。
+
+- 任务：异常解释、视频问答
+- 核心启示：异常理解不仅需要外观，也需要动作变化与交互。
+- 阅读关注：开放场景能力如何随数据来源和问题类型变化？
+- 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2405.16886>) · [来源 2](<https://github.com/jqtangust/hawk/blob/main/README.md>)
+
 <a id="paper-anomize"></a>
 
 ### Anomize: Better Open Vocabulary Video Anomaly Detection
@@ -41,6 +71,22 @@
 - 核心启示：开放词汇识别需要同时处理异常分数与新类别语义对齐。
 - 阅读关注：标签关系对视觉相似但语义不同的异常有多大帮助？
 - 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html>)
+
+<a id="paper-va-gpt"></a>
+
+### Aligning Effective Tokens with Video Anomaly in Large Language Models
+
+**2025 · ICCV** · [paper](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>) · [引用 / BibTeX](<citations.md#cite-va-gpt>)
+
+**创新：时空有效词元对齐**
+
+通过空间有效词元选择与时间有效词元生成，减少冗余视觉信息，支持异常总结和时间定位。
+
+- 任务：异常定位、异常解释、视频问答
+- 兼属方法：时序建模与记忆；[归类依据](<https://openaccess.thecvf.com/content/ICCV2025/papers/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.pdf>) — 2026-10-04 核对摘要与 §3：Temporal Effective Token Generation 使用逐帧异常置信度在语言空间生成携带异常时间先验的词元，支持时序推理与定位；据此在多模态对齐主归属之外增加时序建模次级归属，作为两条阅读线的共享站。
+- 核心启示：进入语言模型的时空证据如何筛选，本身就是异常理解的关键。
+- 阅读关注：词元选择保留局部异常时，是否也保留解释所需的上下文？
+- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>) · [来源 2](<https://openaccess.thecvf.com/content/ICCV2025/papers/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.pdf>)
 
 <a id="paper-alert-clip"></a>
 
@@ -71,6 +117,68 @@
 - 核心启示：用时序事件文本替代目标域异常视频。
 - 阅读关注：主要输出异常分数；文本到视频的模态差距及语言先验偏差仍需检查。
 - 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2608.11820>) · [来源 2](<https://icml.cc/virtual/2026/poster/65928>)
+
+<a id="paper-headhunt-vad"></a>
+
+### HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection
+
+**2026 · AAAI** · [paper](<https://arxiv.org/abs/2512.17601>) · [code](<https://github.com/CebCai/HeadHunt-VAD>) · [引用 / BibTeX](<citations.md#cite-headhunt-vad>)
+
+**创新：稳定异常敏感注意力头探测**
+
+从冻结 MLLM 内部筛选对多种提示稳定的异常敏感注意力头，再用轻量评分器和时序定位器读取其特征。
+
+- 任务：异常检测、异常定位
+- 核心启示：从内部语义表征读取异常证据。
+- 阅读关注：仅冻结大模型，评分器仍需少量校准数据；主任务为检测而非开放式解释。
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2512.17601>) · [来源 2](<https://github.com/CebCai/HeadHunt-VAD>)
+
+<a id="paper-steervad"></a>
+
+### Steering and Rectifying Latent Representation Manifolds in Frozen Multi-modal LLMs for Video Anomaly Detection
+
+**2026 · ICLR** · [paper](<https://arxiv.org/abs/2602.24021>) · [引用 / BibTeX](<citations.md#cite-steervad>)
+
+**创新：潜在异常专家头与上下文表示校正**
+
+以表示可分性筛选潜在异常专家头，训练层次元控制器按上下文缩放其表示；异常片段可交回冻结模型生成事后解释。
+
+- 任务：异常检测、异常解释
+- 核心启示：从被动读取转向干预异常语义表征。
+- 阅读关注：控制器和评分器仍需少量训练数据；事后生成解释不等同于检测依据的忠实证明。
+- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2602.24021>) · [来源 2](<https://iclr.cc/virtual/2026/papers.html>)
+
+<a id="paper-hiprobe-vad"></a>
+
+### HiProbe-VAD: Video Anomaly Detection via Hidden States Probing in Tuning-Free Multimodal LLMs
+
+**2025 · ACM MM** · [paper](<https://doi.org/10.1145/3746027.3755575>) · [引用 / BibTeX](<citations.md#cite-hiprobe-vad>)
+
+**创新：中间层探测与轻量异常评分**
+
+从冻结多模态大模型的中间隐藏状态选择异常敏感层，训练轻量逻辑回归评分器，并结合时序定位与文本解释分析异常。
+
+- 任务：异常检测、异常定位、异常解释
+- 方法与场景标签：冻结MLLM、隐藏状态探测、轻量评分器
+- 核心启示：异常证据既可来自生成文本，也可来自大模型内部表征。
+- 阅读关注：层选择与评分器使用的标注、数据比例和解释生成流程分别如何影响结果？
+- 核验：2026-10-01；[来源 1](<https://arxiv.org/html/2507.17394v1>) · [来源 2](<https://api.crossref.org/works/10.1145/3746027.3755575>)
+
+<a id="paper-varcmp"></a>
+
+### VarCMP: Adapting Cross-Modal Pre-Training Models for Video Anomaly Retrieval
+
+**2025 · AAAI** · [paper](<https://doi.org/10.1609/aaai.v39i8.32909>) · [引用 / BibTeX](<citations.md#cite-varcmp>)
+
+**创新：层级跨模态对齐与异常加权**
+
+将跨模态预训练模型用于长视频异常检索，通过统一层级对齐和异常偏置加权，匹配视频与文本或音频查询。
+
+- 任务：异常检索
+- 方法与场景标签：跨模态预训练、视频文本检索、视频音频检索
+- 核心启示：异常先验能把跨模态检索注意力集中到长视频中的关键片段。
+- 阅读关注：文本检索与音频检索的粒度、候选库和异常先验如何影响召回？
+- 核验：2026-10-01；[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/view/32909>) · [来源 2](<https://api.crossref.org/works/10.1609/aaai.v39i8.32909>)
 
 <a id="paper-mpgdfl"></a>
 
@@ -103,6 +211,22 @@
 - 核心启示：类别语义约束能补充二元异常判定的监督信息。
 - 阅读关注：时序聚合与语义提示分别改善哪些异常子类，如何控制误报？
 - 核验：2026-10-01；[来源 1](<https://ieeexplore.ieee.org/document/10667004/>) · [来源 2](<https://github.com/yujiangpu20/PEL4VAD>) · [来源 3](<https://api.crossref.org/works/10.1109/tip.2024.3451935>)
+
+<a id="paper-alan"></a>
+
+### Toward Video Anomaly Retrieval From Video Anomaly Detection: New Benchmarks and Model
+
+**2024 · TIP** · [paper](<https://doi.org/10.1109/tip.2024.3374070>) · [project](<https://github.com/Roc-Ng/VAR>) · [引用 / BibTeX](<citations.md#cite-alan>)
+
+**创新：异常引导采样与跨模态检索**
+
+提出长视频异常检索任务及 UCFCrime-AR、XDViolence-AR，使用异常引导采样、视频提示掩码短语建模和跨模态对齐检索相关视频。
+
+- 任务：异常检索、基准评测
+- 方法与场景标签：视频文本检索、视频音频检索、异常采样
+- 核心启示：详细文本或同步音频能将异常分析扩展到具体事件的检索。
+- 阅读关注：检索目标是完整未裁剪视频，查询相关片段的占比如何影响匹配？
+- 核验：2026-10-01；[来源 1](<https://arxiv.org/html/2307.12545v2>) · [来源 2](<https://github.com/Roc-Ng/VAR>) · [来源 3](<https://api.crossref.org/works/10.1109/tip.2024.3374070>)
 
 <a id="paper-ewad"></a>
 
@@ -196,6 +320,38 @@
 - 阅读关注：核查合成图像校准、场景变化与超参数对免训练设定的影响。
 - 核验：2026-10-01；[来源 1](<https://neurips.cc/Downloads/2026>) · [来源 2](<https://neurips.cc/virtual/2026/poster/152043>) · [来源 3](<https://arxiv.org/abs/2605.08003>)
 
+<a id="paper-anomaly-ov"></a>
+
+### Towards Zero-Shot Anomaly Detection and Reasoning with Multimodal Large Language Models
+
+**2025 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2025/html/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.html>) · [code](<https://github.com/honda-research-institute/Anomaly-OneVision>) · [project](<https://xujiacong.github.io/Anomaly-OV/>) · [引用 / BibTeX](<citations.md#cite-anomaly-ov>)
+
+**创新：二次特征匹配与异常视觉token筛选**
+
+通过 Look-Twice Feature Matching 学习异常表征并突出可疑视觉 token，结合异常指令微调生成缺陷描述、可能原因和改进建议；配套 Anomaly-Instruct-125k 与 VisA-D&R。
+
+- 任务：异常检测、异常解释、异常推理
+- 方法与场景标签：工业图像、异常问答、视觉指令微调、视觉token筛选
+- 核心启示：细粒度视觉证据的选择与表征可以直接服务于异常解释。
+- 阅读关注：零样本指目标类别／数据集设置，模型仍经过异常监督与指令微调；生成的原因和建议不等同于已验证因果。
+- 核验：2026-10-03；[来源 1](<https://openaccess.thecvf.com/content/CVPR2025/html/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.html>) · [来源 2](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) · [来源 3](<https://github.com/honda-research-institute/Anomaly-OneVision>)
+
+<a id="paper-echotraffic"></a>
+
+### EchoTraffic: Enhancing Traffic Anomaly Understanding with Audio-Visual Insights
+
+**2025 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2025/html/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.html>) · [code](<https://github.com/HarryHsing/EchoTraffic>) · [引用 / BibTeX](<citations.md#cite-echotraffic>)
+
+**创新：声音引导选帧与音视频动态融合**
+
+用声音变化引导关键帧选择，再经动态连接器融合音视频信息进行交通异常问答；构建 AV-TAU，覆盖事件描述、原因、时段、预防与响应五项任务。
+
+- 任务：异常定位、异常解释、异常推理、视频问答
+- 方法与场景标签：道路交通、音视频融合、声音引导采样、事故理解
+- 核心启示：碰撞声等听觉线索能补充视野之外或视觉不清晰的异常证据。
+- 阅读关注：预防建议与事故提前预测是不同任务；应核查音频质量和时间定位误差对解释的影响。
+- 核验：2026-10-03；[来源 1](<https://openaccess.thecvf.com/content/CVPR2025/html/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.html>) · [来源 2](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) · [来源 3](<https://github.com/HarryHsing/EchoTraffic>)
+
 <a id="paper-dsrl"></a>
 
 ### Beyond Euclidean: Dual-Space Representation Learning for Weakly Supervised Video Violence Detection
@@ -228,6 +384,21 @@
 - 阅读关注：生成的描述用于训练监督，最终检测分数不等同于面向用户的异常解释。
 - 核验：2026-10-04；[来源 1](<https://arxiv.org/html/2504.18866v1>) · [来源 2](<https://github.com/wuzhanjie123/PiercingEye>) · [来源 3](<https://api.crossref.org/works/10.1109/tpami.2025.3617460>)
 
+<a id="paper-ssmctb"></a>
+
+### Self-Supervised Masked Convolutional Transformer Block for Anomaly Detection
+
+**2024 · TPAMI** · [paper](<https://doi.org/10.1109/tpami.2023.3322604>) · [引用 / BibTeX](<citations.md#cite-ssmctb>)
+
+**创新：掩码卷积与通道注意力自监督**
+
+在网络内部用掩码卷积、通道 Transformer 与 Huber 自监督目标重构被遮蔽信息，可接入图像和视频异常检测网络。
+
+- 任务：异常检测
+- 核心启示：把正常模式重构约束下沉到可复用的表征模块，支持 RGB 与热成像视频等任务。
+- 阅读关注：模块级检测性能提升不代表已有语言解释能力；与工业异常问答方法分开阅读。
+- 核验：2026-10-04；[来源 1](<https://arxiv.org/abs/2209.12148>) · [来源 2](<https://api.crossref.org/works/10.1109/tpami.2023.3322604>)
+
 <a id="paper-tthf"></a>
 
 ### Text-Driven Traffic Anomaly Detection With Temporal High-Frequency Modeling in Driving Videos
@@ -242,6 +413,22 @@
 - 核心启示：在道路场景中把异常语义与瞬时运动变化结合，为后续语言化理解提供表征基础。
 - 阅读关注：文本用于检测监督与语义对齐，不能把异常分数视为自由文本原因解释。
 - 核验：2026-10-04；[来源 1](<https://arxiv.org/abs/2401.03522>) · [来源 2](<https://api.crossref.org/works/10.1109/tcsvt.2024.3390173>)
+
+<a id="paper-anomalygpt"></a>
+
+### AnomalyGPT: Detecting Industrial Anomalies Using Large Vision-Language Models
+
+**2024 · AAAI** · [paper](<https://ojs.aaai.org/index.php/AAAI/article/view/27963>) · [引用 / BibTeX](<citations.md#cite-anomalygpt>)
+
+**创新：缺陷定位特征与语言提示对齐**
+
+用合成缺陷图像和对应描述构造监督，通过细粒度视觉语言解码器产生定位特征，再以可学习提示接入大视觉语言模型，支持缺陷判断、定位和多轮交互。
+
+- 任务：异常检测、空间定位、异常解释
+- 方法与场景标签：工业图像、视觉语言对齐、多轮对话、少样本迁移
+- 核心启示：先让局部缺陷进入语言模型可用的表示，才能支撑图像异常判断与交互描述。
+- 阅读关注：工业图像的定位和问答表现不能直接外推到视频时序理解；少样本迁移与数据集内训练须分开比较。
+- 核验：2026-10-04；[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/view/27963>) · [来源 2](<https://ojs.aaai.org/index.php/AAAI/article/download/27963/27945>)
 
 <a id="paper-mgfn"></a>
 
@@ -473,7 +660,7 @@
 
 研究问题：异常样本稀缺时，怎样构造异常与监督？
 
-分叉节点：[LAVIDA](<#paper-lavida>)；[分叉依据](<https://arxiv.org/html/2602.19248v4>) — LAVIDA 同时构造异常监督并融合多模态特征进行检测；在此将异常合成阅读支线与继续通往流式检测的阅读线分开，沿用已有双重方法归属，不表示后续论文直接继承。
+分叉节点：[LAVIDA](<#paper-lavida>)；[分叉依据](<https://arxiv.org/html/2602.19248v4>) — LAVIDA 同时构造伪异常监督并融合多模态表征；从蓝色表征主干接出同色合成支线。沿用原有方法证据，连线为阅读关联，不声明继承。
 
 <a id="paper-ovvad"></a>
 
@@ -486,7 +673,7 @@
 将开放词汇检测分解为类别无关检测与类别识别，用语言知识和合成未知异常支持未见类别。
 
 - 任务：异常检测
-- 兼属方法：视频异常检测；[归类依据](<https://arxiv.org/abs/2311.07042>) — 2026-10-04 按输出任务拆分图中检测阅读线。作者提出语义知识注入与未知异常合成模块，分别支撑检测和类别识别，据此保留表征对齐与监督构造双重归属。图中作为普通衔接站，两色线路连续经过；不表示后续论文直接继承。
+- 兼属方法：表征、对齐与融合；[归类依据](<https://arxiv.org/abs/2311.07042>) — 2026-10-04 表征与理解阅读归类：作者提出语义知识注入与未知异常合成模块，分别支撑检测和类别识别，据此保留表征对齐与监督构造双重归属。图中作为普通衔接站，蓝色表征与监督路线连续经过；不表示后续论文直接继承。
 - 核心启示：异常检测之外，还需回答未知异常属于什么语义类别。
 - 阅读关注：合成异常与真实未见事件之间的差异如何影响识别？
 - 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.html>) · [来源 2](<https://openaccess.thecvf.com/content/CVPR2024/papers/Wu_Open-Vocabulary_Video_Anomaly_Detection_CVPR_2024_paper.pdf>)
@@ -502,7 +689,7 @@
 将事件描述与视频帧对齐，结合正常性视觉提示生成帧级伪标签，再进行时序自训练。
 
 - 任务：异常检测、异常定位
-- 兼属方法：视频异常检测；[归类依据](<https://arxiv.org/html/2404.08531v1#S3.SS2>) — 2026-10-04 按输出任务拆分图中检测阅读线。TPWNG 的可学习文本提示、正常视觉提示和 CLIP 域适配明确用于改进事件文字与视频帧对齐，据此添加表征对齐次级归属。监督阅读色段在该普通衔接站接回后续表征主干；不声明后续论文直接继承。
+- 兼属方法：表征、对齐与融合；[归类依据](<https://arxiv.org/html/2404.08531v1#S3.SS2>) — 2026-10-04 表征与理解阅读归类：TPWNG 的可学习文本提示、正常视觉提示和 CLIP 域适配明确用于改进事件文字与视频帧对齐，据此添加表征对齐次级归属。监督阅读色段在该普通衔接站接回后续表征主干；不声明后续论文直接继承。
 - 核心启示：正常性参照可把事件文字转化为更细的弱监督信号。
 - 阅读关注：正常性提示与文本对齐误差如何共同影响伪标签？
 - 核验：2026-10-02；[来源 1](<https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html>) · [来源 2](<https://arxiv.org/abs/2404.08531>)
@@ -518,7 +705,7 @@
 仅用伪异常训练，结合多模态大模型语义理解与反向注意力词元压缩，实现零样本帧级和像素级异常检测。
 
 - 任务：异常检测、异常定位
-- 兼属方法：视频异常检测；[归类依据](<https://arxiv.org/html/2602.19248v4#S3.SS7>) — 2026-10-04 按输出任务拆分图中检测阅读线。LAVIDA 第 3.5–3.7 节将 MLLM 异常语义、CLIP 类别文本和视觉特征通过跨模态注意力及多尺度语义投影融合，并投影到掩码解码器空间；据此归入表征对齐与融合。主归属保留异常构造与监督，跨模态融合贡献保留为次级阅读归属；图面在该共享站分出监督构造支线，检测阅读线继续通往 ReactVAU，使用单个普通分支站；不表示直接继承相邻论文。
+- 兼属方法：表征、对齐与融合；[归类依据](<https://arxiv.org/html/2602.19248v4#S3.SS7>) — 2026-10-04 表征与理解阅读归类：LAVIDA 第 3.5–3.7 节将 MLLM 异常语义、CLIP 类别文本和视觉特征通过跨模态注意力及多尺度语义投影融合，并投影到掩码解码器空间；据此归入表征对齐与融合。主归属保留异常构造与监督，跨模态融合贡献保留为次级阅读归属；图面在该共享站分出监督构造支线，表征主干继续前行，并经 TD-VAD 接出通往 ReactVAU 的阅读臂，使用单个普通分支站；不表示直接继承相邻论文。
 - 核心启示：可通过合成暴露异常语义，再检验对真实异常的零样本迁移。
 - 阅读关注：伪异常覆盖的语义与真实上下文依赖异常有多大差距？
 - 核验：2026-10-02；[来源 1](<https://openaccess.thecvf.com/content/CVPR2026/html/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.html>) · [来源 2](<https://github.com/VitaminCreed/LAVIDA>) · [来源 3](<https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_No_Need_For_Real_Anomaly_MLLM_Empowered_Zero-Shot_Video_Anomaly_CVPR_2026_paper.pdf>) · [来源 4](<https://arxiv.org/html/2602.19248v4#S3.SS7>)
@@ -584,200 +771,6 @@
 - 核心启示：为理解异常主体及降低背景干扰提供对象级建模与监督构造基础。
 - 阅读关注：跨场景应用要求正常事件定义一致；背景无关不等于任意场景中的语义泛化。
 - 核验：2026-10-04；[来源 1](<https://europepmc.org/article/MED/33881990>) · [来源 2](<https://api.crossref.org/works/10.1109/tpami.2021.3074805>)
-
-## 多模态理解与对齐
-
-围绕视觉语言对齐、MLLM 有效词元、隐藏状态与注意力头探测，以及异常语义检索、描述、问答和解释组织阅读。
-
-研究问题：如何把视觉、运动、声音与语言对齐为可检索、可描述、可解释的异常语义？
-
-<a id="paper-ex-vad"></a>
-
-### Ex-VAD: Explainable Fine-grained Video Anomaly Detection Based on Visual-Language Models
-
-**2025 · ICML** · [paper](<https://proceedings.mlr.press/v267/huang25ad.html>) · [引用 / BibTeX](<citations.md#cite-ex-vad>)
-
-**创新：解释融合与标签对齐**
-
-由帧字幕生成视频级异常解释，再结合视觉特征与标签增强对齐进行细粒度检测。
-
-- 任务：异常检测、异常解释
-- 兼属方法：视频异常检测；[归类依据](<https://proceedings.mlr.press/v267/huang25ad.html>) — 作者摘要同时明确异常解释与细粒度异常检测；据此作为多模态理解与视频异常检测的共享阅读节点。
-- 核心启示：解释文本既是输出，也能参与检测表征学习。
-- 阅读关注：更好的分类结果是否同时意味着更忠实的解释？
-- 核验：2026-09-29；[来源 1](<https://proceedings.mlr.press/v267/huang25ad.html>)
-
-<a id="paper-hawk"></a>
-
-### Hawk: Learning to Understand Open-World Video Anomalies
-
-**2024 · NeurIPS** · [paper](<https://arxiv.org/abs/2405.16886>) · [code](<https://github.com/jqtangust/hawk>) · [引用 / BibTeX](<citations.md#cite-hawk>)
-
-**创新：运动语言监督对齐**
-
-显式引入运动信息，并用异常视频描述与问答数据训练开放场景理解能力。
-
-- 任务：异常解释、视频问答
-- 核心启示：异常理解不仅需要外观，也需要动作变化与交互。
-- 阅读关注：开放场景能力如何随数据来源和问题类型变化？
-- 核验：2026-09-29；[来源 1](<https://arxiv.org/abs/2405.16886>) · [来源 2](<https://github.com/jqtangust/hawk/blob/main/README.md>)
-
-<a id="paper-va-gpt"></a>
-
-### Aligning Effective Tokens with Video Anomaly in Large Language Models
-
-**2025 · ICCV** · [paper](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>) · [引用 / BibTeX](<citations.md#cite-va-gpt>)
-
-**创新：时空有效词元对齐**
-
-通过空间有效词元选择与时间有效词元生成，减少冗余视觉信息，支持异常总结和时间定位。
-
-- 任务：异常定位、异常解释、视频问答
-- 兼属方法：时序建模与记忆；[归类依据](<https://openaccess.thecvf.com/content/ICCV2025/papers/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.pdf>) — 2026-10-04 核对摘要与 §3：Temporal Effective Token Generation 使用逐帧异常置信度在语言空间生成携带异常时间先验的词元，支持时序推理与定位；据此在多模态对齐主归属之外增加时序建模次级归属，作为两条阅读线的共享站。
-- 核心启示：进入语言模型的时空证据如何筛选，本身就是异常理解的关键。
-- 阅读关注：词元选择保留局部异常时，是否也保留解释所需的上下文？
-- 核验：2026-09-29；[来源 1](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>) · [来源 2](<https://openaccess.thecvf.com/content/ICCV2025/papers/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.pdf>)
-
-<a id="paper-headhunt-vad"></a>
-
-### HeadHunt-VAD: Hunting Robust Anomaly-Sensitive Heads in MLLM for Tuning-Free Video Anomaly Detection
-
-**2026 · AAAI** · [paper](<https://arxiv.org/abs/2512.17601>) · [code](<https://github.com/CebCai/HeadHunt-VAD>) · [引用 / BibTeX](<citations.md#cite-headhunt-vad>)
-
-**创新：稳定异常敏感注意力头探测**
-
-从冻结 MLLM 内部筛选对多种提示稳定的异常敏感注意力头，再用轻量评分器和时序定位器读取其特征。
-
-- 任务：异常检测、异常定位
-- 核心启示：从内部语义表征读取异常证据。
-- 阅读关注：仅冻结大模型，评分器仍需少量校准数据；主任务为检测而非开放式解释。
-- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2512.17601>) · [来源 2](<https://github.com/CebCai/HeadHunt-VAD>)
-
-<a id="paper-steervad"></a>
-
-### Steering and Rectifying Latent Representation Manifolds in Frozen Multi-modal LLMs for Video Anomaly Detection
-
-**2026 · ICLR** · [paper](<https://arxiv.org/abs/2602.24021>) · [引用 / BibTeX](<citations.md#cite-steervad>)
-
-**创新：潜在异常专家头与上下文表示校正**
-
-以表示可分性筛选潜在异常专家头，训练层次元控制器按上下文缩放其表示；异常片段可交回冻结模型生成事后解释。
-
-- 任务：异常检测、异常解释
-- 核心启示：从被动读取转向干预异常语义表征。
-- 阅读关注：控制器和评分器仍需少量训练数据；事后生成解释不等同于检测依据的忠实证明。
-- 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2602.24021>) · [来源 2](<https://iclr.cc/virtual/2026/papers.html>)
-
-<a id="paper-hiprobe-vad"></a>
-
-### HiProbe-VAD: Video Anomaly Detection via Hidden States Probing in Tuning-Free Multimodal LLMs
-
-**2025 · ACM MM** · [paper](<https://doi.org/10.1145/3746027.3755575>) · [引用 / BibTeX](<citations.md#cite-hiprobe-vad>)
-
-**创新：中间层探测与轻量异常评分**
-
-从冻结多模态大模型的中间隐藏状态选择异常敏感层，训练轻量逻辑回归评分器，并结合时序定位与文本解释分析异常。
-
-- 任务：异常检测、异常定位、异常解释
-- 方法与场景标签：冻结MLLM、隐藏状态探测、轻量评分器
-- 核心启示：异常证据既可来自生成文本，也可来自大模型内部表征。
-- 阅读关注：层选择与评分器使用的标注、数据比例和解释生成流程分别如何影响结果？
-- 核验：2026-10-01；[来源 1](<https://arxiv.org/html/2507.17394v1>) · [来源 2](<https://api.crossref.org/works/10.1145/3746027.3755575>)
-
-<a id="paper-varcmp"></a>
-
-### VarCMP: Adapting Cross-Modal Pre-Training Models for Video Anomaly Retrieval
-
-**2025 · AAAI** · [paper](<https://doi.org/10.1609/aaai.v39i8.32909>) · [引用 / BibTeX](<citations.md#cite-varcmp>)
-
-**创新：层级跨模态对齐与异常加权**
-
-将跨模态预训练模型用于长视频异常检索，通过统一层级对齐和异常偏置加权，匹配视频与文本或音频查询。
-
-- 任务：异常检索
-- 方法与场景标签：跨模态预训练、视频文本检索、视频音频检索
-- 核心启示：异常先验能把跨模态检索注意力集中到长视频中的关键片段。
-- 阅读关注：文本检索与音频检索的粒度、候选库和异常先验如何影响召回？
-- 核验：2026-10-01；[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/view/32909>) · [来源 2](<https://api.crossref.org/works/10.1609/aaai.v39i8.32909>)
-
-<a id="paper-alan"></a>
-
-### Toward Video Anomaly Retrieval From Video Anomaly Detection: New Benchmarks and Model
-
-**2024 · TIP** · [paper](<https://doi.org/10.1109/tip.2024.3374070>) · [project](<https://github.com/Roc-Ng/VAR>) · [引用 / BibTeX](<citations.md#cite-alan>)
-
-**创新：异常引导采样与跨模态检索**
-
-提出长视频异常检索任务及 UCFCrime-AR、XDViolence-AR，使用异常引导采样、视频提示掩码短语建模和跨模态对齐检索相关视频。
-
-- 任务：异常检索、基准评测
-- 方法与场景标签：视频文本检索、视频音频检索、异常采样
-- 核心启示：详细文本或同步音频能将异常分析扩展到具体事件的检索。
-- 阅读关注：检索目标是完整未裁剪视频，查询相关片段的占比如何影响匹配？
-- 核验：2026-10-01；[来源 1](<https://arxiv.org/html/2307.12545v2>) · [来源 2](<https://github.com/Roc-Ng/VAR>) · [来源 3](<https://api.crossref.org/works/10.1109/tip.2024.3374070>)
-
-<a id="paper-anomaly-ov"></a>
-
-### Towards Zero-Shot Anomaly Detection and Reasoning with Multimodal Large Language Models
-
-**2025 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2025/html/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.html>) · [code](<https://github.com/honda-research-institute/Anomaly-OneVision>) · [project](<https://xujiacong.github.io/Anomaly-OV/>) · [引用 / BibTeX](<citations.md#cite-anomaly-ov>)
-
-**创新：二次特征匹配与异常视觉token筛选**
-
-通过 Look-Twice Feature Matching 学习异常表征并突出可疑视觉 token，结合异常指令微调生成缺陷描述、可能原因和改进建议；配套 Anomaly-Instruct-125k 与 VisA-D&R。
-
-- 任务：异常检测、异常解释、异常推理
-- 方法与场景标签：工业图像、异常问答、视觉指令微调、视觉token筛选
-- 核心启示：细粒度视觉证据的选择与表征可以直接服务于异常解释。
-- 阅读关注：零样本指目标类别／数据集设置，模型仍经过异常监督与指令微调；生成的原因和建议不等同于已验证因果。
-- 核验：2026-10-03；[来源 1](<https://openaccess.thecvf.com/content/CVPR2025/html/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.html>) · [来源 2](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) · [来源 3](<https://github.com/honda-research-institute/Anomaly-OneVision>)
-
-<a id="paper-echotraffic"></a>
-
-### EchoTraffic: Enhancing Traffic Anomaly Understanding with Audio-Visual Insights
-
-**2025 · CVPR** · [paper](<https://openaccess.thecvf.com/content/CVPR2025/html/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.html>) · [code](<https://github.com/HarryHsing/EchoTraffic>) · [引用 / BibTeX](<citations.md#cite-echotraffic>)
-
-**创新：声音引导选帧与音视频动态融合**
-
-用声音变化引导关键帧选择，再经动态连接器融合音视频信息进行交通异常问答；构建 AV-TAU，覆盖事件描述、原因、时段、预防与响应五项任务。
-
-- 任务：异常定位、异常解释、异常推理、视频问答
-- 方法与场景标签：道路交通、音视频融合、声音引导采样、事故理解
-- 核心启示：碰撞声等听觉线索能补充视野之外或视觉不清晰的异常证据。
-- 阅读关注：预防建议与事故提前预测是不同任务；应核查音频质量和时间定位误差对解释的影响。
-- 核验：2026-10-03；[来源 1](<https://openaccess.thecvf.com/content/CVPR2025/html/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.html>) · [来源 2](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) · [来源 3](<https://github.com/HarryHsing/EchoTraffic>)
-
-<a id="paper-ssmctb"></a>
-
-### Self-Supervised Masked Convolutional Transformer Block for Anomaly Detection
-
-**2024 · TPAMI** · [paper](<https://doi.org/10.1109/tpami.2023.3322604>) · [引用 / BibTeX](<citations.md#cite-ssmctb>)
-
-**创新：掩码卷积与通道注意力自监督**
-
-在网络内部用掩码卷积、通道 Transformer 与 Huber 自监督目标重构被遮蔽信息，可接入图像和视频异常检测网络。
-
-- 任务：异常检测
-- 核心启示：把正常模式重构约束下沉到可复用的表征模块，支持 RGB 与热成像视频等任务。
-- 阅读关注：模块级检测性能提升不代表已有语言解释能力；与工业异常问答方法分开阅读。
-- 核验：2026-10-04；[来源 1](<https://arxiv.org/abs/2209.12148>) · [来源 2](<https://api.crossref.org/works/10.1109/tpami.2023.3322604>)
-
-<a id="paper-anomalygpt"></a>
-
-### AnomalyGPT: Detecting Industrial Anomalies Using Large Vision-Language Models
-
-**2024 · AAAI** · [paper](<https://ojs.aaai.org/index.php/AAAI/article/view/27963>) · [引用 / BibTeX](<citations.md#cite-anomalygpt>)
-
-**创新：缺陷定位特征与语言提示对齐**
-
-用合成缺陷图像和对应描述构造监督，通过细粒度视觉语言解码器产生定位特征，再以可学习提示接入大视觉语言模型，支持缺陷判断、定位和多轮交互。
-
-- 任务：异常检测、空间定位、异常解释
-- 方法与场景标签：工业图像、视觉语言对齐、多轮对话、少样本迁移
-- 核心启示：先让局部缺陷进入语言模型可用的表示，才能支撑图像异常判断与交互描述。
-- 阅读关注：工业图像的定位和问答表现不能直接外推到视频时序理解；少样本迁移与数据集内训练须分开比较。
-- 核验：2026-10-04；[来源 1](<https://ojs.aaai.org/index.php/AAAI/article/view/27963>) · [来源 2](<https://ojs.aaai.org/index.php/AAAI/article/download/27963/27945>)
 
 ## 时序建模与记忆
 
@@ -903,7 +896,7 @@
 
 - 任务：异常检测、异常解释、异常推理
 - 方法与场景标签：流式理解、条件触发
-- 兼属方法：视频异常检测；[归类依据](<https://arxiv.org/html/2609.07941v2#S3.SS2>) — 2026-10-04 核对 §3.2、§3.4 与 Figure 2：Spatial Grid Folding 快速模块连续输出异常分数，慢速语义验证分数与其融合用于最终检测；AAPM 保留异常证据。因此保留时序记忆主归属，并增加视频异常检测次级归属，连接检测与记忆两条阅读线。
+- 兼属方法：表征、对齐与融合；[归类依据](<https://arxiv.org/html/2609.07941v2#S3.SS2>) — 2026-10-04 核对 §3.2、§3.4 与 Figure 2：Spatial Grid Folding 快速模块连续输出异常分数，慢速语义验证分数与其融合用于最终检测；AAPM 保留异常证据。因此保留时序记忆主归属，并增加表征、对齐与融合次级归属，连接表征与记忆两条阅读线。
 - 核心启示：流式理解需要同时控制证据遗忘和重型模型调用频率。
 - 阅读关注：分别检查触发延迟、异常漏检与记忆保真度，不能只比较离线检测分数。
 - 核验：2026-09-30；[来源 1](<https://arxiv.org/abs/2609.07941>)

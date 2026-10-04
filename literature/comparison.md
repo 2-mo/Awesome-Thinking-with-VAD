@@ -8,25 +8,37 @@
 
 冻结主模型不等于整个流程无需训练；提示搜索、轻量模块训练和权重微调分别记录。在线／流式标签不能单独证明不访问未来帧。不同数据划分、输入模态与评测协议下的数值不作统一排名。
 
-## 视频异常检测
+## 表征、对齐与融合
 
 | 论文 | 输出／评测对象 | 训练与适配 | 运行设置 | 未来帧访问 | 验证方式 |
 | --- | --- | --- | --- | --- | --- |
 | [VadCLIP](<catalog.md#paper-vadclip>) | [粗细粒度异常检测](<https://arxiv.org/abs/2308.11681>) | 待核验 | 待核验 | 待核验 | 待核验 |
+| [Ex-VAD](<catalog.md#paper-ex-vad>) | [异常解释；细粒度检测](<https://proceedings.mlr.press/v267/huang25ad.html>) | 待核验 | 待核验 | 待核验 | 待核验 |
+| [HAWK](<catalog.md#paper-hawk>) | [异常描述；问答](<https://arxiv.org/abs/2405.16886>) | [异常描述与问答监督训练](<https://arxiv.org/abs/2405.16886>) | 待核验 | 待核验 | 待核验 |
 | [Anomize](<catalog.md#paper-anomize>) | [异常检测；未见类别识别](<https://openaccess.thecvf.com/content/CVPR2025/html/Li_Anomize_Better_Open_Vocabulary_Video_Anomaly_Detection_CVPR_2025_paper.html>) | 待核验 | 待核验 | 待核验 | 待核验 |
+| [VA-GPT](<catalog.md#paper-va-gpt>) | [异常总结；时间定位](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>) | 待核验 | 待核验 | 待核验 | 待核验 |
 | [Alert-CLIP](<catalog.md#paper-alert-clip>) | [异常检测](<https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Alert-CLIP_Abnormality-aware_Latent-Enhanced_Representation_Tuning_of_CLIP_for_Video_Anomaly_CVPR_2026_paper.html>) | 待核验 | 待核验 | 待核验 | 待核验 |
 | [TD-VAD](<catalog.md#paper-td-vad>) | [异常检测](<https://arxiv.org/abs/2608.11820>) | [文本监督训练检测器；冻结 CLIP](<https://arxiv.org/abs/2608.11820>) | 待核验 | 待核验 | 待核验 |
+| [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) | [异常评分；时序定位](<https://arxiv.org/abs/2512.17601>) | [冻结 MLLM；轻量评分器校准](<https://arxiv.org/abs/2512.17601>) | 待核验 | 待核验 | 待核验 |
+| [SteerVAD](<catalog.md#paper-steervad>) | [异常评分；事后解释](<https://arxiv.org/abs/2602.24021>) | [冻结 MLLM；控制器／评分器训练](<https://arxiv.org/abs/2602.24021>) | 待核验 | 待核验 | 待核验 |
+| [HiProbe-VAD](<catalog.md#paper-hiprobe-vad>) | [帧级异常分数；时序定位；文本解释](<https://arxiv.org/html/2507.17394v1>) | [冻结MLLM；约1%训练数据用于层选择；训练逻辑回归评分器](<https://arxiv.org/html/2507.17394v1>) | [提取选定中间层隐藏状态；轻量评分与解释生成](<https://arxiv.org/html/2507.17394v1>) | 待核验 | [UCF-Crime帧级ROC-AUC；XD-Violence AP](<https://arxiv.org/html/2507.17394v1>) |
+| [VarCMP](<catalog.md#paper-varcmp>) | [文本—视频检索；音频—视频检索](<https://ojs.aaai.org/index.php/AAAI/article/view/32909>) | 待核验 | 待核验 | 待核验 | [UCFCrime-AR；XDViolence-AR；R@1](<https://ojs.aaai.org/index.php/AAAI/article/view/32909>) |
 | [Multilingual VAD](<catalog.md#paper-mpgdfl>) | [正常／异常视频判别](<https://pubmed.ncbi.nlm.nih.gov/40674182/>) | [视频级弱监督；多语言提示引导损失；方向损失](<https://pubmed.ncbi.nlm.nih.gov/40674182/>) | 待核验 | 待核验 | 待核验 |
 | [PEL](<catalog.md#paper-pel>) | [时序异常定位；异常子类区分](<https://ieeexplore.ieee.org/document/10667004/>) | [视频级弱监督；时序聚合与提示增强学习](<https://ieeexplore.ieee.org/document/10667004/>) | 待核验 | 待核验 | [UCF-Crime；XD-Violence；ShanghaiTech](<https://ieeexplore.ieee.org/document/10667004/>) |
+| [ALAN / VAR](<catalog.md#paper-alan>) | [未裁剪视频的跨模态检索；两个异常检索基准](<https://arxiv.org/html/2307.12545v2>) | [跨模态对齐；视频提示掩码短语建模](<https://arxiv.org/html/2307.12545v2>) | 待核验 | 待核验 | 待核验 |
 | [EWAD](<catalog.md#paper-ewad>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
 | [Scene-Dependent VAD](<catalog.md#paper-scene-dependent-vad>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
 | [UPR-VAD](<catalog.md#paper-upr-vad>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
 | [DEAL](<catalog.md#paper-deal-vad>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
 | [COPRA](<catalog.md#paper-copra>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
 | [SphereVAD](<catalog.md#paper-spherevad>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
+| [Anomaly-OV](<catalog.md#paper-anomaly-ov>) | [异常判别；缺陷描述；可能原因与改进建议](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) | [异常专家训练；视觉指令微调](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) | 待核验 | 待核验 | [VisA-D&R 检测指标；ROUGE-L／SBERT／GPT-Score 推理评测](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) |
+| [EchoTraffic](<catalog.md#paper-echotraffic>) | [事件描述与原因解释；异常起止时段；预防与响应建议](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) | [音视频与语言对齐；监督微调](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) | 待核验 | 待核验 | [AV-TAU 五任务评测](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) |
 | [DSRL](<catalog.md#paper-dsrl>) | [逐片段暴力分数](<https://proceedings.neurips.cc/paper_files/paper/2024/file/1f471322127d6347e5ae09a14b1e5cf7-Paper-Conference.pdf>) | [视频级标签弱监督](<https://proceedings.neurips.cc/paper_files/paper/2024/file/1f471322127d6347e5ae09a14b1e5cf7-Paper-Conference.pdf>) | 待核验 | 待核验 | 待核验 |
 | [PiercingEye](<catalog.md#paper-piercingeye>) | [逐片段暴力分数](<https://arxiv.org/html/2504.18866v1>) | [视频级标签弱监督；生成的易混淆事件文本](<https://arxiv.org/html/2504.18866v1>) | 待核验 | 待核验 | 待核验 |
+| [SSMCTB](<catalog.md#paper-ssmctb>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
 | [TTHF](<catalog.md#paper-tthf>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
+| [AnomalyGPT](<catalog.md#paper-anomalygpt>) | [异常判断与像素级定位；图像描述与多轮对话](<https://ojs.aaai.org/index.php/AAAI/article/download/27963/27945>) | [合成缺陷图文监督；图像解码器与提示学习](<https://ojs.aaai.org/index.php/AAAI/article/download/27963/27945>) | 待核验 | 待核验 | [MVTec-AD 与 VisA 的图像级和像素级 AUC；异常判断准确率](<https://ojs.aaai.org/index.php/AAAI/article/download/27963/27945>) |
 | [MGFN](<catalog.md#paper-mgfn>) | [视频帧或片段异常分数](<https://arxiv.org/pdf/2211.15098>) | [视频级标签弱监督](<https://arxiv.org/pdf/2211.15098>) | 待核验 | 待核验 | 待核验 |
 | [UR-DMU](<catalog.md#paper-ur-dmu>) | [视频帧或片段异常分数](<https://arxiv.org/pdf/2302.05160>) | [视频级标签弱监督](<https://arxiv.org/pdf/2302.05160>) | 待核验 | 待核验 | 待核验 |
 | [STG-NF](<catalog.md#paper-stg-nf>) | [视频帧或片段异常分数](<https://openaccess.thecvf.com/content/ICCV2023/papers/Hirschorn_Normalizing_Flows_for_Human_Pose_Anomaly_Detection_ICCV_2023_paper.pdf>) | [仅正常训练及监督变体分别评测](<https://openaccess.thecvf.com/content/ICCV2023/papers/Hirschorn_Normalizing_Flows_for_Human_Pose_Anomaly_Detection_ICCV_2023_paper.pdf>) | 待核验 | 待核验 | 待核验 |
@@ -53,23 +65,6 @@
 | [PA-VAD](<catalog.md#paper-pa-vad>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
 | [CAVGE](<catalog.md#paper-cavge>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
 | [Background-Agnostic VAD](<catalog.md#paper-background-agnostic-vad>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
-
-## 多模态理解与对齐
-
-| 论文 | 输出／评测对象 | 训练与适配 | 运行设置 | 未来帧访问 | 验证方式 |
-| --- | --- | --- | --- | --- | --- |
-| [Ex-VAD](<catalog.md#paper-ex-vad>) | [异常解释；细粒度检测](<https://proceedings.mlr.press/v267/huang25ad.html>) | 待核验 | 待核验 | 待核验 | 待核验 |
-| [HAWK](<catalog.md#paper-hawk>) | [异常描述；问答](<https://arxiv.org/abs/2405.16886>) | [异常描述与问答监督训练](<https://arxiv.org/abs/2405.16886>) | 待核验 | 待核验 | 待核验 |
-| [VA-GPT](<catalog.md#paper-va-gpt>) | [异常总结；时间定位](<https://openaccess.thecvf.com/content/ICCV2025/html/Chen_Aligning_Effective_Tokens_with_Video_Anomaly_in_Large_Language_Models_ICCV_2025_paper.html>) | 待核验 | 待核验 | 待核验 | 待核验 |
-| [HeadHunt-VAD](<catalog.md#paper-headhunt-vad>) | [异常评分；时序定位](<https://arxiv.org/abs/2512.17601>) | [冻结 MLLM；轻量评分器校准](<https://arxiv.org/abs/2512.17601>) | 待核验 | 待核验 | 待核验 |
-| [SteerVAD](<catalog.md#paper-steervad>) | [异常评分；事后解释](<https://arxiv.org/abs/2602.24021>) | [冻结 MLLM；控制器／评分器训练](<https://arxiv.org/abs/2602.24021>) | 待核验 | 待核验 | 待核验 |
-| [HiProbe-VAD](<catalog.md#paper-hiprobe-vad>) | [帧级异常分数；时序定位；文本解释](<https://arxiv.org/html/2507.17394v1>) | [冻结MLLM；约1%训练数据用于层选择；训练逻辑回归评分器](<https://arxiv.org/html/2507.17394v1>) | [提取选定中间层隐藏状态；轻量评分与解释生成](<https://arxiv.org/html/2507.17394v1>) | 待核验 | [UCF-Crime帧级ROC-AUC；XD-Violence AP](<https://arxiv.org/html/2507.17394v1>) |
-| [VarCMP](<catalog.md#paper-varcmp>) | [文本—视频检索；音频—视频检索](<https://ojs.aaai.org/index.php/AAAI/article/view/32909>) | 待核验 | 待核验 | 待核验 | [UCFCrime-AR；XDViolence-AR；R@1](<https://ojs.aaai.org/index.php/AAAI/article/view/32909>) |
-| [ALAN / VAR](<catalog.md#paper-alan>) | [未裁剪视频的跨模态检索；两个异常检索基准](<https://arxiv.org/html/2307.12545v2>) | [跨模态对齐；视频提示掩码短语建模](<https://arxiv.org/html/2307.12545v2>) | 待核验 | 待核验 | 待核验 |
-| [Anomaly-OV](<catalog.md#paper-anomaly-ov>) | [异常判别；缺陷描述；可能原因与改进建议](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) | [异常专家训练；视觉指令微调](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) | 待核验 | 待核验 | [VisA-D&R 检测指标；ROUGE-L／SBERT／GPT-Score 推理评测](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf>) |
-| [EchoTraffic](<catalog.md#paper-echotraffic>) | [事件描述与原因解释；异常起止时段；预防与响应建议](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) | [音视频与语言对齐；监督微调](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) | 待核验 | 待核验 | [AV-TAU 五任务评测](<https://openaccess.thecvf.com/content/CVPR2025/papers/Xing_EchoTraffic_Enhancing_Traffic_Anomaly_Understanding_with_Audio-Visual_Insights_CVPR_2025_paper.pdf>) |
-| [SSMCTB](<catalog.md#paper-ssmctb>) | 待核验 | 待核验 | 待核验 | 待核验 | 待核验 |
-| [AnomalyGPT](<catalog.md#paper-anomalygpt>) | [异常判断与像素级定位；图像描述与多轮对话](<https://ojs.aaai.org/index.php/AAAI/article/download/27963/27945>) | [合成缺陷图文监督；图像解码器与提示学习](<https://ojs.aaai.org/index.php/AAAI/article/download/27963/27945>) | 待核验 | 待核验 | [MVTec-AD 与 VisA 的图像级和像素级 AUC；异常判断准确率](<https://ojs.aaai.org/index.php/AAAI/article/download/27963/27945>) |
 
 ## 时序建模与记忆
 

@@ -3,95 +3,108 @@
   "updatedAt": "2026-10-04",
   "clusters": [
     {
-      "id": "detection",
-      "name": "视频异常检测",
-      "nameEn": "Video Anomaly Detection",
-      "description": "精选支撑异常理解的检测范式：视觉语言提示、开放词汇、多模态语义、欧氏／双曲几何表征、联邦语义蒸馏、事件完整性与视觉语言复核；主要输出为异常判断与定位。",
-      "question": "怎样判断和定位异常，并适应未知类别、新模态与免训练部署？",
-      "color": "#b36224",
+      "id": "alignment",
+      "name": "表征、对齐与融合",
+      "description": "围绕异常语义表征、开放词汇、多模态融合、大模型内部机制及适配，连接语义检测、检索、描述、问答与解释。",
+      "question": "如何从视觉、运动、声音和语言形成异常语义，并支撑检测与理解？",
+      "color": "#348dcc",
       "position": {
-        "x": 0,
-        "y": 130
+        "x": 210,
+        "y": 260
       },
-      "layoutNear": "alignment",
-      "layoutSide": "above",
+      "nameEn": "Representation, Alignment & Fusion",
       "routes": [
         {
           "paperIds": [
             "vadclip",
+            "alan",
             "ovvad"
           ],
           "evidence": {
             "url": "https://arxiv.org/abs/2308.11681",
-            "note": "从 VadCLIP 的视觉语言适配接入 OVVAD 开放词汇监督；提示学习方向精选代表作，PE-MIL 保留为目录中的补充阅读。按贡献组织阅读，不声明方法继承。"
+            "note": "蓝色主干从视觉语言语义检测进入开放词汇监督。 连线是编辑阅读顺序，不声明方法继承。"
           }
         },
         {
           "paperIds": [
             "tpwng",
-            "tthf",
-            "fedvad",
-            "stprompt",
-            "dsrl",
-            "anomize",
+            "hawk",
+            "varcmp",
+            "echotraffic",
             "pi-vad",
             "ex-vad",
-            "lec-vad",
+            "va-gpt",
+            "hiprobe-vad",
             "mpgdfl",
-            "piercingeye",
+            "headhunt-vad",
+            "steervad",
             "alert-clip",
-            "d2mil",
             "fine-vad",
+            "lavida",
             "td-vad",
+            "ewad",
+            "deal-vad",
             "scene-dependent-vad",
-            "upr-vad",
             "spherevad"
           ],
           "evidence": {
-            "url": "https://arxiv.org/abs/2605.08003",
-            "note": "检测主干以异常理解关联为选篇依据：语义蒸馏、多模态语义诱导、完整事件定位与视觉语言复核，连接已有开放词汇、语言提示及免训练检测；相邻关系仅表示阅读顺序。 STPrompt 将语义提示用于异常区域定位，Fine-VAD 补充从二值判断到细粒度类别的渐进对齐。"
+            "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Majhi_Just_Dance_with_pi_A_Poly-modal_Inductor_for_Weakly-supervised_Video_CVPR_2025_paper.html",
+            "note": "蓝色连续主干合并语义检测和多模态理解；Fine-VAD 的细粒度语义、PI-VAD 的多模态诱导、HeadHunt-VAD 的内部注意力头等均为表征与理解阅读内容，不以是否输出自然语言解释划界。 连线是编辑阅读顺序，不声明方法继承。"
           }
         },
         {
           "paperIds": [
-            "alert-clip",
-            "lavida",
-            "reactvau"
+            "hawk",
+            "dsrl",
+            "anomize",
+            "lec-vad",
+            "ex-vad"
           ],
           "evidence": {
-            "url": "https://arxiv.org/html/2609.07941v2#S3.SS2",
-            "note": "从 Alert-CLIP、LAVIDA 阅读语义监督检测，再到 ReactVAU 的快慢流式检测；LAVIDA 分出监督构造支线，ReactVAU 的检测与记忆贡献接入时序主线。为阅读关联，不表示直接继承。"
+            "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/1f471322127d6347e5ae09a14b1e5cf7-Abstract-Conference.html",
+            "note": "在蓝色主干上方展开双空间表征、开放词汇与完整事件语义的局部阅读支线，与主干的异常检索、问答和解释并排阅读，在 Ex-VAD 回接；连线是编辑阅读关联，不声明继承。"
           }
         },
         {
           "paperIds": [
-            "td-vad",
-            "ewad",
-            "deal-vad"
-          ],
-          "evidence": {
-            "url": "https://arxiv.org/abs/2603.24991",
-            "note": "保留事件相机与多模态检测阅读支线：EWAD 的事件流基准及 RGB 蒸馏、DEAL 的音视频证据融合；独立终止于 DEAL，不表示后者使用前者的数据或方法。"
-          }
-        },
-        {
-          "paperIds": [
-            "upr-vad",
+            "scene-dependent-vad",
             "copra"
           ],
           "evidence": {
             "url": "https://arxiv.org/abs/2605.15325",
-            "note": "从检测适配阅读接至 COPRA 的条件参数生成，作为检测线普通终点；其视频问答／字幕迁移能力保留在摘要，不额外建立理解线换乘。相邻工作不表示直接继承。"
+            "note": "后期适配支线保留 COPRA 的冻结模型条件参数更新。 连线是编辑阅读顺序，不声明方法继承。"
+          }
+        },
+        {
+          "paperIds": [
+            "td-vad",
+            "reactvau"
+          ],
+          "evidence": {
+            "url": "https://arxiv.org/abs/2609.07941",
+            "note": "从表征与监督桥接到 ReactVAU 的快慢流式检测和持久记忆；共享站点保留原有多方法贡献来源。 连线是编辑阅读顺序，不声明方法继承。"
+          }
+        },
+        {
+          "paperIds": [
+            "headhunt-vad",
+            "piercingeye"
+          ],
+          "evidence": {
+            "url": "https://doi.org/10.1109/tpami.2025.3617460",
+            "note": "在冻结模型内部机制主干旁，单独展开 PiercingEye 的场景／行为文字与细粒度语义判别阅读支线；固定画幅下利用纵向空间。连线是编辑阅读关联，不声明继承。"
           }
         }
-      ]
+      ],
+      "layoutNear": "understanding",
+      "layoutSide": "above"
     },
     {
       "id": "synthesis",
       "name": "异常构造与监督",
       "description": "从语言定义、伪标签与伪异常到可控视频生成，为异常检测构造学习信号。",
       "question": "异常样本稀缺时，怎样构造异常与监督？",
-      "color": "#b14e8a",
+      "color": "#348dcc",
       "position": {
         "x": 0,
         "y": 0
@@ -104,8 +117,8 @@
             "tpwng"
           ],
           "evidence": {
-            "url": "https://arxiv.org/abs/2404.08531",
-            "note": "早期局部阅读段：OVVAD 的未知异常合成与 TPWNG 的正常性引导伪标签提供监督信号。该段作为检测主干内的连续色段，前后衔接视频异常检测方向；两端为普通衔接站，不单独形成悬出的支线，也不声明逐篇继承。"
+            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Text_Prompt_with_Normality_Guidance_for_Weakly_Supervised_Video_Anomaly_CVPR_2024_paper.html",
+            "note": "早期开放词汇与正常性引导监督作为蓝色主干内部连续段。 连线是编辑阅读顺序，不声明方法继承。"
           }
         },
         {
@@ -116,63 +129,28 @@
             "cavge"
           ],
           "evidence": {
-            "url": "https://arxiv.org/html/2602.19248v4#S3.SS7",
-            "note": "从 LAVIDA 的伪异常训练与语义融合共享站点接出后期生成阅读段；AnomalyCraft、PA-VAD、CAVGE 保持同一异常构造方向，不呈现为孤立新分类，也不表示逐篇直接继承。"
+            "url": "https://arxiv.org/abs/2609.06978",
+            "note": "从 LAVIDA 接出局部蓝色合成支线，包含语义可控异常生成与监督。 连线是编辑阅读顺序，不声明方法继承。"
           }
         }
       ],
-      "layoutNear": "detection",
-      "layoutSide": "below",
-      "branchOf": "detection",
+      "layoutNear": "alignment",
+      "layoutSide": "above",
+      "branchOf": "alignment",
       "branchAt": {
         "paperId": "lavida",
         "evidence": {
           "url": "https://arxiv.org/html/2602.19248v4",
-          "note": "LAVIDA 同时构造异常监督并融合多模态特征进行检测；在此将异常合成阅读支线与继续通往流式检测的阅读线分开，沿用已有双重方法归属，不表示后续论文直接继承。"
+          "note": "LAVIDA 同时构造伪异常监督并融合多模态表征；从蓝色表征主干接出同色合成支线。沿用原有方法证据，连线为阅读关联，不声明继承。"
         }
       }
-    },
-    {
-      "id": "alignment",
-      "name": "多模态理解与对齐",
-      "description": "围绕视觉语言对齐、MLLM 有效词元、隐藏状态与注意力头探测，以及异常语义检索、描述、问答和解释组织阅读。",
-      "question": "如何把视觉、运动、声音与语言对齐为可检索、可描述、可解释的异常语义？",
-      "color": "#2475a8",
-      "position": {
-        "x": 210,
-        "y": 260
-      },
-      "nameEn": "Multimodal Understanding & Alignment",
-      "routes": [
-        {
-          "paperIds": [
-            "anomalygpt",
-            "alan",
-            "hawk",
-            "varcmp",
-            "anomaly-ov",
-            "echotraffic",
-            "ex-vad",
-            "va-gpt",
-            "hiprobe-vad",
-            "headhunt-vad",
-            "steervad"
-          ],
-          "evidence": {
-            "url": "https://proceedings.mlr.press/v267/huang25ad.html",
-            "note": "Ex-VAD 连接检测与解释；后段按 VA-GPT 的有效词元、HiProbe-VAD 的隐藏状态探测、HeadHunt-VAD 的异常敏感注意力头、SteerVAD 的表示校正串联多模态大模型内部表征阅读。各论文机制依据其独立来源，不将连线解释为直接继承。COPRA 仅列检测线。"
-          }
-        }
-      ],
-      "layoutNear": "understanding",
-      "layoutSide": "above"
     },
     {
       "id": "understanding",
       "name": "时序建模与记忆",
       "description": "创新：场景条件前后向预测、姿态与轨迹序列建模、事件边界、多粒度时间组织与在线记忆。",
       "question": "怎样建模异常随时间的变化，并组织事件边界与历史信息？",
-      "color": "#7955ac",
+      "color": "#9168c2",
       "position": {
         "x": 790,
         "y": 620
@@ -181,31 +159,12 @@
       "routes": [
         {
           "paperIds": [
-            "nwpu-campus-paper",
-            "uca-paper"
-          ],
-          "evidence": {
-            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
-            "note": "校园监控异常与监控视频语言理解的早期阅读支线，在 UCA 与道路异常支线汇聚；连接表示阅读关联，不登记直接继承或数据使用关系。"
-          }
-        },
-        {
-          "paperIds": [
-            "dota-paper",
-            "uca-paper"
-          ],
-          "evidence": {
-            "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
-            "note": "道路视频异常与监控视频语言理解的早期阅读支线，在 UCA 与 NWPU Campus 支线汇聚；两项数据工作保持独立站点，不表示 UCA 使用 DoTA 数据。"
-          }
-        },
-        {
-          "paperIds": [
             "uca-paper",
-            "scene-dependent-vaa",
             "holmes-vau",
             "va-gpt",
             "where-what",
+            "eventvad",
+            "vadtree",
             "monitor",
             "panda",
             "valu",
@@ -216,19 +175,7 @@
           ],
           "evidence": {
             "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Yuan_Towards_Surveillance_Video-and-Language_Understanding_New_Dataset_Baselines_and_Challenges_CVPR_2024_paper.html",
-            "note": "以 UCA 为早期两支线的汇聚站，延续时序建模与记忆阅读主线；后续相邻论文保持原阅读顺序，不声明逐篇直接继承。 Where and What 按正式发表日期 2025-10-24 调整到 10 月阅读段，位于 12 月的 MoniTor／PANDA 之前。 VA-GPT 的时间有效词元在多模态对齐与时序建模之间形成共享阅读站；线路不表示论文继承。 后期沿 MemoVAD、ReactVAU、S2MGraph-VAD、PEER-VAD 连续阅读记忆、流式理解、场景图与事件细化。"
-          }
-        },
-        {
-          "paperIds": [
-            "where-what",
-            "eventvad",
-            "vadtree",
-            "panda"
-          ],
-          "evidence": {
-            "url": "https://arxiv.org/abs/2504.13092",
-            "note": "时序建模在 VA-GPT 共享站后先沿主线到 Where and What，再分出事件组织支线（EventVAD、VADTree），与在线记忆主线在 PANDA 的跨片段记忆站汇合；为编辑阅读关联，不表示直接继承。"
+            "note": "从 UCA 视频语言标注进入多粒度理解、有效词元、场景与原子动作语义、事件组织及在线记忆；保留连续主干，移出通用背景数据入口。连线为编辑阅读关联，不声明继承。"
           }
         }
       ]
@@ -238,7 +185,7 @@
       "name": "主动观察与工具决策",
       "description": "创新：场景规划、工具调用、补充采样与交互策略学习，让异常证据获取随当前疑点调整。",
       "question": "当前证据不足时，怎样决定下一次观察或工具调用？",
-      "color": "#936a0f",
+      "color": "#c58b12",
       "position": {
         "x": 380,
         "y": 620
@@ -250,7 +197,7 @@
       "name": "评测与任务拓展",
       "description": "从异常问答、关键视觉事实到细粒度语义与交通任务，检验异常理解的能力边界。",
       "question": "怎样设计任务与评价，让异常理解能力可检验？",
-      "color": "#647d34",
+      "color": "#7aae86",
       "position": {
         "x": 0,
         "y": 0
@@ -294,14 +241,13 @@
         {
           "paperIds": [
             "cuva",
-            "mmad",
             "black-swan",
             "phys-ad",
             "holotrace"
           ],
           "evidence": {
-            "url": "https://smartinternet.group/wp-content/uploads/2025/12/paper-whl-HoloTrace-mm.pdf",
-            "note": "从 CUVA 因果解释评测接出，经 MMAD 缺陷问答与 Phys-AD 物理原因解释评测，在 HoloTrace 的显式因果知识图推理处接回主线。HoloTrace 同时贡献 SVAD 数据集，但未使用 Phys-AD；此处连线表示问题与方法的阅读关联，不表示直接继承或数据使用关系。 在 MMAD 与 Phys-AD 之间补入 CVPR 2025 Black Swan，比较意外事件溯因、假设修正与物理解释评测。"
+            "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Li_Towards_Visual_Discrimination_and_Reasoning_of_Real-World_Physical_Dynamics_Physics-Grounded_CVPR_2025_paper.html",
+            "note": "从 CUVA 的事件因果评测，经 Black Swan 的意外事件溯因与解释修正、Phys-AD 的动态物理原因评测，在 HoloTrace 回接推理主线。MMAD 工业图像问答移至补充阅读。 连线为编辑阅读关联，不声明直接继承。"
           }
         }
       ],
@@ -312,7 +258,7 @@
       "name": "结构化推理与验证",
       "description": "创新：因果问题分解、对象关系编码、反思修正与关键事实评估，让异常解释可以被检查。",
       "question": "怎样组织推理，并检验结论是否抓住关键事实？",
-      "color": "#237f78",
+      "color": "#4d988c",
       "position": {
         "x": 910,
         "y": 260
@@ -321,7 +267,6 @@
       "routes": [
         {
           "paperIds": [
-            "cmcir",
             "cuva",
             "adversa-sd",
             "anomalyruler",
@@ -339,12 +284,13 @@
             "stch",
             "anom-pi",
             "cg-coe",
+            "o-vad",
             "clue-vad",
             "avar"
           ],
           "evidence": {
-            "url": "https://ojs.aaai.org/index.php/AAAI/article/view/38378",
-            "note": "局部主线按结构化推理与主体解释组织阅读：Vad-R1 后经任务链式推理 URF-ZS-HVAA、主体交互图 TargetVAU，至具有感知/认知/行动链的 Vad-R1-Plus 汇合。共现偏差修正作为同色并行阅读段，日期相同时按连接结构排布；不表示逐篇方法继承。 ADVersa 按期刊上线月份接在 2026 年 1 月推理工作之后，以对象关系与事故溯因组织阅读，不表示其继承相邻论文。 JUDO 按 ICLR 2026 四月接入，以正常参照与领域知识联合推理补充阅读。 早期加入 CMCIR 的事件级因果问答与 AdVersa-SD 的事故溯因理解，连接 CUVA 等后续异常解释阅读；这些相邻关系不表示直接继承。 IAD-R1 按 AAAI 2026 接入一月推理训练阅读段。"
+            "url": "https://arxiv.org/abs/2607.18142",
+            "note": "按真实发表时间串联视频异常解释、因果与关系推理、反思验证和对象状态演化。O-VAD 是工业视频理解，回到主干；工业图像支线移出。 连线为编辑阅读关联，不声明直接继承。"
           }
         },
         {
@@ -357,18 +303,6 @@
             "url": "https://papers.nips.cc/paper_files/paper/2025/hash/99b419554537c66bf27e5eb7a74c7de4-Abstract-Conference.html",
             "note": "同色局部阅读支线：VAD-DPO 针对物体与异常词语共现的捷径依赖，以语义相反的视频对做偏好优化；在 Vad-R1 的自验证推理与 Vad-R1-Plus 的风险/深度/验证奖励节点之间组织可靠性阅读。依据各论文已核验的方法摘要，不声明直接继承，也不新增方法分类。"
           }
-        },
-        {
-          "paperIds": [
-            "vad-r1-plus",
-            "iad-r1",
-            "judo",
-            "o-vad"
-          ],
-          "evidence": {
-            "url": "https://arxiv.org/abs/2607.18142",
-            "note": "从 Plus 的推理阅读主线分出工业异常方向：IAD-R1、JUDO 展示工业图像中的感知和异常问答，O-VAD 延伸至工业视频的对象状态推理并作为支线终点。保留齿轮／视频语境图标；不再为几何闭环回接 LAS-VAD，亦不声明逐篇继承。"
-          }
         }
       ]
     },
@@ -377,7 +311,7 @@
       "name": "异常判据与提示优化",
       "description": "创新：可读属性与正常模式、字幕到判断的语言中介、规则归纳与提示优化，将异常标准显式化。",
       "question": "怎样构造场景适用、可解释的异常判据？",
-      "color": "#bf4d40",
+      "color": "#ef6150",
       "position": {
         "x": 550,
         "y": 180
@@ -389,7 +323,6 @@
             "eval",
             "lavad",
             "anomalyruler",
-            "log-sad",
             "vera",
             "promptvad",
             "lagovad",
@@ -398,8 +331,8 @@
             "road"
           ],
           "evidence": {
-            "url": "https://2026.acmmm.org/site/technical-programme.html",
-            "note": "判据与提示阅读主线按发表时间排列，PromptVAD 采用 2025-10-30 在线发表日期。LRPO 后沿规则／提示方向经 PRIME 至 ROAD。连接为编辑阅读安排，不声明逐篇继承；ROAD 具体机制仍以现有待核验说明为准。"
+            "url": "https://neurips.cc/Downloads/2026",
+            "note": "保留语言判断、显式异常定义、规则与提示优化主干；ROAD 按题名的规则与上下文判断关联接入。保留题名暂定归类和方法细节待核验说明，连线不表示直接继承。"
           }
         },
         {
@@ -410,7 +343,7 @@
           ],
           "evidence": {
             "url": "https://arxiv.org/abs/2609.17211",
-            "note": "红线右端从 LRPO 分出异常评分／比较判断的阅读支线，经 Probe-VAD 至 CA-Judge 独立收尾。基于已登记任务和题名组织阅读，不声明继承；CA-Judge 方法细节仍待核验。"
+            "note": "从 LRPO 接出序数语言探测与大模型比较判断的局部阅读段；CA-Judge 按题名暂定归类，不推断未核验的实现与实验结果。连线不表示直接继承。"
           }
         }
       ]
@@ -424,7 +357,7 @@
       "year": 2024,
       "venue": "AAAI",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测",
         "异常定位"
@@ -863,6 +796,10 @@
         {
           "url": "https://proceedings.mlr.press/v267/huang25ad.html",
           "note": "已核验一手论文：标题、方法与任务范围；年份按正式发表年，未确认会议时标为 arXiv。"
+        },
+        {
+          "url": "https://proceedings.mlr.press/v267/huang25ad.html",
+          "note": "作者摘要同时明确异常解释与细粒度异常检测；据此作为多模态理解与视频异常检测的共享阅读节点。"
         }
       ],
       "verifiedAt": "2026-09-29",
@@ -924,16 +861,7 @@
         "sourcePageUrl": "https://proceedings.mlr.press/v267/huang25ad.html",
         "credit": "Chao Huang et al. / Ex-VAD",
         "verifiedAt": "2026-10-03"
-      },
-      "secondaryMethods": [
-        {
-          "cluster": "detection",
-          "evidence": {
-            "url": "https://proceedings.mlr.press/v267/huang25ad.html",
-            "note": "作者摘要同时明确异常解释与细粒度异常检测；据此作为多模态理解与视频异常检测的共享阅读节点。"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "cuva",
@@ -2191,10 +2119,10 @@
       },
       "secondaryMethods": [
         {
-          "cluster": "detection",
+          "cluster": "alignment",
           "evidence": {
             "url": "https://arxiv.org/abs/2311.07042",
-            "note": "2026-10-04 按输出任务拆分图中检测阅读线。作者提出语义知识注入与未知异常合成模块，分别支撑检测和类别识别，据此保留表征对齐与监督构造双重归属。图中作为普通衔接站，两色线路连续经过；不表示后续论文直接继承。"
+            "note": "2026-10-04 表征与理解阅读归类：作者提出语义知识注入与未知异常合成模块，分别支撑检测和类别识别，据此保留表征对齐与监督构造双重归属。图中作为普通衔接站，蓝色表征与监督路线连续经过；不表示后续论文直接继承。"
           }
         }
       ],
@@ -2297,10 +2225,10 @@
       },
       "secondaryMethods": [
         {
-          "cluster": "detection",
+          "cluster": "alignment",
           "evidence": {
             "url": "https://arxiv.org/html/2404.08531v1#S3.SS2",
-            "note": "2026-10-04 按输出任务拆分图中检测阅读线。TPWNG 的可学习文本提示、正常视觉提示和 CLIP 域适配明确用于改进事件文字与视频帧对齐，据此添加表征对齐次级归属。监督阅读色段在该普通衔接站接回后续表征主干；不声明后续论文直接继承。"
+            "note": "2026-10-04 表征与理解阅读归类：TPWNG 的可学习文本提示、正常视觉提示和 CLIP 域适配明确用于改进事件文字与视频帧对齐，据此添加表征对齐次级归属。监督阅读色段在该普通衔接站接回后续表征主干；不声明后续论文直接继承。"
           }
         }
       ],
@@ -2432,7 +2360,7 @@
       "year": 2025,
       "venue": "CVPR",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -2636,7 +2564,7 @@
       "year": 2026,
       "venue": "CVPR",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -2818,10 +2746,10 @@
       },
       "secondaryMethods": [
         {
-          "cluster": "detection",
+          "cluster": "alignment",
           "evidence": {
             "url": "https://arxiv.org/html/2602.19248v4#S3.SS7",
-            "note": "2026-10-04 按输出任务拆分图中检测阅读线。LAVIDA 第 3.5–3.7 节将 MLLM 异常语义、CLIP 类别文本和视觉特征通过跨模态注意力及多尺度语义投影融合，并投影到掩码解码器空间；据此归入表征对齐与融合。主归属保留异常构造与监督，跨模态融合贡献保留为次级阅读归属；图面在该共享站分出监督构造支线，检测阅读线继续通往 ReactVAU，使用单个普通分支站；不表示直接继承相邻论文。"
+            "note": "2026-10-04 表征与理解阅读归类：LAVIDA 第 3.5–3.7 节将 MLLM 异常语义、CLIP 类别文本和视觉特征通过跨模态注意力及多尺度语义投影融合，并投影到掩码解码器空间；据此归入表征对齐与融合。主归属保留异常构造与监督，跨模态融合贡献保留为次级阅读归属；图面在该共享站分出监督构造支线，表征主干继续前行，并经 TD-VAD 接出通往 ReactVAU 的阅读臂，使用单个普通分支站；不表示直接继承相邻论文。"
           }
         }
       ],
@@ -4898,7 +4826,7 @@
       "year": 2026,
       "venue": "ICML",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -5932,10 +5860,10 @@
       },
       "secondaryMethods": [
         {
-          "cluster": "detection",
+          "cluster": "alignment",
           "evidence": {
             "url": "https://arxiv.org/html/2609.07941v2#S3.SS2",
-            "note": "2026-10-04 核对 §3.2、§3.4 与 Figure 2：Spatial Grid Folding 快速模块连续输出异常分数，慢速语义验证分数与其融合用于最终检测；AAPM 保留异常证据。因此保留时序记忆主归属，并增加视频异常检测次级归属，连接检测与记忆两条阅读线。"
+            "note": "2026-10-04 核对 §3.2、§3.4 与 Figure 2：Spatial Grid Folding 快速模块连续输出异常分数，慢速语义验证分数与其融合用于最终检测；AAPM 保留异常证据。因此保留时序记忆主归属，并增加表征、对齐与融合次级归属，连接表征与记忆两条阅读线。"
           }
         }
       ]
@@ -6371,7 +6299,7 @@
       "year": 2025,
       "venue": "TPAMI",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -6513,7 +6441,7 @@
       "year": 2024,
       "venue": "TIP",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测",
         "异常定位"
@@ -7116,7 +7044,7 @@
       "year": 2026,
       "venue": "ECCV",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测",
         "基准评测"
@@ -7438,7 +7366,7 @@
       "year": 2026,
       "venue": "ACM MM",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -7703,7 +7631,7 @@
       "year": 2026,
       "venue": "ACM MM",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -7779,6 +7707,9 @@
           "url": "https://2026.acmmm.org/site/program-data.json",
           "note": "主要任务输出为视频异常判断、评分、定位或预判；使用推理组件不等同于开放式异常理解任务。"
         }
+      },
+      "mapExclusion": {
+        "note": "蓝线精选：主要处理弱监督片段过滤、置信约束与训练噪声，作为检测优化的补充阅读；保留完整文献记录。"
       }
     },
     {
@@ -7788,7 +7719,7 @@
       "year": 2026,
       "venue": "ACM MM",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -8182,7 +8113,7 @@
       "year": 2026,
       "venue": "NeurIPS",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -8271,7 +8202,7 @@
       "year": 2026,
       "venue": "NeurIPS",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -9046,6 +8977,9 @@
           "url": "https://proceedings.iclr.cc/paper_files/paper/2026/file/92a7a03e1c716970848a4a86cc8243ee-Paper-Conference.pdf",
           "note": "工业图像异常检测、定位或理解；图面仅用齿轮提示场景。"
         }
+      },
+      "mapExclusion": {
+        "note": "工业图像方法作为跨领域补充阅读；主图聚焦视频中的事件、时序证据与异常理解。"
       }
     },
     {
@@ -9293,6 +9227,9 @@
           "url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/d91ffbe9c126765755ff52d36b715683-Paper-Conference.pdf",
           "note": "工业图像异常检测、定位或理解；图面仅用齿轮提示场景。"
         }
+      },
+      "mapExclusion": {
+        "note": "工业图像方法作为跨领域补充阅读；主图聚焦视频中的事件、时序证据与异常理解。"
       }
     },
     {
@@ -9429,6 +9366,9 @@
           "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf",
           "note": "工业图像异常检测、定位或理解；图面仅用齿轮提示场景。"
         }
+      },
+      "mapExclusion": {
+        "note": "工业图像方法作为跨领域补充阅读；主图聚焦视频中的事件、时序证据与异常理解。"
       }
     },
     {
@@ -9759,6 +9699,9 @@
           "url": "https://openaccess.thecvf.com/content/CVPR2023/papers/Cao_A_New_Comprehensive_Benchmark_for_Semi-Supervised_Video_Anomaly_Detection_and_CVPR_2023_paper.pdf",
           "note": "主要任务输出为视频异常判断、评分、定位或预判；使用推理组件不等同于开放式异常理解任务。"
         }
+      },
+      "mapExclusion": {
+        "note": "基础检测、预测或通用事件问答背景；转为补充阅读，不占用视频异常理解主图入口。"
       }
     },
     {
@@ -9868,6 +9811,9 @@
           "url": "https://ieeexplore.ieee.org/abstract/document/10681297/",
           "note": "主要任务输出为视频异常判断、评分、定位或预判；使用推理组件不等同于开放式异常理解任务。"
         }
+      },
+      "mapExclusion": {
+        "note": "基础检测、预测或通用事件问答背景；转为补充阅读，不占用视频异常理解主图入口。"
       }
     },
     {
@@ -9877,7 +9823,7 @@
       "year": 2024,
       "venue": "NeurIPS",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 12,
         "basis": "conference",
@@ -9989,7 +9935,7 @@
       "year": 2026,
       "venue": "TPAMI",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 2,
         "basis": "journal",
@@ -10996,6 +10942,9 @@
           "url": "https://vision.soic.indiana.edu/papers/dota2022pami.pdf",
           "note": "交通、驾驶或道路异常相关研究；图面仅用道路图标提示场景，优先于检测任务图标。"
         }
+      },
+      "mapExclusion": {
+        "note": "基础检测、预测或通用事件问答背景；转为补充阅读，不占用视频异常理解主图入口。"
       }
     },
     {
@@ -11080,6 +11029,9 @@
           "url": "https://guanbinli.com/papers/Cross-Modal_Causal_Relational_Reasoning_for_Event-Level_Visual_Question_Answering.pdf",
           "note": "交通、驾驶或道路异常相关研究；图面仅用道路图标提示场景，优先于检测任务图标。"
         }
+      },
+      "mapExclusion": {
+        "note": "基础检测、预测或通用事件问答背景；转为补充阅读，不占用视频异常理解主图入口。"
       }
     },
     {
@@ -11182,7 +11134,7 @@
       "year": 2024,
       "venue": "TCSVT",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "tasks": [
         "异常检测"
       ],
@@ -11256,6 +11208,9 @@
           "url": "https://arxiv.org/abs/2401.03522",
           "note": "交通、驾驶或道路异常相关研究；图面仅用道路图标提示场景，优先于检测任务图标。"
         }
+      },
+      "mapExclusion": {
+        "note": "按用户选篇要求移出视觉异常理解主图，保留为文本驱动道路异常检测的补充阅读。"
       }
     },
     {
@@ -11493,6 +11448,9 @@
           "url": "https://ojs.aaai.org/index.php/AAAI/article/download/27963/27945",
           "note": "工业图像异常检测、定位或理解；图面仅用齿轮提示场景。"
         }
+      },
+      "mapExclusion": {
+        "note": "工业图像方法作为跨领域补充阅读；主图聚焦视频中的事件、时序证据与异常理解。"
       }
     },
     {
@@ -11618,6 +11576,9 @@
           "url": "https://openaccess.thecvf.com/content/CVPR2026/papers/Zhang_ADSeeker_A_Knowledge-Grounded_Reasoning_Framework_for_Industry_Anomaly_Detection_and_CVPR_2026_paper.pdf",
           "note": "工业图像异常检测、定位或理解；图面仅用齿轮提示场景。"
         }
+      },
+      "mapExclusion": {
+        "note": "工业图像方法作为跨领域补充阅读；主图聚焦视频中的事件、时序证据与异常理解。"
       }
     },
     {
@@ -11860,6 +11821,9 @@
           "url": "https://ojs.aaai.org/index.php/AAAI/article/download/37588/41550",
           "note": "工业图像异常检测、定位或理解；图面仅用齿轮提示场景。"
         }
+      },
+      "mapExclusion": {
+        "note": "工业图像方法作为跨领域补充阅读；主图聚焦视频中的事件、时序证据与异常理解。"
       }
     },
     {
@@ -11976,6 +11940,9 @@
           "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Zhang_Towards_Training-free_Anomaly_Detection_with_Vision_and_Language_Foundation_Models_CVPR_2025_paper.pdf",
           "note": "工业图像异常检测、定位或理解；图面仅用齿轮提示场景。"
         }
+      },
+      "mapExclusion": {
+        "note": "工业图像方法作为跨领域补充阅读；主图聚焦视频中的事件、时序证据与异常理解。"
       }
     },
     {
@@ -11985,7 +11952,7 @@
       "year": 2023,
       "venue": "AAAI",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 2,
         "basis": "conference",
@@ -12100,7 +12067,7 @@
       "year": 2023,
       "venue": "AAAI",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 2,
         "basis": "conference",
@@ -12212,7 +12179,7 @@
       "year": 2023,
       "venue": "ICCV",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 10,
         "basis": "conference",
@@ -12321,7 +12288,7 @@
       "year": 2023,
       "venue": "ICCV",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 10,
         "basis": "conference",
@@ -12434,7 +12401,7 @@
       "year": 2024,
       "venue": "CVPR",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 6,
         "basis": "conference",
@@ -12548,7 +12515,7 @@
       "year": 2025,
       "venue": "ICCV",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 10,
         "basis": "conference",
@@ -12661,7 +12628,7 @@
       "year": 2024,
       "venue": "TCSVT",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 12,
         "basis": "journal",
@@ -12784,7 +12751,7 @@
       "year": 2024,
       "venue": "CVPR",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 6,
         "basis": "conference",
@@ -12898,7 +12865,7 @@
       "year": 2024,
       "venue": "ECCV",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 10,
         "basis": "conference",
@@ -13010,6 +12977,9 @@
         "sourcePageUrl": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/6981_ECCV_2024_paper.php",
         "credit": "Fan Qi et al. / ECCV 2024",
         "verifiedAt": "2026-10-04"
+      },
+      "mapExclusion": {
+        "note": "蓝线精选：主要比较联邦检测中的教师适配、语义蒸馏与客户端分组，作为语义检测训练的补充阅读；主图优先呈现直接异常检索、问答、解释及模型内部理解机制。"
       }
     },
     {
@@ -13019,7 +12989,7 @@
       "year": 2025,
       "venue": "CVPR",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 6,
         "basis": "conference",
@@ -13135,7 +13105,7 @@
       "year": 2025,
       "venue": "ICML",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 7,
         "basis": "conference",
@@ -13242,7 +13212,7 @@
       "year": 2026,
       "venue": "CVPR",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 6,
         "basis": "conference",
@@ -13346,6 +13316,9 @@
         "sourcePageUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhao_Learning_from_Noisy_Supervision_A_Denoising-Debiasing_Framework_for_Weakly_Supervised_CVPR_2026_paper.html",
         "credit": "Yaxin Zhao et al. / CVPR 2026",
         "verifiedAt": "2026-10-04"
+      },
+      "mapExclusion": {
+        "note": "蓝线精选：主要处理弱监督训练中的噪声剔除与困难实例找回，作为检测训练策略补充；细粒度异常语义由 Fine-VAD、PI-VAD 等主图工作继续呈现。"
       }
     },
     {
@@ -13355,7 +13328,7 @@
       "year": 2024,
       "venue": "ACM MM",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 10,
         "basis": "conference",
@@ -13473,6 +13446,9 @@
         "sourcePageUrl": "https://arxiv.org/abs/2408.05905",
         "credit": "Peng Wu et al. / ACM MM 2024",
         "verifiedAt": "2026-10-04"
+      },
+      "mapExclusion": {
+        "note": "蓝线精选：主要比较时空提示对帧级检测与局部区域定位的改进，作为检测提示优化的补充阅读；保留完整文献记录。"
       }
     },
     {
@@ -13482,7 +13458,7 @@
       "year": 2026,
       "venue": "CVPR",
       "scope": "core",
-      "cluster": "detection",
+      "cluster": "alignment",
       "timeline": {
         "month": 6,
         "basis": "conference",

@@ -17,7 +17,7 @@ import { metroPath } from "./metro-path";
 import { createResearchBackdrop } from "./research-regions";
 import { createMapLegend, LEGEND_ROUTE_TOP, LEGEND_ROUTE_STEP, LEGEND_ITEMS, LEGEND_ROW_CENTER, legendDivider } from "./map-legend";
 import { createMapRouteLabels, ROUTE_LABEL_SIZE } from "./map-route-labels";
-import { MAP_FONT_SIZE } from "./map-typography";
+import { MAP_FONT_SIZE, MAP_FONT_FAMILY, MAP_RAIL_WIDTH } from "./map-typography";
 import "./research-map.css";
 
 interface Props {
@@ -107,7 +107,7 @@ function StationMarker({ station, colors, kind, active = false, muted = false }:
           <path d={connector} stroke={PAPER} strokeWidth="3" strokeLinecap="round" />
           {station.platforms.map((platform) => (
             <g key={platform.lineId}>
-              <StationShape kind={kind} x={platform.x} y={platform.y} radius={muted ? 5 : 8}
+              <StationShape kind={kind} x={platform.x} y={platform.y} radius={muted ? 5 : 10}
                 fill={PAPER} stroke={muted ? "#b1b9ae" : INK} strokeWidth={muted ? 2 : 2.8} />
               {!muted && kind !== "resource" && <circle cx={platform.x} cy={platform.y} r={active ? 3.6 : 3}
                 fill={colors.get(platform.lineId) || INK} />}
@@ -123,9 +123,9 @@ function StationMarker({ station, colors, kind, active = false, muted = false }:
         <>
           <circle className="metro-station-halo" cx={station.x} cy={station.y}
             r={active ? 16 : 11} fill={color} fillOpacity={active ? .16 : 0} />
-          <StationShape kind={kind} x={station.x} y={station.y} radius={active ? 12.5 : 11} fill={PAPER} />
+          <StationShape kind={kind} x={station.x} y={station.y} radius={active ? 15 : 13} fill={PAPER} />
           <StationShape kind={kind} className="metro-station-dot" x={station.x} y={station.y}
-            radius={active ? 9.5 : 8} fill={active && kind !== "resource" ? color : PAPER} stroke={color} strokeWidth={3.2} />
+            radius={active ? 12 : 10} fill={active && kind !== "resource" ? color : PAPER} stroke={color} strokeWidth={3.8} />
           {kind !== "resource" && <circle cx={station.x} cy={station.y}
             r={kind === "hybrid" ? 3.2 : active ? 3 : 2.3} fill={active ? PAPER : color} />}
         </>
@@ -258,18 +258,17 @@ export default function ResearchMap({
         ref={svgRef}
         className="research-map-canvas"
         viewBox={`0 0 ${width} ${height}`}
-        aria-label={`${papers.length} papers by year and quarter. Circles: methods. Squares: datasets or benchmarks. Squares with dots: combined contributions. Linked platforms: multiple research directions. Venue text: semibold conferences, journals on a pale background, and gray italic preprints.`}
+        aria-label={`${papers.length} papers arranged by year and approximate publication order; spacing follows research routes, not a month scale. Circles: methods. Squares: datasets or benchmarks. Squares with dots: combined contributions. Linked platforms: multiple research directions. Venue text: semibold conferences, journals on a pale background, and gray italic preprints.`}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
         style={{
-          fontFamily:
-            '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif',
+          fontFamily: MAP_FONT_FAMILY,
         }}
       >
-        <title>Anomaly Understanding · Research Route Map</title>
-        <desc>Research directions are named beside their colored routes. Circles mark methods, squares mark datasets or benchmarks, and squares with dots mark combined contributions. Branch departures and returns use ordinary markers. Venue names have no borders: semibold text for conferences, regular text on a pale background for journals, and gray italic text for preprints. {legend.embedded ? "The horizontal station key occupies clear space in the bottom-left corner." : "The station key appears below the map."}</desc>
+        <title>Visual Anomaly Understanding · Research Route Map</title>
+        <desc>Year bands preserve publication years; positions within each year show approximate order with spacing chosen for readability. Research directions are named beside their colored routes. Circles mark methods, squares mark datasets or benchmarks, and squares with dots mark combined contributions. Branch departures and returns use ordinary markers. Venue names have no borders: semibold text for conferences, regular text on a pale background for journals, and gray italic text for preprints. {legend.embedded ? "The horizontal station key occupies clear space in the bottom-left corner." : "The station key appears below the map."}</desc>
         <defs>
           <clipPath id={regionsClipId}>
             <rect x={network.plotBounds.x} y={plotTop} width={network.plotBounds.width} height={network.plotBounds.height} />
@@ -322,7 +321,7 @@ export default function ResearchMap({
                     textAnchor="middle"
                     fill={INK}
                     fontSize={MAP_FONT_SIZE.primary}
-                    fontWeight="850"
+                    fontWeight="700"
                     letterSpacing="-.8"
                   >
                     {year.year}
@@ -332,29 +331,6 @@ export default function ResearchMap({
                     stroke={INK}
                     strokeWidth="2"
                   />
-                  {year.quarters.map((quarter, quarterIndex) => (
-                    <g key={quarter.quarter ?? "unknown"}>
-                      {quarterIndex > 0 && (
-                        <path
-                          d={`M${quarter.x} ${plotTop - 25}V${plotBottom}`}
-                          stroke="#c3cdc2"
-                          strokeWidth=".8"
-                          strokeDasharray="2 8"
-                          opacity=".55"
-                        />
-                      )}
-                      <text
-                        x={quarter.x + quarter.width / 2}
-                        y={plotTop - 13}
-                        textAnchor="middle"
-                        fill={quarter.count ? "#52685e" : "#8b978d"}
-                        fontSize={MAP_FONT_SIZE.secondary}
-                        fontWeight="750"
-                      >
-                        {quarter.quarter === null ? "" : `Q${quarter.quarter}`}
-                      </text>
-                    </g>
-                  ))}
                 </g>
               ))}
               {network.lines.map((line) => {
@@ -378,7 +354,7 @@ export default function ResearchMap({
                       d={path}
                       fill="none"
                       stroke={PAPER}
-                      strokeWidth={focus && focusedLines.size ? 16 : 14}
+                      strokeWidth={focus && focusedLines.size ? MAP_RAIL_WIDTH + 10 : MAP_RAIL_WIDTH + 8}
                       strokeLinejoin="round"
                       strokeLinecap="round"
                     />
@@ -386,7 +362,7 @@ export default function ResearchMap({
                       d={path}
                       fill="none"
                       stroke={line.color}
-                      strokeWidth={focus && focusedLines.size ? 7.2 : 6}
+                      strokeWidth={focus && focusedLines.size ? MAP_RAIL_WIDTH + 1.5 : MAP_RAIL_WIDTH}
                       strokeLinejoin="round"
                       strokeLinecap="round"
                     />
@@ -410,7 +386,7 @@ export default function ResearchMap({
               </text>)}
               <g data-map-legend="true" data-embedded={legend.embedded} transform={`translate(${legend.x} ${legend.y})`} pointerEvents="none">
                 <rect width={legend.width} height={legend.height} rx="8" fill={PAPER} />
-                {!!legend.fallbackLineIds.length && <text x="16" y="26" fill="#65726a" fontSize={MAP_FONT_SIZE.secondary} fontWeight="750" letterSpacing="1.3">RESEARCH DIRECTIONS</text>}
+                {!!legend.fallbackLineIds.length && <text x="16" y="26" fill="#65726a" fontSize={MAP_FONT_SIZE.secondary} fontWeight="700" letterSpacing="1.3">RESEARCH DIRECTIONS</text>}
               {network.lines.filter(line => legend.fallbackLineIds.includes(line.id)).map((line, index) => {
                 const x = 16;
                 const y = LEGEND_ROUTE_TOP + index * LEGEND_ROUTE_STEP;
@@ -444,7 +420,7 @@ export default function ResearchMap({
               })}
               <g data-contribution-legend="true" transform={`translate(0 ${legendDivider(legend.fallbackLineIds.length)})`}>
                 {!!legend.fallbackLineIds.length && <path d={`M16 0H${legend.width - 16}`} stroke="#d9dfd3" strokeWidth="1" />}
-                <text x="16" y={LEGEND_ROW_CENTER + 8} fill="#65726a" fontSize={MAP_FONT_SIZE.secondary} fontWeight="750">STATION TYPES</text>
+                <text x="16" y={LEGEND_ROW_CENTER + 8} fill="#65726a" fontSize={MAP_FONT_SIZE.secondary} fontWeight="700">STATION TYPES</text>
                 {LEGEND_ITEMS.map(({ kind, x }) => (
                   <g key={kind} transform={`translate(${x} ${LEGEND_ROW_CENTER})`}>
                     <StationShape kind={kind} radius={8} fill={PAPER} stroke={INK} strokeWidth={2.6} />
@@ -521,7 +497,7 @@ export default function ResearchMap({
                   textAnchor="middle"
                   fill={INK}
                   fontSize={fontSize}
-                  fontWeight="750"
+                  fontWeight="700"
                   textLength={fitLabel(name, fontSize, available)}
                   lengthAdjust="spacingAndGlyphs"
                 >

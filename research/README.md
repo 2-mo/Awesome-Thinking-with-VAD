@@ -14,6 +14,8 @@
 
 ## 维护记录
 
+- [2026-10-04：视觉异常理解主图精选与固定宽度排版](video-understanding-focus-2026-10-04.md)
+
 - [2026-10-04：STPrompt、Fine-VAD 与顶部检测区扩展](detection-space-2026-10-04.md)
 
 - [2026-10-04：与异常理解相关的语义检测工作（2024–2026）](semantic-detection-2026-10-04.md)

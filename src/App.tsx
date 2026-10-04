@@ -4,13 +4,14 @@ import type { Catalog, Paper } from "./types";
 import ResearchMap from "./components/ResearchMap";
 import PaperFigure from "./components/PaperFigure";
 import PaperNavigation from "./components/PaperNavigation";
+import { MAP_CANVAS_WIDTH } from "./components/map-typography";
 import { createPublicationLayout } from "./components/publication-layout";
 import { clusterName, contributionLabels, isMapPaper, paperContribution, paperMethods, publicationVenue } from "./publication";
 
 const catalog = rawCatalog as Catalog;
 const mapPapers = catalog.papers.filter(isMapPaper);
 const paperById = new Map(mapPapers.map(paper => [paper.id, paper]));
-const mapLayout = createPublicationLayout(mapPapers, catalog.clusters);
+const mapLayout = createPublicationLayout(mapPapers, catalog.clusters, { width: MAP_CANVAS_WIDTH });
 const REPO = "https://github.com/2-mo/Awesome-Thinking-with-VAD";
 const initial = new URLSearchParams(window.location.search);
 const venues = [...new Set(mapPapers.map(p => publicationVenue(p.venue)))].sort();

@@ -43,10 +43,14 @@ export function createMapRouteLabels(network: PublicationLayout): RouteLabel[] {
       for (let i = 1; i < track.length; i++) {
         const a = track[i - 1], b = track[i];
         if (a.y !== b.y || b.x - a.x < 32) continue;
-        const left = b.x - a.x >= width + 24 ? a.x + 12 : (a.x + b.x - width) / 2;
-        const right = b.x - a.x >= width + 24 ? b.x - width - 12 : left;
-        for (let x = left; x <= right + .01; x += 16) for (const side of [-1, 1]) {
-          for (const gap of [12, 18, 24]) {
+        // On a short branch, slide the name around its level segment instead
+        // of testing only its center. Collision and nearest-rail checks still
+        // apply to the whole label, with at least 128 units of rail overlap.
+        const overlap = Math.min(128, b.x - a.x);
+        const left = b.x - a.x >= width + 24 ? a.x : Math.max(plot.x + 12, a.x - width + overlap);
+        const right = b.x - a.x >= width + 24 ? b.x - width : Math.min(plot.x + plot.width - width - 12, b.x - overlap);
+        for (let x = left; x <= right + .01; x += 8) for (const side of [-1, 1]) {
+          for (const gap of [12, 18, 24, 36]) {
             const y = side < 0 ? a.y - gap - height : a.y + gap;
             const box = { x, y, width, height };
             if (x < plot.x + 12 || x + width > plot.x + plot.width - 12 ||
