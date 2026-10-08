@@ -466,12 +466,12 @@ export default function ResearchMap({
               })}
               <g data-contribution-legend="true" transform={`translate(0 ${legendDivider(legend.fallbackLineIds.length)})`}>
                 {!!legend.fallbackLineIds.length && <path d={`M16 0H${legend.width - 16}`} stroke="#d9dfd3" strokeWidth="1" />}
-                <text x="16" y={LEGEND_ROW_CENTER + 8} fill="#65726a" fontSize={MAP_FONT_SIZE.secondary} fontWeight="700">STATION TYPES</text>
+                <text x="16" y={LEGEND_ROW_CENTER + 7} fill="#8b948b" fontSize={24} fontWeight="500">STATION TYPES</text>
                 {LEGEND_ITEMS.map(({ kind, x }) => (
                   <g key={kind} transform={`translate(${x} ${LEGEND_ROW_CENTER})`}>
-                    <StationShape kind={kind} radius={8} fill={PAPER} stroke={INK} strokeWidth={2.6} />
-                    {kind !== "resource" && <circle r={kind === "hybrid" ? 3.2 : 2.3} fill={INK} />}
-                    <text x="20" y="12" fill={INK} fontSize={MAP_FONT_SIZE.primary} fontWeight="650">{contributionLabels[kind]}</text>
+                    <StationShape kind={kind} radius={7} fill={PAPER} stroke="#7b857f" strokeWidth={2} />
+                    {kind !== "resource" && <circle r={kind === "hybrid" ? 2.8 : 2} fill="#7b857f" />}
+                    <text x="20" y="10" fill="#7b857f" fontSize={32} fontWeight="500">{contributionLabels[kind]}</text>
                   </g>
                 ))}
               </g>
