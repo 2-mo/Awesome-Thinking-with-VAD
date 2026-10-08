@@ -87,12 +87,12 @@
         },
         {
           "paperIds": [
-            "headhunt-vad",
+            "mpgdfl",
             "piercingeye"
           ],
           "evidence": {
             "url": "https://doi.org/10.1109/tpami.2025.3617460",
-            "note": "在冻结模型内部机制主干旁，单独展开 PiercingEye 的场景／行为文字与细粒度语义判别阅读支线；固定画幅下利用纵向空间。连线是编辑阅读关联，不声明继承。"
+            "note": "从 MPGDFL 的多语言文本提示接出 PiercingEye 的易混淆事件描述与双曲视觉语言对齐短支线，连接文本语义用于异常判别的阅读主题。连线是编辑阅读关联，不声明方法继承；DSRL → PiercingEye 的扩展关系保留在独立关系证据中。"
           }
         }
       ],
@@ -3644,7 +3644,7 @@
     },
     {
       "id": "a2seek",
-      "shortTitle": "A2Seek / A2Seek-R1",
+      "shortTitle": "A2Seek",
       "title": "A2Seek: Towards Reasoning-Centric Benchmark for Aerial Anomaly Understanding",
       "year": 2025,
       "venue": "NeurIPS Datasets and Benchmarks",

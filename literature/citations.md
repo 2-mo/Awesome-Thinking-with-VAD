@@ -39,7 +39,7 @@
 | [HoloTrace](#cite-holotrace) | 2025 · Proceedings of the 33rd ACM International Conference on Multimedia | [10.1145/3746027.3755185](<https://doi.org/10.1145/3746027.3755185>) |
 | [LaGoVAD](#cite-lagovad) | 2026 · International Conference on Learning Representations | 未核验 |
 | [MemoVAD](#cite-memovad) | 2026 · Thirty-Fifth International Joint Conference on Artificial Intelligence | [10.24963/ijcai.2026/618](<https://doi.org/10.24963/ijcai.2026/618>) |
-| [A2Seek / A2Seek-R1](#cite-a2seek) | 2025 · Advances in Neural Information Processing Systems | [10.52202/085713-5057](<https://doi.org/10.52202/085713-5057>) |
+| [A2Seek](#cite-a2seek) | 2025 · Advances in Neural Information Processing Systems | [10.52202/085713-5057](<https://doi.org/10.52202/085713-5057>) |
 | [AgenticVAU](#cite-agenticvau) | 2026 · arXiv 预印本 | [10.48550/arXiv.2608.03779](<https://doi.org/10.48550/arXiv.2608.03779>) |
 | [TAU-Bench](#cite-tau-bench) | 2026 · arXiv 预印本 | [10.48550/arXiv.2608.05699](<https://doi.org/10.48550/arXiv.2608.05699>) |
 | [AnomalyCraft-700K](#cite-anomalycraft) | 2026 · arXiv 预印本 | [10.48550/arXiv.2609.06978](<https://doi.org/10.48550/arXiv.2609.06978>) |
@@ -889,7 +889,7 @@
 
 <a id="cite-a2seek"></a>
 
-## A2Seek / A2Seek-R1
+## A2Seek
 
 **A2Seek: Towards Reasoning-Centric Benchmark for Aerial Anomaly Understanding**
 

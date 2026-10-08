@@ -466,7 +466,7 @@
 
 区分异常判断、区域定位和解释；遵循作者场景与分布外设置，不与固定监控结果直接混排。当前未核验下载状态。
 
-相关工作：[A2Seek / A2Seek-R1](<catalog.md#paper-a2seek>)
+相关工作：[A2Seek](<catalog.md#paper-a2seek>)
 
 来源：[1](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html>)
 

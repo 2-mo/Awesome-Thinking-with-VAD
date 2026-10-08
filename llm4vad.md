@@ -1522,7 +1522,7 @@ Evaluations and Datasets · [论文](<https://neurips.cc/virtual/2026/poster/139
 
 Datasets and Benchmarks · [论文](<https://proceedings.neurips.cc/paper_files/paper/2025/hash/de02de513503962e1d21035ab50ce661-Abstract-Datasets_and_Benchmarks_Track.html>) · [阅读笔记](<literature/catalog.md#paper-a2seek>) · [引用 / BibTeX](<literature/citations.md#cite-a2seek>)
 
-> **A2Seek / A2Seek-R1 · 图式推理与主动区域观察**
+> **A2Seek · 图式推理与主动区域观察**
 >
 > 构建含事件类别、时间戳、区域框和语言解释的真实航拍异常基准，以图式推理监督、A-GRPO 与区域 seeking 机制训练 A2Seek-R1。
 

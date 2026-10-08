@@ -1114,8 +1114,8 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     const station = stations.get(id);
     if (station?.lineId === "understanding" && !isInterchangeStation(station)) moveStation(station, memoryRoot.y);
   }
-  // Representation resumes on one stable shelf after VA-GPT. Its two
-  // short comparison arms use the open upper band instead of shifting the
+  // Representation resumes on one stable shelf after VA-GPT. Its
+  // comparison arms use the open upper band instead of shifting the
   // trunk whenever another ordinary stop is added.
   const representation = routeMembers.get("alignment")?.find(route =>
     route.some(p => p.id === "hiprobe-vad") && route.some(p => p.id === "spherevad"));
@@ -1129,11 +1129,14 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     // does not sit under LAVIDA's neighboring synthesis fork.
     const streaming = stations.get("td-vad");
     if (streaming && !isInterchangeStation(streaming)) moveStation(streaming, baseline + 120);
-    for (const id of ["piercingeye", "copra"]) {
-      const station = stations.get(id);
-      if (station && !isInterchangeStation(station)) moveStation(station, baseline - 120);
-    }
+    const adaptation = stations.get("copra");
+    if (adaptation && !isInterchangeStation(adaptation)) moveStation(adaptation, baseline - 120);
   }
+  // A short text-semantics arm leaves MPGDFL toward PiercingEye.
+  // Keep it above the trunk; the DSRL extension stays in paper metadata.
+  const textPrompts = stations.get("mpgdfl"), piercingEye = stations.get("piercingeye");
+  if (textPrompts && piercingEye && !isInterchangeStation(piercingEye))
+    moveStation(piercingEye, textPrompts.y - 120);
   // Put the generation arm above the continuous blue trunk. It leaves at
   // LAVIDA, while the later streaming arm leaves at TD-VAD toward memory.
   const synthesisFork = stations.get("lavida"), blueTrunk = stations.get("steervad");
@@ -1144,14 +1147,16 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       if (station) moveStation(station, synthesisFork.y - 192);
     }
   }
-  // Keep the late observation and evaluation runs separated by a full
-  // label corridor. Their old opposing zigzags pinched names between rails.
+  // Leave room for both opposing name blocks plus whitespace between them.
+  // Keep evaluation above reasoning and raise the observation run locally.
   for (const ids of [["agenticvau", "vibes", "vto", "seek-vau"],
     ["pistachio", "ecva-anomshield", "tau-bench", "tar-bench"]]) {
     const members = ids.map(id => stations.get(id)).filter((s): s is Station => !!s);
     if (members.length < 2 || members.some(isInterchangeStation)) continue;
-    const y = ids.includes("tau-bench") && reasoningShelf !== undefined ? reasoningShelf - 192
-      : Math.round(members.reduce((sum, s) => sum + s.y, 0) / members.length / 24) * 24;
+    const averageY = Math.round(members.reduce((sum, s) => sum + s.y, 0) / members.length / 24) * 24;
+    const evaluationY = reasoningShelf === undefined ? undefined : reasoningShelf - 192;
+    const y = evaluationY === undefined ? averageY
+      : ids.includes("tau-bench") ? evaluationY : Math.min(averageY, evaluationY - 240);
     members.forEach(s => moveStation(s, y));
   }
   // Entry arms settle onto their continuing trunk at the named merge. Moving
@@ -1180,6 +1185,9 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
   // handling within that side when space exists instead of flipping a label
   // merely to save a few pixels of horizontal alignment.
   const preferredLabelSides = new Map<string, number>([
+    ["adversa-sd", -1],
+    ["vagu-gts", -1], ["valu", -1],
+    ["reactvau", -1], ["peer-vad", -1], ["s2mgraph-vad", 1],
     ["cuebench", -1], ["vad-dpo", 1],
     ["anomalycraft", 1], ["pa-vad", 1], ["cavge", -1],
     ["eval", 1], ["lavad", -1], ["log-sad", 1], ["vera", -1],
@@ -1351,6 +1359,20 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       paperId: paper.id, ...stations.get(paper.id)!.platforms.find(p => p.lineId === school.id)!,
     }))),
   ]));
+  // A trunk that begins at a fork needs a visible lead into its first station.
+  // The branch still starts at the shared marker. Reserve the lead before
+  // label placement so a left-aligned name cannot hide the incoming rail.
+  const entryLeads = new Map<string, Segment>();
+  for (const [id, routes] of routesByLine) routes.forEach((stops, index) => {
+    const first = stops[0];
+    if (!first || stations.get(first.paperId)!.fork?.parentId !== id) return;
+    const hasIncoming = [...routesByLine.values()].some(otherRoutes =>
+      otherRoutes.some(route => route.slice(1).some(stop => stop.paperId === first.paperId)));
+    if (!hasIncoming) entryLeads.set(`${id}:${index}`, {
+      a: { x: Math.max(plotBounds.x, first.x - 96), y: first.y },
+      b: { x: first.x, y: first.y },
+    });
+  });
   const junctions: PublicationLayout["junctions"] = [...stations.values()].filter(s => s.fork)
     .map(s => ({ x: s.x, y: s.y, paperId: s.paperId, ...s.fork! }));
   // Keep labels next to their paper. Station bodies and planned tracks define
@@ -1387,6 +1409,7 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
       }
       return segments(planned).map(segment => ({ ...segment, routeKey: `${id}:${routeIndex}` }));
     })));
+  for (const [routeKey, segment] of entryLeads) corridors.push({ ...segment, routeKey });
   const labelOptions = new Map<string, LabelCandidate[]>();
   for (const paper of papers) {
     const station = stations.get(paper.id)!;
@@ -1446,8 +1469,10 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     }
     const nearbyCandidates = associated.length ? associated : candidates;
     const preferredSide = preferredLabelSides.get(paper.id);
-    const preferred = preferredSide === undefined ? [] : nearbyCandidates.filter(({ box }) => preferredSide < 0
-      ? box.y + box.height < station.platforms[0].y : box.y > station.platforms.at(-1)!.y);
+    const preferred = preferredSide === undefined ? [] : nearbyCandidates.filter(({ box }) =>
+      (preferredSide < 0 ? box.y + box.height < station.platforms[0].y : box.y > station.platforms.at(-1)!.y) &&
+      // AdVersa-SD reads to the upper right of its marker.
+      (paper.id !== "adversa-sd" || box.x >= station.x - 16));
     const options = preferred.length ? preferred : nearbyCandidates;
     options.sort((a, b) => a.score - b.score);
     labelOptions.set(paper.id, [...new Map(options.map(option => [JSON.stringify(option.box), option])).values()]);
@@ -1462,11 +1487,13 @@ export function createPublicationLayout(papers: Paper[], clusters: Cluster[] = [
     const routes = routesByLine.get(id)!;
     const startsAtNode = (stop: Stop) => stations.get(stop.paperId)!.platforms.length > 1 || school.branchAt?.paperId === stop.paperId ||
       routes.some(other => other.slice(1).some(point => point.paperId === stop.paperId));
-    const tracks = routes.map(stops => {
+    const tracks = routes.map((stops, routeIndex) => {
       const track: Point[] = [];
       stops.forEach((stop, i) => {
         if (!i) {
-          if (!startsAtNode(stop)) track.push({ x: stop.x - 18, y: stop.y });
+          const lead = entryLeads.get(`${id}:${routeIndex}`);
+          if (lead) track.push(lead.a);
+          else if (!startsAtNode(stop)) track.push({ x: stop.x - 18, y: stop.y });
           track.push({ x: stop.x, y: stop.y });
           return;
         }

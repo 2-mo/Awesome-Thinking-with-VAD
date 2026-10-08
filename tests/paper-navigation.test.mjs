@@ -57,7 +57,7 @@ test('duplicate local route definitions do not duplicate choices and missing pap
 });
 
 test('restored model mechanisms and provisional understanding papers follow their intended routes', () => {
-  assert.deepEqual(neighbors('alignment', 'headhunt-vad'), { previous: ['mpgdfl'], next: ['steervad', 'piercingeye'] });
+  assert.deepEqual(neighbors('alignment', 'headhunt-vad'), { previous: ['mpgdfl'], next: ['steervad'] });
   assert.deepEqual(neighbors('evidence', 'seek-vau'), { previous: ['vto'], next: [] });
   assert.deepEqual(neighbors('explanation', 'road'), { previous: ['prime-vad'], next: [] });
   assert.deepEqual(neighbors('explanation', 'ca-judge'), { previous: ['probe-vad'], next: [] });
@@ -67,5 +67,5 @@ test('restored model mechanisms and provisional understanding papers follow thei
 test('blue comparison branches offer their actual forks and returns', () => {
   assert.deepEqual(neighbors('alignment', 'hawk'), { previous: ['tpwng'], next: ['varcmp', 'dsrl'] });
   assert.deepEqual(neighbors('alignment', 'ex-vad'), { previous: ['pi-vad', 'lec-vad'], next: ['va-gpt'] });
-  assert.deepEqual(neighbors('alignment', 'piercingeye'), { previous: ['headhunt-vad'], next: [] });
+  assert.deepEqual(neighbors('alignment', 'piercingeye'), { previous: ['mpgdfl'], next: [] });
 });
