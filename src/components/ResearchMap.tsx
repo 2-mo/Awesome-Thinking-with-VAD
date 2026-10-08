@@ -43,6 +43,31 @@ const clamp = (n: number, min: number, max: number) =>
 const fitLabel = (text: string, size: number, available: number) =>
   labelWidth(text, size) > available ? available : undefined;
 
+function mapSvgBlob(svg: SVGSVGElement, width: number, height: number) {
+  const clone = svg.cloneNode(true) as SVGSVGElement;
+  clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  clone.setAttribute("width", String(width));
+  clone.setAttribute("height", String(height));
+  clone.querySelector("[data-map-content]")?.removeAttribute("transform");
+  return new Blob([new XMLSerializer().serializeToString(clone)], {
+    type: "image/svg+xml;charset=utf-8",
+  });
+}
+
+function downloadMap(blob: Blob, extension: "svg" | "png") {
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  try {
+    anchor.href = url;
+    anchor.download = `vau-research-route-map.${extension}`;
+    document.body.append(anchor);
+    anchor.click();
+  } finally {
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+}
+
 function PaperContextIcon({ kind, x, y }: { kind: NonNullable<Paper["mapIcon"]>["kind"]; x: number; y: number }) {
   return <g data-context-icon={kind} transform={`translate(${x - STATION_ICON_SIZE / 2} ${y - STATION_ICON_SIZE / 2}) scale(${STATION_ICON_SIZE / 24})`}
     fill="none" stroke="#89918c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -160,6 +185,8 @@ export default function ResearchMap({
   const [dragging, setDragging] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [exportFailed, setExportFailed] = useState(false);
+  const [exportingPng, setExportingPng] = useState(false);
+  const [pngExportFailed, setPngExportFailed] = useState(false);
   const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const patternId = `publication-grid-${id}`;
   const regionsClipId = `research-regions-${id}`;
@@ -229,23 +256,42 @@ export default function ResearchMap({
     if (!svgRef.current) return;
     setExportFailed(false);
     try {
-      const clone = svgRef.current.cloneNode(true) as SVGSVGElement;
-      clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-      clone.setAttribute("width", String(width));
-      clone.setAttribute("height", String(height));
-      clone.querySelector("[data-map-content]")?.removeAttribute("transform");
-      const url = URL.createObjectURL(
-        new Blob([new XMLSerializer().serializeToString(clone)], {
-          type: "image/svg+xml;charset=utf-8",
-        }),
-      );
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = "vau-research-route-map.svg";
-      anchor.click();
-      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      downloadMap(mapSvgBlob(svgRef.current, width, height), "svg");
     } catch {
       setExportFailed(true);
+    }
+  };
+  const exportPng = async () => {
+    if (!svgRef.current || exportingPng) return;
+    setExportingPng(true);
+    setPngExportFailed(false);
+    let url: string | undefined;
+    try {
+      url = URL.createObjectURL(mapSvgBlob(svgRef.current, width, height));
+      const image = new Image();
+      await new Promise<void>((resolve, reject) => {
+        image.onload = () => resolve();
+        image.onerror = () => reject(new Error("Could not load the map image"));
+        image.src = url!;
+      });
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.ceil(width);
+      canvas.height = Math.ceil(height);
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Canvas is unavailable");
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((result) => {
+          if (result) resolve(result);
+          else reject(new Error("Could not encode the map as PNG"));
+        }, "image/png");
+      });
+      downloadMap(blob, "png");
+    } catch {
+      setPngExportFailed(true);
+    } finally {
+      if (url) URL.revokeObjectURL(url);
+      setExportingPng(false);
     }
   };
 
@@ -553,6 +599,16 @@ export default function ResearchMap({
             title="Export the full map as SVG"
           >
             {exportFailed ? "Retry SVG" : "SVG ↗"}
+          </button>
+          <button
+            type="button"
+            className="metro-export"
+            onClick={exportPng}
+            disabled={exportingPng}
+            aria-busy={exportingPng}
+            title={pngExportFailed ? "PNG export failed. Click to retry." : "Export the full map as PNG"}
+          >
+            {exportingPng ? "Exporting…" : pngExportFailed ? "Retry PNG" : "PNG ↗"}
           </button>
         </div>
       </div>
